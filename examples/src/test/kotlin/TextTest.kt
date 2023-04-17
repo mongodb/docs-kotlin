@@ -12,11 +12,13 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 
+// :snippet-start: retrieve-data-model
 data class Movies(
     @BsonId val id: Int,
     val title: String,
     val tags: List<String>
 )
+// :snippet-end:
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TextTest {
