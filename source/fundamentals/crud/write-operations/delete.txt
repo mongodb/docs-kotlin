@@ -15,7 +15,7 @@ Delete a Document
 Overview
 --------
 
-In this guide, you can learn how to remove documents with the MongoDB Java
+In this guide, you can learn how to remove documents with the MongoDB Kotlin
 driver.
 
 You can remove documents by passing a query filter to the
@@ -56,6 +56,11 @@ following documents in their ``paint_inventory`` collection:
     { "_id": 7, "color": "green", "qty": 0 }
     { "_id": 8, "color": "black", "qty": 8 }
 
+This data is modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/DeleteTest.snippet.retrieve-data-model.kt
+   :language: kotlin
+
 Delete Many Documents
 ---------------------
 
@@ -67,22 +72,19 @@ To remove the out of stock colors, query the ``paint_inventory``
 collection where the ``qty`` is ``0`` and pass the query to the
 ``deleteMany()`` method:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/Delete.java
-   :language: java
-   :dedent:
-   :start-after: begin deleteManyExample
-   :end-before: end deleteManyExample
+.. literalinclude:: /examples/generated/DeleteTest.snippet.delete-many.kt
+   :language: kotlin
 
 The following shows the documents remaining in the ``paint_inventory``
 collection: 
 
-.. code-block:: json
+.. code-block:: console
    :copyable: false  
 
-    { "_id": 1, "color": "red", "qty": 5 }
-    { "_id": 2, "color": "purple", "qty": 8 }
-    { "_id": 5, "color": "yellow", "qty": 6 }
-    { "_id": 8, "color": "black", "qty": 8 }
+    PaintOrder(id=1, qty=5, color=red)
+    PaintOrder(id=2, qty=8, color=purple)
+    PaintOrder(id=5, qty=6, color=yellow)
+    PaintOrder(id=8, qty=8, color=black)
 
 Delete a Document
 -----------------
@@ -95,21 +97,18 @@ To remove yellow, query the ``paint_inventory`` collection where the
 ``color`` is ``"yellow"`` and pass the query to the ``deleteOne()``
 method:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/Delete.java
-   :language: java
-   :dedent:
-   :start-after: begin deleteOneExample
-   :end-before: end deleteOneExample
+.. literalinclude:: /examples/generated/DeleteTest.snippet.delete-one.kt
+   :language: kotlin
 
 The following shows the documents remaining in the ``paint_inventory``
 collection:
 
-.. code-block:: json
-   :copyable: false
+.. code-block:: console
+   :copyable: false  
 
-    { "_id": 1, "color": "red", "qty": 5 }
-    { "_id": 2, "color": "purple", "qty": 8 }
-    { "_id": 8, "color": "black", "qty": 8 }
+    PaintOrder(id=1, qty=5, color=red)
+    PaintOrder(id=2, qty=8, color=purple)
+    PaintOrder(id=8, qty=8, color=black)
 
 Find and Delete a Document
 --------------------------
@@ -121,19 +120,16 @@ To pick a color, query the ``paint_inventory`` collection where the
 ``color`` is ``"purple"`` and pass the query to the ``findOneAndDelete()``
 method:  
 
-.. literalinclude:: /includes/fundamentals/code-snippets/Delete.java
-    :language: java
-    :dedent:
-    :start-after: begin findOneAndDeleteExample
-    :end-before: end findOneAndDeleteExample
+.. literalinclude:: /examples/generated/DeleteTest.snippet.find-one-and-delete.kt
+   :language: kotlin
 
 Unlike the other delete methods, ``findOneAndDelete()`` returns the
 deleted document: 
 
-.. code-block:: json
+.. code-block:: console
    :copyable: false
 
-    { "_id": 2, "color": "purple", "qty": 8 }
+    PaintOrder(id=2, qty=8, color=purple)
 
 .. note::
 
@@ -143,20 +139,20 @@ deleted document:
 The following shows the documents remaining in the ``paint_inventory``
 collection:
 
-.. code-block:: json
+.. code-block:: console
    :copyable: false  
 
-    { "_id": 1, "color": "red", "qty": 5 }
-    { "_id": 8, "color": "black", "qty": 8 }
+    PaintOrder(id=1, qty=5, color=red), 
+    PaintOrder(id=8, qty=8, color=black)
 
 For more information about the methods and classes mentioned in this guide,
 see the following resources:
 
-- `deleteOne() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#deleteOne(org.bson.conversions.Bson)>`__ API Documentation 
-- `deleteMany() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#deleteMany(org.bson.conversions.Bson)>`__ API Documentation
-- `findOneAndDelete() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#findOneAndDelete(org.bson.conversions.Bson)>`__ API Documentation
-- `DeleteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/DeleteOptions.html>`__ API Documentation
-- `FindOneAndDeleteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/FindOneAndDeleteOptions.html>`__ API Documentation
+- `deleteOne() <TODO:(DOCSP-29169)>`__ API Documentation 
+- `deleteMany() <TODO:(DOCSP-29169)>`__ API Documentation
+- `findOneAndDelete() <TODO:(DOCSP-29169)>`__ API Documentation
+- `DeleteOptions <TODO:(DOCSP-29169)>`__ API Documentation
+- `FindOneAndDeleteOptions <TODO:(DOCSP-29169)>`__ API Documentation
 - :manual:`db.collection.deleteOne() </reference/method/db.collection.deleteMany/>` Server Manual Entry
 - :manual:`db.collection.deleteMany() </reference/method/db.collection.deleteOne/>` Server Manual Entry
 - :manual:`db.collection.findOneAndDelete() </reference/method/db.collection.findOneAndDelete/>` Server Manual Entry
