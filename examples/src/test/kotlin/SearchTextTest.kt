@@ -1,5 +1,7 @@
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.Sorts.ascending
+import com.mongodb.client.model.Sorts.descending
 import com.mongodb.client.model.TextSearchOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import org.junit.jupiter.api.AfterAll
@@ -21,7 +23,7 @@ data class Movies(
 // :snippet-end:
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class TextTest {
+internal class SearchTextTest {
 
     companion object {
         val dotenv = dotenv()
@@ -59,24 +61,35 @@ internal class TextTest {
 
 
     @Test
-    fun specifyOptionsTest() = runBlocking {
+    fun createIndexTest() = runBlocking {
         // :snippet-start: text-index
         collection.createIndex(Indexes.text("title"))
         // :snippet-end:
         // Junit test for the above code
-        val testFilter = Filters.and(Filters.gt("_id", 1))
+        val testFilter = Filters.text("Furious")
         collection.find(testFilter).toList().forEach { println(it) }
         val expected = listOf(
-            Movies(2, "Fast 5", listOf("bank robbery", "full team")),
+            Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
             Movies(3, "Furious 7", listOf("emotional")),
             Movies(4, "The Fate of the Furious", listOf("betrayal"))
         )
-        assertEquals(expected, collection.find(testFilter).toList() )
+        assertEquals(expected, collection.find(testFilter).sort(ascending("_id")).toList() )
+    }
 
+    @Test
+    fun specifyOptionsTest() = runBlocking {
+        // :replace-start: {
+        //   "terms": {
+        //      "furious": "SomeText"
+        //   }
+        //}
         // :snippet-start: specify-options
         val options: TextSearchOptions = TextSearchOptions().caseSensitive(true)
-        val filter = Filters.text("some text", options)
+        val filter = Filters.text("furious", options)
         // :snippet-end:
+        // :replace-end:
+        // Junit test for the above code
+        assertTrue(collection.find(filter).toList().isEmpty() )
     }
 
     @Test
@@ -87,10 +100,10 @@ internal class TextTest {
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
-            Movies(2, "Fast 5", listOf("bank robbery", "full team")),
-            Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer"))
+            Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
+            Movies(2, "Fast 5", listOf("bank robbery", "full team"))
         )
-        assertEquals(expected, collection.find(filter).toList() )
+        assertEquals(expected, collection.find(filter).sort(ascending("_id")).toList() )
     }
 
     @Test
@@ -128,11 +141,11 @@ internal class TextTest {
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
-            Movies(4, "The Fate of the Furious", listOf("betrayal")),
-            Movies(3, "Furious 7", listOf("emotional"))
+            Movies(3, "Furious 7", listOf("emotional")),
+            Movies(4, "The Fate of the Furious", listOf("betrayal"))
 
         )
-        assertEquals(expected, collection.find(filter).toList() )
+        assertEquals(expected, collection.find(filter).sort(ascending("_id")).toList() )
     }
 
 }
