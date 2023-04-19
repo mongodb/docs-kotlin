@@ -2,6 +2,7 @@ import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Aggregates.skip
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts
+import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
@@ -15,11 +16,7 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
-// :replace-start: {
-    //    "terms": {
-        //       "queryFilter": "filter"
-        //    }
-    // }
+
 
 // :snippet-start: retrieve-data-model
 data class PaintOrder(
@@ -77,22 +74,35 @@ internal class SkipTest {
         // :snippet-start: basic-skip
         collection.find().skip(2)
         // :snippet-end:
-       val queryFilter = Filters.empty()
+
         // :snippet-start: aggregates-skip
-        collection.aggregate(listOf(Aggregates.match(queryFilter), skip(2)))
-        // :snippet-end:
-        // :snippet-start: find-iterable-example
         val filter = Filters.empty()
-        collection.find(filter)
-            .sort(Sorts.descending("qty"))
-            .skip(5)
-            .toList().forEach { println(it) }
+        collection.aggregate(listOf(Aggregates.match(filter), skip(2)))
         // :snippet-end:
     }
 
     @Test
+    fun findIterableTest() = runBlocking {
+        // :snippet-start: find-iterable
+        val filter = Filters.empty()
+        collection.find(filter)
+            .sort(descending("qty"))
+            .skip(5)
+            .toList().forEach { println(it) }
+        // :snippet-end:
+        // Junit test for the above code
+        val expected = listOf(
+            PaintOrder(4, 6, "white"),
+            PaintOrder(1, 5, "red"),
+            PaintOrder(6, 3, "pink")
+        )
+        assertEquals(expected, collection.find(filter).sort(descending("qty"))
+            .skip(5).toList() )
+    }
+
+    @Test
     fun basicAggregationTest() = runBlocking {
-        // :snippet-start: aggregation-example
+        // :snippet-start: aggregation
         val filter = Filters.empty()
         val aggregate = listOf(
             Aggregates.match(filter),
@@ -112,21 +122,16 @@ internal class SkipTest {
 
     @Test
     fun noResultsTest() = runBlocking {
-        // :snippet-start: no-results-example
+        // :snippet-start: no-results
         val filter = Filters.empty()
-        collection.find(filter)
-            .sort(Sorts.descending("qty"))
-            .skip(9)
-            .toList().forEach { println(it) }
-        // :snippet-end:
-        // Junit test for the above code
         val emptyQuery = listOf(
             Aggregates.match(filter),
-            Aggregates.sort(Sorts.descending("qty")),
+            Aggregates.sort(descending("qty")),
             skip(9)
         )
+        collection.aggregate<Document>(emptyQuery).toList().forEach { println(it.toJson()) }
+        // :snippet-end:
+        // Junit test for the above code
         assertTrue(collection.aggregate(emptyQuery).toList().isEmpty())
     }
 }
-
-// :replace-end:
