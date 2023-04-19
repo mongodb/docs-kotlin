@@ -21,7 +21,7 @@ data class PaintOrder(
 // :snippet-end:
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class RetrieveDataTest {
+internal class DeleteTest {
 
     companion object {
         val dotenv = dotenv()
@@ -71,40 +71,59 @@ internal class RetrieveDataTest {
         // :snippet-end:
         // Junit test for the above code
         assertTrue(collection.find(filter).toList().isEmpty() )
-        // console output for docs remaining in collection
-        val remainingInventory = collection.find().sort(ascending("_id"))
-        println(remainingInventory.toList())
+        // confirm docs remaining in collection
+        collection.find().sort(ascending("_id"))
+            .toList().forEach { println(it) }
+        val expected = listOf(
+            PaintOrder(1, 5, "red"),
+            PaintOrder(2, 8, "purple"),
+            PaintOrder(5, 6, "yellow"),
+            PaintOrder(8, 8, "black")
+        )
+        assertEquals(expected, collection.find().sort(ascending("_id")).toList())
     }
 
     @Test
     fun deleteOneTest() = runBlocking {
-        val filter1 = Filters.eq("qty", 0)
-        collection.deleteMany(filter1)
+        // delete documents from previous steps
+        val previousDelete = Filters.eq("qty", 0)
+        collection.deleteMany(previousDelete)
         // :snippet-start: delete-one
         val filter = Filters.eq("color", "yellow")
         collection.deleteOne(filter)
         // :snippet-end:
         // Junit test for the above code
         assertTrue(collection.find(filter).toList().isEmpty() )
-        // console output for docs remaining in collection
-        val remainingInventory = collection.find().sort(ascending("_id"))
-        println("Remaining inventory: " + remainingInventory.toList())
+        // confirm docs remaining in collection
+        val testFilter = Filters.empty()
+        collection.find(testFilter).sort(ascending("_id"))
+            .toList().forEach { println(it) }
+        val expected = listOf(
+            PaintOrder(1, 5, "red"),
+            PaintOrder(2, 8, "purple"),
+            PaintOrder(8, 8, "black")
+        )
+        assertEquals(expected, collection.find(testFilter).toList())
     }
 
     @Test
     fun findAndDeleteTest() = runBlocking {
-        val filter1 = Filters.eq("qty", 0)
-        collection.deleteMany(filter1)
-        val filter2 = Filters.eq("color", "yellow")
-        collection.deleteOne(filter2)
+        // delete documents from previous steps
+        collection.deleteMany(Filters.or(Filters.eq("qty", 0), Filters.eq("color", "yellow")))
         // :snippet-start: find-one-and-delete
         val filter = Filters.eq("color", "purple")
         println(collection.findOneAndDelete(filter))
         // :snippet-end:
         // Junit test for the above code
         assertTrue(collection.find(filter).toList().isEmpty())
-        // console output for docs remaining in collection
-        val remainingInventory = collection.find().sort(ascending("_id"))
-        println("FindOneAndDelete: " + remainingInventory.toList())
+        // confirm docs remaining in collection
+        val testFilter = Filters.empty()
+        collection.find(testFilter).sort(ascending("_id"))
+            .toList().forEach { println(it) }
+        val expected = listOf(
+            PaintOrder(1, 5, "red"),
+            PaintOrder(8, 8, "black")
+        )
+        assertEquals(expected, collection.find(testFilter).toList())
     }
 }
