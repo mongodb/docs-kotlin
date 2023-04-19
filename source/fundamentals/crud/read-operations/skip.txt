@@ -72,7 +72,9 @@ by ``qty`` field and omit the first five results.
 Using a FindIterable
 ~~~~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: /examples/generated/SkipTest.snippet.find-iterable-example.kt
+.. include:: /includes/imports/findIterable-imports.rst
+
+.. literalinclude:: /examples/generated/SkipTest.snippet.find-iterable.kt
    :language: kotlin
 
 - The ``find()`` method returns all documents.  
@@ -82,7 +84,9 @@ Using a FindIterable
 Using Aggregation
 ~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: /examples/generated/SkipTest.snippet.aggregation-example.kt
+.. include:: /includes/imports/aggregation-imports.rst
+
+.. literalinclude:: /examples/generated/SkipTest.snippet.aggregation.kt
    :language: kotlin
 
 - The ``match()`` stage returns all documents.  
@@ -91,7 +95,7 @@ Using Aggregation
 
 The following shows the output of both preceding queries:
 
-.. code-block:: console
+.. code-block:: json
    :copyable: false
    
    {"_id": 4, "qty": 6, "color": "white"}
@@ -110,6 +114,6 @@ red, and white.
    documents, no results would return since the specified quantity
    exceeds the number of matched documents. 
 
-   .. literalinclude:: /examples/generated/SkipTest.snippet.no-results-example.kt
+   .. literalinclude:: /examples/generated/SkipTest.snippet.no-results.kt
       :language: kotlin
 
