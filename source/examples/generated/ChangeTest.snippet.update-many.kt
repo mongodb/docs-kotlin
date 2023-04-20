@@ -1,0 +1,5 @@
+val filter = Filters.empty()
+val update = Updates.inc("qty", 20)
+val result = collection.updateMany(filter, update)
+println("Matched document count: $result.matchedCount")
+println("Modified document count: $result.modifiedCount")
