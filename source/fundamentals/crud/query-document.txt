@@ -170,7 +170,7 @@ The following shows the output of the preceding query:
    PaintOrder(id=8, qty=7, color=black, vendor=[A, C, D], rating=null)
 
 For more information about the operators mentioned in this guide,
-see the following Server Manual Entries:
+refer to the following Server Manual Entries:
 
 - :manual:`Query Operators </reference/operator/query/>`
 - :manual:`Comparison Operators </reference/operator/query-comparison/>`
