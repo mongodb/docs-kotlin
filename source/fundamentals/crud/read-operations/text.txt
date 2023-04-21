@@ -54,7 +54,7 @@ movie franchise. Each document contains a title field and a tags field.
 
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/TextTest.snippet.retrieve-data-model.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.retrieve-data-model.kt
    :language: kotlin
 
 Text Index
@@ -70,7 +70,7 @@ searches on the ``title`` field, create a text index using the
 :ref:`Indexes <index-text-indexes>` builder with the following 
 snippet: 
 
-.. literalinclude:: /examples/generated/TextTest.snippet.text-index.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.text-index.kt
    :language: kotlin
 
 For more information, see the following resources:
@@ -107,7 +107,7 @@ which means the search matches lowercase and uppercase values.
 
 To specify a case sensitive search, use the following snippet:
 
-.. literalinclude:: /examples/generated/TextTest.snippet.specify-options.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.specify-options.kt
    :language: kotlin
 
 For more information about the methods and classes mentioned in this section,
@@ -131,7 +131,7 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 term "fast":
 
-.. literalinclude:: /examples/generated/TextTest.snippet.search-term.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-term.kt
    :language: kotlin
 
 The following shows the output of the preceding code:
@@ -155,7 +155,7 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 terms "fate" or "7":
 
-.. literalinclude:: /examples/generated/TextTest.snippet.search-multiple-terms.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-multiple-terms.kt
    :language: kotlin
 
 The following shows the output of the preceding code:
@@ -182,7 +182,7 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 phrase "fate of the furious":
 
-.. literalinclude:: /examples/generated/TextTest.snippet.search-phrase.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-phrase.kt
    :language: kotlin
 
 The following shows the output of the preceding code:
@@ -214,7 +214,7 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 term "furious", but do not contain the term "fast":
 
-.. literalinclude:: /examples/generated/TextTest.snippet.exclude-term.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.exclude-term.kt
    :language: kotlin
 
 The following shows the output of the preceding code:
