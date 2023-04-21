@@ -14,7 +14,7 @@ Overview
 --------
 
 In this guide, you can learn how to search **geospatial data** with the
-MongoDB Java Driver, and the different geospatial data formats supported by MongoDB.
+MongoDB Kotlin Driver, and the different geospatial data formats supported by MongoDB.
 
 Geospatial data is data that represents a geographical location on
 the surface of the Earth. Examples of geospatial data include:
@@ -92,10 +92,8 @@ To query data stored in the GeoJSON format, add the field containing
 GeoJSON data to a ``2dsphere`` index. The following snippet creates a
 ``2dsphere`` index on the ``location.geo`` field using the ``Indexes`` builder:
 
-.. code-block:: java
-
-   // <MongoCollection setup code here>
-   collection.createIndex(Indexes.geo2dsphere("location.geo"));
+.. literalinclude:: /examples/generated/GeoTest.snippet.geo2dsphere-index.kt
+   :language: kotlin
 
 For more information on the ``Indexes`` builder, see our 
 :doc:`guide on the Indexes builder </fundamentals/builders/indexes>`.
@@ -125,10 +123,8 @@ To query data stored as legacy coordinate pairs, you must add the field containi
 legacy coordinate pairs to  a ``2d`` index. The following snippet creates a
 ``2d`` index on the ``coordinates`` field using the ``Indexes`` builder:
 
-.. code-block:: java
-
-   // <MongoCollection setup code here>
-   collection.createIndex(Indexes.geo2d("coordinates"));
+.. literalinclude:: /examples/generated/GeoTest.snippet.geo2d-index.kt
+   :language: kotlin
 
 For more information on the ``Indexes`` builder, see our 
 :doc:`guide on the Indexes builder </fundamentals/builders/indexes>`. 
@@ -163,7 +159,7 @@ To query your geospatial data, use one of the following query operators:
 - ``$nearSphere``
 - ``$geoIntersects`` *requires a 2dsphere index*
 
-You can specify these query operators in the MongoDB Java driver with the
+You can specify these query operators in the MongoDB Kotlin driver with the
 ``near()``, ``geoWithin()``, ``nearSphere()``, and ``geoIntersects()`` utility
 methods of the ``Filters`` builder class.
 
@@ -180,11 +176,11 @@ Query Parameters
 
 To specify a shape to use in a geospatial query, use the
 ``Position``, ``Point``, ``LineString``, and ``Polygon`` classes of the MongoDB
-Java driver.
+Kotlin driver.
 
-For a full list of the GeoJSON shapes available in the MongoDB Java driver, see the
+For a full list of the GeoJSON shapes available in the MongoDB Kotlin driver, see the
 `GeoJSON package
-<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/geojson/package-summary.html>`__
+<TODO:(DOCSP-29169)>`__
 API Documentation.
 
 .. external resource
@@ -202,11 +198,7 @@ on the ``location.geo`` field.
 
 The examples require the following imports:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/Geo.java
-   :language: java
-   :dedent:
-   :start-after: begin exampleImports
-   :end-before: end exampleImports
+.. include:: /includes/fundamentals/imports/geo-imports.rst
 
 You can find the  
 `source code for the examples on Github here <https://github.com/mongodb/docs-java/blob/master/source/includes/fundamentals/code-snippets/Geo.java>`__.
@@ -224,11 +216,10 @@ The following example queries for theaters between ``10,000`` and ``5,000``
 meters from the 
 `Great Lawn of Central Park <https://en.wikipedia.org/wiki/Great_Lawn_and_Turtle_Pond>`__.
 
-.. literalinclude:: /includes/fundamentals/code-snippets/Geo.java
-   :language: java
-   :dedent:
-   :start-after: begin findExample
-   :end-before: end findExample
+.. external resource
+
+.. literalinclude:: /examples/generated/GeoTest.snippet.proximity-query.kt
+   :language: kotlin
 
 The output of the code snippet should look something like this:
 
@@ -271,11 +262,8 @@ The following example searches for movie theaters in a section of Long Island.
 
 .. _example_range_query:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/Geo.java
-   :language: java
-   :dedent:
-   :start-after: begin rangeExample
-   :end-before: end rangeExample
+.. literalinclude:: /examples/generated/GeoTest.snippet.query-range.kt
+   :language: kotlin
 
 The output of the code snippet should look something like this:
 
