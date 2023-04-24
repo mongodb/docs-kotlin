@@ -81,10 +81,10 @@ collection:
 .. code-block:: console
    :copyable: false  
 
-    PaintOrder(id=1, qty=5, color=red)
-    PaintOrder(id=2, qty=8, color=purple)
-    PaintOrder(id=5, qty=6, color=yellow)
-    PaintOrder(id=8, qty=8, color=black)
+    { "_id": 1, "color": "red", "qty": 5 }
+    { "_id": 2, "color": "purple", "qty": 8 }
+    { "_id": 5, "color": "yellow", "qty": 6 }
+    { "_id": 8, "color": "black", "qty": 8 }
 
 Delete a Document
 -----------------
@@ -103,12 +103,12 @@ method:
 The following shows the documents remaining in the ``paint_inventory``
 collection:
 
-.. code-block:: console
+.. code-block:: json
    :copyable: false  
 
-    PaintOrder(id=1, qty=5, color=red)
-    PaintOrder(id=2, qty=8, color=purple)
-    PaintOrder(id=8, qty=8, color=black)
+    { "_id": 1, "color": "red", "qty": 5 }
+    { "_id": 2, "color": "purple", "qty": 8 }
+    { "_id": 8, "color": "black", "qty": 8 }
 
 Find and Delete a Document
 --------------------------
@@ -142,8 +142,8 @@ collection:
 .. code-block:: console
    :copyable: false  
 
-    PaintOrder(id=1, qty=5, color=red), 
-    PaintOrder(id=8, qty=8, color=black)
+    { "_id": 1, "color": "red", "qty": 5 }
+    { "_id": 8, "color": "black", "qty": 8 }
 
 For more information about the methods and classes mentioned in this guide,
 see the following resources:
