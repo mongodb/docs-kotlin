@@ -1,9 +1,14 @@
 import com.mongodb.MongoBulkWriteException
+import com.mongodb.client.model.Accumulators
+import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.eq
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
+import org.bson.Document
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
@@ -64,8 +69,17 @@ internal class InsertTest {
                 "successfully processed documents with the following ids: $insertedIds"
             )
             println(collection.find().toList().forEach { println(it) })
-            // :snippet-end:
         }
+        // :snippet-end:
+        //Junit test for the above code
+        val filter = Filters.empty()
+        val testResults = listOf(Aggregates.match(filter))
+        collection.aggregate<Document>(testResults).toList().forEach { println(it.toJson()) }
+        val expected = listOf(
+            Document("_id", 3).append("qty", 5).append("color", "red"),
+            Document("_id", 4).append("qty", 10).append("color", "purple")
+        )
+        assertEquals(expected, collection.aggregate<Document>(testResults).toList())
     }
 
 
@@ -75,9 +89,18 @@ internal class InsertTest {
         val paintOrder = PaintOrder(qty = 5, color = "red")
         val result = collection.insertOne(paintOrder)
 
-        val insertedId = result.insertedId.asObjectId().value
+        val insertedId = result.insertedId?.asObjectId()?.value
+
         println("Inserted a document with the following id: $insertedId")
         // :snippet-end:
+        // Junit test for the above code
+        val filter = Filters.empty()
+        val testResults = listOf(Aggregates.match(filter))
+        collection.aggregate<Document>(testResults).toList().forEach { println(it.toJson()) }
+        val expected = listOf(
+            Document("_id", insertedId).append("qty", 5).append("color", "red")
+        )
+        assertEquals(expected, collection.aggregate<Document>(testResults).toList())
     }
 
     @Test
@@ -94,6 +117,8 @@ internal class InsertTest {
 
         println("Inserted a document with the following ids: $insertedIds")
         // :snippet-end:
+        // Junit test for the above code
+        assertTrue(result.wasAcknowledged())
     }
 }
 

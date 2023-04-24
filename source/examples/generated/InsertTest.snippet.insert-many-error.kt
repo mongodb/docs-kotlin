@@ -12,3 +12,4 @@ try {
         "successfully processed documents with the following ids: $insertedIds"
     )
     println(collection.find().toList().forEach { println(it) })
+}
