@@ -78,7 +78,7 @@ collection where the ``qty`` is ``0`` and pass the query to the
 The following shows the documents remaining in the ``paint_inventory``
 collection: 
 
-.. code-block:: console
+.. code-block:: json
    :copyable: false  
 
     { "_id": 1, "color": "red", "qty": 5 }
@@ -104,7 +104,7 @@ The following shows the documents remaining in the ``paint_inventory``
 collection:
 
 .. code-block:: json
-   :copyable: false  
+   :copyable: false
 
     { "_id": 1, "color": "red", "qty": 5 }
     { "_id": 2, "color": "purple", "qty": 8 }
@@ -139,7 +139,7 @@ deleted document:
 The following shows the documents remaining in the ``paint_inventory``
 collection:
 
-.. code-block:: console
+.. code-block:: json
    :copyable: false  
 
     { "_id": 1, "color": "red", "qty": 5 }
