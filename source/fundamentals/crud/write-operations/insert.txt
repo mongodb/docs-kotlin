@@ -53,6 +53,11 @@ There are two ways to manage this field:
 Unless you have provided strong guarantees for uniqueness, we recommend
 you let the driver automatically generate ``_id`` values. 
 
+For example, you could define this with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/InsertTest.snippet.retrieve-data-model-2.kt
+   :language: kotlin
+
 .. note::
 
    Duplicate ``_id`` values violate unique index constraints, resulting

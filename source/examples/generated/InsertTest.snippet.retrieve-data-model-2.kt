@@ -1,6 +1,5 @@
-
 data class PaintOrder(
-    @BsonId val id: Int,
+    val id: BsonObjectId? = null,
     val qty: Int,
     val color: String
 )

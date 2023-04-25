@@ -1,4 +1,4 @@
-val insertedIds = ArrayList<Int>()
+val insertedIds = mutableListOf<Int>()
 try {
     val result = collection.insertMany(paintOrders)
     result.insertedIds.values
