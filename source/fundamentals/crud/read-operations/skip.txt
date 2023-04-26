@@ -72,8 +72,6 @@ by ``qty`` field and omit the first five results.
 Using a FindIterable
 ~~~~~~~~~~~~~~~~~~~~
 
-.. include:: /includes/imports/findIterable-imports.rst
-
 .. literalinclude:: /examples/generated/SkipTest.snippet.find-iterable.kt
    :language: kotlin
 
@@ -83,8 +81,6 @@ Using a FindIterable
 
 Using Aggregation
 ~~~~~~~~~~~~~~~~~
-
-.. include:: /includes/imports/aggregation-imports.rst
 
 .. literalinclude:: /examples/generated/SkipTest.snippet.aggregation.kt
    :language: kotlin
