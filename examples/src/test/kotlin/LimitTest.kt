@@ -58,27 +58,6 @@ internal class LimitTest {
 
     }
     @Test
-    fun combineSkipLimitTest() = runBlocking {
-        // :snippet-start: skip-limit
-        collection.find()
-            .sort(ascending("length"))
-            .limit(3)
-            .skip(3)
-            .toList().forEach { println(it) }
-        // :snippet-end:
-        // Junit test for the above code
-        val expectation = listOf(
-            Document().append("_id", 3)
-                .append("title", "Atlas Shrugged").append("length", 1088).append("author", "Rand"),
-            Document().append("_id", 5)
-                .append("title", "Cryptonomicon").append("length", 918).append("author", "Stephenson"),
-            Document().append("_id", 1).append("title", "The Brothers Karamazov").append("length", 824)
-                .append("author", "Dostoyevsky")
-        )
-        assertEquals(expectation, collection.find().sort(descending("length")).limit(3).skip(3).toList())
-    }
-
-    @Test
     fun specifyLimitTest() = runBlocking {
         // :snippet-start: specify-limit
         collection.find()
@@ -99,5 +78,27 @@ internal class LimitTest {
         )
         assertEquals(expectation, collection.find().sort(descending("length")).limit(3).toList())
     }
+
+    @Test
+    fun combineSkipLimitTest() = runBlocking {
+        // :snippet-start: skip-limit
+        collection.find()
+            .sort(ascending("length"))
+            .limit(3)
+            .skip(3)
+            .toList().forEach { println(it) }
+        // :snippet-end:
+        // Junit test for the above code
+        val expectation = listOf(
+            Document().append("_id", 3)
+                .append("title", "Atlas Shrugged").append("length", 1088).append("author", "Rand"),
+            Document().append("_id", 5)
+                .append("title", "Cryptonomicon").append("length", 918).append("author", "Stephenson"),
+            Document().append("_id", 1).append("title", "The Brothers Karamazov").append("length", 824)
+                .append("author", "Dostoyevsky")
+        )
+        assertEquals(expectation, collection.find().sort(descending("length")).limit(3).skip(3).toList())
+    }
+
 
 }

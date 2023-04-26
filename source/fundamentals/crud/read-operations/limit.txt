@@ -49,6 +49,7 @@ books with shorter lengths. Lastly, it limits the return value to ``3`` document
 
 .. literalinclude:: /examples/generated/LimitTest.snippet.specify-limit.kt
     :language: kotlin
+    :emphasize-lines: 3
 
 The preceding code example prints out the following three documents, sorted by
 length:
@@ -79,16 +80,9 @@ To see the next three longest books, append the ``skip()`` method to your
 how many documents the find operation returns:
 
 
-
 .. literalinclude:: /examples/generated/LimitTest.snippet.skip-limit.kt
     :language: kotlin
    :emphasize-lines: 3, 4
-
-   MongoCursor<Document> cursor = collection.find()
-       .sort(ascending("length"))
-       .limit(3)
-       .skip(3)
-       .iterator();
 
 This operation returns the documents that describe the fourth through sixth
 longest books:
