@@ -72,8 +72,6 @@ You can access and manipulate fields using Kotlin types from the standard
 library with this class. See the following table for mappings between
 frequently-used BSON and Kotlin types:
 
-TODO: validate that this is still true for Kotlin...maybe different type names
-
 .. list-table::
    :header-rows: 1
    :stub-columns: 1
@@ -81,27 +79,27 @@ TODO: validate that this is still true for Kotlin...maybe different type names
    * - BSON type
      - Kotlin type
    * - Array
-     - ``java.util.List``
+     - ``kotlin.collections.List``
    * - Binary
      - ``org.bson.types.Binary``
    * - Boolean
-     - ``java.lang.Boolean``
+     - ``kotlin.Boolean``
    * - Date
      - ``java.util.Date``
    * - Document
      - ``org.bson.Document``
    * - Double
-     - ``java.lang.Double``
+     - ``kotlin.Double``
    * - Int32
-     - ``java.lang.Integer``
+     - ``kotlin.Int``
    * - Int64
-     - ``java.lang.Long``
+     - ``kotlin.Long``
    * - Null
      - ``null``
    * - ObjectId
      - ``org.bson.types.ObjectId``
    * - String
-     - ``java.lang.String``
+     - ``kotlin.String``
 
 In the following code snippet, we show how to instantiate and build a sample
 ``Document`` instance representing a document containing several
@@ -120,8 +118,19 @@ using the ``getCollection()`` method and call the :ref:`insertOne
 Once you perform a successful insert, you can retrieve the sample document
 data from the collection using the following code:
 
-.. literalinclude:: /examples/generated/DocumentsTest.snippet.retrieve-document.kt
-   :language: kotlin
+.. io-code-block::
+   :copyable: true
+
+   .. input:: /examples/generated/DocumentsTest.snippet.retrieve-document.kt
+      :language:  kotlin
+
+   .. output::
+      :language: none
+
+      _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
+      title: One Hundred Years of Solitude, yearPublished: 1967
+      title: Chronicle of a Death Foretold, yearPublished: 1981
+      title: Love in the Time of Cholera, yearPublished: 1985
 
 .. tip::
 
@@ -130,29 +139,15 @@ data from the collection using the following code:
    You can call the ``get()`` method to retrieve values as type
    ``Object`` and to skip type checking.
 
-The output should look something like this:
-
-TODO: kotlinize?
-
-.. code-block:: none
-   :copyable: false
-
-   _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
-   title: One Hundred Years of Solitude, yearPublished: 1967
-   title: Chronicle of a Death Foretold, yearPublished: 1981
-   title: Love in the Time of Cholera, yearPublished: 1985
-
 For more information on retrieving and manipulating MongoDB data, see our
 :doc:`CRUD guide </fundamentals/crud>`.
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-TODO: revert to java docs links
-
-- `Document <TODO:(DOCSP-29169)>`__
-- `getCollection() <TODO:DOCSP-29169>`__
-- `get() <TODO:DOCSP-29169>`__
+- `Document <{+api+}/apidocs/bson/org/bson/Document.html>`__
+- `getCollection() <TODO:(DOCSP-29169)>`__
+- `get() <{+api+}/apidocs/bson/org/bson/Document.html#get(java.lang.Object)>`__
 
 BsonDocument
 ------------
@@ -209,8 +204,19 @@ class as the ``documentClass`` parameter. Then, call the
 Once you perform a successful insert, you can retrieve the sample document
 data from the collection using the following code:
 
-.. literalinclude:: /examples/generated/DocumentsTest.snippet.retrieve-bson-document.kt
-   :language: kotlin
+.. io-code-block::
+   :copyable: true
+
+   .. input:: /examples/generated/DocumentsTest.snippet.retrieve-bson-document.kt
+      :language:  kotlin
+
+   .. output::
+      :language: none
+
+      _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
+      title: One Hundred Years of Solitude, yearPublished: 1967
+      title: Chronicle of a Death Foretold, yearPublished: 1981
+      title: Love in the Time of Cholera, yearPublished: 1985
 
 .. tip::
 
@@ -218,18 +224,6 @@ data from the collection using the following code:
    and throw a ``BsonInvalidOperationException`` if it is unable to cast
    the field value. You can call the ``get()`` method to retrieve values as type
    ``BsonValue`` and to skip type checking.
-
-The output should look something like this:
-
-TODO: need to change?
-
-.. code-block:: none
-   :copyable: false
-
-   _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
-   title: One Hundred Years of Solitude, yearPublished: 1967
-   title: Chronicle of a Death Foretold, yearPublished: 1981
-   title: Love in the Time of Cholera, yearPublished: 1985
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
@@ -271,17 +265,17 @@ Once you perform a successful insert, you can retrieve the sample JSON data from
 collection. While you can use any class that extends ``Bson`` to specify your query,
 here is how to query your data using a ``JsonObject``:
 
-.. literalinclude:: /examples/generated/DocumentsTest.snippet.retrieve-json-object.kt
-   :language: kotlin
+.. io-code-block::
+   :copyable: true
 
-The output should look something like this:
+   .. input:: /examples/generated/DocumentsTest.snippet.retrieve-json-object.kt
+      :language:  kotlin
 
-TODO: need to change?
 
-.. code-block:: none
-   :copyable: false
+   .. output::
+      :language: none
 
-   query result in extended json format: {"_id": {"$oid": "6035210f35bd203721c3eab8"}, "name": "Gabriel García Márquez", "dateOfDeath": {"$date": "2014-04-17T04:00:00Z"}, "novels": [{"title": "One Hundred Years of Solitude", "yearPublished": 1967}, {"title": "Chronicle of a Death Foretold", "yearPublished": 1981}, {"title": "Love in the Time of Cholera", "yearPublished": 1985}]}
+      query result in extended json format: {"_id": {"$oid": "6035210f35bd203721c3eab8"}, "name": "Gabriel García Márquez", "dateOfDeath": {"$date": "2014-04-17T04:00:00Z"}, "novels": [{"title": "One Hundred Years of Solitude", "yearPublished": 1967}, {"title": "Chronicle of a Death Foretold", "yearPublished": 1981}, {"title": "Love in the Time of Cholera", "yearPublished": 1985}]}
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
@@ -325,8 +319,19 @@ the ``documentClass`` parameter. Then, call the
 Once you perform a successful insert, you can retrieve the sample document
 data from the collection using the following code:
 
-.. literalinclude:: /examples/generated/DocumentsTest.snippet.retrieve-basic-dbobject.kt
-   :language: kotlin
+.. io-code-block::
+   :copyable: true
+
+   .. input:: /examples/generated/DocumentsTest.snippet.retrieve-basic-dbobject.kt
+      :language:  kotlin
+
+   .. output::
+      :language: none
+
+      _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
+      title: One Hundred Years of Solitude, yearPublished: 1967
+      title: Chronicle of a Death Foretold, yearPublished: 1981
+      title: Love in the Time of Cholera, yearPublished: 1985
 
 .. tip::
 
@@ -334,18 +339,6 @@ data from the collection using the following code:
    and throw an exception if it is unable to cast the field value.
    You can call the ``get()`` method to retrieve values as type
    ``Object`` and to skip type checking.
-
-The output should look something like this:
-
-TODO: need to change?
-
-.. code-block:: none
-   :copyable: false
-
-   _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
-   title: One Hundred Years of Solitude, yearPublished: 1967
-   title: Chronicle of a Death Foretold, yearPublished: 1981
-   title: Love in the Time of Cholera, yearPublished: 1985
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
