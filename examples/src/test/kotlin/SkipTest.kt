@@ -1,7 +1,6 @@
 import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Aggregates.skip
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Sorts
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
-
 
 
 // :snippet-start: retrieve-data-model
@@ -60,7 +58,7 @@ internal class SkipTest {
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.deleteMany(Filters.empty())
+                collection.drop()
                 client.close()
 
             }
