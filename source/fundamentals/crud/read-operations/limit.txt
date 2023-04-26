@@ -16,7 +16,7 @@ Overview
 --------
 
 In this guide, you can learn how to limit the number of results returned
-from read operations with the MongoDB Java driver.
+from read operations with the MongoDB Kotlin driver.
 
 Use ``limit()`` to cap the number of documents that a read operation returns.
 This instance method designates the maximum number of
@@ -36,24 +36,8 @@ Sample Documents
 
 The following operation inserts documents representing books into a collection:
 
-.. code-block:: java
-
-    collection.insertMany(Arrays.asList(
-        new Document().append("_id", 1)
-            .append("title", "The Brothers Karamazov").append("length", 824)
-            .append("author", "Dostoyevsky"),
-        new Document().append("_id", 2)
-            .append("title", "Les Misérables").append("length", 1462).append("author", "Hugo"),
-        new Document().append("_id", 3)
-            .append("title", "Atlas Shrugged").append("length", 1088).append("author", "Rand"),
-        new Document().append("_id", 4)
-            .append("title", "Infinite Jest").append("length", 1104).append("author", "Wallace"),
-        new Document().append("_id", 5)
-            .append("title", "Cryptonomicon").append("length", 918).append("author", "Stephenson"),
-        new Document().append("_id", 6)
-            .append("title", "A Dance with Dragons").append("length", 1104)
-            .append("author", "Martin")
-    ));
+.. literalinclude:: /examples/generated/LimitTest.snippet.insert-many.kt
+    :language: kotlin
 
 Specify a Limit
 ---------------
@@ -63,31 +47,13 @@ longest books. It first matches all the documents with the query, then sorts on 
 ``length`` field to return books with longer lengths before
 books with shorter lengths. Lastly, it limits the return value to ``3`` documents:
 
-.. code-block:: java
-   :emphasize-lines: 6
-
-   import com.mongodb.client.model.Sorts;
-
-   // define a cursor that will return the first 3 sorted items
-   MongoCursor<Document> cursor = collection.find()
-       .sort(descending("length"))
-       .limit(3)
-       .iterator();
-   // print out items
-   try {
-       while (cursor.hasNext()) {
-           System.out.println(cursor.next());
-       }
-   }
-   // close the cursor
-   finally {
-       cursor.close();
-   }
+.. literalinclude:: /examples/generated/LimitTest.snippet.specify-limit.kt
+    :language: kotlin
 
 The preceding code example prints out the following three documents, sorted by
 length:
 
-.. code-block:: java
+.. code-block:: json
    :copyable: false
 
     Document{{_id=2, title=Les Misérables, author=Hugo, length=1462}}
@@ -100,10 +66,10 @@ length:
    because the driver reorders the calls to apply the sort first and the
    limit after it. The following two calls are equivalent:
 
-   .. code-block:: java
+   .. code-block:: kotlin
 
-      collection.find().sort(descending("length")).limit(3);
-      collection.find().limit(3).sort(descending("length"));
+      collection.find().sort(descending("length")).limit(3)
+      collection.find().limit(3).sort(descending("length"))
 
 Combining Skip and Limit
 ------------------------
@@ -112,7 +78,10 @@ To see the next three longest books, append the ``skip()`` method to your
 ``find()`` call. The integer argument passed to ``skip()`` will determine
 how many documents the find operation returns:
 
-.. code-block:: java
+
+
+.. literalinclude:: /examples/generated/LimitTest.snippet.skip-limit.kt
+    :language: kotlin
    :emphasize-lines: 3, 4
 
    MongoCursor<Document> cursor = collection.find()
@@ -124,7 +93,7 @@ how many documents the find operation returns:
 This operation returns the documents that describe the fourth through sixth
 longest books:
 
-.. code-block:: java
+.. code-block:: json
    :copyable: false
 
    Document{{_id=3, title=Atlas Shrugged, author=Rand, length=1088}}
@@ -143,7 +112,7 @@ collection, returning only small subsets of the collection at one time.
 
   For example, consider the following data:
 
-  .. code-block:: java
+  .. code-block:: json
      :copyable: false
 
      { type: "computer", data: "1", serial_no: 235235 }
@@ -159,7 +128,7 @@ collection, returning only small subsets of the collection at one time.
 For more information about the methods and classes mentioned in this guide,
 see the following API Documentation:
 
-- `FindIterable <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/FindIterable.html>`__
-- `MongoIterable <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoIterable.html>`__
-- `MongoCursor <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCursor.html>`__
-- `find() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#find()>`__
+- `FindIterable <TODO:(DOCSP-29169)>`__
+- `MongoIterable <TODO:(DOCSP-29169)>`__
+- `MongoCursor <TODO:(DOCSP-29169)>`__
+- `find() <TODO:(DOCSP-29169)>`__
