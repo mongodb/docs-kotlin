@@ -56,7 +56,7 @@ internal class QueryDocumentTest {
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.deleteMany(Filters.empty())
+                collection.drop()
                 client.close()
 
             }
