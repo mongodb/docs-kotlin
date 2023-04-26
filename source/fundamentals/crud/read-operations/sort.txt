@@ -65,16 +65,12 @@ arguments. For more information, see our API Documentation for the
 
 You can use the ``sort()`` method of a ``FindIterable`` instance as follows:
 
-.. include:: /includes/imports/sort-ascending-imports.rst
-
 .. literalinclude:: /examples/generated/SortTest.snippet.basic-sort.kt
    :language: kotlin
  
 You can use the ``Aggregates.sort()`` method within an aggregation pipeline
 as follows:
-
-.. include:: /includes/imports/aggregate-ascending-imports.rst
-   
+ 
 .. literalinclude:: /examples/generated/SortTest.snippet.aggregation-sort.kt
    :language: kotlin
 
@@ -137,8 +133,6 @@ the name of the field you need to sort in ascending order.
 You can pass the ``sort()`` method the output of the ``Sorts.ascending()``
 method to specify an ascending sort on a field as follows:
 
-.. include:: /includes/imports/sort-ascending-imports.rst
-
 .. code-block:: kotlin
 
    collection.find().sort(ascending("<field name>"))
@@ -172,8 +166,6 @@ method. Pass the ``Sorts.descending()`` method the name of the field you need to
 
 The following code snippet shows how to specify a descending sort on the
 ``_id`` field: 
-
-.. include:: /includes/imports/sort-descending-imports.rst
 
 .. literalinclude:: /examples/generated/SortTest.snippet.descending-sort.kt
    :language: kotlin
@@ -251,8 +243,6 @@ In the following code snippet, we use the ``orderBy()`` method to order our data
 by performing a descending sort on the ``letter`` field, and in the event of a
 tie, by performing an ascending sort on the ``_id`` field.
 
-.. include:: /includes/imports/combined-sort-imports.rst
-
 .. literalinclude:: /examples/generated/SortTest.snippet.combine-sort.kt
    :language: kotlin
 
@@ -308,7 +298,12 @@ The code example performs the following actions:
    ``score`` field.
 #. Sorts your results by text score (best match first).
 
-.. include:: /includes/imports/text-search-imports.rst
+.. code-block:: kotlin
+
+   import com.mongodb.client.model.Sorts
+   import com.mongodb.client.model.Projections
+   import com.mongodb.client.model.Filters
+   import com.mongodb.client.model.Indexes
 
 .. literalinclude:: /examples/generated/SortTest.snippet.text-search.kt
    :language: kotlin
