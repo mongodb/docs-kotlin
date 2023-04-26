@@ -1,18 +1,17 @@
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
 import com.mongodb.client.model.Sorts.ascending
-import com.mongodb.client.model.Sorts.descending
 import com.mongodb.client.model.TextSearchOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.*
-import kotlin.test.*
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
+import kotlin.test.*
 
 // :snippet-start: retrieve-data-model
 data class Movies(
@@ -51,7 +50,7 @@ internal class SearchTextTest {
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.deleteMany(Filters.empty())
+                collection.drop()
                 client.close()
 
             }
