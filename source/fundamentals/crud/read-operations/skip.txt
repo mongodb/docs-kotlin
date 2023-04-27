@@ -78,7 +78,7 @@ Using a FindIterable
       :language: kotlin
 
    .. output:: 
-      :language:  json
+      :language:  console
 
       PaintOrder(id=4, qty=6, color=white)
       PaintOrder(id=1, qty=5, color=red)
@@ -97,7 +97,7 @@ Using Aggregation
       :language:  kotlin
 
    .. output:: 
-      :language:  json
+      :language:  console
 
       PaintOrder(id=4, qty=6, color=white)
       PaintOrder(id=1, qty=5, color=red)
