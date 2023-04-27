@@ -34,10 +34,21 @@ and how to combine ``limit()`` with ``skip()`` to further narrow the results ret
 Sample Documents
 ~~~~~~~~~~~~~~~~
 
-The following operation inserts documents representing books into a collection:
+The following sections feature examples that update this sample document: 
 
-.. literalinclude:: /examples/generated/LimitTest.snippet.insert-many.kt
-    :language: kotlin
+.. code-block:: json
+
+    { "_id": 1, "title": "The Brothers Karamazov", "author": "Dostoyevsky", "length": 824 }
+    { "_id": 2, "title": "Les Misérables", "author": "Hugo", "length": 1462  }
+    { "_id": 3, "title": "Atlas Shrugged", "author": "Rand", "length": 1088  }
+    { "_id": 4, "title": "Infinite Jest", "author": "Wallace", "length": 1104  }
+    { "_id": 5, "title": "Cryptonomicon", "author": "Stephenson", "length": 918  }
+    { "_id": 6, "title": "A Dance with Dragons", "author": "Martin", "length": 1104  }
+
+This data is modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/LimitTest.snippet.data-model.kt
+   :language: kotlin
 
 Specify a Limit
 ---------------
@@ -45,21 +56,21 @@ Specify a Limit
 The next example queries the collection to return the top three
 longest books. It first matches all the documents with the query, then sorts on the
 ``length`` field to return books with longer lengths before
-books with shorter lengths. Lastly, it limits the return value to ``3`` documents:
+books with shorter lengths. Lastly, it limits the return value to ``3`` documents, 
+and returns the following three documents, sorted by length:
 
-.. literalinclude:: /examples/generated/LimitTest.snippet.specify-limit.kt
-    :language: kotlin
-    :emphasize-lines: 3
+.. io-code-block::
 
-The preceding code example prints out the following three documents, sorted by
-length:
+   .. input:: /examples/generated/LimitTest.snippet.specify-limit.kt
+      :language:  kotlin
+      :emphasize-lines: 3
 
-.. code-block:: json
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-    Document{{_id=2, title=Les Misérables, author=Hugo, length=1462}}
-    Document{{_id=6, title=A Dance with Dragons, author=Martin, length=1104}}
-    Document{{_id=4, title=Infinite Jest, author=Wallace, length=1104}}
+        Book(id=2, title=Les Misérables, author=Hugo, length=1462)
+        Book(id=6, title=A Dance with Dragons, author=Martin, length=1104)
+        Book(id=4, title=Infinite Jest, author=Wallace, length=1104)    
 
 .. tip::
 
@@ -67,32 +78,29 @@ length:
    because the driver reorders the calls to apply the sort first and the
    limit after it. The following two calls are equivalent:
 
-   .. code-block:: kotlin
-
-      collection.find().sort(descending("length")).limit(3)
-      collection.find().limit(3).sort(descending("length"))
+.. literalinclude:: /examples/generated/LimitTest.snippet.equivalent.kt
+    :language: kotlin
 
 Combining Skip and Limit
 ------------------------
 
 To see the next three longest books, append the ``skip()`` method to your
 ``find()`` call. The integer argument passed to ``skip()`` will determine
-how many documents the find operation returns:
+how many documents the find operation returns. This operation returns the 
+documents that describe the fourth through sixth longest books:
 
+.. io-code-block::
 
-.. literalinclude:: /examples/generated/LimitTest.snippet.skip-limit.kt
-    :language: kotlin
-   :emphasize-lines: 3, 4
+   .. input:: /examples/generated/LimitTest.snippet.skip-limit.kt
+      :language:  kotlin
+      :emphasize-lines: 3, 4
 
-This operation returns the documents that describe the fourth through sixth
-longest books:
+   .. output:: 
+      :language:  console
 
-.. code-block:: json
-   :copyable: false
-
-   Document{{_id=3, title=Atlas Shrugged, author=Rand, length=1088}}
-   Document{{_id=5, title=Cryptonomicon, author=Stephenson, length=918}}
-   Document{{_id=1, title=The Brothers Karamazov, author=Dostoyevsky, length=824}}
+        Book(id=3, title=Atlas Shrugged, author=Rand, length=1088)
+        Book(id=5, title=Cryptonomicon, author=Stephenson, length=918)
+        Book(id=1, title=The Brothers Karamazov, author=Dostoyevsky, length=824)
 
 You can combine ``skip()`` and ``limit()`` in this way to implement paging for your
 collection, returning only small subsets of the collection at one time.

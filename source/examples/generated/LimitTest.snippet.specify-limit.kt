@@ -1,5 +1,5 @@
-collection.find()
+val results = collection.find()
     .sort(descending("length"))
     .limit(3)
-    .skip(3)
-    .toList().forEach { println(it) }
+    .toList()
+results.forEach { println(it) }

@@ -1,3 +1,4 @@
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts.ascending
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -12,6 +13,15 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.*
 
+// :snippet-start: data-model
+data class Book(
+    @BsonId val id: Int,
+    val title: String,
+    val author: String,
+    val length: Int
+)
+// :snippet-end:
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class LimitTest {
 
@@ -19,30 +29,22 @@ internal class LimitTest {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("library")
-        val collection = database.getCollection<Document>("books")
+        val collection = database.getCollection<Book>("books")
 
         @BeforeAll
         @JvmStatic
         private fun beforeAll() {
             runBlocking {
-                // :snippet-start: insert-many
                 val books = listOf(
-                    Document().append("_id", 1).append("title", "The Brothers Karamazov").append("length", 824)
-                        .append("author", "Dostoyevsky"),
-                    Document().append("_id", 2)
-                        .append("title", "Les Misérables").append("length", 1462).append("author", "Hugo"),
-                    Document().append("_id", 3)
-                        .append("title", "Atlas Shrugged").append("length", 1088).append("author", "Rand"),
-                    Document().append("_id", 4)
-                        .append("title", "Infinite Jest").append("length", 1104).append("author", "Wallace"),
-                    Document().append("_id", 5)
-                        .append("title", "Cryptonomicon").append("length", 918).append("author", "Stephenson"),
-                    Document().append("_id", 6)
-                        .append("title", "A Dance with Dragons").append("length", 1104)
-                        .append("author", "Martin")
+                    Book(1, "The Brothers Karamazov", "Dostoyevsky", 824),
+                    Book(2, "Les Misérables", "Hugo", 1462),
+                    Book(3, "Atlas Shrugged", "Rand", 1088),
+                    Book(4,"Infinite Jest", "Wallace", 1104),
+                    Book(5, "Cryptonomicon", "Stephenson", 918),
+                    Book(6, "A Dance with Dragons", "Martin", 1104)
                 )
                 collection.insertMany(books)
-                // :snippet-end:
+
             }
         }
 
@@ -60,45 +62,51 @@ internal class LimitTest {
     @Test
     fun specifyLimitTest() = runBlocking {
         // :snippet-start: specify-limit
-        collection.find()
+        val results = collection.find()
             .sort(descending("length"))
             .limit(3)
-            .skip(3)
-            .toList().forEach { println(it) }
+            .toList()
+        results.forEach { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expectation = listOf(
-            Document().append("_id", 2)
-                .append("title", "Les Misérables").append("length", 1462).append("author", "Hugo"),
-            Document().append("_id", 6)
-                .append("title", "A Dance with Dragons").append("length", 1104)
-                .append("author", "Martin"),
-            Document().append("_id", 4)
-                .append("title", "Infinite Jest").append("length", 1104).append("author", "Wallace")
+            Book(2, "Les Misérables", "Hugo", 1462),
+            Book(6, "A Dance with Dragons", "Martin", 1104),
+            Book(4, "Infinite Jest", "Wallace", 1104)
         )
-        assertEquals(expectation, collection.find().sort(descending("length")).limit(3).toList())
+        assertEquals(expectation, results)
     }
 
     @Test
     fun combineSkipLimitTest() = runBlocking {
         // :snippet-start: skip-limit
-        collection.find()
-            .sort(ascending("length"))
+        val results = collection.find()
+            .sort(descending("length"))
             .limit(3)
             .skip(3)
-            .toList().forEach { println(it) }
+            .toList()
+        results.forEach{ println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expectation = listOf(
-            Document().append("_id", 3)
-                .append("title", "Atlas Shrugged").append("length", 1088).append("author", "Rand"),
-            Document().append("_id", 5)
-                .append("title", "Cryptonomicon").append("length", 918).append("author", "Stephenson"),
-            Document().append("_id", 1).append("title", "The Brothers Karamazov").append("length", 824)
-                .append("author", "Dostoyevsky")
+            Book(3, "Atlas Shrugged", "Rand", 1088),
+            Book(5, "Cryptonomicon", "Stephenson", 918),
+            Book(1, "The Brothers Karamazov", "Dostoyevsky", 824)
         )
-        assertEquals(expectation, collection.find().sort(descending("length")).limit(3).skip(3).toList())
+        assertEquals(expectation, results)
     }
 
+    @Test
+    fun equivalenceTest() = runBlocking {
+        // :snippet-start: equivalent
+        val results = // :remove:
+            collection.find().sort(descending("length")).limit(3)
+                .toList() // :remove:
+        val results2 = // :remove:
+            collection.find().limit(3).sort(descending("length"))
+                // :snippet-end:
+                .toList()
+        assertEquals(results,results2)
 
+    }
 }
