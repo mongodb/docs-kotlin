@@ -4,5 +4,5 @@ val aggregate = listOf(
     Aggregates.sort(descending("qty")),
     skip(5)
 )
-collection.aggregate<Document>(aggregate)
-    .toList().forEach { println(it.toJson()) }
+collection.aggregate(aggregate)
+    .toList().forEach { println(it) }

@@ -6,7 +6,6 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.bson.Document
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
@@ -119,8 +118,8 @@ internal class SkipTest {
             Aggregates.sort(descending("qty")),
             skip(5)
         )
-        collection.aggregate<Document>(aggregate)
-            .toList().forEach { println(it.toJson()) }
+        collection.aggregate(aggregate)
+            .toList().forEach { println(it) }
         // :snippet-end:
 
         // Junit test for the above code
@@ -141,8 +140,8 @@ internal class SkipTest {
             Aggregates.sort(descending("qty")),
             skip(9)
         )
-        collection.aggregate<Document>(emptyQuery)
-            .toList().forEach { println(it.toJson()) }
+        collection.aggregate(emptyQuery)
+            .toList().forEach { println(it) }
         // :snippet-end:
 
         // Junit test for the above code

@@ -4,5 +4,5 @@ val emptyQuery = listOf(
     Aggregates.sort(descending("qty")),
     skip(9)
 )
-collection.aggregate<Document>(emptyQuery)
-    .toList().forEach { println(it.toJson()) }
+collection.aggregate(emptyQuery)
+    .toList().forEach { println(it) }
