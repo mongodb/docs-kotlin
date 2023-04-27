@@ -39,7 +39,7 @@ current inventory:
 
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/InsertTest.snippet.data-model.kt
+.. literalinclude:: /examples/generated/ChangeTest.snippet.data-model.kt
    :language: kotlin
 
 .. _update-operation:
