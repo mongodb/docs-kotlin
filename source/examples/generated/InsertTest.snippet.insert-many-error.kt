@@ -1,15 +1,14 @@
-val insertedIds = mutableListOf<Int>()
 try {
     val result = collection.insertMany(paintOrders)
     result.insertedIds.values
-        .forEach { doc -> insertedIds.add(doc.asInt32().value) }
-    println("Inserted a document with the following ids: $insertedIds")
-} catch(exception: MongoBulkWriteException){
-    exception.writeResult.inserts
-        .forEach { doc -> insertedIds.add(doc.id.asInt32().value) }
+        .forEach { doc -> doc.asInt32().value }
+    println("Inserted a document with the following ids: ${result.insertedIds}")
+} catch(e: MongoBulkWriteException){
+    e.writeResult.inserts
+        .forEach { doc -> doc.id.asInt32().value }
     println(
         "A MongoBulkWriteException occurred, but there are " +
-        "successfully processed documents with the following ids: $insertedIds"
+        "successfully processed documents with the following ids: ${e.writeResult}"
     )
     println(collection.find().toList().forEach { println(it) })
 }
