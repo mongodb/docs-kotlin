@@ -76,15 +76,15 @@ Example
 The following example creates and inserts a document using the
 ``insertOne()`` method: 
 
-.. literalinclude:: /examples/generated/InsertTest.snippet.insert-one.kt
-   :language: kotlin
+.. io-code-block::
+   
+      .. input:: /examples/generated/InsertTest.snippet.insert-one.kt
+         :language: kotlin
 
-Your output should look something like this:
+      .. output:: 
+         :language: console
 
-.. code-block:: console
-   :copyable: false
-
-   Inserted a document with the following id: 60930c39a982931c20ef6cd6
+         Inserted a document with the following id: 60930c39a982931c20ef6cd6
 
 For more information about the methods and classes mentioned in this section,
 see the following resources: 
