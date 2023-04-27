@@ -69,15 +69,14 @@ internal class DeleteTest {
         // Junit test for the above code
         assertTrue(collection.find(filter).toList().isEmpty() )
         // confirm docs remaining in collection
-        collection.find().sort(ascending("_id"))
-            .toList().forEach { println(it) }
+        val results = collection.find().sort(ascending("_id")).toList()
         val expected = listOf(
             PaintOrder(1, 5, "red"),
             PaintOrder(2, 8, "purple"),
             PaintOrder(5, 6, "yellow"),
             PaintOrder(8, 8, "black")
         )
-        assertEquals(expected, collection.find().sort(ascending("_id")).toList())
+        assertEquals(expected, results)
     }
 
     @Test
@@ -93,14 +92,13 @@ internal class DeleteTest {
         assertTrue(collection.find(filter).toList().isEmpty() )
         // confirm docs remaining in collection
         val testFilter = Filters.empty()
-        collection.find(testFilter).sort(ascending("_id"))
-            .toList().forEach { println(it) }
+        val results = collection.find(testFilter).sort(ascending("_id")).toList()
         val expected = listOf(
             PaintOrder(1, 5, "red"),
             PaintOrder(2, 8, "purple"),
             PaintOrder(8, 8, "black")
         )
-        assertEquals(expected, collection.find(testFilter).toList())
+        assertEquals(expected, results)
     }
 
     @Test
@@ -116,12 +114,11 @@ internal class DeleteTest {
         assertTrue(collection.find(filter).toList().isEmpty())
         // confirm docs remaining in collection
         val testFilter = Filters.empty()
-        collection.find(testFilter).sort(ascending("_id"))
-            .toList().forEach { println(it) }
+        val results = collection.find(testFilter).sort(ascending("_id")).toList()
         val expected = listOf(
             PaintOrder(1, 5, "red"),
             PaintOrder(8, 8, "black")
         )
-        assertEquals(expected, collection.find(testFilter).toList())
+        assertEquals(expected, results)
     }
 }
