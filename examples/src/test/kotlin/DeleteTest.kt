@@ -45,7 +45,6 @@ internal class DeleteTest {
                     PaintOrder(8, 8, "black")
                 )
                 collection.insertMany(paintOrders)
-
             }
         }
 
@@ -54,12 +53,10 @@ internal class DeleteTest {
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.deleteMany(Filters.empty())
+                collection.drop()
                 client.close()
-
             }
         }
-
     }
 
 
@@ -112,7 +109,8 @@ internal class DeleteTest {
         collection.deleteMany(Filters.or(Filters.eq("qty", 0), Filters.eq("color", "yellow")))
         // :snippet-start: find-one-and-delete
         val filter = Filters.eq("color", "purple")
-        println(collection.findOneAndDelete(filter))
+        val result = collection.findOneAndDelete(filter)
+        println("The following was deleted: $result")
         // :snippet-end:
         // Junit test for the above code
         assertTrue(collection.find(filter).toList().isEmpty())

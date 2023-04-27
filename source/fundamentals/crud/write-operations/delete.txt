@@ -72,19 +72,18 @@ To remove the out of stock colors, query the ``paint_inventory``
 collection where the ``qty`` is ``0`` and pass the query to the
 ``deleteMany()`` method:
 
-.. literalinclude:: /examples/generated/DeleteTest.snippet.delete-many.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the documents remaining in the ``paint_inventory``
-collection: 
+   .. input:: /examples/generated/DeleteTest.snippet.delete-many.kt
+      :language:  kotlin
 
-.. code-block:: json
-   :copyable: false  
+   .. output:: 
+      :language:  json
 
-    { "_id": 1, "color": "red", "qty": 5 }
-    { "_id": 2, "color": "purple", "qty": 8 }
-    { "_id": 5, "color": "yellow", "qty": 6 }
-    { "_id": 8, "color": "black", "qty": 8 }
+      { "_id": 1, "color": "red", "qty": 5 }
+      { "_id": 2, "color": "purple", "qty": 8 }
+      { "_id": 5, "color": "yellow", "qty": 6 }
+      { "_id": 8, "color": "black", "qty": 8 }
 
 Delete a Document
 -----------------
@@ -97,18 +96,17 @@ To remove yellow, query the ``paint_inventory`` collection where the
 ``color`` is ``"yellow"`` and pass the query to the ``deleteOne()``
 method:
 
-.. literalinclude:: /examples/generated/DeleteTest.snippet.delete-one.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the documents remaining in the ``paint_inventory``
-collection:
+   .. input:: /examples/generated/DeleteTest.snippet.delete-one.kt
+      :language:  kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output:: 
+      :language:  json
 
-    { "_id": 1, "color": "red", "qty": 5 }
-    { "_id": 2, "color": "purple", "qty": 8 }
-    { "_id": 8, "color": "black", "qty": 8 }
+      { "_id": 1, "color": "red", "qty": 5 }
+      { "_id": 2, "color": "purple", "qty": 8 }
+      { "_id": 8, "color": "black", "qty": 8 }
 
 Find and Delete a Document
 --------------------------
