@@ -1,5 +1,5 @@
 val filter = Filters.eq("color", "pink")
-val document = Document("color", "orange").append("qty", 25)
-val result = collection.replaceOne(filter, document)
+val update = PaintOrder(5, "orange", 25)
+val result = collection.replaceOne(filter, update)
 println("Matched document count: $result.matchedCount")
 println("Modified document count: $result.modifiedCount")
