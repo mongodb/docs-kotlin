@@ -29,7 +29,7 @@ binary data. For a complete list of supported types, see the
 :manual:`BSON Types </reference/bson-types>` server manual page.
 
 The binary format is not human-readable, but you can use the
-:ref:`Java BSON library <install-bson-library>` to convert it to a JSON
+:ref:`BSON library <install-bson-library>` to convert it to a JSON
 representation. You can read more about the relationship between these
 formats in our article on :website:`JSON and BSON </json-and-bson>`.
 
