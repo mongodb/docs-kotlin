@@ -24,8 +24,6 @@ internal class InsertTest {
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("paint_store")
 
-
-
         @AfterAll
         @JvmStatic
         private fun afterAll() {
@@ -55,15 +53,12 @@ internal class InsertTest {
         // :snippet-start: insert-many-error
         try {
             val result = collection.insertMany(paintOrders)
-            println(result.insertedIds.values
-                .forEach { it.asInt32().value })
-            println("Inserted a document with the following ids: ${result.insertedIds}")
+            println("Inserted documents with the following ids: ${result.insertedIds}")
         } catch(e: MongoBulkWriteException){
-            e.writeResult.inserts
-                .forEach { it.id.asInt32().value }
+            val insertedIds = e.writeResult.inserts.map { it.id.asInt32().value }
             println(
                 "A MongoBulkWriteException occurred, but there are " +
-                "successfully processed documents with the following ids: ${e.writeResult}"
+                "successfully processed documents with the following ids: $insertedIds"
             )
             println(collection.find().toList().forEach { println(it) })
         }
@@ -72,10 +67,10 @@ internal class InsertTest {
         val filter = Filters.empty()
         val testResults = listOf(Aggregates.match(filter))
         val expected = listOf(
-            Document("_id", 3).append("qty", 5).append("color", "red"),
-            Document("_id", 4).append("qty", 10).append("color", "purple")
+            PaintOrder(3, 5, "red"),
+            PaintOrder(4, 10, "purple")
         )
-        assertEquals(expected, collection.aggregate<Document>(testResults).toList())
+        assertEquals(expected, collection.aggregate<PaintOrder>(testResults).toList())
         collection.drop()
     }
 
@@ -131,5 +126,4 @@ internal class InsertTest {
         collection.drop()
     }
 }
-// :replace-end:
 
