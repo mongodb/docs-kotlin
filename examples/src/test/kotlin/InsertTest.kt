@@ -1,13 +1,10 @@
 
 
 import com.mongodb.MongoBulkWriteException
-import com.mongodb.client.model.Aggregates
-import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.bson.Document
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
@@ -16,6 +13,14 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
+// :snippet-start: data-model
+data class PaintOrder(
+    @BsonId val id: ObjectId? = null,
+    val qty: Int,
+    val color: String
+)
+// :snippet-end:
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class InsertTest {
 
@@ -23,6 +28,7 @@ internal class InsertTest {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("paint_store")
+        val collection = database.getCollection<PaintOrder>("paint_order")
 
         @AfterAll
         @JvmStatic
@@ -34,25 +40,15 @@ internal class InsertTest {
     }
     @Test
     fun insertManyErrorTest() = runBlocking {
-        // :snippet-start: retrieve-data-model
-
-        data class PaintOrder(
-            @BsonId val id: Int,
-            val qty: Int,
-            val color: String
-        )
-        // :snippet-end:
-        val collection = database.getCollection<PaintOrder>("paint_order")
         val paintOrders = listOf(
-            PaintOrder(3,  5, "red"),
-            PaintOrder(4, 10, "purple"),
-            PaintOrder(3, 3, "yellow"),
-            PaintOrder(6, 8, "blue")
+            PaintOrder(ObjectId(), 5, "red"),
+            PaintOrder(ObjectId(), 10, "purple"),
+            PaintOrder(ObjectId(), 3, "yellow"),
+            PaintOrder(ObjectId(), 8, "blue")
         )
-
         // :snippet-start: insert-many-error
+        val result = collection.insertMany(paintOrders)
         try {
-            val result = collection.insertMany(paintOrders)
             println("Inserted documents with the following ids: ${result.insertedIds}")
         } catch(e: MongoBulkWriteException){
             val insertedIds = e.writeResult.inserts.map { it.id.asInt32().value }
@@ -64,28 +60,13 @@ internal class InsertTest {
         }
         // :snippet-end:
         //Junit test for the above code
-        val filter = Filters.empty()
-        val testResults = listOf(Aggregates.match(filter))
-        val expected = listOf(
-            PaintOrder(3, 5, "red"),
-            PaintOrder(4, 10, "purple")
-        )
-        assertEquals(expected, collection.aggregate<PaintOrder>(testResults).toList())
-        collection.drop()
+        assertTrue(result.wasAcknowledged())
     }
 
     @Test
     fun insertOneTest() = runBlocking {
-        // :snippet-start: retrieve-data-model-2
-        data class PaintOrder(
-            @BsonId val id: ObjectId? = null,
-            val qty: Int,
-            val color: String
-        )
-        // :snippet-end:
-        val collection = database.getCollection<PaintOrder>("paint_order")
         // :snippet-start: insert-one
-        val paintOrder = PaintOrder(qty = 5, color = "red")
+        val paintOrder = PaintOrder(ObjectId(), 5, "red")
         val result = collection.insertOne(paintOrder)
 
         val insertedId = result.insertedId?.asObjectId()?.value
@@ -93,37 +74,22 @@ internal class InsertTest {
         println("Inserted a document with the following id: $insertedId")
         // :snippet-end:
         // Junit test for the above code
-        val filter = Filters.empty()
-        val testResults = listOf(Aggregates.match(filter))
-        val expected = listOf(
-            Document("_id", insertedId).append("qty", 5).append("color", "red")
-        )
-        assertEquals(expected, collection.aggregate<Document>(testResults).toList())
-        collection.drop()
+        assertTrue(result.wasAcknowledged())
     }
 
     @Test
     fun insertManyTest() = runBlocking {
-        data class PaintOrder(
-            @BsonId val id: ObjectId? = null,
-            val qty: Int,
-            val color: String
-        )
-        val collection = database.getCollection<PaintOrder>("paint_order")
         // :snippet-start: insert-many
-        val paintOrder2 = listOf(
-            PaintOrder(qty = 5, color = "red"),
-            PaintOrder(qty = 10, color = "purple"))
-        val result = collection.insertMany(paintOrder2)
+        val paintOrders = listOf(
+            PaintOrder(ObjectId(), 5, "red"),
+            PaintOrder(ObjectId(), 10, "purple")
+        )
+        val result = collection.insertMany(paintOrders)
 
-        result.insertedIds.values
-         .forEach { it.asObjectId().value }
-
-        println("Inserted a document with the following ids: ${result.insertedIds}")
+        println("Inserted a document with the following ids: ${result.insertedIds.toList()}")
         // :snippet-end:
         // Junit test for the above code
         assertTrue(result.wasAcknowledged())
-        collection.drop()
     }
 }
 

@@ -1,9 +1,7 @@
-val paintOrder2 = listOf(
-    PaintOrder(qty = 5, color = "red"),
-    PaintOrder(qty = 10, color = "purple"))
-val result = collection.insertMany(paintOrder2)
+val paintOrders = listOf(
+    PaintOrder(ObjectId(), 5, "red"),
+    PaintOrder(ObjectId(), 10, "purple")
+)
+val result = collection.insertMany(paintOrders)
 
-result.insertedIds.values
- .forEach { it.asObjectId().value }
-
-println("Inserted a document with the following ids: ${result.insertedIds}")
+println("Inserted a document with the following ids: ${result.insertedIds.toList()}")

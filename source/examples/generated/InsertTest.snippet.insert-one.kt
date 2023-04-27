@@ -1,4 +1,4 @@
-val paintOrder = PaintOrder(qty = 5, color = "red")
+val paintOrder = PaintOrder(ObjectId(), 5, "red")
 val result = collection.insertOne(paintOrder)
 
 val insertedId = result.insertedId?.asObjectId()?.value
