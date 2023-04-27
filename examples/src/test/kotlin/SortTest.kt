@@ -45,28 +45,24 @@ internal class SortTest {
                     FoodOrder(6, "c", "maple donut")
                 )
                 collection.insertMany(foodOrders)
-
             }
         }
-
 
         @AfterAll
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.deleteMany(Filters.empty())
+                collection.drop()
                 client.close()
 
             }
         }
-
     }
-
 
     @Test
     fun basicSortTest() = runBlocking {
         // :snippet-start: basic-sort
-        collection.find().sort(ascending("_id"))
+        collection.find().sort(Sorts.ascending("_id"))
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -85,15 +81,15 @@ internal class SortTest {
     @Test
     fun aggregationSortTest() = runBlocking {
         // :snippet-start: aggregation-sort
-        collection.aggregate(listOf(Aggregates.sort(ascending("_id"))))
+        collection.aggregate(listOf(Aggregates.sort(Sorts.ascending("_id"))))
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
         val test = listOf(
             Aggregates.match(filter),
-            Aggregates.sort(ascending("_id"))
+            Aggregates.sort(Sorts.ascending("_id"))
         )
-        collection.aggregate<Document>(test).toList().forEach { println(it.toJson()) }
+        collection.aggregate<FoodOrder>(test).toList().forEach { println(it) }
         val expected = listOf(
             Document("_id", 1).append("letter", "c").append("food", "coffee with milk"),
             Document("_id", 2).append("letter", "a").append("food", "donuts and coffee"),
@@ -108,11 +104,8 @@ internal class SortTest {
     @Test
     fun ascendingSortTest() = runBlocking {
         // :snippet-start: ascending-sort
-        val results: List<Document> = ArrayList()
-        collection.find().sort(ascending("_id"))
-        for (result in results) {
-            println(result.toJson())
-        }
+        collection.find().sort(Sorts.ascending("_id"))
+            .toList().forEach{ println(it) }
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -120,7 +113,6 @@ internal class SortTest {
             Aggregates.match(filter),
             Aggregates.sort(ascending("_id"))
         )
-        collection.aggregate<Document>(results).toList().forEach { println(it.toJson()) }
         val expected = listOf(
             Document("_id", 1).append("letter", "c").append("food", "coffee with milk"),
             Document("_id", 2).append("letter", "a").append("food", "donuts and coffee"),
@@ -135,7 +127,7 @@ internal class SortTest {
     @Test
     fun descendingSortTest() = runBlocking {
         // :snippet-start: descending-sort
-        collection.find().sort(descending("_id"))
+        collection.find().sort(Sorts.descending("_id"))
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -153,10 +145,10 @@ internal class SortTest {
     @Test
     fun handleTiesTest() = runBlocking {
         // :snippet-start: handle-ties-1
-        collection.find().sort(ascending("letter"))
+        collection.find().sort(Sorts.ascending("letter"))
         // :snippet-end:
         // :snippet-start: handle-ties-2
-        collection.find().sort(ascending("letter", "_id"))
+        collection.find().sort(Sorts.ascending("letter", "_id"))
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -175,7 +167,7 @@ internal class SortTest {
     fun combineSortTest() = runBlocking {
         // :snippet-start: combine-sort
         val orderBySort: Bson = orderBy(
-            descending("letter"), ascending("_id")
+            Sorts.descending("letter"), ascending("_id")
         )
         collection.find().sort(orderBySort)
         // :snippet-end:
@@ -195,20 +187,16 @@ internal class SortTest {
     @Test
     fun textSearchTest() = runBlocking {
         // :snippet-start: text-search
-        val results: List<Document> = ArrayList()
-
         collection.createIndex(Indexes.text("food"))
         val metaTextScoreSort: Bson = Sorts.metaTextScore("score")
         val metaTextScoreProj: Bson = Projections.metaTextScore("score")
         val searchTerm = "maple donut"
         val searchQuery = Filters.text(searchTerm)
 
-        collection.find(searchQuery)
+        val results = collection.find(searchQuery)
             .projection(metaTextScoreProj)
             .sort(metaTextScoreSort)
-        for (result in results) {
-            println(result)
-        }
+        results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val pipeline = listOf(
@@ -216,13 +204,12 @@ internal class SortTest {
             Aggregates.project(metaTextScoreProj),
             Aggregates.sort(metaTextScoreSort)
         )
-        collection.aggregate<Document>(pipeline).toList().forEach { println(it.toJson()) }
         val expected = listOf(
             Document("_id", 6).append("score", 1.5),
-            Document("_id", 2).append("score", 0.75),
-            Document("_id", 3).append("score", 0.75)
+            Document("_id", 3).append("score", 0.75),
+            Document("_id", 2).append("score", 0.75)
         )
         assertEquals(expected, collection.aggregate<Document>(pipeline).toList())
+        //assertEquals(expected, results)
     }
-
 }

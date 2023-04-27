@@ -1,1 +1,1 @@
-collection.find().sort(ascending("_id"))
+collection.find().sort(Sorts.ascending("_id"))
