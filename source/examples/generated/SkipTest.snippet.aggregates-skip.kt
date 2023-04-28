@@ -1,2 +1,4 @@
 val filter = Filters.empty()
-collection.aggregate(listOf(Aggregates.match(filter), skip(2)))
+val results = collection.aggregate(listOf(
+    Aggregates.match(filter), skip(2))
+)

@@ -1,5 +1,5 @@
 val filter = Filters.empty()
-collection.find(filter)
+val results = collection.find(filter)
     .sort(descending("qty"))
     .skip(5)
-    .toList().forEach { println(it) }
+    .collect { println(it) }

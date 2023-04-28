@@ -4,5 +4,4 @@ val emptyQuery = listOf(
     Aggregates.sort(descending("qty")),
     skip(9)
 )
-collection.aggregate(emptyQuery)
-    .toList().forEach { println(it) }
+collection.aggregate(emptyQuery).collect { println(it) }

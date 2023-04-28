@@ -62,7 +62,7 @@ field in their ``paint_inventory`` collection:
 
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/SkipTest.snippet.retrieve-data-model.kt
+.. literalinclude:: /examples/generated/SkipTest.snippet.skip-data-model.kt
    :language: kotlin
 
 To address the scenario, the paint store needs to query the

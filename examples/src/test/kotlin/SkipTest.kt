@@ -15,7 +15,7 @@ import java.util.*
 import kotlin.test.*
 
 
-// :snippet-start: retrieve-data-model
+// :snippet-start: skip-data-model
 data class PaintOrder(
     @BsonId val id: Int,
     val qty: Int,
@@ -48,7 +48,6 @@ internal class SkipTest {
                     PaintOrder(8, 7, "orange")
                 )
                 collection.insertMany(paintOrders)
-
             }
         }
 
@@ -59,12 +58,9 @@ internal class SkipTest {
             runBlocking {
                 collection.drop()
                 client.close()
-
             }
         }
-
     }
-
 
     @Test
     fun basicSkipTest() = runBlocking {
@@ -74,7 +70,9 @@ internal class SkipTest {
 
         // :snippet-start: aggregates-skip
         val filter = Filters.empty()
-        collection.aggregate(listOf(Aggregates.match(filter), skip(2)))
+        val results = collection.aggregate(listOf(
+            Aggregates.match(filter), skip(2))
+        )
         // :snippet-end:
 
         // Junit test for the above code
@@ -86,19 +84,18 @@ internal class SkipTest {
             PaintOrder(7, 8, "green"),
             PaintOrder(8, 7, "orange")
         )
-        assertEquals(expected, collection.find().skip(2).toList() )
+        assertEquals(expected, results.toList())
     }
 
     @Test
     fun findIterableTest() = runBlocking {
         // :snippet-start: find-iterable
         val filter = Filters.empty()
-        collection.find(filter)
+        val results = collection.find(filter)
             .sort(descending("qty"))
             .skip(5)
-            .toList().forEach { println(it) }
+            .collect { println(it) }
         // :snippet-end:
-
         // Junit test for the above code
         val expected = listOf(
             PaintOrder(4, 6, "white"),
@@ -118,8 +115,7 @@ internal class SkipTest {
             Aggregates.sort(descending("qty")),
             skip(5)
         )
-        collection.aggregate(aggregate)
-            .toList().forEach { println(it) }
+        collection.aggregate(aggregate).collect { println(it) }
         // :snippet-end:
 
         // Junit test for the above code
@@ -140,10 +136,8 @@ internal class SkipTest {
             Aggregates.sort(descending("qty")),
             skip(9)
         )
-        collection.aggregate(emptyQuery)
-            .toList().forEach { println(it) }
+        collection.aggregate(emptyQuery).collect { println(it) }
         // :snippet-end:
-
         // Junit test for the above code
         assertTrue(collection.aggregate(emptyQuery).toList().isEmpty())
     }

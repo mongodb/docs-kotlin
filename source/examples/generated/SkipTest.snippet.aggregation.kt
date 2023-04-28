@@ -4,5 +4,4 @@ val aggregate = listOf(
     Aggregates.sort(descending("qty")),
     skip(5)
 )
-collection.aggregate(aggregate)
-    .toList().forEach { println(it) }
+collection.aggregate(aggregate).collect { println(it) }
