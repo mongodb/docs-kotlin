@@ -1,2 +1,2 @@
 val filter = Filters.text("furious -fast")
-collection.find(filter).toList().forEach { println(it) }
+collection.find(filter).collect { println(it) }

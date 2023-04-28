@@ -54,7 +54,7 @@ movie franchise. Each document contains a title field and a tags field.
 
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/SearchTextTest.snippet.retrieve-data-model.kt
+.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-data-model.kt
    :language: kotlin
 
 Text Index

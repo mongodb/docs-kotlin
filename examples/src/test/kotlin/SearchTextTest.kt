@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.*
 
-// :snippet-start: retrieve-data-model
+// :snippet-start: search-data-model
 data class Movies(
     @BsonId val id: Int,
     val title: String,
@@ -34,7 +34,6 @@ internal class SearchTextTest {
         @JvmStatic
         private fun beforeAll() {
             runBlocking {
-
                 val fastAndFuriousMovies = listOf(
                     Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
                     Movies(2, "Fast 5", listOf("bank robbery", "full team")),
@@ -42,7 +41,6 @@ internal class SearchTextTest {
                     Movies(4, "The Fate of the Furious", listOf("betrayal"))
                 )
                 collection.insertMany(fastAndFuriousMovies)
-
             }
         }
 
@@ -52,10 +50,8 @@ internal class SearchTextTest {
             runBlocking {
                 collection.drop()
                 client.close()
-
             }
         }
-
     }
 
 
@@ -66,7 +62,7 @@ internal class SearchTextTest {
         // :snippet-end:
         // Junit test for the above code
         val testFilter = Filters.text("Furious")
-        collection.find(testFilter).toList().forEach { println(it) }
+        collection.find(testFilter).collect { println(it) }
         val expected = listOf(
             Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
             Movies(3, "Furious 7", listOf("emotional")),
@@ -77,25 +73,21 @@ internal class SearchTextTest {
 
     @Test
     fun specifyOptionsTest() = runBlocking {
-        // :replace-start: {
-        //   "terms": {
-        //      "furious": "SomeText"
-        //   }
-        //}
+        collection.createIndex(Indexes.text("title"))
         // :snippet-start: specify-options
         val options: TextSearchOptions = TextSearchOptions().caseSensitive(true)
-        val filter = Filters.text("furious", options)
+        val filter = Filters.text("SomeText", options)
         // :snippet-end:
-        // :replace-end:
         // Junit test for the above code
         assertTrue(collection.find(filter).toList().isEmpty() )
     }
 
     @Test
     fun searchTermTest() = runBlocking {
+        collection.createIndex(Indexes.text("title"))
         // :snippet-start: search-term
         val filter = Filters.text("fast")
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -107,9 +99,10 @@ internal class SearchTextTest {
 
     @Test
     fun searchMultipleTermsTest() = runBlocking {
+        collection.createIndex(Indexes.text("title"))
         // :snippet-start: search-multiple-terms
         val filter = Filters.text("fate 7")
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -121,9 +114,10 @@ internal class SearchTextTest {
 
     @Test
     fun searchPhraseTest() = runBlocking {
+        collection.createIndex(Indexes.text("title"))
         // :snippet-start: search-phrase
         val filter = Filters.text("\"fate of the furious\"")
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -134,15 +128,15 @@ internal class SearchTextTest {
 
     @Test
     fun excludeTermTest() = runBlocking {
+        collection.createIndex(Indexes.text("title"))
         // :snippet-start: exclude-term
         val filter = Filters.text("furious -fast")
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             Movies(3, "Furious 7", listOf("emotional")),
             Movies(4, "The Fate of the Furious", listOf("betrayal"))
-
         )
         assertEquals(expected, collection.find(filter).sort(ascending("_id")).toList() )
     }
