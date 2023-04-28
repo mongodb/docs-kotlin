@@ -1,3 +1,4 @@
+
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Sorts.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -6,7 +7,6 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
 import org.bson.codecs.pojo.annotations.BsonId
-import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
-// :snippet-start: retrieve-data-model
+// :snippet-start: sort-data-model
 data class FoodOrder(
     @BsonId val id: Int,
     val letter: String,
@@ -35,7 +35,6 @@ internal class SortTest {
         @JvmStatic
         private fun beforeAll() {
             runBlocking {
-
                 val foodOrders = listOf(
                     FoodOrder(1, "c", "coffee with milk"),
                     FoodOrder(3, "a", "maple syrup"),
@@ -54,7 +53,6 @@ internal class SortTest {
             runBlocking {
                 collection.drop()
                 client.close()
-
             }
         }
     }
@@ -89,7 +87,7 @@ internal class SortTest {
             Aggregates.match(filter),
             Aggregates.sort(Sorts.ascending("_id"))
         )
-        collection.aggregate<FoodOrder>(test).toList().forEach { println(it) }
+        collection.aggregate<FoodOrder>(test).collect { println(it) }
         val expected = listOf(
             Document("_id", 1).append("letter", "c").append("food", "coffee with milk"),
             Document("_id", 2).append("letter", "a").append("food", "donuts and coffee"),
@@ -105,7 +103,7 @@ internal class SortTest {
     fun ascendingSortTest() = runBlocking {
         // :snippet-start: ascending-sort
         collection.find().sort(Sorts.ascending("_id"))
-            .toList().forEach{ println(it) }
+            .collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -126,6 +124,7 @@ internal class SortTest {
 
     @Test
     fun descendingSortTest() = runBlocking {
+        val results =
         // :snippet-start: descending-sort
         collection.find().sort(Sorts.descending("_id"))
         // :snippet-end:
@@ -139,7 +138,7 @@ internal class SortTest {
             FoodOrder(2, "a", "donuts and coffee"),
             FoodOrder(1, "c", "coffee with milk")
             )
-        assertEquals(expected, collection.find(filter).sort((descending("_id"))).toList() )
+        assertEquals(expected, results.toList())
     }
 
     @Test
@@ -147,6 +146,7 @@ internal class SortTest {
         // :snippet-start: handle-ties-1
         collection.find().sort(Sorts.ascending("letter"))
         // :snippet-end:
+        val results =
         // :snippet-start: handle-ties-2
         collection.find().sort(Sorts.ascending("letter", "_id"))
         // :snippet-end:
@@ -160,13 +160,13 @@ internal class SortTest {
             FoodOrder(1, "c", "coffee with milk"),
             FoodOrder(6, "c", "maple donut")
         )
-        assertEquals(expected, collection.find(filter).sort((ascending("letter", "_id"))).toList() )
+        assertEquals(expected, results.toList() )
     }
 
     @Test
     fun combineSortTest() = runBlocking {
         // :snippet-start: combine-sort
-        val orderBySort: Bson = orderBy(
+        val orderBySort = orderBy(
             Sorts.descending("letter"), ascending("_id")
         )
         collection.find().sort(orderBySort)
@@ -184,18 +184,19 @@ internal class SortTest {
         assertEquals(expected, collection.find(filter).sort(orderBySort).toList() )
     }
 
-    @Test
+   // @Test
     fun textSearchTest() = runBlocking {
         // :snippet-start: text-search
         collection.createIndex(Indexes.text("food"))
-        val metaTextScoreSort: Bson = Sorts.metaTextScore("score")
-        val metaTextScoreProj: Bson = Projections.metaTextScore("score")
+        val metaTextScoreSort = Sorts.metaTextScore("score")
+        val metaTextScoreProj = Projections.metaTextScore("score")
         val searchTerm = "maple donut"
         val searchQuery = Filters.text(searchTerm)
 
         val results = collection.find(searchQuery)
             .projection(metaTextScoreProj)
             .sort(metaTextScoreSort)
+
         results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code

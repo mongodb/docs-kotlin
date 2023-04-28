@@ -49,7 +49,7 @@ documents:
 
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/SortTest.snippet.retrieve-data-model.kt
+.. literalinclude:: /examples/generated/SortTest.snippet.sort-data-model.kt
    :language: kotlin
 
 Methods For Sorting
