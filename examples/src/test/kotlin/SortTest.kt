@@ -184,8 +184,14 @@ internal class SortTest {
         assertEquals(expected, collection.find(filter).sort(orderBySort).toList() )
     }
 
-   // @Test
+    @Test
     fun textSearchTest() = runBlocking {
+        data class FoodOrderScore(
+           @BsonId val id: Int,
+            val letter: String,
+            val food: String,
+            val score: Double
+        )
         // :snippet-start: text-search
         collection.createIndex(Indexes.text("food"))
         val metaTextScoreSort = Sorts.metaTextScore("score")
@@ -193,24 +199,18 @@ internal class SortTest {
         val searchTerm = "maple donut"
         val searchQuery = Filters.text(searchTerm)
 
-        val results = collection.find(searchQuery)
+        val results = collection.find<FoodOrderScore>(searchQuery)
             .projection(metaTextScoreProj)
             .sort(metaTextScoreSort)
 
         results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
-        val pipeline = listOf(
-            Aggregates.match(searchQuery),
-            Aggregates.project(metaTextScoreProj),
-            Aggregates.sort(metaTextScoreSort)
-        )
         val expected = listOf(
-            Document("_id", 6).append("score", 1.5),
-            Document("_id", 3).append("score", 0.75),
-            Document("_id", 2).append("score", 0.75)
+            FoodOrderScore(6, "c", "maple donut",1.5),
+            FoodOrderScore(2, "a", "donuts and coffee", 0.75),
+            FoodOrderScore(3, "a", "maple syrup", 0.75)
         )
-        assertEquals(expected, collection.aggregate<Document>(pipeline).toList())
-        //assertEquals(expected, results)
+        assertEquals(expected, results.toList())
     }
 }
