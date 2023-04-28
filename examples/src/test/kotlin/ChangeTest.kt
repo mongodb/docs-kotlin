@@ -2,7 +2,6 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
@@ -45,6 +44,7 @@ internal class ChangeTest {
                 collection.insertMany(paintOrders)
             }
         }
+
         @AfterAll
         @JvmStatic
         private fun afterAll() {
