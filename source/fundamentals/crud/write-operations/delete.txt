@@ -58,7 +58,7 @@ following documents in their ``paint_inventory`` collection:
 
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/DeleteTest.snippet.retrieve-data-model.kt
+.. literalinclude:: /examples/generated/DeleteTest.snippet.delete-data-model.kt
    :language: kotlin
 
 Delete Many Documents

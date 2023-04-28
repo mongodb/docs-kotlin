@@ -12,7 +12,7 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
-// :snippet-start: retrieve-data-model
+// :snippet-start: delete-data-model
 data class PaintOrder(
     @BsonId val id: Int,
     val qty: Int,
@@ -33,7 +33,6 @@ internal class DeleteTest {
         @JvmStatic
         private fun beforeAll() {
             runBlocking {
-
                 val paintOrders = listOf(
                     PaintOrder(1, 5, "red"),
                     PaintOrder(2, 8, "purple"),
@@ -58,7 +57,6 @@ internal class DeleteTest {
             }
         }
     }
-
 
     @Test
     fun deleteManyTest() = runBlocking {
