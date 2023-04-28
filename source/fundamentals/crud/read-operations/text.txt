@@ -131,16 +131,16 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 term "fast":
 
-.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-term.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding code:
+   .. input:: /examples/generated/SearchTextTest.snippet.search-term.kt
+      :language:  kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   Movies(id=1, title=2 Fast 2 Furious, tags=[undercover, drug dealer])
-   Movies(id=2, title=Fast 5, tags=[bank robbery, full team])
+      Movies(id=1, title=2 Fast 2 Furious, tags=[undercover, drug dealer])
+      Movies(id=2, title=Fast 5, tags=[bank robbery, full team])
 
 To match multiple terms in your text search, separate each term
 with spaces in the ``Filters.text()`` builder method. The builder method
@@ -155,16 +155,16 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 terms "fate" or "7":
 
-.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-multiple-terms.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding code:
+   .. input:: /examples/generated/SearchTextTest.snippet.search-multiple-terms.kt
+      :language:  kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   Movies(id=3, title=Furious 7, tags=[emotional])
-   Movies(id=4, title=The Fate of the Furious, tags=[betrayal])
+      Movies(id=3, title=Furious 7, tags=[emotional])
+      Movies(id=4, title=The Fate of the Furious, tags=[betrayal])
 
 Search Text by a Phrase
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -182,15 +182,15 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 phrase "fate of the furious":
 
-.. literalinclude:: /examples/generated/SearchTextTest.snippet.search-phrase.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding code:
+   .. input:: /examples/generated/SearchTextTest.snippet.search-phrase.kt
+      :language:  kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   Movies(id=4, title=The Fate of the Furious, tags=[betrayal])
+      Movies(id=4, title=The Fate of the Furious, tags=[betrayal])
  
 Search Text with Terms Excluded
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,13 +214,13 @@ The following example runs a text search on the documents in the
 ``fast_and_furious_movies`` collection for titles that contain the
 term "furious", but do not contain the term "fast":
 
-.. literalinclude:: /examples/generated/SearchTextTest.snippet.exclude-term.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding code:
+   .. input:: /examples/generated/SearchTextTest.snippet.exclude-term.kt
+      :language:  kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   Movies(id=3, title=Furious 7, tags=[emotional])
-   Movies(id=4, title=The Fate of the Furious, tags=[betrayal])
+      Movies(id=3, title=Furious 7, tags=[emotional])
+      Movies(id=4, title=The Fate of the Furious, tags=[betrayal])
