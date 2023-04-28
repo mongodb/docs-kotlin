@@ -56,7 +56,7 @@ internal class InsertTest {
                 "A MongoBulkWriteException occurred, but there are " +
                 "successfully processed documents with the following ids: $insertedIds"
             )
-            println(collection.find().toList().forEach { println(it) })
+            collection.find().collect { println(it) }
         }
         // :snippet-end:
         //Junit test for the above code
