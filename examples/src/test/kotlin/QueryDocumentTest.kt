@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.collections.List
 import kotlin.test.*
 
-// :snippet-start: retrieve-data-model
+// :snippet-start: query-data-model
 data class PaintOrder(
     @BsonId val id: Int,
     val qty: Int,
@@ -47,7 +47,6 @@ internal class QueryDocumentTest {
                     PaintOrder(8, 7, "black", listOf("A", "C", "D"))
                 )
                 collection.insertMany(paintOrders)
-
             }
         }
 
@@ -58,10 +57,8 @@ internal class QueryDocumentTest {
             runBlocking {
                 collection.drop()
                 client.close()
-
             }
         }
-
     }
 
 
@@ -69,7 +66,7 @@ internal class QueryDocumentTest {
     fun comparisonTest() = runBlocking {
         // :snippet-start: comparison-filter
         val filter = Filters.gt("qty", 7)
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -84,7 +81,7 @@ internal class QueryDocumentTest {
     fun logicalTest() = runBlocking {
         // :snippet-start: logical-filter
         val filter = Filters.and(Filters.lte("qty", 5), Filters.ne("color", "pink"))
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -98,7 +95,7 @@ internal class QueryDocumentTest {
     fun arrayTest() = runBlocking {
         // :snippet-start: array-filter
         val filter = Filters.size("vendor", 3)
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -112,7 +109,7 @@ internal class QueryDocumentTest {
     fun elementTest() = runBlocking {
         // :snippet-start: element-filter
         val filter = Filters.exists("rating")
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -127,7 +124,7 @@ internal class QueryDocumentTest {
     fun evaluationTest() = runBlocking {
         // :snippet-start: evaluation-filter
         val filter = Filters.regex("color", "k$")
-        collection.find(filter).toList().forEach { println(it) }
+        collection.find(filter).collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(

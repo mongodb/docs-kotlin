@@ -46,7 +46,7 @@ The examples in this guide use the following documents in the
        
 This data is modeled with the following Kotlin data class:
 
-.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.retrieve-data-model.kt
+.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.query-data-model.kt
    :language: kotlin
 
 .. _query-comparison:
@@ -63,17 +63,17 @@ The following example uses the ``Filters.gt()`` method to match all
 documents where the value of ``qty`` is greater than ``7`` in the
 ``paint_purchases`` collection:
 
-.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.comparison-filter.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding query:
+   .. input:: /examples/generated/QueryDocumentTest.snippet.comparison-filter.kt
+      :language: kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   PaintOrder(id=1, qty=9, color=red, vendor=[A, E], rating=null)
-   PaintOrder(id=2, qty=8, color=purple, vendor=[B, D, F], rating=5)
-   PaintOrder(id=7, qty=8, color=green, vendor=[C, E], rating=7)
+      PaintOrder(id=1, qty=9, color=red, vendor=[A, E], rating=null)
+      PaintOrder(id=2, qty=8, color=purple, vendor=[B, D, F], rating=5)
+      PaintOrder(id=7, qty=8, color=green, vendor=[C, E], rating=7)
 
 .. _query-logical:
 
@@ -90,16 +90,16 @@ documents where the value of ``qty`` is less than or equal to ``5`` and
 the value of ``color`` is not ``"pink"`` in the ``paint_purchases``
 collection:
 
-.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.logical-filter.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding query:
+   .. input:: /examples/generated/QueryDocumentTest.snippet.logical-filter.kt
+      :language: kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   PaintOrder(id=3, qty=5, color=blue, vendor=[A, E], rating=null)
-   PaintOrder(id=5, qty=4, color=yellow, vendor=[A, B], rating=null)
+      PaintOrder(id=3, qty=5, color=blue, vendor=[A, E], rating=null)
+      PaintOrder(id=5, qty=4, color=yellow, vendor=[A, B], rating=null)
 
 .. _query-arrays:
 
@@ -113,16 +113,16 @@ The following example uses the ``Filters.size()`` method to match
 documents where the size of the ``vendor`` list is ``3`` in the
 ``paint_purchases`` collection: 
 
-.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.array-filter.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding query:
+   .. input:: /examples/generated/QueryDocumentTest.snippet.array-filter.kt
+      :language: kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   PaintOrder(id=2, qty=8, color=purple, vendor=[B, D, F], rating=5)
-   PaintOrder(id=8, qty=7, color=black, vendor=[A, C, D], rating=null)
+      PaintOrder(id=2, qty=8, color=purple, vendor=[B, D, F], rating=5)
+      PaintOrder(id=8, qty=7, color=black, vendor=[A, C, D], rating=null)
 
 .. _query-elements:
 
@@ -134,17 +134,17 @@ Element operators query data based on the presence or type of a field.
 The following example uses the ``Filters.exists()`` method to match
 documents that have a ``rating`` in the ``paint_purchases`` collection: 
 
-.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.element-filter.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding query:
+   .. input:: /examples/generated/QueryDocumentTest.snippet.element-filter.kt
+      :language: kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   PaintOrder(id=2, qty=8, color=purple, vendor=[B, D, F], rating=5)
-   PaintOrder(id=4, qty=6, color=white, vendor=[D], rating=9)
-   PaintOrder(id=7, qty=8, color=green, vendor=[C, E], rating=7)
+      PaintOrder(id=2, qty=8, color=purple, vendor=[B, D, F], rating=5)
+      PaintOrder(id=4, qty=6, color=white, vendor=[D], rating=9)
+      PaintOrder(id=7, qty=8, color=green, vendor=[C, E], rating=7)
 
 .. _query-evaluation:
 
@@ -158,16 +158,16 @@ The following example uses the ``Filters.regex()`` method to match
 documents that have a ``color`` ending with the letter ``"k"`` in the
 ``paint_purchases`` collection:  
 
-.. literalinclude:: /examples/generated/QueryDocumentTest.snippet.evaluation-filter.kt
-   :language: kotlin
+.. io-code-block::
 
-The following shows the output of the preceding query:
+   .. input:: /examples/generated/QueryDocumentTest.snippet.evaluation-filter.kt
+      :language: kotlin
 
-.. code-block:: console
-   :copyable: false
+   .. output:: 
+      :language:  console
 
-   PaintOrder(id=6, qty=3, color=pink, vendor=[C], rating=null)
-   PaintOrder(id=8, qty=7, color=black, vendor=[A, C, D], rating=null)
+      PaintOrder(id=6, qty=3, color=pink, vendor=[C], rating=null)
+      PaintOrder(id=8, qty=7, color=black, vendor=[A, C, D], rating=null)
 
 For more information about the operators mentioned in this guide,
 see the following Server Manual Entries:
