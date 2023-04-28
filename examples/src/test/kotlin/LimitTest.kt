@@ -41,7 +41,6 @@ internal class LimitTest {
                     Book(6, "A Dance with Dragons", "Martin", 1104)
                 )
                 collection.insertMany(books)
-
             }
         }
 
@@ -51,19 +50,17 @@ internal class LimitTest {
             runBlocking {
                 collection.drop()
                 client.close()
-
             }
         }
-
     }
+
     @Test
     fun specifyLimitTest() = runBlocking {
         // :snippet-start: specify-limit
         val results = collection.find()
             .sort(descending("length"))
             .limit(3)
-            .toList()
-        results.forEach { println(it) }
+        results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expectation = listOf(
@@ -71,7 +68,7 @@ internal class LimitTest {
             Book(6, "A Dance with Dragons", "Martin", 1104),
             Book(4, "Infinite Jest", "Wallace", 1104)
         )
-        assertEquals(expectation, results)
+        assertEquals(expectation, results.toList())
     }
 
     @Test
@@ -81,8 +78,7 @@ internal class LimitTest {
             .sort(descending("length"))
             .limit(3)
             .skip(3)
-            .toList()
-        results.forEach{ println(it) }
+        results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expectation = listOf(
@@ -90,7 +86,7 @@ internal class LimitTest {
             Book(5, "Cryptonomicon", "Stephenson", 918),
             Book(1, "The Brothers Karamazov", "Dostoyevsky", 824)
         )
-        assertEquals(expectation, results)
+        assertEquals(expectation, results.toList())
     }
 
     @Test
