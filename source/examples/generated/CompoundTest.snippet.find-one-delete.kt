@@ -1,0 +1,5 @@
+val sort = descending("_id")
+val filter = Filters.empty()
+val options = FindOneAndDeleteOptions().sort(sort)
+val result: FoodOrder? = collection.findOneAndDelete(filter, options)
+println(result)
