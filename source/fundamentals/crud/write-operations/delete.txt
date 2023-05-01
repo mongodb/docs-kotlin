@@ -38,6 +38,12 @@ To specify a collation, hint an index, specify sort order, or specify a
 projection on the returned document, use ``FindOneAndDeleteOptions`` 
 as the second parameter to the ``findOneAndDelete()`` method.
 
+.. tip:: 
+
+   When deleting a single document, filter your query by a unique index, 
+   such as an ``_id``, to ensure your query matches the document you want to 
+   delete.
+
 Sample Documents
 ~~~~~~~~~~~~~~~~
 

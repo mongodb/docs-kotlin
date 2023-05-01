@@ -79,9 +79,6 @@ internal class DeleteTest {
 
     @Test
     fun deleteOneTest() = runBlocking {
-        // delete documents from previous steps
-        val previousDelete = Filters.eq("qty", 0)
-        collection.deleteMany(previousDelete)
         // :snippet-start: delete-one
         val filter = Filters.eq("color", "yellow")
         collection.deleteOne(filter)
@@ -101,8 +98,6 @@ internal class DeleteTest {
 
     @Test
     fun findAndDeleteTest() = runBlocking {
-        // delete documents from previous steps
-        collection.deleteMany(Filters.or(Filters.eq("qty", 0), Filters.eq("color", "yellow")))
         // :snippet-start: find-one-and-delete
         val filter = Filters.eq("color", "purple")
         val result = collection.findOneAndDelete(filter)
