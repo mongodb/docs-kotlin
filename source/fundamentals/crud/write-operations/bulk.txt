@@ -44,6 +44,11 @@ in a collection:
    { "_id": 1 }
    { "_id": 2 }
 
+This data is modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/BulkTest.snippet.bulk-data-model.kt
+   :language: kotlin
+
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 

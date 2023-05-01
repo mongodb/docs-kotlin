@@ -13,10 +13,13 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
+// :snippet-start: bulk-data-model
 data class SampleDoc(
     @BsonId val id: Int,
     val x: Int? = null
 )
+
+// :snippet-end:
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BulkTest {
     companion object {
@@ -50,14 +53,16 @@ internal class BulkTest {
     @Test
     fun insertOperationTest() = runBlocking {
         // :snippet-start: insert-one
-        val doc3 = InsertOneModel(SampleDoc(1))
-        val doc4 = InsertOneModel(SampleDoc(3))
+        val doc3 = InsertOneModel(SampleDoc(3))
+        val doc4 = InsertOneModel(SampleDoc(4))
         // :snippet-end:
         // :snippet-start: bulk-write-exception
+        val doc5 = InsertOneModel(SampleDoc(1))
+        val doc6 = InsertOneModel(SampleDoc(3))
         try {
             val bulkOperations = listOf(
-                (doc3),
-                (doc4)
+                (doc5),
+                (doc6)
             )
             val bulkWrite = collection.bulkWrite(bulkOperations)
             assertFalse(bulkWrite.wasAcknowledged()) // :remove:
@@ -78,10 +83,10 @@ internal class BulkTest {
         // :snippet-start: replace-one
         val filter = Filters.eq("_id", 1)
         val insert = SampleDoc(1, 4)
-        val doc3 = ReplaceOneModel(filter, insert)
+        val doc = ReplaceOneModel(filter, insert)
         // :snippet-end:
         // Junit test for the above code
-        val insertTest = collection.bulkWrite(listOf(doc3))
+        val insertTest = collection.bulkWrite(listOf(doc))
         assertTrue(insertTest.wasAcknowledged())
         assertEquals(1, insertTest.modifiedCount)
     }
@@ -91,10 +96,10 @@ internal class BulkTest {
         // :snippet-start: update-one
         val filter = Filters.eq("_id", 2)
         val update = Updates.set("x", 8)
-        val doc3 = UpdateOneModel<SampleDoc>(filter, update)
+        val doc = UpdateOneModel<SampleDoc>(filter, update)
         // :snippet-end:
         // Junit test for the above code
-        val updateTest = collection.bulkWrite(listOf(doc3))
+        val updateTest = collection.bulkWrite(listOf(doc))
         assertTrue(updateTest.wasAcknowledged())
         assertEquals(1, collection.find(filter).toList().size)
     }
@@ -103,10 +108,10 @@ internal class BulkTest {
     fun deleteOneTest() = runBlocking {
         // :snippet-start: delete
         val filter = Filters.eq("_id", 1)
-        val doc3 = DeleteOneModel<SampleDoc>(filter)
+        val doc = DeleteOneModel<SampleDoc>(filter)
         // :snippet-end:
         // Junit test for the above code
-        val deleteTest = collection.bulkWrite(listOf(doc3))
+        val deleteTest = collection.bulkWrite(listOf(doc))
         assertTrue(deleteTest.wasAcknowledged())
         assertTrue(collection.find(filter).toList().isEmpty())
     }
