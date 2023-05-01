@@ -8,9 +8,17 @@ API Documentation
    :titlesonly:
    :maxdepth: 1
 
-    BSON <{+api+}/apidocs/bson/index.html>
-    BSON Record Codec <{+api+}/apidocs/bson-record-codec/index.html>
+    BSON Kotlin Codecs <{+api+}/bson-kotlin/index.html>
+    BSON kotlinx.serialization <{+api+}/bson-kotlinx/index.html>
     Core <{+api+}/apidocs/mongodb-driver-core/index.html>
-    Java Driver (modern API) <{+api+}/apidocs/mongodb-driver-sync/index.html>
-    Java Driver (legacy API) <{+api+}/apidocs/mongodb-driver-legacy/index.html>
-    
+    Kotlin Driver <{+api+}/mongodb-driver-kotlin-coroutine/index.html>
+
+- `BSON Kotlin Codecs <{+api+}/bson-kotlin/index.html>`__ - classes to support
+   Kotlin types and data classes via Codecs.
+- `BSON kotlinx.serialization <{+api+}/bson-kotlinx/index.html>`__ -
+  classes for encoding and decoding between Kotlin data classes and the BSON data
+  format using kotlinx.serialization.
+- `Core <{+api+}/apidocs/mongodb-driver-core/index.html>`__ - classes that
+  contain essential driver functionality.
+- `Kotlin Driver <{+api+}/mongodb-driver-kotlin-coroutine/index.html>`__ -
+  classes for the current driver API.
