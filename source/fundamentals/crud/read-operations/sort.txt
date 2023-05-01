@@ -68,23 +68,23 @@ You can use the ``sort()`` method of a ``FindIterable`` instance as follows:
 .. literalinclude:: /examples/generated/SortTest.snippet.basic-sort.kt
    :language: kotlin
  
-You can use the ``Aggregates.sort()`` method within an aggregation pipeline
-as follows:
- 
-.. literalinclude:: /examples/generated/SortTest.snippet.aggregation-sort.kt
-   :language: kotlin
-
-The preceding code snippets sort the documents in the
+You can use the ``Aggregates.sort()`` method within an aggregation pipeline to 
+sort the documents in the
 :ref:`sample collection <sorts-crud-sort-sample>` from smallest to
-largest value of the ``_id`` field: 
+largest value of the ``_id`` field as follows:
+ 
+.. io-code-block::
 
-.. code-block:: json
-   :copyable: false
+   .. input:: /examples/generated/SortTest.snippet.aggregation-sort.kt
+      :language: kotlin
 
-   {"_id": 1, "letter": "c", "food": "coffee with milk"}
-   {"_id": 2, "letter": "a", "food": "donuts and coffee"}
-   {"_id": 3, "letter": "a", "food": "maple syrup"}
-   ...
+   .. output:: 
+      :language:  console
+
+      {"_id": 1, "letter": "c", "food": "coffee with milk"}
+      {"_id": 2, "letter": "a", "food": "donuts and coffee"}
+      {"_id": 3, "letter": "a", "food": "maple syrup"}
+      ...
 
 In the preceding code snippets, we specify our sort criteria using the ``Sorts``
 builder class. While it is possible to specify sort criteria using any class
@@ -197,7 +197,6 @@ code:
 
    .. input:: /examples/generated/SortTest.snippet.handle-ties-1.kt
       :language: kotlin
-
 
    .. output:: 
       :language:  console

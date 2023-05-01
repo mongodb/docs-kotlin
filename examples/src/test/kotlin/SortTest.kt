@@ -5,7 +5,6 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.bson.Document
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
@@ -70,7 +69,7 @@ internal class SortTest {
             FoodOrder(3, "a", "maple syrup"),
             FoodOrder(4, "b", "coffee with sugar"),
             FoodOrder(5, "a", "milk and cookies"),
-            FoodOrder(6, "c", "maple donut"),
+            FoodOrder(6, "c", "maple donut")
 
         )
         assertEquals(expected, collection.find(filter).sort((ascending("_id"))).toList() )
@@ -79,47 +78,40 @@ internal class SortTest {
     @Test
     fun aggregationSortTest() = runBlocking {
         // :snippet-start: aggregation-sort
-        collection.aggregate(listOf(Aggregates.sort(Sorts.ascending("_id"))))
+        val resultsFlow = collection.aggregate(listOf(
+            Aggregates.sort(Sorts.ascending("_id"))
+        ))
+        resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
-        val filter = Filters.empty()
-        val test = listOf(
-            Aggregates.match(filter),
-            Aggregates.sort(Sorts.ascending("_id"))
-        )
-        collection.aggregate<FoodOrder>(test).collect { println(it) }
         val expected = listOf(
-            Document("_id", 1).append("letter", "c").append("food", "coffee with milk"),
-            Document("_id", 2).append("letter", "a").append("food", "donuts and coffee"),
-            Document("_id", 3).append("letter", "a").append("food", "maple syrup"),
-            Document("_id", 4).append("letter", "b").append("food", "coffee with sugar"),
-            Document("_id", 5).append("letter", "a").append("food", "milk and cookies"),
-            Document("_id", 6).append("letter", "c").append("food", "maple donut")
+            FoodOrder(1, "c", "coffee with milk"),
+            FoodOrder(2, "a", "donuts and coffee"),
+            FoodOrder(3, "a", "maple syrup"),
+            FoodOrder(4, "b", "coffee with sugar"),
+            FoodOrder(5, "a", "milk and cookies"),
+            FoodOrder(6, "c", "maple donut")
         )
-        assertEquals(expected, collection.aggregate<Document>(test).toList())
+        assertEquals(expected, resultsFlow.toList())
     }
 
     @Test
     fun ascendingSortTest() = runBlocking {
         // :snippet-start: ascending-sort
-        collection.find().sort(Sorts.ascending("_id"))
-            .collect { println(it) }
+        val resultsFlow = collection.find()
+            .sort(Sorts.ascending("_id"))
+        resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
-        val filter = Filters.empty()
-        val test = listOf(
-            Aggregates.match(filter),
-            Aggregates.sort(ascending("_id"))
-        )
         val expected = listOf(
-            Document("_id", 1).append("letter", "c").append("food", "coffee with milk"),
-            Document("_id", 2).append("letter", "a").append("food", "donuts and coffee"),
-            Document("_id", 3).append("letter", "a").append("food", "maple syrup"),
-            Document("_id", 4).append("letter", "b").append("food", "coffee with sugar"),
-            Document("_id", 5).append("letter", "a").append("food", "milk and cookies"),
-            Document("_id", 6).append("letter", "c").append("food", "maple donut")
+            FoodOrder(1, "c", "coffee with milk"),
+            FoodOrder(2, "a", "donuts and coffee"),
+            FoodOrder(3, "a", "maple syrup"),
+            FoodOrder(4, "b", "coffee with sugar"),
+            FoodOrder(5, "a", "milk and cookies"),
+            FoodOrder(6, "c", "maple donut")
         )
-        assertEquals(expected, collection.aggregate<Document>(test).toList())
+        assertEquals(expected, resultsFlow.toList())
     }
 
     @Test
@@ -129,7 +121,6 @@ internal class SortTest {
         collection.find().sort(Sorts.descending("_id"))
         // :snippet-end:
         // Junit test for the above code
-        val filter = Filters.empty()
         val expected = listOf(
             FoodOrder(6, "c", "maple donut"),
             FoodOrder(5, "a", "milk and cookies"),
@@ -169,7 +160,7 @@ internal class SortTest {
         val orderBySort = orderBy(
             Sorts.descending("letter"), ascending("_id")
         )
-        collection.find().sort(orderBySort)
+        val results = collection.find().sort(orderBySort)
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -181,7 +172,7 @@ internal class SortTest {
             FoodOrder(3, "a", "maple syrup"),
             FoodOrder(5, "a", "milk and cookies")
         )
-        assertEquals(expected, collection.find(filter).sort(orderBySort).toList() )
+        assertEquals(expected, results.toList() )
     }
 
     @Test
