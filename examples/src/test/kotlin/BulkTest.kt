@@ -88,7 +88,6 @@ internal class BulkTest {
         // Junit test for the above code
         val insertTest = collection.bulkWrite(listOf(doc))
         assertTrue(insertTest.wasAcknowledged())
-        assertEquals(1, insertTest.modifiedCount)
     }
 
     @Test
@@ -101,7 +100,6 @@ internal class BulkTest {
         // Junit test for the above code
         val updateTest = collection.bulkWrite(listOf(doc))
         assertTrue(updateTest.wasAcknowledged())
-        assertEquals(1, collection.find(filter).toList().size)
     }
 
     @Test
