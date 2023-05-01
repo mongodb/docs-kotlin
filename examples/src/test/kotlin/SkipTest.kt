@@ -1,5 +1,5 @@
+
 import com.mongodb.client.model.Aggregates
-import com.mongodb.client.model.Aggregates.skip
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -71,7 +71,8 @@ internal class SkipTest {
         // :snippet-start: aggregates-skip
         val filter = Filters.empty()
         val results = collection.aggregate(listOf(
-            Aggregates.match(filter), skip(2))
+            Aggregates.match(filter),
+            Aggregates.skip(2))
         )
         // :snippet-end:
 
@@ -92,7 +93,7 @@ internal class SkipTest {
         // :snippet-start: find-iterable
         val filter = Filters.empty()
         val results = collection.find(filter)
-            .sort(descending("qty"))
+            .sort(descending(PaintOrder::qty.name))
             .skip(5)
             .collect { println(it) }
         // :snippet-end:
@@ -102,7 +103,7 @@ internal class SkipTest {
             PaintOrder(1, 5, "red"),
             PaintOrder(6, 3, "pink")
         )
-        assertEquals(expected, collection.find(filter).sort(descending("qty"))
+        assertEquals(expected, collection.find(filter).sort(descending(PaintOrder::qty.name))
             .skip(5).toList() )
     }
 
@@ -112,8 +113,8 @@ internal class SkipTest {
         val filter = Filters.empty()
         val aggregate = listOf(
             Aggregates.match(filter),
-            Aggregates.sort(descending("qty")),
-            skip(5)
+            Aggregates.sort(descending(PaintOrder::qty.name)),
+            Aggregates.skip(5)
         )
         collection.aggregate(aggregate).collect { println(it) }
         // :snippet-end:
@@ -133,8 +134,8 @@ internal class SkipTest {
         val filter = Filters.empty()
         val emptyQuery = listOf(
             Aggregates.match(filter),
-            Aggregates.sort(descending("qty")),
-            skip(9)
+            Aggregates.sort(descending(PaintOrder::qty.name)),
+            Aggregates.skip(9)
         )
         collection.aggregate(emptyQuery).collect { println(it) }
         // :snippet-end:
