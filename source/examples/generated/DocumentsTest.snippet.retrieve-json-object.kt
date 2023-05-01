@@ -1,4 +1,4 @@
-// MongoClient mongoClient = <code to instantiate your client>;
+// val mongoClient = <code to instantiate your client>;
 
 val query = JsonObject("{\"name\": \"Gabriel Garc\\u00eda M\\u00e1rquez\"}")
 val jsonResult = collection.find(query).firstOrNull()

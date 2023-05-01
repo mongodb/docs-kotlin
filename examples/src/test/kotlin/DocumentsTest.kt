@@ -170,7 +170,7 @@ internal class DocumentsTest {
         assertEquals("Gabriel García Márquez", author.toBsonDocument().getString("name")?.value)
 
         // :snippet-start: insert-json-object
-        // MongoClient mongoClient = <code to instantiate your client>;
+        // val mongoClient = <code to instantiate your client>;
 
         val database = mongoClient.getDatabase("fundamentals_data")
         val collection= database.getCollection<JsonObject>("authors")
@@ -181,7 +181,7 @@ internal class DocumentsTest {
         assertEquals(true, result.wasAcknowledged())
 
         // :snippet-start: retrieve-json-object
-        // MongoClient mongoClient = <code to instantiate your client>;
+        // val mongoClient = <code to instantiate your client>;
 
         val query = JsonObject("{\"name\": \"Gabriel Garc\\u00eda M\\u00e1rquez\"}")
         val jsonResult = collection.find(query).firstOrNull()
@@ -222,7 +222,7 @@ internal class DocumentsTest {
         assertEquals("Gabriel García Márquez", author.getString("name"))
 
         // :snippet-start: insert-basic-dbobject
-        // MongoClient mongoClient = <code to instantiate your client>;
+        // val mongoClient = <code to instantiate your client>;
 
         val database = mongoClient.getDatabase("fundamentals_data")
         val collection = database.getCollection<BasicDBObject>("authors")
