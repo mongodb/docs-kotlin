@@ -76,8 +76,8 @@ internal class LimitTest {
         // :snippet-start: skip-limit
         val results = collection.find()
             .sort(descending("length"))
-            .limit(3)
             .skip(3)
+            .limit(3)
         results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code

@@ -75,7 +75,7 @@ and returns the following three documents, sorted by length:
 .. tip::
 
    The order in which you call ``limit()`` and ``sort()`` does not matter
-   because the driver reorders the calls to apply the sort first and the
+   because the find command always applies the sort first and the
    limit after it. The following two calls are equivalent:
 
 .. literalinclude:: /examples/generated/LimitTest.snippet.equivalent.kt
