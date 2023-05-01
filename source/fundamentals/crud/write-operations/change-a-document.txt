@@ -89,8 +89,28 @@ Updates builders and their usage <TODO:(DOCSP-29169)>`__.
 Example
 ```````
 
-The paint store receives a fresh shipment and needs to update their inventory.
-The shipment contains 20 cans of each paint color.
+The paint store needs to update their inventory after a customer returns a  
+can of yellow paint.
+
+To update the single can of paint, call the ``updateOne()`` method specifying 
+the following: 
+
+- A query filter that matches the yellow color
+- An update document that contains instructions to increment the ``qty`` field by "1"
+
+.. io-code-block::
+
+   .. input:: /examples/generated/ChangeTest.snippet.update-one.kt
+      :language: kotlin
+
+   .. output:: 
+      :language:  console
+
+        Matched document count: 1
+        Modified document count: 1
+
+The paint store then receives a fresh shipment and needs to update their 
+inventory again. The shipment contains 20 cans of each paint color.
 
 To update the inventory, call the ``updateMany()`` method specifying the
 following:
