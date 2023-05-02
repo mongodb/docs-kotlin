@@ -25,14 +25,13 @@ data class PaintOrder(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-
         other as PaintOrder
-
-        if (id != other.id) return false
         if (!qty.contentEquals(other.qty)) return false
-        if (color != other.color) return false
-
         return true
+    }
+
+    override fun hashCode(): Int {
+        return qty.contentHashCode()
     }
 }
 
@@ -48,7 +47,7 @@ internal class UpdateArraysTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 client.close()
             }
@@ -65,7 +64,7 @@ internal class UpdateArraysTest {
     }
 
     @AfterEach
-    private fun afterEach() {
+    fun afterEach() {
         runBlocking {
             collection.drop()
         }
