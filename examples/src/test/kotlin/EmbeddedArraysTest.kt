@@ -75,11 +75,10 @@ internal class UpdateArraysTest {
     fun updateTest() = runBlocking {
         // :snippet-start: specify-update
         val filter = Filters.eq("_id", 1)
-        val update = Updates.push("qty", 17)
+        val update = Updates.push(PaintOrder::qty.name, 17)
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
-        println(result)
         collection.find().collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -91,8 +90,8 @@ internal class UpdateArraysTest {
     @Test
     fun updateManyTest() = runBlocking {
         // :snippet-start: update-many
-        val filter = Filters.eq("qty", 18)
-        val update = Updates.inc("qty.$", -3)
+        val filter = Filters.eq(PaintOrder::qty.name, 18)
+        val update = Updates.inc("${PaintOrder::qty.name}.$", -3)
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
@@ -108,7 +107,7 @@ internal class UpdateArraysTest {
     fun updateAllTest() = runBlocking {
         // :snippet-start: update-all
         val filter = Filters.eq("_id", 1)
-        val update = Updates.mul("qty.$[]", 2)
+        val update = Updates.mul("${PaintOrder::qty.name}.$[]", 2)
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
@@ -127,7 +126,7 @@ internal class UpdateArraysTest {
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
             .arrayFilters(listOf(smallerFilter))
-        val update = Updates.inc("qty.$[smaller]", 5)
+        val update = Updates.inc("${PaintOrder::qty.name}.$[smaller]", 5)
         val result = collection.findOneAndUpdate(filter, update, options)
         collection.find().collect { println(it) }
         // :snippet-end:
