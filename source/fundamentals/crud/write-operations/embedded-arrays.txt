@@ -34,6 +34,11 @@ document:
 
     { "_id": 1, "color": "green", "qty": [8, 12, 18] }
 
+This data is modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/EmbeddedArraysTest.snippet.array-data-model.kt
+   :language: kotlin
+
 The examples on this page use the ``findOneAndUpdate()`` method of the
 ``MongoCollection`` class to retrieve and update the document. Each
 example uses an instance of the ``FindOneAndUpdateOptions`` class to

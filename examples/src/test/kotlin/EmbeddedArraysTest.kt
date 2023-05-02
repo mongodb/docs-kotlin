@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
@@ -20,7 +21,7 @@ data class PaintOrder(
     val color: String
 )
 // :snippet-end:
- {
+{
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -33,15 +34,7 @@ data class PaintOrder(
 
         return true
     }
-
-    override fun hashCode(): Int {
-        var result = id
-        result = 31 * result + qty.contentHashCode()
-        result = 31 * result + color.hashCode()
-        return result
-    }
 }
-
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class UpdateArraysTest {
@@ -53,23 +46,28 @@ internal class UpdateArraysTest {
         val collection = database.getCollection<PaintOrder>("paint_order")
 
 
-        @BeforeAll
-        @JvmStatic
-        private fun beforeAll() {
-            runBlocking {
-                val paintOrders =
-                    PaintOrder(1, intArrayOf(8, 12, 18), "green")
-                collection.insertOne(paintOrders)
-            }
-        }
-
         @AfterAll
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.drop()
                 client.close()
             }
+        }
+    }
+
+    @BeforeEach
+    fun beforeEach() {
+        runBlocking {
+            val paintOrders =
+                PaintOrder(1, intArrayOf(8, 12, 18), "green")
+            collection.insertOne(paintOrders)
+        }
+    }
+
+    @AfterEach
+    private fun afterEach() {
+        runBlocking {
+            collection.drop()
         }
     }
 
@@ -81,6 +79,7 @@ internal class UpdateArraysTest {
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
+        println(result)
         collection.find().collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -114,7 +113,7 @@ internal class UpdateArraysTest {
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
         collection.find().collect { println(it) }
-    // :snippet-end:
+        // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             PaintOrder(1, intArrayOf(16, 24, 36), "green"))

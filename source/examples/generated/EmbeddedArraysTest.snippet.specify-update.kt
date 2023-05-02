@@ -3,4 +3,5 @@ val update = Updates.push("qty", 17)
 val options = FindOneAndUpdateOptions()
     .returnDocument(ReturnDocument.AFTER)
 val result = collection.findOneAndUpdate(filter, update, options)
+println(result)
 collection.find().collect { println(it) }
