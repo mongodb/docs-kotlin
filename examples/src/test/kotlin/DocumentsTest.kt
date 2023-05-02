@@ -1,5 +1,4 @@
 
-import com.mongodb.BasicDBObject
 import com.mongodb.client.model.Filters
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -195,62 +194,4 @@ internal class DocumentsTest {
         // clean up
         collection.drop()
     }
-
-    @Test
-    fun basicDbObjectTest() = runBlocking {
-        // :snippet-start: create-basic-dbobject
-        val author = BasicDBObject("_id", ObjectId())
-            .append("name", "Gabriel García Márquez")
-            .append(
-                "dateOfDeath",
-                Date.from(LocalDate.of(2014, 4, 17)
-                    .atStartOfDay(ZoneId.systemDefault()).toInstant())
-            )
-            .append(
-                "novels", listOf(
-                    BasicDBObject("title", "One Hundred Years of Solitude")
-                        .append("yearPublished", 1967),
-                    BasicDBObject("title", "Chronicle of a Death Foretold")
-                        .append("yearPublished", 1981),
-                    BasicDBObject("title", "Love in the Time of Cholera")
-                        .append("yearPublished", 1985)
-                )
-            )
-        // :snippet-end:
-
-        assertNotNull(author)
-        assertEquals("Gabriel García Márquez", author.getString("name"))
-
-        // :snippet-start: insert-basic-dbobject
-        // val mongoClient = <code to instantiate your client>;
-
-        val database = mongoClient.getDatabase("fundamentals_data")
-        val collection = database.getCollection<BasicDBObject>("authors")
-
-        val result = collection.insertOne(author)
-        // :snippet-end:
-
-        assertNotNull(result)
-        assertEquals(true, result.wasAcknowledged())
-
-        // :snippet-start: retrieve-basic-dbobject
-        val doc = collection.find(Filters.eq("name", "Gabriel García Márquez")).firstOrNull()
-        doc?.let { doc ->
-            println("_id: ${doc.getObjectId("_id")}, name: ${doc.getString("name")}, dateOfDeath: ${doc.getDate("dateOfDeath")}")
-
-            val novels = doc["novels"] as? List<BasicDBObject>
-            novels?.forEach {novel ->
-                println("title: ${novel.getString("title")}, yearPublished: ${novel.getInt("yearPublished")}")
-            }
-        }
-        // :snippet-end:
-        assertNotNull(doc)
-        assertEquals("Gabriel García Márquez", doc?.getString("name"))
-        assertEquals(3, (doc?.get("novels") as? List<BasicDBObject>)?.size)
-
-        // clean up
-        collection.drop()
-
-    }
-
 }
