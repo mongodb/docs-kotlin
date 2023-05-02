@@ -13,12 +13,12 @@ API Documentation
     Core <{+api+}/apidocs/apidocs/mongodb-driver-core/index.html>
     Kotlin Driver <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/index.html>
 
-- `BSON Kotlin Codecs <{+api+}/apidocs/bson-kotlin/index.html>`__ - classes to support
+- `BSON Kotlin Codecs <{+api-kotlin+}/apidocs/bson-kotlin/index.html>`__ - classes to support
   Kotlin types and data classes via Codecs.
-- `BSON kotlinx.serialization <{+api+}/apidocs/bson-kotlinx/index.html>`__ -
+- `BSON kotlinx.serialization <{+api-kotlin+}/apidocs/bson-kotlinx/index.html>`__ -
   classes for encoding and decoding between Kotlin data classes and the BSON data
   format using :github:`kotlinx.serialization <Kotlin/kotlinx.serialization>`.
 - `Core <{+api+}/apidocs/apidocs/mongodb-driver-core/index.html>`__ - classes that
   contain essential driver functionality.
-- `Kotlin Driver <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/index.html>`__ -
+- `Kotlin Driver <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/index.html>`__ -
   classes for the current driver API.
