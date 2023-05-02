@@ -21,8 +21,10 @@ internal class EjsonTest {
     @Test
     fun readEjsonDocumentTest() {
         // :snippet-start: read-ejson-document
-        val ejsonStr = "{ \"_id\": { \"\$oid\": \"507f1f77bcf86cd799439011\"}," +
-                "\"myNumber\": {\"\$numberLong\": \"4794261\" }}}"
+        val ejsonStr = """
+                { "_id": { "${"$"}oid": "507f1f77bcf86cd799439011"},
+                "myNumber": {"${"$"}numberLong": "4794261" }}
+            """.trimIndent()
 
         val doc = Document.parse(ejsonStr)
         println(doc)
@@ -33,8 +35,10 @@ internal class EjsonTest {
     @Test
     fun readEjsonBsonTest() {
         // :snippet-start: read-ejson-bson
-        val ejsonStr = "{ \"_id\": { \"\$oid\": \"507f1f77bcf86cd799439011\"}," +
-                "\"myNumber\": {\"\$numberLong\": \"4794261\" }}}"
+        val ejsonStr = """
+            { "_id": { "${"$"}oid": "507f1f77bcf86cd799439011"},
+              "myNumber": {"${"$"}numberLong": "4794261" }}
+            """.trimIndent()
 
         val jsonReader = JsonReader(ejsonStr)
 
@@ -58,8 +62,8 @@ internal class EjsonTest {
     @Test
     fun writeEjsonDocumentTest() {
         // :snippet-start: write-ejson-document
-        val myDoc = Document()
-        myDoc.append("_id", ObjectId("507f1f77bcf86cd799439012")).append("myNumber", 11223344)
+        val myDoc = Document().append("_id", ObjectId("507f1f77bcf86cd799439012"))
+            .append("myNumber", 11223344)
 
         val settings = JsonWriterSettings.builder().outputMode(JsonMode.RELAXED).build()
         (myDoc.toJson(settings))
