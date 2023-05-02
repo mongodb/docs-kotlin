@@ -18,8 +18,8 @@ data class SampleDoc(
     @BsonId val id: Int,
     val x: Int? = null
 )
-
 // :snippet-end:
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BulkTest {
     companion object {
@@ -94,7 +94,7 @@ internal class BulkTest {
     fun updateOneTest() = runBlocking {
         // :snippet-start: update-one
         val filter = Filters.eq("_id", 2)
-        val update = Updates.set("x", 8)
+        val update = Updates.set(SampleDoc::x.name, 8)
         val doc = UpdateOneModel<SampleDoc>(filter, update)
         // :snippet-end:
         // Junit test for the above code
@@ -125,10 +125,10 @@ internal class BulkTest {
         val doc3: UpdateOneModel<SampleDoc> =
             UpdateOneModel(
                 Filters.eq("_id", 3),
-                Updates.set("x", 2)
+                Updates.set(SampleDoc::x.name, 2)
             )
         val doc4: DeleteManyModel<SampleDoc> =
-            DeleteManyModel(Filters.eq("x", 2))
+            DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
 
         val bulkOperations = listOf(
             doc1,
@@ -153,10 +153,10 @@ internal class BulkTest {
         val doc3: UpdateOneModel<SampleDoc> =
             UpdateOneModel(
                 Filters.eq("_id", 3),
-                Updates.set("x", 2)
+                Updates.set(SampleDoc::x.name, 2)
             )
         val doc4: DeleteManyModel<SampleDoc> =
-            DeleteManyModel(Filters.eq("x", 2))
+            DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
 
         val bulkOperations = listOf(
             doc1,

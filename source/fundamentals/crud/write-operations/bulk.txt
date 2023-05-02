@@ -52,9 +52,9 @@ This data is modeled with the following Kotlin data class:
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `bulkWrite() <TODO:(DOCSP-29169)>`__
-- `WriteModel <TODO:(DOCSP-29169)>`__
-- `BulkWriteOptions <TODO:(DOCSP-29169)>`__
+- `bulkWrite() <{+api+}mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/bulk-write.html>`__
+- `WriteModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/WriteModel.html>`__
+- `BulkWriteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/BulkWriteOptions.html>`__
 
 Insert Operation
 ~~~~~~~~~~~~~~~~
@@ -98,7 +98,7 @@ where the ``_id`` values are "3" and "4":
    the :ref:`Order of Execution <orderOfExecution>` section.
 
 For more information about the methods and classes mentioned in this section,
-see the `InsertOneModel <TODO:(DOCSP-29169)>`__ API Documentation. 
+see the `InsertOneModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/InsertOneModel.html>`__ API Documentation. 
 
 Replace Operation
 ~~~~~~~~~~~~~~~~~
@@ -127,7 +127,7 @@ contains an additional field:
 For more information about the methods and classes mentioned in this section,
 see the following resources:
 
-- `ReplaceOneModel <TODO:(DOCSP-29169)>`__ API Documentation
+- `ReplaceOneModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/ReplaceOneModel.html>`__ API Documentation
 - :manual:`Unique indexes </core/index-unique/>` Server Manual Explanation
 
 Update Operation
@@ -161,8 +161,8 @@ contains an additional field:
 For more information about the methods and classes mentioned in this section,
 see the following resources:
 
-- `UpdateOneModel <TODO:(DOCSP-29169)>`__ API Documentation
-- `UpdateManyModel <TODO:(DOCSP-29169)>`__ API Documentation
+- `UpdateOneModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/UpdateOneModel.html>`__ API Documentation
+- `UpdateManyModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/UpdateManyModel.html>`__ API Documentation
 - :manual:`unique indexes </core/index-unique/>` Server Manual Explanation
 
 Delete Operation
@@ -194,8 +194,8 @@ a document where the ``_id`` is "1":
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `DeleteOneModel <TODO:(DOCSP-29169)>`__
-- `DeleteManyModel <TODO:(DOCSP-29169)>`__
+- `DeleteOneModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/DeleteOneModel.html>`__
+- `DeleteManyModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/DeleteManyModel.html>`__
 
 .. _orderOfExecution:
 
@@ -268,8 +268,8 @@ operations to execute in any order:
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `BulkWriteOptions <TODO:(DOCSP-29169)>`__
-- `ordered() <TODO:(DOCSP-29169)>`__
+- `BulkWriteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/BulkWriteOptions.html>`__
+- `ordered() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/BulkWriteOptions.html#ordered(boolean)>`__
 
 Summary
 -------

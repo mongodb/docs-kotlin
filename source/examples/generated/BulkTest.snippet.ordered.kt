@@ -6,10 +6,10 @@ val doc2: ReplaceOneModel<SampleDoc> = ReplaceOneModel(
 val doc3: UpdateOneModel<SampleDoc> =
     UpdateOneModel(
         Filters.eq("_id", 3),
-        Updates.set("x", 2)
+        Updates.set(SampleDoc::x.name, 2)
     )
 val doc4: DeleteManyModel<SampleDoc> =
-    DeleteManyModel(Filters.eq("x", 2))
+    DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
 
 val bulkOperations = listOf(
     doc1,
