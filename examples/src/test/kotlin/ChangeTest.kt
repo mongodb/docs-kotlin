@@ -13,9 +13,9 @@ import kotlin.test.*
 
 
 
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ChangeTest {
+    
     // :snippet-start: data-model
     data class PaintOrder(
         @BsonId val id: Int,

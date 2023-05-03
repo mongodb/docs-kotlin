@@ -16,7 +16,7 @@ Overview
 --------
 
 In this guide, you can learn how to control which fields appear in
-documents returned from read operations with the MongoDB Java driver.
+documents returned from read operations with the MongoDB Kotlin driver.
 
 Many read requests require only a subset of fields in a document.
 For example, when logging a user in you may only need their username, and
@@ -63,30 +63,39 @@ varieties of fruit:
      { "_id": 3, "name": "oranges", "qty": 6, "rating": 2 },
      { "_id": 4, "name": "avocados", "qty": 3, "rating": 5 },
 
+
+This data is modeled using the following Kotlin data class: 
+
+.. literalinclude:: /examples/generated/ProjectTest.snippet.fruit-data-class.kt
+   :language: kotlin
+
 In the following query, pass the projection to return the ``name``
-field of each document:
+field of each document. 
 
-.. code-block:: java
-   :emphasize-lines: 3
+The results are modeled using the following Kotlin data class: 
 
-   // return all documents with *only* the name field
-   Bson filter = Filters.empty();
-   Bson projection = Projections.fields(Projections.include("name"));
-   collection.find(filter).projection(projection).forEach(doc -> System.out.println(doc));
+.. literalinclude:: /examples/generated/ProjectTest.snippet.name-data-class.kt
+   :language: kotlin
 
-The projection document specifies that the read operation result should
+.. io-code-block::
+
+   .. input:: /examples/generated/ProjectTest.snippet.project-name.kt
+      :language: kotlin
+      :emphasize-lines: 4
+
+   .. output:: 
+      :language: console
+
+      FruitResults(id=1, name=apples), 
+      FruitResults(id=2, name=bananas), 
+      FruitResults(id=3, name=oranges), 
+      FruitResults(id=4, name=avocados)
+
+The projection document specifies that the read operation result should 
 *include* the ``name`` field of each returned document. As a result, this
 projection implicitly excludes the ``qty`` and ``rating`` fields. Chaining
 this projection to ``find()`` with an empty query filter yields the
-following results:
-
-.. code-block:: json
-   :copyable: false
-
-   { "_id": 1, "name": "apples" }
-   { "_id": 2, "name": "bananas" }
-   { "_id": 3, "name": "oranges" }
-   { "_id": 4, "name": "avocados" }
+above results.
 
 Despite the fact that this projection only explicitly included the
 ``name`` field, the query returned the ``_id`` field as well.
@@ -105,27 +114,25 @@ behavior in projections: you *can* explicitly exclude the ``_id`` field
 even when explicitly including other fields if you do not want ``_id``
 to be present in returned documents.
 
-.. code-block:: java
-   :emphasize-lines: 3
+.. io-code-block::
 
-   // return all documents with only the name field
-   Bson filter = Filters.empty();
-   Bson projection = Projections.fields(Projections.include("name"), Projections.excludeId());
-   collection.find(filter).projection(projection).forEach(doc -> System.out.println(doc));
+   .. input:: /examples/generated/ProjectTest.snippet.project-name.kt
+      :language: kotlin
+      :emphasize-lines: 5, 6
+
+   .. output:: 
+      :language: console
+
+      FruitResults(name=apples), 
+      FruitResults(name=bananas), 
+      FruitResults(name=oranges), 
+      FruitResults(name=avocados)
 
 The projection document specifies that the read operation result should
 *include* the ``name`` field of each returned document, and specifies to
 *exclude* the ``_id`` field. As a result, this projection implicitly
 excludes the ``qty`` and ``rating`` fields. Chaining this projection to
-``find()`` with an empty query filter yields the following results:
-
-.. code-block:: javascript
-   :copyable: false
-
-   { "name": "apples" }
-   { "name": "bananas" }
-   { "name": "oranges" }
-   { "name": "avocados" }
+``find()`` with an empty query filter yields the above results.
 
 You can also specify multiple fields to include in your projection.
 
@@ -134,23 +141,25 @@ You can also specify multiple fields to include in your projection.
    The order in which you specify the fields in the projection does not
    alter the order in which they are returned.
 
-.. code-block:: java
-   :emphasize-lines: 2
-
-   Bson filter = Filters.empty();
-   Bson projection = Projections.fields(Projections.include("name", "rating"), Projections.excludeId());
-   collection.find(filter).projection(projection).forEach(doc -> System.out.println(doc));
-
 This example that identifies two fields to include in the projection yields
-the following results:
+the following results using the following Kotlin data class: 
 
-.. code-block:: json
-   :copyable: false
+.. literalinclude:: /examples/generated/ProjectTest.snippet.rating-data-class.kt
+   :language: kotlin
 
-     { "name": "apples", "rating": 3 }
-     { "name": "bananas", "rating": 1 }
-     { "name": "oranges", "rating": 2 }
-     { "name": "avocados", "rating": 5 }
+.. io-code-block::
+
+   .. input:: /examples/generated/ProjectTest.snippet.project-name.kt
+      :language: kotlin
+      :emphasize-lines: 5, 6
+
+   .. output:: 
+      :language: console
+
+      Fruit(name=apples, rating=3), 
+      Fruit(name=bananas, rating=1), 
+      Fruit(name=oranges, rating=2), 
+      Fruit(name=avocados, rating=5)
 
 For additional projection examples, see the
 :manual:`MongoDB Manual page on Project Fields to Return from Query </tutorial/project-fields-from-query-results/>`.

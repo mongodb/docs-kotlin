@@ -25,6 +25,14 @@ internal class SkipTest {
     )
     // :snippet-end:
 
+    // :snippet-start: skip-data-model
+    data class PaintOrder(
+        @BsonId val id: Int,
+        val qty: Int,
+        val color: String
+    )
+// :snippet-end:
+
     companion object {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])

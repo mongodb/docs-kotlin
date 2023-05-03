@@ -14,17 +14,18 @@ import kotlin.test.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class QueryDocumentTest {
-    // :snippet-start: query-data-model
-    data class PaintOrder(
-        @BsonId val id: Int,
-        val qty: Int,
-        val color: String,
-        val vendor: List<String>,
-        val rating: Int? = null
-    )
-    // :snippet-end:
 
     companion object {
+        // :snippet-start: query-data-model
+        data class PaintOrder(
+            @BsonId val id: Int,
+            val qty: Int,
+            val color: String,
+            val vendor: List<String>,
+            val rating: Int? = null
+        )
+        // :snippet-end:
+        
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("paint_store")
