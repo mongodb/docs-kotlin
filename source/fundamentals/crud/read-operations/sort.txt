@@ -137,7 +137,7 @@ method to specify an ascending sort on a field as follows:
 
 .. code-block:: kotlin
 
-   collection.find().sort(ascending("<field name>"))
+   collection.find().sort(Sorts.ascending("<field name>"))
 
 The preceding ``sort()`` method returns a ``FindIterable`` object that can iterate
 over the documents in your collection, sorted from smallest to largest on the

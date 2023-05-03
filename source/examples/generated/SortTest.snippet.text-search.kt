@@ -1,6 +1,7 @@
 collection.createIndex(Indexes.text(FoodOrderScore::food.name))
 val metaTextScoreSort = Sorts.orderBy(
-    Sorts.metaTextScore(FoodOrderScore::score.name), descending("_id")
+    Sorts.metaTextScore(FoodOrderScore::score.name),
+    Sorts.descending("_id")
 )
 val metaTextScoreProj = Projections.metaTextScore(FoodOrderScore::score.name)
 val searchTerm = "maple donut"
