@@ -13,17 +13,19 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
-// :snippet-start: sort-data-model
-data class FoodOrder(
-    @BsonId val id: Int,
-    val letter: String,
-    val food: String
-)
-// :snippet-end:
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SortTest {
 
     companion object {
+        // :snippet-start: sort-data-model
+        data class FoodOrder(
+            @BsonId val id: Int,
+            val letter: String,
+            val food: String
+        )
+        // :snippet-end:
+
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("cafe")
@@ -118,7 +120,6 @@ internal class SortTest {
         // :snippet-start: descending-sort
         val resultsFlow = collection.find()
             .sort(Sorts.descending("_id"))
-
         resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -162,7 +163,6 @@ internal class SortTest {
             Sorts.descending(FoodOrder::letter.name), ascending("_id")
         )
         val results = collection.find().sort(orderBySort)
-
         results.collect {println(it) }
         // :snippet-end:
         // Junit test for the above code

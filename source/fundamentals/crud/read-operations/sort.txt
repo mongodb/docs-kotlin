@@ -303,9 +303,9 @@ The code example performs the following actions:
    ``score`` field.
 #. Sorts your results by text score (best match first).
 
-The results data is modeled with the following Kotlin data class:
+The data is modeled with the following Kotlin data class:
 
-.. ..literalinclude:: /examples/generated/SortTest.snippet.food-order-score.kt
+.. literalinclude:: /examples/generated/SortTest.snippet.food-order-score.kt
    :language: kotlin
 
 .. code-block:: kotlin
