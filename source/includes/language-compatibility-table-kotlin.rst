@@ -4,19 +4,10 @@
    :class: compatibility-large
 
    * - Kotlin Driver Version
-     - Java 17
-     - Java 11 [#lts-note]_
-     - Java 8
-     - Java 7
-     - Java 6
-     - Java 5
+     - Kotlin 1.8
+
 
    * - 4.10
      - ✓
-     - ✓
-     - ✓
-     -
-     -
-     -
 
-.. [#lts-note] In the future, only LTS Java versions will be explicitly listed.
+.. [#lts-note] In the future, only LTS Kotlin versions will be explicitly listed.
