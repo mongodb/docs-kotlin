@@ -9,5 +9,3 @@
 
    * - 4.10
      - ✓
-
-.. [#lts-note] In the future, only LTS Kotlin versions will be explicitly listed.
