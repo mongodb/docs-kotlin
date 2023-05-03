@@ -179,9 +179,9 @@ in descending order:
    .. output::
       :language:  console
 
-      {"_id": 6, "letter": "c", "food": "maple donut"}
-      {"_id": 5, "letter": "a", "food": "milk and cookies"}
-      {"_id": 4, "letter": "b", "food": "coffee with sugar"}
+      FoodOrder(id=6, letter=c, food=maple donut)
+      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=4, letter=b, food=coffee with sugar)
       ...
 
 .. _sorts-crud-handling-ties:
@@ -203,9 +203,9 @@ code:
    .. output:: 
       :language:  console
 
-      {"_id": 3, "letter": "a", "food": "maple syrup"}
-      {"_id": 5, "letter": "a", "food": "milk and cookies"}
-      {"_id": 2, "letter": "a", "food": "donuts and coffee"}
+      FoodOrder(id=3, letter=a, food=maple syrup)
+      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=2, letter=a, food=donuts and coffee)
 
 Since multiple documents that matched our query contain the value "a" for the
 field on which we perform the sort, the documents could be returned

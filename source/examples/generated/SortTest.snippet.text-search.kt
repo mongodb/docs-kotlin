@@ -1,5 +1,5 @@
 collection.createIndex(Indexes.text(FoodOrderScore::food.name))
-val metaTextScoreSort = orderBy(
+val metaTextScoreSort = Sorts.orderBy(
     Sorts.metaTextScore(FoodOrderScore::score.name), descending("_id")
 )
 val metaTextScoreProj = Projections.metaTextScore(FoodOrderScore::score.name)

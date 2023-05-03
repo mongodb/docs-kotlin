@@ -159,7 +159,7 @@ internal class SortTest {
     @Test
     fun combineSortTest() = runBlocking {
         // :snippet-start: combine-sort
-        val orderBySort = orderBy(
+        val orderBySort = Sorts.orderBy(
             Sorts.descending(FoodOrder::letter.name), ascending("_id")
         )
         val results = collection.find().sort(orderBySort)
@@ -190,7 +190,7 @@ internal class SortTest {
         // :snippet-end:
         // :snippet-start: text-search
         collection.createIndex(Indexes.text(FoodOrderScore::food.name))
-        val metaTextScoreSort = orderBy(
+        val metaTextScoreSort = Sorts.orderBy(
             Sorts.metaTextScore(FoodOrderScore::score.name), descending("_id")
         )
         val metaTextScoreProj = Projections.metaTextScore(FoodOrderScore::score.name)

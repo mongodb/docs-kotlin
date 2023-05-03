@@ -1,4 +1,4 @@
-val orderBySort = orderBy(
+val orderBySort = Sorts.orderBy(
     Sorts.descending(FoodOrder::letter.name), ascending("_id")
 )
 val results = collection.find().sort(orderBySort)
