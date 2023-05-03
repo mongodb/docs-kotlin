@@ -85,7 +85,6 @@ internal class UpsertTest {
 
         println(results)
         // :snippet-end:
-        // Junit test for the above code
         assertTrue(results.wasAcknowledged())
         assertEquals(0, results.modifiedCount)
     }
