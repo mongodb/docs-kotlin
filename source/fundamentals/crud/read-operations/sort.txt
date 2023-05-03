@@ -61,7 +61,7 @@ within an aggregation pipeline. To sort your query results, use the
 aggregation pipeline, use the ``Aggregates.sort()`` static factory method. Both
 of these methods receive objects that implement the ``Bson`` interface as
 arguments. For more information, see our API Documentation for the 
-`BSON interface <TODO:(DOCSP-29169)>`__.
+`BSON interface <{+api+}/apidocs/bson/org/bson/conversions/Bson.html>`__.
 
 You can use the ``sort()`` method of a ``FindIterable`` instance as follows:
 
@@ -81,10 +81,12 @@ largest value of the ``_id`` field as follows:
    .. output:: 
       :language:  console
 
-      {"_id": 1, "letter": "c", "food": "coffee with milk"}
-      {"_id": 2, "letter": "a", "food": "donuts and coffee"}
-      {"_id": 3, "letter": "a", "food": "maple syrup"}
-      ...
+      FoodOrder(id=1, letter=c, food=coffee with milk)
+      FoodOrder(id=2, letter=a, food=donuts and coffee)
+      FoodOrder(id=3, letter=a, food=maple syrup)
+      FoodOrder(id=4, letter=b, food=coffee with sugar)
+      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=6, letter=c, food=maple donut)
 
 In the preceding code snippets, we specify our sort criteria using the ``Sorts``
 builder class. While it is possible to specify sort criteria using any class
@@ -96,11 +98,11 @@ builder class, see our
 For more information about the classes and interfaces in this section, see the
 following API Documentation:
 
-- `FindIterable <TODO:(DOCSP-29169)>`__
-- `Aggregates <TODO:(DOCSP-29169)>`__
-- `Sorts <TODO:(DOCSP-29169)>`__
-- `BSON <TODO:(DOCSP-29169)>`__
-- `Document <TODO:(DOCSP-29169)>`__
+- `FindIterable <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/FindIterable.html>`__
+- `Aggregates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Aggregates.html>`__
+- `Sorts <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__
+- `BSON <{+api+}/apidocs/bson/org/bson/conversions/Bson.html>`__
+- `Document <{+api+}/apidocs/bson/org/bson/Document.html>`__
 
 Sorting Direction
 -----------------
@@ -153,9 +155,9 @@ by the ``_id`` field:
    .. output:: 
       :language:  console
 
-      {"_id": 1, "letter": "c", "food": "coffee with milk"}
-      {"_id": 2, "letter": "a", "food": "donuts and coffee"}
-      {"_id": 3, "letter": "a", "food": "maple syrup"}
+      FoodOrder(id=6, letter=c, food=maple donut)
+      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=4, letter=b, food=coffee with sugar)
       ...
 
 Descending
@@ -226,12 +228,12 @@ in the following order:
    .. output:: 
       :language:  console
 
-      {"_id": 2, "letter": "a", "food": "donuts and coffee"}
-      {"_id": 3, "letter": "a", "food": "maple syrup"}
-      {"_id": 5, "letter": "a", "food": "milk and cookies"}
-      {"_id": 4, "letter": "b", "food": "coffee with sugar"}
-      {"_id": 1, "letter": "c", "food": "coffee with milk"}
-      {"_id": 6, "letter": "c", "food": "maple donut"}
+      FoodOrder(id=2, letter=a, food=donuts and coffee)
+      FoodOrder(id=3, letter=a, food=maple syrup)
+      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=4, letter=b, food=coffee with sugar)
+      FoodOrder(id=1, letter=c, food=coffee with milk)
+      FoodOrder(id=6, letter=c, food=maple donut)
 
 Combining Sort Criteria
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,13 +256,13 @@ in the following order:
 
    .. output:: 
       :language:  console
-
-      {"_id": 1, "letter": "c", "food": "coffee with milk"}
-      {"_id": 6, "letter": "c", "food": "maple donut"}
-      {"_id": 4, "letter": "b", "food": "coffee with sugar"}
-      {"_id": 2, "letter": "a", "food": "donuts and coffee"}
-      {"_id": 3, "letter": "a", "food": "maple syrup"}
-      {"_id": 5, "letter": "a", "food": "milk and cookies"}
+      
+      FoodOrder(id=1, letter=c, food=coffee with milk)
+      FoodOrder(id=6, letter=c, food=maple donut)
+      FoodOrder(id=4, letter=b, food=coffee with sugar)
+      FoodOrder(id=2, letter=a, food=donuts and coffee)
+      FoodOrder(id=3, letter=a, food=maple syrup)
+      FoodOrder(id=5, letter=a, food=milk and cookies)
 
 .. _sorts-crud-text-search:
 
@@ -289,6 +291,7 @@ search on the :ref:`sample collection <sorts-crud-sort-sample>`.
 The code example uses the :doc:`Filters </fundamentals/builders/filters>`,
 :doc:`Indexes </fundamentals/builders/indexes>`, and
 :doc:`Projections </fundamentals/builders/projections>` builders.
+
 The code example performs the following actions:
 
 #. Creates a text index for your
@@ -299,6 +302,11 @@ The code example performs the following actions:
 #. Projects text scores into your query results as the
    ``score`` field.
 #. Sorts your results by text score (best match first).
+
+The results data is modeled with the following Kotlin data class:
+
+.. ..literalinclude:: /examples/generated/SortTest.snippet.food-order-score.kt
+   :language: kotlin
 
 .. code-block:: kotlin
 
@@ -315,9 +323,9 @@ The code example performs the following actions:
    .. output:: 
       :language:  console
 
-      {"_id": 6, "letter": "c", "food": "maple donut", "score": 1.5}
-      {"_id": 2, "letter": "a", "food": "donuts and coffee", "score": 0.75}
-      {"_id": 3, "letter": "a", "food": "maple syrup", "score": 0.75}
+      FoodOrderScore(id=6, letter=c, food=maple donut, score=1.5)
+      FoodOrderScore(id=3, letter=a, food=maple syrup, score=0.75)
+      FoodOrderScore(id=2, letter=a, food=donuts and coffee, score=0.75)
 
 .. note:: Text Search Behavior in MongoDB 4.4 or Later
 
@@ -331,13 +339,14 @@ The code example performs the following actions:
 For more information about the classes in this section, see the
 following API Documentation:
 
-- `Filters <TODO:(DOCSP-29169)>`__
-- `Indexes <TODO:(DOCSP-29169)>`__
-- `Projections <TODO:(DOCSP-29169)>`__
-- `MongoCollection <TODO:(DOCSP-29169)>`__
+- `Filters <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__
+- `Indexes <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Indexes.html>`__
+- `Projections <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Projections.html>`__
+- `MongoCollection <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html>`__
+- `MongoCollection <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/index.html>`__
 
 For more information, see the
-`Sorts class <TODO:(DOCSP-29169)>`__ API Documentation.
+`Sorts class <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__ API Documentation.
 See the server manual documentation for more information on the :manual:`$text </reference/operator/query/text/>`
 query operator and the
 :manual:`$meta </reference/operator/aggregation/meta/>`

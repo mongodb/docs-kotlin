@@ -20,15 +20,14 @@ data class FoodOrder(
     val food: String
 )
 // :snippet-end:
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SortTest {
 
     companion object {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("paint_store")
-        val collection = database.getCollection<FoodOrder>("paint_order")
+        val database = client.getDatabase("cafe")
+        val collection = database.getCollection<FoodOrder>("food_order")
 
         @BeforeAll
         @JvmStatic
@@ -116,9 +115,11 @@ internal class SortTest {
 
     @Test
     fun descendingSortTest() = runBlocking {
-        val results =
         // :snippet-start: descending-sort
-        collection.find().sort(Sorts.descending("_id"))
+        val resultsFlow = collection.find()
+            .sort(Sorts.descending("_id"))
+
+        resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -129,17 +130,17 @@ internal class SortTest {
             FoodOrder(2, "a", "donuts and coffee"),
             FoodOrder(1, "c", "coffee with milk")
             )
-        assertEquals(expected, results.toList())
+        assertEquals(expected, resultsFlow.toList())
     }
 
     @Test
     fun handleTiesTest() = runBlocking {
         // :snippet-start: handle-ties-1
-        collection.find().sort(Sorts.ascending("letter"))
+        collection.find().sort(Sorts.ascending(FoodOrder::letter.name))
         // :snippet-end:
         val results =
         // :snippet-start: handle-ties-2
-        collection.find().sort(Sorts.ascending("letter", "_id"))
+        collection.find().sort(Sorts.ascending(FoodOrder::letter.name, "_id"))
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -158,9 +159,11 @@ internal class SortTest {
     fun combineSortTest() = runBlocking {
         // :snippet-start: combine-sort
         val orderBySort = orderBy(
-            Sorts.descending("letter"), ascending("_id")
+            Sorts.descending(FoodOrder::letter.name), ascending("_id")
         )
         val results = collection.find().sort(orderBySort)
+
+        results.collect {println(it) }
         // :snippet-end:
         // Junit test for the above code
         val filter = Filters.empty()
@@ -177,16 +180,20 @@ internal class SortTest {
 
     @Test
     fun textSearchTest() = runBlocking {
+        // :snippet-start: food-order-score
         data class FoodOrderScore(
            @BsonId val id: Int,
             val letter: String,
             val food: String,
             val score: Double
         )
+        // :snippet-end:
         // :snippet-start: text-search
-        collection.createIndex(Indexes.text("food"))
-        val metaTextScoreSort = Sorts.metaTextScore("score")
-        val metaTextScoreProj = Projections.metaTextScore("score")
+        collection.createIndex(Indexes.text(FoodOrderScore::food.name))
+        val metaTextScoreSort = orderBy(
+            Sorts.metaTextScore(FoodOrderScore::score.name), descending("_id")
+        )
+        val metaTextScoreProj = Projections.metaTextScore(FoodOrderScore::score.name)
         val searchTerm = "maple donut"
         val searchQuery = Filters.text(searchTerm)
 
@@ -199,9 +206,9 @@ internal class SortTest {
         // Junit test for the above code
         val expected = listOf(
             FoodOrderScore(6, "c", "maple donut",1.5),
+            FoodOrderScore(3, "a", "maple syrup", 0.75),
             FoodOrderScore(2, "a", "donuts and coffee", 0.75),
-            FoodOrderScore(3, "a", "maple syrup", 0.75)
-        )
+            )
         assertEquals(expected, results.toList())
     }
 }
