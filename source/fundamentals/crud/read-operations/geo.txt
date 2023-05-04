@@ -196,6 +196,14 @@ The examples require the following imports:
    import com.mongodb.client.model.Projections.include
    import com.mongodb.client.model.Projections.excludeId
 
+The data is modeled using the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/GeoTest.snippet.theater-data-class.kt
+
+The results are modeled using the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/GeoTest.snippet.results-data-class.kt
+
 Query by Proximity
 ~~~~~~~~~~~~~~~~~~
 
@@ -214,18 +222,18 @@ meters from the Great Lawn of Central Park:
    .. output:: 
       :language:  console
    
-      Theater(location=Location(address=Address(city=Bronx))
-      Theater(location=Location(address=Address(city=New York))
-      Theater(location=Location(address=Address(city=New York))
-      Theater(location=Location(address=Address(city=Long Island City))
-      Theater(location=Location(address=Address(city=New York))
-      Theater(location=Location(address=Address(city=Secaucus))
-      Theater(location=Location(address=Address(city=Jersey City))
-      Theater(location=Location(address=Address(city=Elmhurst))
-      Theater(location=Location(address=Address(city=Flushing))
-      Theater(location=Location(address=Address(city=Flushing))
-      Theater(location=Location(address=Address(city=Flushing))
-      Theater(location=Location(address=Address(city=Elmhurst))
+      TheaterResults(location=Location(address=Address(city=Bronx)))
+      TheaterResults(location=Location(address=Address(city=New York)))
+      TheaterResults(location=Location(address=Address(city=New York)))
+      TheaterResults(location=Location(address=Address(city=Long Island City)))
+      TheaterResults(location=Location(address=Address(city=New York)))
+      TheaterResults(location=Location(address=Address(city=Secaucus)))
+      TheaterResults(location=Location(address=Address(city=Jersey City)))
+      TheaterResults(location=Location(address=Address(city=Elmhurst)))
+      TheaterResults(location=Location(address=Address(city=Flushing)))
+      TheaterResults(location=Location(address=Address(city=Flushing)))
+      TheaterResults(location=Location(address=Address(city=Flushing)))
+      TheaterResults(location=Location(address=Address(city=Elmhurst)))
 
 .. tip:: Fun Fact
 
@@ -258,11 +266,11 @@ The following example searches for movie theaters in a section of Long Island.
    .. output:: 
       :language: console
 
-      Theater(location=Location(address=Address(city=Baldwin))
-      Theater(location=Location(address=Address(city=Levittown))
-      Theater(location=Location(address=Address(city=Westbury))
-      Theater(location=Location(address=Address(city=Mount Vernon))
-      Theater(location=Location(address=Address(city=Massapequa))
+      TheaterResults(location=Location(address=Address(city=Baldwin))))
+      TheaterResults(location=Location(address=Address(city=Levittown)))
+      TheaterResults(location=Location(address=Address(city=Westbury)))
+      TheaterResults(location=Location(address=Address(city=Mount Vernon)))
+      TheaterResults(location=Location(address=Address(city=Massapequa)))
 
 The following figure shows the polygon defined by the
 ``longIslandTriangle`` variable and dots representing the locations of

@@ -7,7 +7,6 @@ import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Polygon
 import com.mongodb.client.model.geojson.Position
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import com.mongodb.kotlin.client.coroutine.MongoCollection
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -22,23 +21,40 @@ import kotlin.test.*
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SearchGeospatialTest {
 
+    // :snippet-start: theater-data-class
     data class Theater(
         val theaterId: Int,
         val location: Location
-    ){
+    ) {
+        data class Location(
+            val address: Address,
+            val geo: Point
+        ) {
+            data class Address(
+                val street1: String,
+                val street2: String? = null,
+                val city: String,
+                val state: String,
+                val zipcode: String
+            )
+        }
+    }
+    // :snippet-end:
 
-    data class Location(
-        val address: Address,
-        val geo: Point
-    )
+    // :snippet-start: results-data-class
+    data class TheaterResults(
+        val location: Location
+    ) {
+        data class Location(
+            val address: Address
+        ) {
+            data class Address(
+                val city: String
+            )
+        }
+    }
 
-    data class Address(
-        val street1: String,
-        val street2: String? = null,
-        val city: String,
-        val state: String,
-        val zipcode: String
-    )}
+    // :snippet-end:
 
     companion object {
         val dotenv = dotenv()
@@ -56,7 +72,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1467,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "660 Sunrise Hwy",
                                     city = "Baldwin",
                                     state = "NY",
@@ -70,7 +86,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1940,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "One Sunrise Mall",
                                     street2 = "#2090",
                                     city = "Massapequa",
@@ -85,7 +101,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1172,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "610 Exterior Street",
                                     city = "Bronx",
                                     state = "NY",
@@ -99,7 +115,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1448,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "1880 Broadway",
                                     city = "New York",
                                     state = "NY",
@@ -113,7 +129,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1531,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     street2 = "#64",
                                     city = "New York",
@@ -128,7 +144,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1267,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "Jersey City",
                                     state = "NJ",
@@ -142,7 +158,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1005,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "Levittown",
                                     state = "NY",
@@ -156,7 +172,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1538,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "Secaucus",
                                     state = "NY",
@@ -170,7 +186,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1250,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "New York",
                                     state = "NY",
@@ -184,7 +200,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1081,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "Long Island City",
                                     state = "NY",
@@ -198,7 +214,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1221,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "Westbury",
                                     state = "NY",
@@ -212,7 +228,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1535,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     city = "Mount Vernon",
                                     state = "NY",
@@ -226,7 +242,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1581,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "52 E 14th St",
                                     street2 = "#22",
                                     city = "Elmhurst",
@@ -241,7 +257,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1098,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "108 Queens Blvd",
                                     city = "Elmhurst",
                                     state = "NY",
@@ -255,7 +271,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1012,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "28 Ulmer St",
                                     city = "Flushing",
                                     state = "NY",
@@ -269,7 +285,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1555,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "190 Horace Harding Expy",
                                     city = "Flushing",
                                     state = "NY",
@@ -283,7 +299,7 @@ internal class SearchGeospatialTest {
                         Theater(
                             theaterId = 1532,
                             location = Theater.Location(
-                                address = Theater.Address(
+                                address = Theater.Location.Address(
                                     street1 = "72 Main St",
                                     city = "Flushing",
                                     state = "NY",
@@ -321,23 +337,22 @@ internal class SearchGeospatialTest {
         // :snippet-end:
         val results = collection.listIndexes().toList()
         assertTrue(results.isNotEmpty())
-
     }
 
     @Test
     fun geospatialQueryTest() = runBlocking {
         // :snippet-start: proximity-query
         val database = client.getDatabase("sample_mflix")
-        val collection: MongoCollection<Theater> = database.getCollection("theaters")
+        val collection = database.getCollection<TheaterResults>("theaters")
         val centralPark = Point(Position(-73.9667, 40.78))
         val query = near("location.geo", centralPark, 10000.0, 5000.0)
-        val projection = fields(include("theater.location.address.city"), excludeId())
+        val projection = fields(include("location.address.city"), excludeId())
         val resultsFlow = collection.find(query)
             .projection(projection)
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
-        assertTrue(results.any() { it.location.address.state == "NY" })
+        assertTrue(results.any() { it.location.address.city == "Bronx" })
     }
 
     @Test
@@ -352,15 +367,15 @@ internal class SearchGeospatialTest {
             )
         )
         val projection = fields(
-            include("theater.location.address.city"),
+            include("location.address.city"),
             excludeId()
         )
         val geoWithinComparison = geoWithin("location.geo", longIslandTriangle)
-        val resultsFlow = collection.find<Theater>(geoWithinComparison)
+        val resultsFlow = collection.find<TheaterResults>(geoWithinComparison)
             .projection(projection)
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
-        assertTrue(results.any { it.location.address.state == "NY" })
+        assertTrue(results.any { it.location.address.city == "Massapequa" })
     }
 }
