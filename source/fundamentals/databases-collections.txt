@@ -75,7 +75,7 @@ in a database of your connected MongoDB instance.
 
 The following example creates a collection called "exampleCollection":
 
-.. literalinclude:: /examples/generated/DatabaseCollectionsTest.snippet.access-collection.kt
+.. literalinclude:: /examples/generated/DatabaseCollectionsTest.snippet.create-collection.kt
    :language: kotlin
 
 You can specify collection options like maximum size and document

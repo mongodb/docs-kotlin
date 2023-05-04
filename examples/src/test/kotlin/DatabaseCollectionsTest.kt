@@ -4,12 +4,10 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.ValidationOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -19,7 +17,6 @@ internal class DatabaseCollectionsTest {
     // :snippet-start: test-data-class
     data class TestDataClass(
         @BsonId val id: ObjectId = ObjectId(),
-
     )
     // :snippet-end:
     companion object {
@@ -33,17 +30,12 @@ internal class DatabaseCollectionsTest {
         // :snippet-end:
 
 
+        @JvmStatic
         @AfterAll
-        fun afterAll() = runBlocking {
-            //collection.drop()
+        fun afterAll(): Unit = runBlocking {
+            database.drop()
             client.close()
         }
-    }
-
-
-    @AfterEach
-    fun afterEach() = runBlocking {
-        collection.drop()
     }
 
     @Test
@@ -56,11 +48,12 @@ internal class DatabaseCollectionsTest {
     @Test
     fun listCollectionTest() = runBlocking {
         // :snippet-start: drop-collections
-        database.getCollection<TestDataClass>("bass")
+        val collection = database.getCollection<TestDataClass>("bass")
+        collection.drop()
         // :snippet-end:
         // :snippet-start: get-collections
         val collectionList = database.listCollectionNames()
-        println(collectionList.toList())
+        println(collectionList)
         // :snippet-end:
     }
 

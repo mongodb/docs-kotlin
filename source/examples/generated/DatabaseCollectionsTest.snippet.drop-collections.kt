@@ -1,2 +1,2 @@
-val dropCollection = database.getCollection<TestDataClass>("bass")
+val collection = database.getCollection<TestDataClass>("bass")
 collection.drop()
