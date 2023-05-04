@@ -186,6 +186,7 @@ class IndexesTest {
         val resultCreateIndex = moviesCollection.createIndex(Indexes.ascending(Movie::title.name))
         println("Index created: $resultCreateIndex")
         // :snippet-end:
+        assertEquals("title_1", resultCreateIndex)
         // :snippet-start: single-index-query
         val filter = Filters.eq(Movie::title.name, "The Dark Knight")
         val sort = Sorts.ascending(Movie::title.name)
@@ -207,6 +208,7 @@ class IndexesTest {
         val resultCreateIndex = moviesCollection.createIndex(Indexes.ascending(Movie::type.name, Movie::rated.name))
         println("Index created: $resultCreateIndex")
         // :snippet-end:
+        assertEquals( "type_1_rated_1", resultCreateIndex)
         // :snippet-start: compound-index-query
         val filter = Filters.and(
             Filters.eq(Movie::type.name, "movie"),
@@ -231,6 +233,7 @@ class IndexesTest {
             moviesCollection.createIndex(Indexes.ascending(Movie::rated.name, Movie::genres.name, Movie::title.name))
         println("Index created: $resultCreateIndex")
         // :snippet-end:
+        assertEquals("rated_1_genres_1_title_1", resultCreateIndex)
         // :snippet-start: multikey-index-query
         val filter = Filters.and(
             Filters.eq(Movie::genres.name, "Animation"),
@@ -251,15 +254,18 @@ class IndexesTest {
 
     @Test
     fun textIndexTest() = runBlocking {
+        var higherScopeIndexResults: String? = null
         // :snippet-start: text-index-setup
         try {
             val resultCreateIndex = moviesCollection.createIndex(Indexes.text(Movie::plot.name))
             println("Index created: $resultCreateIndex")
+            higherScopeIndexResults = resultCreateIndex // :remove:
         } catch (e: MongoCommandException) {
             if (e.errorCodeName == "IndexOptionsConflict")
                 println("there's an existing text index with different options")
         }
         // :snippet-end:
+        assertEquals("plot_text", higherScopeIndexResults)
         // :snippet-start: text-index-query
         val filter = Filters.text("Batman")
         val projection = Projections.fields(
@@ -275,16 +281,37 @@ class IndexesTest {
     }
 
     @Test
-    fun geoSpatialIndexTest() = runBlocking {
-        // :snippet-start: geospatial-index-setup
+    fun textMultipleIndex() = runBlocking {
+        var higherScopeIndexResults: String? = null
+        // :snippet-start: text-multiple-index
         try {
-            val resultCreateIndex = theatersCollection.createIndex(Indexes.geo2dsphere("location.geo"))
+            val resultCreateIndex = moviesCollection.createIndex(Indexes.compoundIndex(
+                Indexes.text(Movie::title.name), Indexes.text(Movie::genres.name)))
             println("Index created: $resultCreateIndex")
+            higherScopeIndexResults = resultCreateIndex // :remove:
         } catch (e: MongoCommandException) {
             if (e.errorCodeName == "IndexOptionsConflict")
                 println("there's an existing text index with different options")
         }
         // :snippet-end:
+        assertEquals( "title_text_genres_text", higherScopeIndexResults)
+
+    }
+
+    @Test
+    fun geoSpatialIndexTest() = runBlocking {
+        var higherScopeIndexResults: String? = null
+        // :snippet-start: geospatial-index-setup
+        try {
+            val resultCreateIndex = theatersCollection.createIndex(Indexes.geo2dsphere("location.geo"))
+            println("Index created: $resultCreateIndex")
+            higherScopeIndexResults = resultCreateIndex // :remove:
+        } catch (e: MongoCommandException) {
+            if (e.errorCodeName == "IndexOptionsConflict")
+                println("there's an existing text index with different options")
+        }
+        // :snippet-end:
+        assertEquals("location.geo_2dsphere", higherScopeIndexResults)
         // :snippet-start: geospatial-index-query
         // MongoDB Headquarters in New York, NY.
         val refPoint = Point(Position(-73.98456, 40.7612))
@@ -298,6 +325,7 @@ class IndexesTest {
 
     @Test
     fun uniqueIndex() = runBlocking {
+        var higherScopeIndexResults: String? = null
         // :snippet-start: unique-index
         try {
             val indexOptions = IndexOptions().unique(true)
@@ -305,10 +333,12 @@ class IndexesTest {
                 Indexes.descending(Theater::theaterId.name), indexOptions
             )
             println("Index created: $resultCreateIndex")
+            higherScopeIndexResults = resultCreateIndex // :remove:
         } catch (e: DuplicateKeyException) {
             println("duplicate field values encountered, couldn't create index: \t${e.message}")
         }
         // :snippet-end:
+        assertEquals("theaterId_-1", higherScopeIndexResults)
         val results = theatersCollection.find().toList()
         val theaterIds = results.map { it.theaterId }
         assertEquals(theaterIds.size, theaterIds.distinct().size)
@@ -318,7 +348,6 @@ class IndexesTest {
     fun clusteredIndexesTest() = runBlocking {
         var vendorsCollection = database.getCollection<Document>("vendors")
         vendorsCollection.drop()
-
         // :snippet-start: clustered-indexes
         val clusteredIndexOptions = ClusteredIndexOptions(Document("_id", 1), true)
         val createCollectionOptions = CreateCollectionOptions().clusteredIndexOptions(clusteredIndexOptions)
