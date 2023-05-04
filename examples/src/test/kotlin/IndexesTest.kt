@@ -20,6 +20,7 @@ import kotlin.test.assertTrue
 class IndexesTest {
 
     // :snippet-start: data-classes
+    // Data class for the movies collection
     data class Movie(
         val title: String,
         val year: Int,
@@ -31,6 +32,7 @@ class IndexesTest {
         val fullplot: String,
     )
 
+    // Data class for the theaters collection
     data class Theater(
         val theaterId: Int,
         val location: Location
@@ -180,9 +182,11 @@ class IndexesTest {
 
     @Test
     fun singleIndexTest() = runBlocking {
-        // :snippet-start: single-index
+        // :snippet-start: single-index-setup
         val resultCreateIndex = moviesCollection.createIndex(Indexes.ascending(Movie::title.name))
         println("Index created: $resultCreateIndex")
+        // :snippet-end:
+        // :snippet-start: single-index-query
         val filter = Filters.eq(Movie::title.name, "The Dark Knight")
         val sort = Sorts.ascending(Movie::title.name)
         val projection = Projections.fields(
@@ -199,10 +203,11 @@ class IndexesTest {
 
     @Test
     fun compoundIndexTest() = runBlocking {
-        // :snippet-start: compound-index
+        // :snippet-start: compound-index-setup
         val resultCreateIndex = moviesCollection.createIndex(Indexes.ascending(Movie::type.name, Movie::rated.name))
         println("Index created: $resultCreateIndex")
-
+        // :snippet-end:
+        // :snippet-start: compound-index-query
         val filter = Filters.and(
             Filters.eq(Movie::type.name, "movie"),
             Filters.eq(Movie::rated.name, "G")
@@ -221,11 +226,12 @@ class IndexesTest {
 
     @Test
     fun multiKeyIndexTest() = runBlocking {
-        // :snippet-start: multikey-index
+        // :snippet-start: multikey-index-setup
         val resultCreateIndex =
             moviesCollection.createIndex(Indexes.ascending(Movie::rated.name, Movie::genres.name, Movie::title.name))
         println("Index created: $resultCreateIndex")
-
+        // :snippet-end:
+        // :snippet-start: multikey-index-query
         val filter = Filters.and(
             Filters.eq(Movie::genres.name, "Animation"),
             Filters.eq(Movie::rated.name, "G")
@@ -245,7 +251,7 @@ class IndexesTest {
 
     @Test
     fun textIndexTest() = runBlocking {
-        // :snippet-start: text-index
+        // :snippet-start: text-index-setup
         try {
             val resultCreateIndex = moviesCollection.createIndex(Indexes.text(Movie::plot.name))
             println("Index created: $resultCreateIndex")
@@ -253,7 +259,8 @@ class IndexesTest {
             if (e.errorCodeName == "IndexOptionsConflict")
                 println("there's an existing text index with different options")
         }
-
+        // :snippet-end:
+        // :snippet-start: text-index-query
         val filter = Filters.text("Batman")
         val projection = Projections.fields(
             Projections.include(Movie::fullplot.name),
@@ -269,7 +276,7 @@ class IndexesTest {
 
     @Test
     fun geoSpatialIndexTest() = runBlocking {
-        // :snippet-start: geospatial-index
+        // :snippet-start: geospatial-index-setup
         try {
             val resultCreateIndex = theatersCollection.createIndex(Indexes.geo2dsphere("location.geo"))
             println("Index created: $resultCreateIndex")
@@ -277,7 +284,8 @@ class IndexesTest {
             if (e.errorCodeName == "IndexOptionsConflict")
                 println("there's an existing text index with different options")
         }
-
+        // :snippet-end:
+        // :snippet-start: geospatial-index-query
         // MongoDB Headquarters in New York, NY.
         val refPoint = Point(Position(-73.98456, 40.7612))
         val filter = Filters.near("location.geo", refPoint, 1000.0, 0.0)
@@ -356,7 +364,7 @@ class IndexesTest {
         // :snippet-start: drop-all-indexes
         moviesCollection.dropIndexes()
         // :snippet-end:
-        // snippet-start: drop-all-indexes-wildcard
+        // :snippet-start: drop-all-indexes-wildcard
         moviesCollection.dropIndex("*")
         // :snippet-end:
         val indexes = moviesCollection.listIndexes().toList()
