@@ -15,8 +15,9 @@ import org.junit.jupiter.api.TestInstance
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DatabaseCollectionsTest {
     // :snippet-start: test-data-class
-    data class TestDataClass(
+    data class ExampleDataClass(
         @BsonId val id: ObjectId = ObjectId(),
+        val exampleProperty: String,
     )
     // :snippet-end:
     companion object {
@@ -26,7 +27,7 @@ internal class DatabaseCollectionsTest {
         val database = client.getDatabase("testDatabase")
         // :snippet-end:
         // :snippet-start: access-collection
-        val collection = database.getCollection<TestDataClass>("testCollection")
+        val collection = database.getCollection<ExampleDataClass>("testCollection")
         // :snippet-end:
 
 
@@ -48,7 +49,8 @@ internal class DatabaseCollectionsTest {
     @Test
     fun listCollectionTest() = runBlocking {
         // :snippet-start: drop-collections
-        val collection = database.getCollection<TestDataClass>("bass")
+        val collection =
+            database.getCollection<ExampleDataClass>("bass")
         collection.drop()
         // :snippet-end:
         // :snippet-start: get-collections
@@ -61,7 +63,10 @@ internal class DatabaseCollectionsTest {
     fun validationTest() = runBlocking {
         // :snippet-start: validation
         val collOptions: ValidationOptions = ValidationOptions().validator(
-            Filters.or(Filters.exists("commander"), Filters.exists("first officer"))
+            Filters.or(
+                Filters.exists("commander"),
+                Filters.exists("first officer")
+            )
         )
         database.createCollection(
             "ships",

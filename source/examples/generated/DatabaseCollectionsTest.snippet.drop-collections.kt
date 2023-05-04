@@ -1,2 +1,3 @@
-val collection = database.getCollection<TestDataClass>("bass")
+val collection =
+    database.getCollection<ExampleDataClass>("bass")
 collection.drop()

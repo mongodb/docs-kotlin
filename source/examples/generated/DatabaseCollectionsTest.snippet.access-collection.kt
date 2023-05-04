@@ -1,1 +1,1 @@
-val collection = database.getCollection<TestDataClass>("testCollection")
+val collection = database.getCollection<ExampleDataClass>("testCollection")
