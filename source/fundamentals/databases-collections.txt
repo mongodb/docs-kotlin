@@ -147,17 +147,17 @@ of a ``MongoDatabase`` or ``MongoCollection`` with a read preference,
 read concern, or write concern that differs from the setting they would
 normally inherit:
 
-- `MongoDatabase.withReadConcern() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoDatabase.html#withReadConcern(com.mongodb.ReadConcern)>`__
+- `MongoDatabase.withReadConcern() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/with-read-concern.html>`__
 
-- `MongoDatabase.withReadPreference() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoDatabase.html#withReadPreference(com.mongodb.ReadPreference)>`__
+- `MongoDatabase.withReadPreference() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/with-read-preference.html>`__
 
-- `MongoDatabase.withWriteConcern() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoDatabase.html#withWriteConcern(com.mongodb.WriteConcern)>`__
+- `MongoDatabase.withWriteConcern() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/with-write-concern.html>`__
 
-- `MongoCollection.withReadConcern() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#withReadConcern(com.mongodb.ReadConcern)>`__
+- `MongoCollection.withReadConcern() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/with-read-concern.html>`__
 
-- `MongoCollection.withReadPreference() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#withReadPreference(com.mongodb.ReadPreference)>`__
+- `MongoCollection.withReadPreference() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/with-read-preference.html>`__
 
-- `MongoCollection.withWriteConcern() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#withWriteConcern(com.mongodb.WriteConcern)>`__
+- `MongoCollection.withWriteConcern() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/with-write-concern.html>`__
 
 .. tip::
 
