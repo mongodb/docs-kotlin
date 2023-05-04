@@ -1,4 +1,4 @@
-// return all documents with *only* the name field
+// return all documents with only the name field
 val filter = Filters.empty()
 val projection = Projections.fields(
     Projections.include(FruitName::name.name)

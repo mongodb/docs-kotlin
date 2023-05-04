@@ -77,7 +77,7 @@ internal class ProjectTest {
     @Test
     fun projectTest() = runBlocking {
         // :snippet-start: project-name
-        // return all documents with *only* the name field
+        // return all documents with only the name field
         val filter = Filters.empty()
         val projection = Projections.fields(
             Projections.include(FruitName::name.name)
@@ -98,8 +98,8 @@ internal class ProjectTest {
     fun excludeIdProjectTest() {
         runBlocking {
             // :snippet-start: exclude-id
-            // return all documents with only the name field
-            // and excludes the id
+            // return all documents with *only* the name field
+            // excludes the id
             val filter = Filters.empty()
             val projection = Projections.fields(
                 Projections.include(FruitName::name.name),

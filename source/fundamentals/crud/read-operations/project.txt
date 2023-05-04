@@ -86,10 +86,10 @@ The results are modeled using the following Kotlin data class:
    .. output:: 
       :language: console
 
-      FruitResults(id=1, name=apples), 
-      FruitResults(id=2, name=bananas), 
-      FruitResults(id=3, name=oranges), 
-      FruitResults(id=4, name=avocados)
+      FruitName(id=1, name=apples), 
+      FruitName(id=2, name=bananas), 
+      FruitName(id=3, name=oranges), 
+      FruitName(id=4, name=avocados)
 
 The projection document specifies that the read operation result should 
 *include* the ``name`` field of each returned document. As a result, this
@@ -116,17 +116,17 @@ to be present in returned documents.
 
 .. io-code-block::
 
-   .. input:: /examples/generated/ProjectTest.snippet.project-name.kt
+   .. input:: /examples/generated/ProjectTest.snippet.exclude-id.kt
       :language: kotlin
       :emphasize-lines: 5, 6
 
    .. output:: 
       :language: console
 
-      FruitResults(name=apples), 
-      FruitResults(name=bananas), 
-      FruitResults(name=oranges), 
-      FruitResults(name=avocados)
+      FruitName(name=apples), 
+      FruitName(name=bananas), 
+      FruitName(name=oranges), 
+      FruitName(name=avocados)
 
 The projection document specifies that the read operation result should
 *include* the ``name`` field of each returned document, and specifies to
@@ -149,17 +149,17 @@ the following results using the following Kotlin data class:
 
 .. io-code-block::
 
-   .. input:: /examples/generated/ProjectTest.snippet.project-name.kt
+   .. input:: /examples/generated/ProjectTest.snippet.multiple-fields.kt
       :language: kotlin
       :emphasize-lines: 5, 6
 
    .. output:: 
       :language: console
 
-      Fruit(name=apples, rating=3), 
-      Fruit(name=bananas, rating=1), 
-      Fruit(name=oranges, rating=2), 
-      Fruit(name=avocados, rating=5)
+      FruitRating(name=apples, rating=3), 
+      FruitRating(name=bananas, rating=1), 
+      FruitRating(name=oranges, rating=2), 
+      FruitRating(name=avocados, rating=5)
 
 For additional projection examples, see the
 :manual:`MongoDB Manual page on Project Fields to Return from Query </tutorial/project-fields-from-query-results/>`.
