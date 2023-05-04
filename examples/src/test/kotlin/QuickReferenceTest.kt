@@ -21,15 +21,8 @@ class QuickReferenceTest {
         val title: String,
         val year: Int,
         val rated: String? = "Not Rated",
-        val imdb: Imdb? = null,
         val genres: List<String>? = listOf()
-    ) {
-        data class Imdb(
-            val rating: Double,
-            val votes: Int,
-            val id: Int
-        )
-    }
+    )
     // :snippet-end:
 
     companion object {
@@ -146,10 +139,10 @@ class QuickReferenceTest {
                 Updates.set(Movie::rated.name, "PG")
             )
         // :snippet-end:
-        val pgMovies = collection.countDocuments(Filters.eq(Movie::rated.name, "PG"))
+        val pgMovies = collection.find(Filters.eq(Movie::rated.name, "PG")).toList()
         println(pgMovies)
         assert(updateMultipleResult.wasAcknowledged())
-        assertEquals(4, pgMovies)
+        assertEquals(4, pgMovies.size)
     }
 
     @Test
@@ -242,7 +235,6 @@ class QuickReferenceTest {
         assertEquals(1, callCount)
     }
 
-    // NOTE: refactor of access data from cursor
     @Test
     fun accessDataFromFlowTest() = runBlocking {
         // :snippet-start: access-data-from-flow
@@ -288,6 +280,7 @@ class QuickReferenceTest {
             // :snippet-start: list-distinct-documents-or-field-values
             collection.distinct<String>(Movie::rated.name)
         // :snippet-end:
+        println(distinctDocuments.toList())
         assertEquals(setOf("PG", "PG-13", "Not Rated"), distinctDocuments.toList().toSet())
     }
 
@@ -317,10 +310,10 @@ class QuickReferenceTest {
     fun sortDocumentsTest() = runBlocking {
         val movies =
             // :snippet-start: sort-documents
-            collection.find().sort(Sorts.ascending("year"))
+            collection.find().sort(Sorts.descending(Movie::year.name))
         // :snippet-end:
         println(movies.toList())
-        assertEquals(2001, movies.firstOrNull()?.year)
+        assertEquals(2010, movies.firstOrNull()?.year)
     }
 
     @Test

@@ -1,1 +1,1 @@
-collection.find().sort(Sorts.ascending("year"))
+collection.find().sort(Sorts.descending(Movie::year.name))
