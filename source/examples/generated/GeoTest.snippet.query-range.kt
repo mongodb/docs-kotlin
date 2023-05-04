@@ -6,8 +6,11 @@ val longIslandTriangle = Polygon(
         Position(-72.0, 40.0)
     )
 )
-val projection = fields(include("location.address.city"), excludeId())
+val projection = fields(
+    include("theater.location.address.city"),
+    excludeId()
+)
 val geoWithinComparison = geoWithin("location.geo", longIslandTriangle)
-collection.find<Document>(geoWithinComparison)
+val resultsFlow = collection.find<Theater>(geoWithinComparison)
     .projection(projection)
-    .toList().forEach { println("testing testing: " + it.toJson()) }
+resultsFlow.collect { println(it) }
