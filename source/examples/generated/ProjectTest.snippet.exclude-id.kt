@@ -6,4 +6,4 @@ val projection = Projections.fields(
     Projections.excludeId()
 )
 val flowResults = collection.find<FruitName>(filter).projection(projection)
-println(flowResults.toList())
+flowResults.collect { println(it)}

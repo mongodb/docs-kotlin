@@ -82,7 +82,7 @@ internal class ProjectTest {
             Projections.include(FruitName::name.name)
         )
         val flowResults = collection.find<FruitName>(filter).projection(projection)
-        println(flowResults.toList())
+        flowResults.collect { println(it)}
         // :snippet-end:
         val resultList = listOf(
             FruitName(1, "apples"),
@@ -105,7 +105,7 @@ internal class ProjectTest {
                 Projections.excludeId()
             )
             val flowResults = collection.find<FruitName>(filter).projection(projection)
-            println(flowResults.toList())
+            flowResults.collect { println(it)}
             // :snippet-end:
             val resultList = listOf(
                 FruitName(name = "apples"),
@@ -126,7 +126,7 @@ internal class ProjectTest {
                 Projections.excludeId()
             )
             val flowResults = collection.find<FruitRating>(filter).projection(projection)
-            println(flowResults)
+            flowResults.collect { println(it)}
             // :snippet-end:
             val resultList = listOf(
                 FruitRating(name = "apples", rating = 3),
