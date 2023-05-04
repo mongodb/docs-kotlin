@@ -37,7 +37,6 @@ internal class ProjectTest {
     // :snippet-start: rating-data-class
 
     data class FruitRating(
-        @BsonId val id: Int? = null,
         val name: String,
         val rating: Int
     )

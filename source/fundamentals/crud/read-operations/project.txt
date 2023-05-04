@@ -151,7 +151,7 @@ the following results using the following Kotlin data class:
 
    .. input:: /examples/generated/ProjectTest.snippet.multiple-fields.kt
       :language: kotlin
-      :emphasize-lines: 5, 6
+      :emphasize-lines: 3-4
 
    .. output:: 
       :language: console
