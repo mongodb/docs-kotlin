@@ -102,10 +102,6 @@ result unless explicitly excluded. That's because the ``_id`` field is a
 unique identifier for each document, a property that can be useful when
 constructing queries.
 
-A ``movies`` collection is a good example of why this property is useful:
-because remakes and even separate works sometimes reuse movie titles,
-you need a unique ``_id`` value to refer to any specific movie.
-
 The ``_id`` is the only exception to the mutually exclusive include-exclude
 behavior in projections: you *can* explicitly exclude the ``_id`` field
 even when explicitly including other fields if you do not want ``_id``
