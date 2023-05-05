@@ -1,7 +1,7 @@
 
-import com.mongodb.client.model.Filters.geoWithin
-import com.mongodb.client.model.Filters.near
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Projections.*
 import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Polygon
@@ -10,10 +10,9 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.test.*
 
@@ -319,18 +318,35 @@ internal class SearchGeospatialTest {
         @JvmStatic
         private fun afterAll() {
             runBlocking {
-                collection.dropIndex("location.geo_2dsphere")
-                collection.dropIndex("coordinates_2d")
+
                 collection.drop()
                 client.close()
 
             }
         }
     }
+
+    @BeforeEach
+    fun beforeEach() { runBlocking {
+        collection.createIndex((Indexes.geo2dsphere("${Theater::location.name}.${Theater.Location::geo.name}")))
+        collection.createIndex((Indexes.geo2d("coordinates")))
+    }}
+
+    @AfterEach
+    fun afterEach() {
+    runBlocking {
+        collection.dropIndex("location.geo_2dsphere")
+        collection.dropIndex("coordinates_2d")
+    }}
+
     @Test
     fun indexTest() = runBlocking {
+        collection.dropIndex("location.geo_2dsphere")
+        collection.dropIndex("coordinates_2d")
         // :snippet-start: geo2dsphere-index
-        collection.createIndex((Indexes.geo2dsphere("location.geo")))
+        collection.createIndex((Indexes.geo2dsphere(
+            "${Theater::location.name}.${Theater.Location::geo.name}"))
+        )
         // :snippet-end:
         // :snippet-start: geo2d-index
         collection.createIndex((Indexes.geo2d("coordinates")))
@@ -345,14 +361,19 @@ internal class SearchGeospatialTest {
         val database = client.getDatabase("sample_mflix")
         val collection = database.getCollection<TheaterResults>("theaters")
         val centralPark = Point(Position(-73.9667, 40.78))
-        val query = near("location.geo", centralPark, 10000.0, 5000.0)
-        val projection = fields(include("location.address.city"), excludeId())
-        val resultsFlow = collection.find(query)
-            .projection(projection)
+        val query = Filters.near(
+            "${Theater::location.name}.${Theater.Location::geo.name}", centralPark, 10000.0, 5000.0
+        )
+        val projection = Projections.fields(
+            Projections.include(
+                "${Theater::location.name}.${Theater.Location::address.name}.${Theater.Location.Address::city.name}"),
+            Projections.excludeId()
+        )
+        val resultsFlow = collection.find(query).projection(projection)
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
-        assertTrue(results.any() { it.location.address.city == "Bronx" })
+        assertTrue(results.any { it.location.address.city == "Bronx" })
     }
 
     @Test
@@ -366,11 +387,14 @@ internal class SearchGeospatialTest {
                 Position(-72.0, 40.0)
             )
         )
-        val projection = fields(
-            include("location.address.city"),
-            excludeId()
+        val projection = Projections.fields(
+            Projections.include(
+                "${Theater::location.name}.${Theater.Location::address.name}.${Theater.Location.Address::city.name}"),
+            Projections.excludeId()
         )
-        val geoWithinComparison = geoWithin("location.geo", longIslandTriangle)
+        val geoWithinComparison = Filters.geoWithin(
+            "${Theater::location.name}.${Theater.Location::geo.name}", longIslandTriangle
+        )
         val resultsFlow = collection.find<TheaterResults>(geoWithinComparison)
             .projection(projection)
         resultsFlow.collect { println(it) }

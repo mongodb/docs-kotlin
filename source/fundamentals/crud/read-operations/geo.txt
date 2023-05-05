@@ -199,10 +199,12 @@ The examples require the following imports:
 The data is modeled using the following Kotlin data class:
 
 .. literalinclude:: /examples/generated/GeoTest.snippet.theater-data-class.kt
+   :language: kotlin
 
 The results are modeled using the following Kotlin data class:
 
 .. literalinclude:: /examples/generated/GeoTest.snippet.results-data-class.kt
+   :language: kotlin
 
 Query by Proximity
 ~~~~~~~~~~~~~~~~~~

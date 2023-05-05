@@ -1,1 +1,3 @@
-collection.createIndex((Indexes.geo2dsphere("location.geo")))
+collection.createIndex((Indexes.geo2dsphere(
+    "${Theater::location.name}.${Theater.Location::geo.name}"))
+)
