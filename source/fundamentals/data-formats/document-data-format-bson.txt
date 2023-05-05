@@ -45,7 +45,6 @@ including:
 - `BsonDocument <{+api+}/apidocs/bson/org/bson/BsonDocument.html>`__ (BSON library package)
 - `RawBsonDocument <{+api+}/apidocs/bson/org/bson/RawBsonDocument.html>`__ (BSON library package)
 - `JsonObject <{+api+}/apidocs/bson/org/bson/json/JsonObject.html>`__ (BSON library package)
-- `BasicDBObject <TODO:(DOCSP-29169)>`__ (Kotlin Driver package)
 
 For more information on using these object types, see our
 :doc:`Documents guide </fundamentals/data-formats/documents>`.
