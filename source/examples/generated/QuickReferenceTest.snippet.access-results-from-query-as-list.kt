@@ -1,1 +1,1 @@
-collection.find(Filters.empty()).toList()
+collection.find().toList()

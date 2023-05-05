@@ -1,3 +1,4 @@
+
 import com.mongodb.client.model.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
@@ -66,8 +67,7 @@ class QuickReferenceTest {
             // :snippet-start: find-document
             collection.find(
                 Filters.eq(Movie::title.name, "Shrek")
-            )
-                .firstOrNull()
+            ).firstOrNull()
         // :snippet-end:
         println(shrek)
         assertEquals("Shrek", shrek?.title)
@@ -80,10 +80,9 @@ class QuickReferenceTest {
             collection.find(
                 Filters.eq(Movie::year.name, 2004)
             )
-                .toList()
         // :snippet-end:
-        println(movies)
-        assertEquals(1, movies.size)
+        println(movies.toList())
+        assertEquals(1, movies.count())
     }
 
     @Test
@@ -223,7 +222,7 @@ class QuickReferenceTest {
             // :snippet-start: watch-for-changes
             val changeStream = collection.watch()
             changeStream.collect {
-                println("Change to ${it.fullDocument.title}")
+                println("Change to ${it.fullDocument?.title}")
                 callCount += 1 // :remove:
             }
             // :snippet-end:
@@ -251,7 +250,7 @@ class QuickReferenceTest {
 
         val movies =
             // :snippet-start: access-results-from-query-as-list
-            collection.find(Filters.empty()).toList()
+            collection.find().toList()
         // :snippet-end:
         println(movies)
         assertEquals(4, movies.size)
