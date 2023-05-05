@@ -70,15 +70,13 @@ This data is modeled using the following Kotlin data class:
    :language: kotlin
 
 In the following query, pass the projection to return the ``name``
-field of each document. 
-
-The results are modeled using the ``FruitName`` Kotlin data class: 
+field of each document. The results are modeled using the ``FruitName`` Kotlin data class: 
 
 .. io-code-block::
 
    .. input:: /examples/generated/ProjectTest.snippet.project-name.kt
       :language: kotlin
-      :emphasize-lines: 4
+      :emphasize-lines: 8-10
 
    .. output:: 
       :language: console
@@ -111,7 +109,7 @@ to be present in returned documents.
 
    .. input:: /examples/generated/ProjectTest.snippet.exclude-id.kt
       :language: kotlin
-      :emphasize-lines: 5, 6
+      :emphasize-lines: 9-12
 
    .. output:: 
       :language: console
@@ -141,7 +139,7 @@ the following results using the ``FruitRating`` Kotlin data class:
 
    .. input:: /examples/generated/ProjectTest.snippet.multiple-fields.kt
       :language: kotlin
-      :emphasize-lines: 3-4
+      :emphasize-lines: 8-9
 
    .. output:: 
       :language: console
