@@ -1,3 +1,3 @@
 val collection =
-    database.getCollection<ExampleDataClass>("bass")
+    database.getCollection<ExampleDataClass>("movies")
 collection.drop()

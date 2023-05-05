@@ -52,15 +52,15 @@ internal class DatabaseCollectionsTest {
 
     @Test
     fun listCollectionTest() = runBlocking {
-        database.createCollection("bass")
-        // :snippet-start: drop-collections
-        val collection =
-            database.getCollection<ExampleDataClass>("bass")
-        collection.drop()
-        // :snippet-end:
+        database.createCollection("movies")
         // :snippet-start: get-collections
         val collectionList = database.listCollectionNames()
-        println(collectionList)
+        println(collectionList.toList())
+        // :snippet-end:
+        // :snippet-start: drop-collections
+        val collection =
+            database.getCollection<ExampleDataClass>("movies")
+        collection.drop()
         // :snippet-end:
         // Junit test for the above code
         assertTrue(collectionList.toList().contains("exampleCollection"))
@@ -72,17 +72,17 @@ internal class DatabaseCollectionsTest {
         // :snippet-start: validation
         val collOptions: ValidationOptions = ValidationOptions().validator(
             Filters.or(
-                Filters.exists("commander"),
-                Filters.exists("first officer")
+                Filters.exists("title"),
+                Filters.exists("name")
             )
         )
         database.createCollection(
-            "ships",
+            "movies",
             CreateCollectionOptions().validationOptions(collOptions)
         )
         // :snippet-end:
         // Junit test for the above code
         val collectionList = database.listCollectionNames()
-        assertTrue(collectionList.toList().contains("ships"))
+        assertTrue(collectionList.toList().contains("movies"))
     }
 }

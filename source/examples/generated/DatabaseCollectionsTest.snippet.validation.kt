@@ -1,10 +1,10 @@
 val collOptions: ValidationOptions = ValidationOptions().validator(
     Filters.or(
-        Filters.exists("commander"),
-        Filters.exists("first officer")
+        Filters.exists("title"),
+        Filters.exists("name")
     )
 )
 database.createCollection(
-    "ships",
+    "movies",
     CreateCollectionOptions().validationOptions(collOptions)
 )
