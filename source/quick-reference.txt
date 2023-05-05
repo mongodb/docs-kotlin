@@ -34,6 +34,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              Movie(title=Shrek, year=2001, ...)
 
@@ -50,6 +51,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [
               Movie(title=Shrek 2, year=2004, ...),
@@ -88,6 +90,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              Movie(title=Shrek, year=2001, rated=PG, genres=[])
 
@@ -104,6 +107,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [
                Movie(title=Shrek, year=2001, rated=PG, genres=[]),
@@ -126,6 +130,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              Movie(title=Shrek, year=2001, rated=Not Rated, genres=[Family, Fantasy])
 
@@ -142,6 +147,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              Movie(title=Kersh, year=1002, rated=GP, genres=[])
 
@@ -187,6 +193,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [
                Movie(title=Shrek, year=2001, rated=Not Rated, genres=[]),
@@ -207,7 +214,8 @@ The examples on the page use the following data class to represent MongoDB docum
              :language: kotlin
 
           .. output::
-             :language: none
+             :language: console
+             :visible: false
 
              42
 
@@ -221,7 +229,8 @@ The examples on the page use the following data class to represent MongoDB docum
              :language: kotlin
 
           .. output::
-             :language: none
+             :language: console
+             :visible: false
 
              [Not Rated, PG, PG-13]
 
@@ -238,6 +247,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [
                Movie(title=Shrek, year=2001, rated=Not Rated, genres=[]),
@@ -258,6 +268,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [
                Movie(title=Shrek the Third, year=2007, rated=Not Rated, genres=[]),
@@ -278,6 +289,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [
                Movie(title=Shrek Forever After, year=2010, rated=Not Rated, genres=[]),
@@ -300,6 +312,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              Result(title=Shrek)
 
@@ -324,6 +337,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
           .. output::
              :language: console
+             :visible: false
 
              [Movie(title=Shrek Forever After, year=2010, rated=Not Rated, genres=[])]
 
@@ -362,6 +376,8 @@ The examples on the page use the following data class to represent MongoDB docum
 ..            :language: kotlin
 ..         .. output::
 ..            :language: console
+              :visible: false
+..
 ..            [
 ..              { title: '2001: A Space Odyssey', ... },
 ..              { title: 'The Sound of Music', ... },
