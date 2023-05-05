@@ -120,7 +120,7 @@ You can query for a list of collections in a database using the
    .. output:: 
       :language:  console
 
-      movies, exampleCollection
+      [movies, exampleCollection]
 
 Drop a Collection
 -----------------
