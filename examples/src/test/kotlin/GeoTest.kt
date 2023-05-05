@@ -344,9 +344,7 @@ internal class SearchGeospatialTest {
         collection.dropIndex("location.geo_2dsphere")
         collection.dropIndex("coordinates_2d")
         // :snippet-start: geo2dsphere-index
-        collection.createIndex((Indexes.geo2dsphere(
-            "${Theater::location.name}.${Theater.Location::geo.name}"))
-        )
+        collection.createIndex((Indexes.geo2dsphere("location.geo")))
         // :snippet-end:
         // :snippet-start: geo2d-index
         collection.createIndex((Indexes.geo2d("coordinates")))
