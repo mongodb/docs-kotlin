@@ -72,10 +72,7 @@ This data is modeled using the following Kotlin data class:
 In the following query, pass the projection to return the ``name``
 field of each document. 
 
-The results are modeled using the following Kotlin data class: 
-
-.. literalinclude:: /examples/generated/ProjectTest.snippet.name-data-class.kt
-   :language: kotlin
+The results are modeled using the ``FruitName`` Kotlin data class: 
 
 .. io-code-block::
 
@@ -142,10 +139,7 @@ You can also specify multiple fields to include in your projection.
    alter the order in which they are returned.
 
 This example that identifies two fields to include in the projection yields
-the following results using the following Kotlin data class: 
-
-.. literalinclude:: /examples/generated/ProjectTest.snippet.rating-data-class.kt
-   :language: kotlin
+the following results using the ``FruitRating`` Kotlin data class: 
 
 .. io-code-block::
 

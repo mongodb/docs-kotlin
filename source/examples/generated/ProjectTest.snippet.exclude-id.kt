@@ -1,3 +1,8 @@
+data class FruitName(
+    @BsonId val id: Int? = null,
+    val name: String
+)
+
 // return all documents with *only* the name field
 // excludes the id
 val filter = Filters.empty()

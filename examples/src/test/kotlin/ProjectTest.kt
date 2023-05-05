@@ -18,7 +18,6 @@ import kotlin.test.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ProjectTest {
-
     // :snippet-start: fruit-data-class
     data class Fruit(
         @BsonId val id: Int,
@@ -27,20 +26,7 @@ internal class ProjectTest {
         val rating: Int
     )
     // :snippet-end:
-    // :snippet-start: name-data-class
 
-    data class FruitName(
-        @BsonId val id: Int? = null,
-        val name: String
-    )
-    // :snippet-end:
-    // :snippet-start: rating-data-class
-
-    data class FruitRating(
-        val name: String,
-        val rating: Int
-    )
-    // :snippet-end:
     companion object {
 
         val dotenv = dotenv()
@@ -76,6 +62,11 @@ internal class ProjectTest {
     @Test
     fun projectTest() = runBlocking {
         // :snippet-start: project-name
+        data class FruitName(
+            @BsonId val id: Int? = null,
+            val name: String
+        )
+
         // return all documents with only the name field
         val filter = Filters.empty()
         val projection = Projections.fields(
@@ -97,6 +88,11 @@ internal class ProjectTest {
     fun excludeIdProjectTest() {
         runBlocking {
             // :snippet-start: exclude-id
+            data class FruitName(
+                @BsonId val id: Int? = null,
+                val name: String
+            )
+
             // return all documents with *only* the name field
             // excludes the id
             val filter = Filters.empty()
@@ -120,6 +116,11 @@ internal class ProjectTest {
     fun multipleFieldsProjectTest() {
         runBlocking {
             // :snippet-start: multiple-fields
+            data class FruitRating(
+                val name: String,
+                val rating: Int
+            )
+
             val filter = Filters.empty()
             val projection = Projections.fields(
                 Projections.include(FruitRating::name.name, FruitRating::rating.name),
