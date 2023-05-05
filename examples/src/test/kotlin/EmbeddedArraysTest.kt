@@ -18,24 +18,10 @@ internal class UpdateArraysTest {
     // :snippet-start: array-data-model
     data class PaintOrder(
         @BsonId val id: Int,
-        val qty: IntArray,
+        val qty: List<Int>,
         val color: String
     )
     // :snippet-end:
-
-    {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-            other as PaintOrder
-            if (!qty.contentEquals(other.qty)) return false
-            return true
-        }
-
-        override fun hashCode(): Int {
-            return qty.contentHashCode()
-        }
-    }
 
     companion object {
         val dotenv = dotenv()
@@ -56,7 +42,7 @@ internal class UpdateArraysTest {
     fun beforeEach() {
         runBlocking {
             val paintOrders =
-                PaintOrder(1, intArrayOf(8, 12, 18), "green")
+                PaintOrder(1, listOf(8, 12, 18), "green")
             collection.insertOne(paintOrders)
         }
     }
@@ -81,7 +67,7 @@ internal class UpdateArraysTest {
         // Junit test for the above code
         val actual = collection.find(filter)
         val expected = listOf(
-            PaintOrder(1, intArrayOf(8, 12, 18, 17), "green"))
+            PaintOrder(1, listOf(8, 12, 18, 17), "green"))
         assertEquals(expected, actual.toList())
     }
 
@@ -99,7 +85,7 @@ internal class UpdateArraysTest {
         val actualFilter = Filters.eq("_id", 1)
         val actual = collection.find(actualFilter)
         val expected = listOf(
-            PaintOrder(1, intArrayOf(8, 12, 15), "green"))
+            PaintOrder(1, listOf(8, 12, 15), "green"))
         assertEquals(expected, actual.toList())
     }
 
@@ -116,7 +102,7 @@ internal class UpdateArraysTest {
         // Junit test for the above code
         val actual = collection.find(filter)
         val expected = listOf(
-            PaintOrder(1, intArrayOf(16, 24, 36), "green"))
+            PaintOrder(1, listOf(16, 24, 36), "green"))
         assertEquals(expected, actual.toList())
     }
     
@@ -135,7 +121,7 @@ internal class UpdateArraysTest {
         // Junit test for the above code
         val actual = collection.find(filter)
         val expected = listOf(
-            PaintOrder(1, intArrayOf(13, 17, 18), "green"))
+            PaintOrder(1, listOf(13, 17, 18), "green"))
         assertEquals(expected, actual.toList())
     }
 }
