@@ -335,14 +335,12 @@ internal class SearchGeospatialTest {
     @AfterEach
     fun afterEach() {
     runBlocking {
-        collection.dropIndex("location.geo_2dsphere")
-        collection.dropIndex("coordinates_2d")
+        collection.dropIndexes()
     }}
 
     @Test
     fun indexTest() = runBlocking {
-        collection.dropIndex("location.geo_2dsphere")
-        collection.dropIndex("coordinates_2d")
+        collection.dropIndexes()
         // :snippet-start: geo2dsphere-index
         collection.createIndex((Indexes.geo2dsphere("location.geo")))
         // :snippet-end:
