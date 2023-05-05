@@ -13,37 +13,35 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
-
-// :snippet-start: retrieve-data-model
-data class PaintOrder(
-    @BsonId val id: Int,
-    val qty: IntArray,
-    val color: String
-)
-// :snippet-end:
-{
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as PaintOrder
-        if (!qty.contentEquals(other.qty)) return false
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return qty.contentHashCode()
-    }
-}
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class UpdateArraysTest {
+    // :snippet-start: array-data-model
+    data class PaintOrder(
+        @BsonId val id: Int,
+        val qty: IntArray,
+        val color: String
+    )
+    // :snippet-end:
+
+    {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            other as PaintOrder
+            if (!qty.contentEquals(other.qty)) return false
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return qty.contentHashCode()
+        }
+    }
 
     companion object {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("paint_store")
         val collection = database.getCollection<PaintOrder>("paint_order")
-
 
         @AfterAll
         @JvmStatic
@@ -78,12 +76,12 @@ internal class UpdateArraysTest {
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
-        collection.find().collect { println(it) }
+        print(result)
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             PaintOrder(1, intArrayOf(8, 12, 18, 17), "green"))
-        assertEquals(expected, collection.find().toList())
+        assertEquals(expected, collection.find(filter).toList())
     }
 
     @Test
@@ -94,7 +92,7 @@ internal class UpdateArraysTest {
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
-        collection.find().collect { println(it) }
+        print(result)
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -110,13 +108,14 @@ internal class UpdateArraysTest {
         val options = FindOneAndUpdateOptions()
             .returnDocument(ReturnDocument.AFTER)
         val result = collection.findOneAndUpdate(filter, update, options)
-        collection.find().collect { println(it) }
+        println(result)
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             PaintOrder(1, intArrayOf(16, 24, 36), "green"))
-        assertEquals(expected, collection.find().toList())
+        assertEquals(expected, collection.find(filter).toList())
     }
+    
     @Test
     fun matchMultipleTest() = runBlocking {
         // :snippet-start: match
@@ -127,11 +126,11 @@ internal class UpdateArraysTest {
             .arrayFilters(listOf(smallerFilter))
         val update = Updates.inc("${PaintOrder::qty.name}.$[smaller]", 5)
         val result = collection.findOneAndUpdate(filter, update, options)
-        collection.find().collect { println(it) }
+        println(result)
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             PaintOrder(1, intArrayOf(13, 17, 18), "green"))
-        assertEquals(expected, collection.find().toList())
+        assertEquals(expected, collection.find(filter).toList())
     }
 }
