@@ -79,9 +79,10 @@ internal class UpdateArraysTest {
         print(result)
         // :snippet-end:
         // Junit test for the above code
+        val actual = collection.find(filter)
         val expected = listOf(
             PaintOrder(1, intArrayOf(8, 12, 18, 17), "green"))
-        assertEquals(expected, collection.find(filter).toList())
+        assertEquals(expected, actual.toList())
     }
 
     @Test
@@ -95,9 +96,11 @@ internal class UpdateArraysTest {
         print(result)
         // :snippet-end:
         // Junit test for the above code
+        val actualFilter = Filters.eq("_id", 1)
+        val actual = collection.find(actualFilter)
         val expected = listOf(
             PaintOrder(1, intArrayOf(8, 12, 15), "green"))
-        assertEquals(expected, collection.find().toList())
+        assertEquals(expected, actual.toList())
     }
 
     @Test
@@ -111,9 +114,10 @@ internal class UpdateArraysTest {
         println(result)
         // :snippet-end:
         // Junit test for the above code
+        val actual = collection.find(filter)
         val expected = listOf(
             PaintOrder(1, intArrayOf(16, 24, 36), "green"))
-        assertEquals(expected, collection.find(filter).toList())
+        assertEquals(expected, actual.toList())
     }
     
     @Test
@@ -129,8 +133,9 @@ internal class UpdateArraysTest {
         println(result)
         // :snippet-end:
         // Junit test for the above code
+        val actual = collection.find(filter)
         val expected = listOf(
             PaintOrder(1, intArrayOf(13, 17, 18), "green"))
-        assertEquals(expected, collection.find(filter).toList())
+        assertEquals(expected, actual.toList())
     }
 }

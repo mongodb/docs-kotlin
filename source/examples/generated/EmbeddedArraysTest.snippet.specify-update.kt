@@ -3,4 +3,4 @@ val update = Updates.push(PaintOrder::qty.name, 17)
 val options = FindOneAndUpdateOptions()
     .returnDocument(ReturnDocument.AFTER)
 val result = collection.findOneAndUpdate(filter, update, options)
-collection.find().collect { println(it) }
+print(result)
