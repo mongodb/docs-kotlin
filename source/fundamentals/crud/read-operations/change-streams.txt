@@ -220,7 +220,7 @@ should resemble the following text:
       fullDocumentBeforeChange=Document{{_id=6388..., latestVersion=2.0.0, ...}},
       ...
 
-For a list of options, see the `FullDocumentBeforeChange <{+api+}{+api-kotlin+}/apidocs/mongodb-driver-core/com/mongodb/client/model/changestream/FullDocumentBeforeChange.html>`__
+For a list of options, see the `FullDocumentBeforeChange <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/changestream/FullDocumentBeforeChange.html>`__
 API documentation.
 
 .. _kotlin-post-image-example:
@@ -257,5 +257,5 @@ resemble the following text:
       updatedFields={"population": 950}, ...
       ...
 
-For a list of options, see the `FullDocument <{+api+}{+api-kotlin+}/apidocs/mongodb-driver-core/com/mongodb/client/model/changestream/FullDocument.html>`__
+For a list of options, see the `FullDocument <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/changestream/FullDocument.html>`__
 API documentation.
