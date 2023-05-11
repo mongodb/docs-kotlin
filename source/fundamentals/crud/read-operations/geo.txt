@@ -179,32 +179,34 @@ to  set up your own free-tier Atlas cluster and how to load the sample dataset
 in our :doc:`quick start guide </quick-start>`.
 
 The examples use the ``theaters`` collection in the ``sample_mflix`` database
-from the sample dataset. The ``theaters`` collection contains a ``2dsphere`` index
-on the ``location.geo`` field.
+from the sample dataset. 
 
 The examples require the following imports:
 
 .. code-block:: 
-   :source: kotlin
+  :source: kotlin
 
-   import com.mongodb.client.model.geojson.Point
-   import com.mongodb.client.model.geojson.Polygon
-   import com.mongodb.client.model.geojson.Position
-   import com.mongodb.client.model.Filters.near
-   import com.mongodb.client.model.Filters.geoWithin
-   import com.mongodb.client.model.Projections.fields
-   import com.mongodb.client.model.Projections.include
-   import com.mongodb.client.model.Projections.excludeId
+  import com.mongodb.client.model.geojson.Point
+  import com.mongodb.client.model.geojson.Polygon
+  import com.mongodb.client.model.geojson.Position
+  import com.mongodb.client.model.Filters.near
+  import com.mongodb.client.model.Filters.geoWithin
+  import com.mongodb.client.model.Projections.fields
+  import com.mongodb.client.model.Projections.include
+  import com.mongodb.client.model.Projections.excludeId
 
 The data is modeled using the following Kotlin data class:
 
 .. literalinclude:: /examples/generated/GeoTest.snippet.theater-data-class.kt
-   :language: kotlin
+  :language: kotlin
 
 The results are modeled using the following Kotlin data class:
 
 .. literalinclude:: /examples/generated/GeoTest.snippet.results-data-class.kt
-   :language: kotlin
+  :language: kotlin
+  
+The ``theaters`` collection already contains a ``2dsphere`` index on the 
+``"${Theater::location.name}.${Theater.Location::geo.name}"`` field.
 
 Query by Proximity
 ~~~~~~~~~~~~~~~~~~
