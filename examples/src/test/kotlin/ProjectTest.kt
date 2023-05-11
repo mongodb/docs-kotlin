@@ -67,7 +67,7 @@ internal class ProjectTest {
             val name: String
         )
 
-        // return all documents with only the name field
+        // Return all documents with only the name field
         val filter = Filters.empty()
         val projection = Projections.fields(
             Projections.include(FruitName::name.name)
@@ -93,7 +93,7 @@ internal class ProjectTest {
                 val name: String
             )
 
-            // return all documents with *only* the name field
+            // Return all documents with *only* the name field
             // excludes the id
             val filter = Filters.empty()
             val projection = Projections.fields(

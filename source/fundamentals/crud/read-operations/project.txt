@@ -93,7 +93,7 @@ this projection to ``find()`` with an empty query filter yields the
 above results.
 
 Despite the fact that this projection only explicitly included the
-``name`` field, the query returned the ``_id`` field as well.
+``name`` field, the query also returned the ``_id`` field, represented by ``id`` in the data class.
 
 The ``_id`` field is a special case: it is always included in every query
 result unless explicitly excluded. That's because the ``_id`` field is a
