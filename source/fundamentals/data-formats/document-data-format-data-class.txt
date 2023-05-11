@@ -18,8 +18,8 @@ Overview
 In this guide, you can learn how to store and retrieve data in the
 {+driver-long+} using **Kotlin data classes**.
 
-Serialize and Deserialize a Record
-----------------------------------
+Serialize and Deserialize a Data Class
+--------------------------------------
 
 The driver natively supports encoding and decoding Kotlin data classes for
 MongoDB read and write operations using the **default codec registry**. The
@@ -37,16 +37,16 @@ describes a data storage device:
 .. literalinclude:: /examples/generated/DataClassTest.snippet.data-class.kt
    :language: kotlin
 
-Insert a Record
-~~~~~~~~~~~~~~~
+Insert a Data Class
+~~~~~~~~~~~~~~~~~~~
 
 You can insert a ``DataStorage`` instance as shown in the following code:
 
 .. literalinclude:: /examples/generated/DataClassTest.snippet.insert-data-class.kt
    :language: kotlin
 
-Retrieve a Record
-~~~~~~~~~~~~~~~~~
+Retrieve a Data Class
+~~~~~~~~~~~~~~~~~~~~~
 
 You can retrieve documents as ``DataStorage`` instances and print them
 as shown in the following code:
@@ -62,20 +62,14 @@ as shown in the following code:
 
       DataStorage(productName=tape, capacity=5.0)
 
-.. _fundamentals-records-annotations:
+.. _fundamentals-data-class-annotations:
 
 Specify Component Conversion Using Annotations
 ----------------------------------------------
 
 This section describes the annotations you can use to configure the
-serialization behavior of record components and provides an example to
+serialization behavior of data classes and provides an example to
 demonstrate the annotation behavior.
-
-.. tip::
-
-   The ``org.bson.codecs.records.annotations`` package is deprecated. Use the
-   equivalent ones from the `org.bson.codecs.pojo.annotations <{+api+}/apidocs/bson/org/bson/codecs/pojo/annotations/package-summary.html>`__
-   package instead.
 
 You can use the following annotations on data classes:
 
@@ -98,6 +92,9 @@ You can use the following annotations on data classes:
    * - ``BsonRepresentation``
      - Specifies the BSON type used to store the value when different from the
        data class property.
+
+For more information, refer to the `org.bson.codecs.pojo.annotations <{+api+}/apidocs/bson/org/bson/codecs/pojo/annotations/package-summary.html>`__
+package.
 
 Example Annotated Data Class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,7 +147,7 @@ Operations with Recursive Types
 The driver natively supports encoding and decoding of recursively
 defined data classes without causing runtime recursion. This support extends
 to cycles of multiple data class types in type definitions. The following
-code provides an example of a recursive record design:
+code provides an example of a recursive data class design:
 
 .. literalinclude:: /examples/generated/DataClassTest.snippet.recursive-data-class-types.kt
    :language: kotlin
