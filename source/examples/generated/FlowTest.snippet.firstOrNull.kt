@@ -1,2 +1,2 @@
 val resultsFlow = collection.find()
-val firstResult = resultsFlow.firstOrNull()
+val firstResultOrNull = resultsFlow.firstOrNull()

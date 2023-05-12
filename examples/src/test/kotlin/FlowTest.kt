@@ -56,9 +56,9 @@ internal class FlowTest {
     fun firstOrNullTest() = runBlocking {
         // :snippet-start: firstOrNull
         val resultsFlow = collection.find()
-        val firstResult = resultsFlow.firstOrNull()
+        val firstResultOrNull = resultsFlow.firstOrNull()
         // :snippet-end:
-        assertNotNull(firstResult)
+        assertNotNull(firstResultOrNull)
     }
     @Test
     fun firstTest() = runBlocking {
