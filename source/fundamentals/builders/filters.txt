@@ -16,9 +16,9 @@ Overview
 --------
 
 In this guide, you can learn how to use **builders** to specify
-**filters** for your queries in the MongoDB Java driver.
+**filters** for your queries in the MongoDB Kotlin driver.
 
-Builders are classes provided by the MongoDB Java driver that help you
+Builders are classes provided by the MongoDB Kotlin driver that help you
 construct :ref:`BSON <bson>` objects. To learn more, see our :doc:`guide
 on builders </fundamentals/builders/>`. 
 
@@ -59,44 +59,25 @@ type, which you can pass to any method that expects a query filter.
    `Filters <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__
    class statically: 
 
-   .. code-block:: java
+   TODO: kotlinize
 
-      import static com.mongodb.client.model.Filters.*;
+   .. code-block:: kotlin
+
+      import com.mongodb.client.model.Filters.*
 
    The following examples assume this static import.
 
-The Filter examples in this guide use the following sample collections:
+The Filter examples in this guide use the following sample collection:
 
-Collection: ``paint_purchases``
-
-.. code-block:: json
-
-   { "_id": 1, "color": "red", "qty": 5, "vendor": ["A"] }
-   { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
-   { "_id": 3, "color": "blue", "qty": 8, "vendor": ["B", "A"] }
-   { "_id": 4, "color": "white", "qty": 6, "vendor": ["D"] }
-   { "_id": 5, "color": "yellow", "qty": 11, "vendor": ["A", "B"] }
-   { "_id": 6, "color": "pink", "qty": 5, "vendor": ["C"] }
-   { "_id": 7, "color": "green", "qty": 8,"vendor": ["B", "C"] }
-   { "_id": 8, "color": "orange", "qty": 7, "vendor": ["A", "D"] }
-
-Collection: ``binary_numbers``
+Collection: ``paints``
 
 .. code-block:: json
 
-   { "_id": 9, "a": 54, "binaryValue": "00110110" }
-   { "_id": 10, "a": 20, "binaryValue": "00010100" }
-   { "_id": 11, "a": 68, "binaryValue": "1000100" }
-   { "_id": 12, "a": 102, "binaryValue": "01100110" }
+   TODO: add json docs
 
-Collection: ``geo_points``
+These documents are modeled by the following data class for use in the Kotlin driver:
 
-.. code-block:: json
-
-   { "_id": 13, "coordinates": { "type": "Point", "coordinates": [2.0, 2.0] } }
-   { "_id": 14, "coordinates": { "type": "Point", "coordinates": [5.0, 6.0] } }
-   { "_id": 15, "coordinates": { "type": "Point", "coordinates": [1.0, 3.0] } }
-   { "_id": 16, "coordinates": { "type": "Point", "coordinates": [4.0, 7.0] } }
+TODO: add data class
 
 .. _comparison:
 
@@ -145,6 +126,8 @@ The comparison operator methods include:
 The following example creates a filter that matches all documents where
 the value of the ``qty`` field equals "5" in the ``paint_purchases`` collection:
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
    :dedent:
@@ -163,6 +146,8 @@ The following example creates a filter that matches all documents where
 the value of the ``qty`` field is greater than or equal to "10" in the
 ``paint_purchases`` collection: 
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
    :dedent:
@@ -179,6 +164,8 @@ The following shows the output of the preceding query:
 
 The following example creates a filter that matches all documents in
 the ``paint_purchases`` collection because the predicate is empty: 
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
@@ -228,6 +215,8 @@ The following example creates a filter that matches documents where
 the value of the ``qty`` field is greater than "8" or the value
 of the ``color`` field equals "pink" in the ``paint_purchases`` collection: 
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
    :dedent:
@@ -271,6 +260,8 @@ The array operator methods include:
 The following example matches documents with a ``vendors`` array
 containing both "A" and "D" in the ``paint_purchases`` collection: 
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
    :dedent:
@@ -308,6 +299,8 @@ The elements operator methods include:
 
 The following example matches documents that have a ``qty`` field and
 its value does not equal "5" or "8" in the ``paint_purchases`` collection:
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
@@ -356,6 +349,8 @@ The evaluation operator methods include:
 The following example matches documents that have a ``color`` field
 starting with the letter "p" in the ``paint_purchases`` collection:
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
    :dedent:
@@ -402,6 +397,8 @@ The bitwise operator methods include:
 The following example matches documents that have a ``bitField`` field
 with bits set at positions of the corresponding bitmask "34" (i.e.
 "00100010") in the ``binary_numbers`` collection: 
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
@@ -463,6 +460,8 @@ The following example creates a filter that matches documents in which
 the ``point`` field contains a GeoJSON geometry that falls within
 the given :manual:`Polygon </reference/geojson/#polygon>` 
 in the ``geo_points`` collection:
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/Filters.java
    :language: java
