@@ -109,8 +109,7 @@ internal class FlowTest {
         val jsonSummary = explanation.getEmbedded(
             listOf("queryPlanner", "winningPlan"),
             Document::class.java
-        )
-            .toJson()
+        ).toJson()
         println(jsonSummary)
         // :snippet-end:
         val expected = """{"stage": "COLLSCAN", "direction": "forward"}
