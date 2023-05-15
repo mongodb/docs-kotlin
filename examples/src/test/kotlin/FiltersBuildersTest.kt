@@ -28,8 +28,8 @@ class FiltersBuildersTest {
     companion object {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("marketing")
-        val collection = database.getCollection<PaintOrder>("users")
+        val database = client.getDatabase("paints_r_us")
+        val collection = database.getCollection<PaintOrder>("paints")
 
         @BeforeAll
         @JvmStatic

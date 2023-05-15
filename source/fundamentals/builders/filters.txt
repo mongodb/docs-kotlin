@@ -63,7 +63,7 @@ type, which you can pass to any method that expects a query filter.
 
       import com.mongodb.client.model.Filters.*
 
-The Filter examples in this guide use the following sample collection ``paints``:
+Most of the ``Filter`` examples in this guide use the following sample collection ``paints``:
 
 .. code-block:: json
 
@@ -90,7 +90,7 @@ Comparison
 The comparison filters include all operators that compare the value in a
 document to a specified value.
 
-The comparison operator methods include:
+The ``Filters`` comparison operator methods include:
 
 .. list-table::
    :header-rows: 1
@@ -181,7 +181,7 @@ Logical
 -------
 The logical operators perform logical operations based on the conditions of the specified method.
 
-The logical operator methods include:
+The ``Filters`` logical operator methods include:
 
 .. list-table::
    :header-rows: 1
@@ -225,7 +225,7 @@ Arrays
 
 The array operators evaluate the array field in a document.
 
-The array operator methods include:
+The ``Filters`` array operator methods include:
 
 .. list-table::
    :header-rows: 1
@@ -264,7 +264,7 @@ Elements
 
 The elements operators evaluate the nature of a specified field.
 
-The elements operator methods include:
+The ``Filters`` elements operator methods include:
 
 .. list-table::
    :header-rows: 1
@@ -302,7 +302,7 @@ Evaluation
 
 The evaluation operators evaluate the value of any field in a document.
 
-The evaluation operator methods include:
+The ``Filters`` evaluation operator methods include:
 
 .. list-table::
    :header-rows: 1
@@ -345,7 +345,7 @@ Bitwise
 The bitwise operators convert a number into its binary value to
 evaluate its bits.
 
-The bitwise operator methods include:
+The ``Filters`` bitwise operator methods include:
 
 .. list-table::
    :header-rows: 1
@@ -368,7 +368,7 @@ The bitwise operator methods include:
 
 The following example matches documents that have a ``decimalValue`` field
 with bits set at positions of the corresponding bitmask "34" (i.e.
-"00100010") in the following ``binary_numbers`` collection:
+"00100010") in this ``binary_numbers`` collection:
 
 .. code-block:: json
 
@@ -396,7 +396,7 @@ Geospatial
 The geospatial operators evaluate a specified coordinate and its
 relation to a shape or location.
 
-The geospatial operator methods include:
+The ``Filters`` geospatial operator methods include:
 
 .. list-table::
    :widths: 30, 70
@@ -433,7 +433,7 @@ The geospatial operator methods include:
 The following example creates a filter that matches documents in which
 the ``point`` field contains a GeoJSON geometry that falls within
 the given :manual:`Polygon </reference/geojson/#polygon>`
-in the following ``stores`` collection:
+in this ``stores`` collection:
 
 .. code-block:: json
 
