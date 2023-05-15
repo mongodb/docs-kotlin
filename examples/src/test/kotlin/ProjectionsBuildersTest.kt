@@ -128,7 +128,7 @@ class ProjectionsBuildersTest {
     @Test
     fun excludeOneTest() = runBlocking {
         // :snippet-start: exclude-one
-        data class Results(@BsonId val id: ObjectId, val year: Int)
+        data class Results(@BsonId val id: ObjectId, val year: Int, val type: String)
         val filter = Filters.empty()
         val projection = Projections.exclude(YearlyTemperature::temperatures.name)
         val resultsFlow = collection.find<Results>(filter).projection(projection)
@@ -203,7 +203,8 @@ class ProjectionsBuildersTest {
         resultsFlow.collect { println(it) }
         // :snippet-end:
         assertNull(resultsFlow.first().temperatures)
-        assertNotNull( resultsFlow.drop(1).first().temperatures)
+        assertNotNull(resultsFlow.drop(1).first().temperatures)
+        Unit
     }
 
     @Test

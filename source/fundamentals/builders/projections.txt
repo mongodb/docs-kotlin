@@ -119,7 +119,8 @@ The following example includes the ``year`` field and implicitly the ``_id`` fie
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2018)
+      Results(year=2019)
 
 The following example includes the ``year`` and ``type`` fields and implicitly the ``_id`` field:
 
@@ -131,7 +132,8 @@ The following example includes the ``year`` and ``type`` fields and implicitly t
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2018, type=even number but not a leap year)
+      Results(year=2019, type=odd number, can't be a leap year)
 
 Exclusion
 ~~~~~~~~~
@@ -148,7 +150,8 @@ The following example excludes the ``temperatures`` field:
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(id=6462976102c85b29a7bfc9d5, year=2018, type=even number but not a leap year)
+      Results(id=6462976102c85b29a7bfc9d6, year=2019, type=odd number, can't be a leap year)
 
 The following example excludes the ``type`` and ``temperatures`` fields:
 
@@ -160,7 +163,8 @@ The following example excludes the ``type`` and ``temperatures`` fields:
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(id=64629783d7760d2365215147, year=2018)
+      Results(id=64629783d7760d2365215148, year=2019)
 
 Combining Projections
 ~~~~~~~~~~~~~~~~~~~~~
@@ -178,7 +182,8 @@ The following example includes the ``year`` and ``type`` fields and excludes the
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2018, type=even number but not a leap year)
+      Results(year=2019, type=odd number, can't be a leap year)
 
 Exclusion of ``_id``
 ~~~~~~~~~~~~~~~~~~~~
@@ -193,7 +198,8 @@ Use the ``excludeId()`` convenience method to specify the exclusion of the ``_id
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2018, type=even number but not a leap year, temperatures=[MonthlyTemperature(month=January, avg=9.765), MonthlyTemperature(month=February, avg=9.675), MonthlyTemperature(month=March, avg=10.004), MonthlyTemperature(month=April, avg=9.983), MonthlyTemperature(month=May, avg=9.747), MonthlyTemperature(month=June, avg=9.65), MonthlyTemperature(month=July, avg=9.786), MonthlyTemperature(month=August, avg=9.617), MonthlyTemperature(month=September, avg=9.51), MonthlyTemperature(month=October, avg=10.042), MonthlyTemperature(month=November, avg=9.452), MonthlyTemperature(month=December, avg=9.86)])
+      Results(year=2019, type=odd number, can't be a leap year, temperatures=[MonthlyTemperature(month=January, avg=10.023), MonthlyTemperature(month=February, avg=9.808), MonthlyTemperature(month=March, avg=10.43), MonthlyTemperature(month=April, avg=10.175), MonthlyTemperature(month=May, avg=9.648), MonthlyTemperature(month=June, avg=9.686), MonthlyTemperature(month=July, avg=9.794), MonthlyTemperature(month=August, avg=9.741), MonthlyTemperature(month=September, avg=9.84), MonthlyTemperature(month=October, avg=10.15), MonthlyTemperature(month=November, avg=9.84), MonthlyTemperature(month=December, avg=10.366)])
 
 Project an Array Element Match
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,7 +224,8 @@ greater that ``10.1``:
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2018, temperatures=null)
+      Results(year=2019, temperatures=[MonthlyTemperature(month=March, avg=10.43)])
 
 When you've specified matching criteria in the **query** portion of your operation, use the ``elemMatch(String)`` method
 variant to specify a :manual:`positional projection </reference/operator/projection/positional/#sorts-and-the-positional-operator>` to include
@@ -242,7 +249,7 @@ TODO: verify this is correct sample
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2019, temperatures=[MonthlyTemperature(month=March, avg=10.43)])
 
 Project an Array Slice
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -259,7 +266,9 @@ The following example projects the first **6** elements of the ``temperatures`` 
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(temperatures=[MonthlyTemperature(month=January, avg=9.765), MonthlyTemperature(month=February, avg=9.675), MonthlyTemperature(month=March, avg=10.004), MonthlyTemperature(month=April, avg=9.983), MonthlyTemperature(month=May, avg=9.747), MonthlyTemperature(month=June, avg=9.65)])
+      Results(temperatures=[MonthlyTemperature(month=January, avg=10.023), MonthlyTemperature(month=February, avg=9.808), MonthlyTemperature(month=March, avg=10.43), MonthlyTemperature(month=April, avg=10.175), MonthlyTemperature(month=May, avg=9.648), MonthlyTemperature(month=June, avg=9.686)])
+
 
 The following example skips the first **6** elements of the ``temperatures`` array and projects the next **6**:
 
@@ -271,7 +280,8 @@ The following example skips the first **6** elements of the ``temperatures`` arr
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(temperatures=[MonthlyTemperature(month=July, avg=9.786), MonthlyTemperature(month=August, avg=9.617), MonthlyTemperature(month=September, avg=9.51), MonthlyTemperature(month=October, avg=10.042), MonthlyTemperature(month=November, avg=9.452), MonthlyTemperature(month=December, avg=9.86)])
+      Results(temperatures=[MonthlyTemperature(month=July, avg=9.794), MonthlyTemperature(month=August, avg=9.741), MonthlyTemperature(month=September, avg=9.84), MonthlyTemperature(month=October, avg=10.15), MonthlyTemperature(month=November, avg=9.84), MonthlyTemperature(month=December, avg=10.366)])
 
 Project a Text Score
 ~~~~~~~~~~~~~~~~~~~~
@@ -289,4 +299,5 @@ The following example projects the text score as the value of the ``score`` fiel
    .. output::
       :language: console
 
-      TODO: kotlinize
+      Results(year=2018, score=1.25)
+      Results(year=2019, score=0.625)
