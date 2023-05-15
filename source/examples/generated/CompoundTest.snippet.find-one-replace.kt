@@ -5,7 +5,6 @@ data class Music(
 )
 
 val filter = Filters.eq(FoodOrder::color.name, "green")
-val results = collection.find(filter).toList()
 val replace = Music(1, "classical", "green")
 val options = FindOneAndReplaceOptions()
     .returnDocument(ReturnDocument.AFTER)

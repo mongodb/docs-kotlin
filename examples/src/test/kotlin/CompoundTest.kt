@@ -28,7 +28,7 @@ internal class CompoundOperationsTest {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("compound_operations")
-        val collection = database.getCollection<FoodOrder>("food")
+        val collection = database.getCollection<FoodOrder>("example")
 
         @AfterAll
         @JvmStatic
@@ -50,6 +50,8 @@ internal class CompoundOperationsTest {
         val foodOrders = FoodOrder(1, "donut", "green")
         collection.insertOne(foodOrders)
         // :snippet-start: find-one-update
+        data class Results(val food: String, val color: String)
+
         val projection = Projections.excludeId()
         val filter = Filters.eq(FoodOrder::color.name, "green")
         val update = Updates.set(FoodOrder::food.name, "pizza")
@@ -59,7 +61,8 @@ internal class CompoundOperationsTest {
             .maxTime(5, TimeUnit.SECONDS)
         /* The result variable contains your document in the
             state before your update operation is performed. */
-        val result = collection.findOneAndUpdate(filter, update, options)
+        val resultsCollection = database.getCollection<Results>("example")
+        val result = resultsCollection.findOneAndUpdate(filter, update, options)
         println(result)
         // :snippet-end:
         // Junit test for the above code
@@ -71,7 +74,6 @@ internal class CompoundOperationsTest {
 
     @Test
     fun findOneReplaceTest() = runBlocking {
-        collection.drop()
         val foodOrders = FoodOrder(1, "pizza", "green")
         collection.insertOne(foodOrders)
         // :snippet-start: find-one-replace
@@ -82,7 +84,6 @@ internal class CompoundOperationsTest {
         )
 
         val filter = Filters.eq(FoodOrder::color.name, "green")
-        val results = collection.find(filter).toList()
         val replace = Music(1, "classical", "green")
         val options = FindOneAndReplaceOptions()
             .returnDocument(ReturnDocument.AFTER)
@@ -105,7 +106,8 @@ internal class CompoundOperationsTest {
         val sort = descending("_id")
         val filter = Filters.empty()
         val options = FindOneAndDeleteOptions().sort(sort)
-        val result: FoodOrder? = collection.findOneAndDelete(filter, options)
+        val result = collection.findOneAndDelete(filter, options)
+        // Returns the deleted document
         println(result)
         // :snippet-end:
         // Junit test for the above code
