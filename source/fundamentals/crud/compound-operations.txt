@@ -98,7 +98,7 @@ following options:
    .. output:: 
       :language: console
 
-      {"food": "donut", "color": "green"}
+      Results(food=donut, color=green)
 
 For more information on the ``Projections`` class, see our
 :doc:`guide on the Projections builder </fundamentals/builders/projections/>`.
@@ -110,8 +110,8 @@ For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
 - `findOneAndUpdate() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find-one-and-update.html>`__
-- `FindOneAndUpdateOptions <{+api-kotlin+}TODO:(DOCSP-29169)>`__
-- `MongoExecutionTimeoutException <{+api-kotlin+}TODO:(DOCSP-29169)>`__
+- `FindOneAndUpdateOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/FindOneAndUpdateOptions.html>`__
+- `MongoExecutionTimeoutException <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoExecutionTimeoutException.html>`__
 
 .. _kotlin-find-and-replace-example:
 
@@ -151,7 +151,7 @@ For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
 - `findOneAndReplace() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find-one-and-replace.html>`__
-- `FindOneAndReplaceOptions <{+api-kotlin+}TODO:(DOCSP-29169)>`__
+- `FindOneAndReplaceOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/FindOneAndReplaceOptions.html>`__
 
 Find and Delete
 ~~~~~~~~~~~~~~~
@@ -177,7 +177,7 @@ descending sort on the ``_id`` field.
    .. output:: 
       :language: console
 
-      {"_id": 2, "food": "pear", "color": "yellow"}
+      FoodOrder(id=2, food=pear, color=yellow)
 
 For more information on the ``Sorts`` class, see our
 :doc:`guide on the Sorts builder </fundamentals/builders/sort/>`.
@@ -186,7 +186,7 @@ For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
 - `findOneAndDelete() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find-one-and-delete.html>`__
-- `FindOneAndDeleteOptions <TODO:(DOCSP-29169)>`__
+- `FindOneAndDeleteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/FindOneAndDeleteOptions.html>`__
 
 Avoiding a Race Condition
 -------------------------
@@ -207,7 +207,7 @@ The following document in MongoDB represents the room:
 
 This data is modeled with the following Kotlin data class: 
 
-.. literalinclude:: /examples/generated/CompoundTest.snippet.room-data-class.kt
+.. literalinclude:: /examples/generated/CompoundOps_BookARoomTest.snippet.room-data-class.kt
    :language: kotlin
 
 Example With Race Condition
@@ -216,7 +216,7 @@ Example With Race Condition
 Let's say our app uses this ``bookARoomUnsafe`` method to checkout our room to
 a guest:
 
-.. literalinclude:: /examples/generated/CompoundTest.snippet.unsafe.kt
+.. literalinclude:: /examples/generated/CompoundOps_BookARoomTest.snippet.unsafe.kt
    :language: kotlin
    :emphasize-lines: 3,14
 
@@ -264,7 +264,7 @@ Example Without Race Condition
 Let's use a compound operation to avoid the race condition and
 always give our users the correct message. 
 
-.. literalinclude:: /examples/generated/CompoundTest.snippet.safe.kt
+.. literalinclude:: /examples/generated/CompoundOps_BookARoomTest.snippet.safe.kt
    :language: kotlin
    :emphasize-lines: 7
 
