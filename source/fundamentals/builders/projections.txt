@@ -16,7 +16,7 @@ Overview
 --------
 
 In this guide, you can learn how to specify **projections** using
-:doc:`builders </fundamentals/builders/>` in the MongoDB Java driver.
+:doc:`builders </fundamentals/builders/>` in the MongoDB Kotlin driver.
 
 MongoDB supports **field projection**, specifying which fields to include and exclude when returning results from a
 query. Projection in MongoDB follows some basic rules:
@@ -37,13 +37,11 @@ to any method that expects a projection.
    `Projections <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Projections.html>`__
    class statically:
 
-   .. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-      :start-after: begin static import
-      :end-before: end static import
-      :language: java
-      :dedent:
 
-   The following examples assume this static import.
+   .. code-block:: kotlin
+
+      import com.mongodb.client.model.Projections.*
+
 
 Sample Documents and Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,6 +93,11 @@ temperatures in Celsius for the years 2018 and 2019:
      ]
    }
 
+The following data class used to represent the documents in the collection:
+
+.. literalinclude:: /examples/generated/ProjectionsBuildersTest.snippet.example-data-class.kt
+   :language: kotlin
+
 Projection Operations
 ---------------------
 
@@ -106,38 +109,29 @@ Inclusion
 
 Use the ``include()`` method to specify the inclusion of one or more fields.
 
-The following example includes the ``year`` field and (implicitly) the ``_id`` field:
+The following example includes the ``year`` field and implicitly the ``_id`` field:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin include single field
-   :end-before: end include single field
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.include-one.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"_id": {"$oid": "6042edc9f2b56342164e0790"}, "year": 2018}
-   {"_id": {"$oid": "6042edc9f2b56342164e0791"}, "year": 2019}
+      TODO: kotlinize
 
+The following example includes the ``year`` and ``type`` fields and implicitly the ``_id`` field:
 
-The following example includes the ``year`` and ``type`` fields and (implicitly) the ``_id`` field:
+.. io-code-block::
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin include multiple fields
-   :end-before: end include multiple fields
-   :language: java
-   :dedent:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.include-many.kt
+      :language: kotlin
 
-The following code shows the output from this projection:
+   .. output::
+      :language: console
 
-.. code-block:: json
-   :copyable: false
-
-   {"_id": {"$oid": "6042edc9f2b56342164e0790"}, "year": 2018, "type": "even number but not a leap year"}
-   {"_id": {"$oid": "6042edc9f2b56342164e0791"}, "year": 2019, "type": "odd number, can't be a leap year"}
+      TODO: kotlinize
 
 Exclusion
 ~~~~~~~~~
@@ -146,36 +140,27 @@ Use the ``exclude()`` method to specify the exclusion of one or more fields.
 
 The following example excludes the ``temperatures`` field:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin exclude one field
-   :end-before: end exclude one field
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.exclude-one.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"_id": {"$oid": "6042edc9f2b56342164e0790"}, "year": 2018, "type": "even number but not a leap year"}
-   {"_id": {"$oid": "6042edc9f2b56342164e0791"}, "year": 2019, "type": "odd number, can't be a leap year"}
+      TODO: kotlinize
 
 The following example excludes the ``type`` and ``temperatures`` fields:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin exclude multiple fields
-   :end-before: end exclude multiple fields
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.exclude-many.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"_id": {"$oid": "6042edc9f2b56342164e0790"}, "year": 2018}
-   {"_id": {"$oid": "6042edc9f2b56342164e0791"}, "year": 2019}
-
+      TODO: kotlinize
 
 Combining Projections
 ~~~~~~~~~~~~~~~~~~~~~
@@ -185,39 +170,30 @@ Use the ``fields()`` method to combine multiple projections.
 The following example includes the ``year`` and ``type`` fields and excludes the
 ``_id`` field:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin show fields
-   :end-before: end show fields
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.combine-projections.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"year": 2018, "type": "even number but not a leap year"}
-   {"year": 2019, "type": "odd number, can't be a leap year"}
+      TODO: kotlinize
 
 Exclusion of ``_id``
 ~~~~~~~~~~~~~~~~~~~~
 
 Use the ``excludeId()`` convenience method to specify the exclusion of the ``_id`` field:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin exclude id
-   :end-before: end exclude id
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.exclude-id.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"year": 2018, "type": "even number but not a leap year"}
-   {"year": 2019, "type": "odd number, can't be a leap year"}
-
+      TODO: kotlinize
 
 Project an Array Element Match
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -228,27 +204,21 @@ query filter (if supplied) are retrieved.
 
 .. note::
 
-   Only the first element that matches the specified query filter will be included, regardless of how many matches there
-   may be.
+   Only the first element that matches the specified query filter will be included,
+   regardless of how many matches there may be.
 
 The following example projects the first element of the ``temperatures`` array where the ``avg`` field is
 greater that ``10.1``:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin elemMatch no filter
-   :end-before: end elemMatch no filter
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.project-array-element-match.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"_id": {"$oid": "6042edc9f2b56342164e0790"}, "year": 2018}
-   {"_id": {"$oid": "6042edc9f2b56342164e0791"}, "year": 2019, "temperatures": [{"month": "March", "avg": 10.43}]}
-
-
+      TODO: kotlinize
 
 When you've specified matching criteria in the **query** portion of your operation, use the ``elemMatch(String)`` method
 variant to specify a :manual:`positional projection </reference/operator/projection/positional/#sorts-and-the-positional-operator>` to include
@@ -262,18 +232,17 @@ the first element of an array. Only documents that match the query filter will b
 
 The following example projects the first element of the ``temperatures`` array:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin elemMatch with filter
-   :end-before: end elemMatch with filter
-   :language: java
-   :dedent:
+TODO: verify this is correct sample
 
-The following code shows the output from this projection:
+.. io-code-block::
 
-.. code-block:: json
-   :copyable: false
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.elem-match-string.kt
+      :language: kotlin
 
-   {"_id": {"$oid": "6042edc9f2b56342164e0791"}, "year": 2019, "temperatures": [{"month": "March", "avg": 10.43}]}
+   .. output::
+      :language: console
+
+      TODO: kotlinize
 
 Project an Array Slice
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -282,71 +251,27 @@ Use the ``slice()`` method to project a :manual:`slice </reference/operator/proj
 
 The following example projects the first **6** elements of the ``temperatures`` array:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin slice no skip
-   :end-before: end slice no skip
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.project-array-slice.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {
-     "_id": {
-       "$oid": "6042f1bc8ee6fa2a84d2be69"
-     },
-     "year": 2018,
-     "type": "even number but not a leap year",
-     "temperatures": [
-         ... <January-June temperature nested documents>
-     ]
-   }
-   {
-     "_id": {
-       "$oid": "6042f1bc8ee6fa2a84d2be6a"
-     },
-     "year": 2019,
-     "type": "odd number, can't be a leap year",
-     "temperatures": [
-         ... <January-June temperature nested documents>
-     ]
-   }
+      TODO: kotlinize
 
 The following example skips the first **6** elements of the ``temperatures`` array and projects the next **6**:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin slice with skip
-   :end-before: end slice with skip
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.project-array-slice-with-skip.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {
-     "_id": {
-       "$oid": "6042f1bc8ee6fa2a84d2be69"
-     },
-     "year": 2018,
-     "type": "even number but not a leap year",
-     "temperatures": [
-         ... <July-December temperature nested documents>
-     ]
-   }
-   {
-     "_id": {
-       "$oid": "6042f1bc8ee6fa2a84d2be6a"
-     },
-     "year": 2019,
-     "type": "odd number, can't be a leap year",
-     "temperatures": [
-         ... <July-December temperature nested documents>
-     ]
-   }
+      TODO: kotlinize
 
 Project a Text Score
 ~~~~~~~~~~~~~~~~~~~~
@@ -356,16 +281,12 @@ Use the ``metaTextScore()`` method to specify a projection of the
 
 The following example projects the text score as the value of the ``score`` field:
 
-.. literalinclude:: /includes/fundamentals/code-snippets/builders/Projections.java
-   :start-after: begin meta text score
-   :end-before: end meta text score
-   :language: java
-   :dedent:
+.. io-code-block::
 
-The following code shows the output from this projection:
+   .. input:: /examples/generated/ProjectionsBuildersTest.snippet.project-with-text-score.kt
+      :language: kotlin
 
-.. code-block:: json
-   :copyable: false
+   .. output::
+      :language: console
 
-   {"_id": {"$oid": "6042f1bc8ee6fa2a84d2be69"}, "year": 2018, "score": 1.25}
-   {"_id": {"$oid": "6042f1bc8ee6fa2a84d2be6a"}, "year": 2019, "score": 0.625}
+      TODO: kotlinize

@@ -16,7 +16,7 @@ Overview
 --------
 
 In this guide, you can learn how to control which fields appear in
-documents returned from read operations with the MongoDB Java driver.
+documents returned from read operations with the MongoDB Kotlin driver.
 
 Many read requests require only a subset of fields in a document.
 For example, when logging a user in you may only need their username, and
@@ -66,6 +66,8 @@ varieties of fruit:
 In the following query, pass the projection to return the ``name``
 field of each document:
 
+TODO: kotlinize
+
 .. code-block:: java
    :emphasize-lines: 3
 
@@ -105,6 +107,8 @@ behavior in projections: you *can* explicitly exclude the ``_id`` field
 even when explicitly including other fields if you do not want ``_id``
 to be present in returned documents.
 
+TODO: kotlinize
+
 .. code-block:: java
    :emphasize-lines: 3
 
@@ -119,12 +123,14 @@ The projection document specifies that the read operation result should
 excludes the ``qty`` and ``rating`` fields. Chaining this projection to
 ``find()`` with an empty query filter yields the following results:
 
+TODO: kotlinize
+
 .. code-block:: javascript
    :copyable: false
 
-   { "name": "apples" }
-   { "name": "bananas" }
-   { "name": "oranges" }
+   { "name": "apples" },
+   { "name": "bananas" },
+   { "name": "oranges" },
    { "name": "avocados" }
 
 You can also specify multiple fields to include in your projection.
@@ -133,6 +139,8 @@ You can also specify multiple fields to include in your projection.
 
    The order in which you specify the fields in the projection does not
    alter the order in which they are returned.
+
+TODO: kotlinize
 
 .. code-block:: java
    :emphasize-lines: 2
@@ -143,6 +151,8 @@ You can also specify multiple fields to include in your projection.
 
 This example that identifies two fields to include in the projection yields
 the following results:
+
+TODO: kotlinize
 
 .. code-block:: json
    :copyable: false
