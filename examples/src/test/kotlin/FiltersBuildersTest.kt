@@ -1,6 +1,5 @@
 
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters.geoWithin
 import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Polygon
 import com.mongodb.client.model.geojson.Position
@@ -205,7 +204,7 @@ class FiltersBuildersTest {
             Position(4.0, 4.0),
             Position(0.0, 4.0),
             Position(0.0, 0.0)))
-        val geoWithinComparison = geoWithin(Store::coordinates.name, square)
+        val geoWithinComparison = Filters.geoWithin(Store::coordinates.name, square)
 
         val resultsFlow = collection.find(geoWithinComparison)
         resultsFlow.collect { println(it) }

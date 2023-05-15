@@ -11,7 +11,7 @@ val square = Polygon(listOf(
     Position(4.0, 4.0),
     Position(0.0, 4.0),
     Position(0.0, 0.0)))
-val geoWithinComparison = geoWithin(Store::coordinates.name, square)
+val geoWithinComparison = Filters.geoWithin(Store::coordinates.name, square)
 
 val resultsFlow = collection.find(geoWithinComparison)
 resultsFlow.collect { println(it) }
