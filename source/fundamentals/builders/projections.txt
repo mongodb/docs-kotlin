@@ -239,8 +239,6 @@ the first element of an array. Only documents that match the query filter will b
 
 The following example projects the first element of the ``temperatures`` array:
 
-TODO: verify this is correct sample
-
 .. io-code-block::
 
    .. input:: /examples/generated/ProjectionsBuildersTest.snippet.elem-match-string.kt
