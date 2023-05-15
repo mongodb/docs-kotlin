@@ -67,12 +67,20 @@ The Filter examples in this guide use the following sample collection ``paints``
 
 .. code-block:: json
 
-   TODO: add json docs
+   { "_id": 1, "color": "red", "qty": 5, "vendor": ["A"] }
+   { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
+   { "_id": 3, "color": "blue", "qty": 8, "vendor": ["B", "A"] }
+   { "_id": 4, "color": "white", "qty": 6, "vendor": ["D"] }
+   { "_id": 5, "color": "yellow", "qty": 11, "vendor": ["A", "B"] }
+   { "_id": 6, "color": "pink", "qty": 5, "vendor": ["C"] }
+   { "_id": 7, "color": "green", "qty": 8,"vendor": ["B", "C"] }
+   { "_id": 8, "color": "orange", "qty": 7, "vendor": ["A", "D"] }
 
 These documents in the ``paints`` are modeled by the following data class for use
 with the Kotlin driver:
 
-TODO: add data class
+.. literalinclude:: /examples/generated/FiltersBuildersTest.snippet.paint-order-data-class.kt
+    :language: kotlin
 
 .. _comparison:
 
@@ -129,9 +137,8 @@ the value of the ``qty`` field equals "5" in the ``paint_purchases`` collection:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 1, "color": "red", "qty": 5, "vendor": ["A"] }
-      { "_id": 6, "color": "pink", "qty": 5, "vendor": ["C"] }
+      PaintOrder(id=1, qty=5, color=red, vendors=[A])
+      PaintOrder(id=6, qty=5, color=pink, vendors=[C])
 
 The following example creates a filter that matches all documents where
 the value of the ``qty`` field is greater than or equal to "10" in the
@@ -145,9 +152,8 @@ the value of the ``qty`` field is greater than or equal to "10" in the
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
-      { "_id": 5, "color": "yellow", "qty": 11, "vendor": ["A", "B"] }
+      PaintOrder(id=2, qty=10, color=purple, vendors=[C, D])
+      PaintOrder(id=5, qty=11, color=yellow, vendors=[A, B])
 
 The following example creates a filter that matches all documents in
 the ``paints`` collection because the predicate is empty:
@@ -160,12 +166,14 @@ the ``paints`` collection because the predicate is empty:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      // All documents in the collection...
-      { "_id": 1, "color": "red", "qty": 5, "vendor": ["A"] }
-      { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
-      { "_id": 3, "color": "blue", "qty": 8, "vendor": ["B", "A"] }
-      ...
+      PaintOrder(id=1, qty=5, color=red, vendors=[A])
+      PaintOrder(id=2, qty=10, color=purple, vendors=[C, D])
+      PaintOrder(id=3, qty=8, color=blue, vendors=[B, A])
+      PaintOrder(id=4, qty=6, color=white, vendors=[D])
+      PaintOrder(id=5, qty=11, color=yellow, vendors=[A, B])
+      PaintOrder(id=6, qty=5, color=pink, vendors=[C])
+      PaintOrder(id=7, qty=8, color=green, vendors=[B, C])
+      PaintOrder(id=8, qty=7, color=orange, vendors=[A, D])
 
 .. _logical:
 
@@ -206,10 +214,9 @@ of the ``color`` field equals "pink" in the ``paints`` collection:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
-      { "_id": 5, "color": "yellow", "qty": 11, "vendor": ["A", "B"] }
-      { "_id": 6, "color": "pink", "qty": 5, "vendor": ["C"] }
+      PaintOrder(id=2, qty=10, color=purple, vendors=[C, D])
+      PaintOrder(id=5, qty=11, color=yellow, vendors=[A, B])
+      PaintOrder(id=6, qty=5, color=pink, vendors=[C])
 
 .. _arrays:
 
@@ -247,8 +254,8 @@ containing both "A" and "D" in the ``paints`` collection:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 8, "color": "orange", "qty": 7, "vendor": ["A", "D"] }
+      PaintOrder(id=8, qty=7, color=orange, vendors=[A, D])
+
 
 .. _elements:
 
@@ -283,11 +290,10 @@ its value does not equal "5" or "8" in the ``paints`` collection:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
-      { "_id": 4, "color": "white", "qty": 6, "vendor": ["D"]}
-      { "_id": 5, "color": "yellow", "qty": 11, "vendor": ["A", "B"] }
-      { "_id": 8, "color": "orange", "qty": 7, "vendor": ["A", "D"] }
+      PaintOrder(id=2, qty=10, color=purple, vendors=[C, D])
+      PaintOrder(id=4, qty=6, color=white, vendors=[D])
+      PaintOrder(id=5, qty=11, color=yellow, vendors=[A, B])
+      PaintOrder(id=8, qty=7, color=orange, vendors=[A, D])
 
 .. _evaluation:
 
@@ -328,9 +334,8 @@ starting with the letter "p" in the ``paint_purchases`` collection:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 2, "color": "purple", "qty": 10, "vendor": ["C", "D"] }
-      { "_id": 6, "color": "pink", "qty": 5, "vendor": ["C"] }
+      PaintOrder(id=2, qty=10, color=purple, vendors=[C, D])
+      PaintOrder(id=6, qty=5, color=pink, vendors=[C])
 
 .. _bitwise:
 
@@ -361,11 +366,16 @@ The bitwise operator methods include:
    * - `bitsAnyClear() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html#bitsAnyClear(java.lang.String,long)>`__
      - documents where at least one of the specified bits of a field are clear (i.e. "0").
 
-.. TODO: update example here..this needs more work
-
-The following example matches documents that have a ``bitField`` field
+The following example matches documents that have a ``decimalValue`` field
 with bits set at positions of the corresponding bitmask "34" (i.e.
-"00100010") in the ``binary_numbers`` collection:
+"00100010") in the following ``binary_numbers`` collection:
+
+.. code-block:: json
+
+   { "_id": 9, "decimalValue": 54, "binaryValue": "00110110" }
+   { "_id": 10, "decimalValue": 20, "binaryValue": "00010100" }
+   { "_id": 11, "decimalValue": 68, "binaryValue": "1000100" }
+   { "_id": 12, "decimalValue": 102, "binaryValue": "01100110" }
 
 .. io-code-block::
 
@@ -375,9 +385,8 @@ with bits set at positions of the corresponding bitmask "34" (i.e.
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 9, "a": 54, "binaryValue": "00110110" }
-      { "_id": 12, "a": 102, "binaryValue": "01100110" }
+      BinaryNumber(id=1, decimalValue=54, binaryValue=00110110)
+      BinaryNumber(id=4, decimalValue=102, binaryValue=01100110)
 
 .. _geospatial:
 
@@ -424,7 +433,14 @@ The geospatial operator methods include:
 The following example creates a filter that matches documents in which
 the ``point`` field contains a GeoJSON geometry that falls within
 the given :manual:`Polygon </reference/geojson/#polygon>`
-in the ``paints`` collection:
+in the following ``stores`` collection:
+
+.. code-block:: json
+
+   { "_id": 13, "coordinates": { "type": "Point", "coordinates": [2.0, 2.0] } }
+   { "_id": 14, "coordinates": { "type": "Point", "coordinates": [5.0, 6.0] } }
+   { "_id": 15, "coordinates": { "type": "Point", "coordinates": [1.0, 3.0] } }
+   { "_id": 16, "coordinates": { "type": "Point", "coordinates": [4.0, 7.0] } }
 
 .. io-code-block::
 
@@ -434,6 +450,5 @@ in the ``paints`` collection:
    .. output::
       :language: console
 
-      TODO: kotlinize
-      { "_id": 13, "coordinates": {"type": "Point", "coordinates": [2.0, 2.0]} }
-      { "_id": 15, "coordinates": {"type": "Point", "coordinates": [1.0, 3.0]} }
+      Store(id=13, name=Store 13, coordinates=Point{coordinate=Position{values=[2.0, 2.0]}})
+      Store(id=15, name=Store 15, coordinates=Point{coordinate=Position{values=[1.0, 3.0]}})
