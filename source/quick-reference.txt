@@ -14,6 +14,8 @@ The examples on the page use the following data class to represent MongoDB docum
 .. literalinclude:: /examples/generated/QuickReferenceTest.snippet.data-model.kt
    :language: kotlin
 
+.. TODO: when usage examples added back in, add them to links on this page
+
 .. list-table::
    :header-rows: 1
    :widths: 25 75
@@ -205,7 +207,6 @@ The examples on the page use the following data class to represent MongoDB docum
    * - | **Count Documents**
        |
        | `API Documentation <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/count-documents.html>`__
-       | :ref:`Fundamentals <kotlin-usage-count>`
 
      - .. io-code-block::
           :copyable: true
@@ -301,7 +302,7 @@ The examples on the page use the following data class to represent MongoDB docum
 
    * - | **Project Document Fields When Retrieving Them**
        |
-       | `API Documentation <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-find-flow/project.html>`__
+       | `API Documentation <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-find-flow/projection.html>`__
        | :ref:`Fundamentals <kotlin-fundamentals-project>`
 
      - .. io-code-block::
@@ -343,27 +344,11 @@ The examples on the page use the following data class to represent MongoDB docum
 
    * - | **Install the Driver Dependency with Maven**
 
-     - .. code-block:: xml
-          :caption: pom.xml
-          :copyable: true
-
-          <dependencies>
-              <dependency>
-                  <groupId>org.mongodb</groupId>
-                  <artifactId>mongodb-driver-kotlin-coroutine</artifactId>
-                  <version>{+full-version+}</version>
-              </dependency>
-          </dependencies>
+     - .. include:: /includes/kotlin-driver-coroutine-maven-versioned.rst
 
    * - | **Install the Driver Dependency with Gradle**
-    
-     - .. code-block:: kotlin
-          :caption: build.gradle.kts
-          :copyable: true
 
-          dependencies {
-              implementation("org.mongodb:mongodb-driver-kotlin-coroutine:{+full-version+}")
-          }
+     - .. include:: /includes/kotlin-driver-coroutine-gradle-versioned.rst
 
 .. TODO:(DOCSP-29167) add back as part of this ticket. needs refactoring b/c cursor not thing for coroutines driver
 ..  * - | **Access Data from a Flow Iteratively**
