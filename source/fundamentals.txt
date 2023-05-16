@@ -18,6 +18,7 @@ Fundamentals
    /fundamentals/indexes
    /fundamentals/logging
    /fundamentals/monitoring
+   /fundamentals/time-series
 
 .. TODO : add back in after MVP
    .. /fundamentals/auth
@@ -25,7 +26,6 @@ Fundamentals
    .. /fundamentals/collations
    .. /fundamentals/gridfs
    .. /fundamentals/csfle
-   .. /fundamentals/time-series
 
 .. include:: /includes/fundamentals-sections.rst
    
