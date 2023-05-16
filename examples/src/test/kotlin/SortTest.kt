@@ -33,7 +33,7 @@ internal class SortTest {
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val foodOrders = listOf(
                     FoodOrder(1, "c", "coffee with milk"),
@@ -49,7 +49,7 @@ internal class SortTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
@@ -160,7 +160,7 @@ internal class SortTest {
     fun combineSortTest() = runBlocking {
         // :snippet-start: combine-sort
         val orderBySort = Sorts.orderBy(
-            Sorts.descending(FoodOrder::letter.name), ascending("_id")
+            Sorts.descending(FoodOrder::letter.name), Sorts.ascending("_id")
         )
         val results = collection.find().sort(orderBySort)
         results.collect {println(it) }
