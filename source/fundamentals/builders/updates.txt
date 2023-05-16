@@ -132,9 +132,7 @@ The preceding example updates the original document to the following state:
    {
       "_id": 1,
       "color": "red",
-      "qty": 5,
-      "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2021-03-05T05:00:00Z" }
+      "qty": 7
    }
 
 .. note::
