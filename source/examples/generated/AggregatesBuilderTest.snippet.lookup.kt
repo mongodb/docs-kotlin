@@ -1,1 +1,1 @@
-Aggregates.lookup("comments", "id", "movie_id", "joined_comments")
+Aggregates.lookup("comments", "_id", "movie_id", "joined_comments")

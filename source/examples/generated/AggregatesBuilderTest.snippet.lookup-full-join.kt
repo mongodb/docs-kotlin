@@ -2,7 +2,6 @@ val variables = listOf(
     Variable("order_item", "\$item"),
     Variable("order_qty", "\$ordered")
 )
-
 val pipeline = listOf(
     Aggregates.match(
         Filters.expr(
@@ -14,8 +13,10 @@ val pipeline = listOf(
     ),
     Aggregates.project(
         Projections.fields(
-            Projections.exclude("stock_item"),
-            Projections.excludeId()))
+            Projections.exclude("customerId", "stock_item"),
+            Projections.excludeId()
+        )
+    )
 )
-
-val innerJoinLookup = Aggregates.lookup("warehouses", variables, pipeline, "stockdata")
+val innerJoinLookup =
+    Aggregates.lookup("warehouses", variables, pipeline, "stockdata")

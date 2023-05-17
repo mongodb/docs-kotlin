@@ -44,9 +44,13 @@ aggregation as a list:
 
    val matchStage = match(eq("some_field", "some_criteria"))
    val sortByCountStage = sortByCount("some_field")
-   val results = collection.aggregate(listOf(matchStage, sortByCountStage))
+   val results = collection.aggregate(listOf(matchStage, sortByCountStage)).toList()
 
-   results.collect { println(it) }
+Many ``Aggregation`` examples in this guide use the :atlas:`Atlas sample Mflix dataset </sample-data/sample-mflix>`. The documents in this collection are
+modeled by the following ``Movie`` data class for use with the Kotlin driver: 
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.movie-data-class.kt
+   :language: kotlin
 
 Match
 -----
@@ -60,11 +64,12 @@ query filter, filtering out documents that do not match.
    The filter can be an instance of any class that implements ``Bson``, but it's
    convenient to combine with use of the :ref:`Filters <filters-builders>` class.
 
-The following example creates a pipeline stage that matches all documents where the
+The following example creates a pipeline stage that matches all documents 
+in the ``movies`` collection where the
 ``title`` field is equal to "The Shawshank Redemption":
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.match.kt
-      :language: kotlin
+   :language: kotlin
 
 Project
 -------
@@ -78,11 +83,11 @@ in aggregation follows the same rules as :doc:`field projection in queries </fun
    Though the projection can be an instance of any class that implements ``Bson``,
    it's convenient to combine with use of :ref:`Projections <projections-builders>`.
 
-The following example creates a pipeline stage that excludes the ``_id`` field but
-includes the ``title`` and ``plot`` fields:
+The following example creates a pipeline stage that includes the ``title`` and 
+``plot`` fields but excludes the ``_id`` field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.project.kt
-      :language: kotlin
+   :language: kotlin
 
 Projecting Computed Fields
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +113,7 @@ pipeline stage that returns literal documents from input values.
    stage in the pipeline.
 
 The following example creates a pipeline stage that creates 
-sample documents with a ``title`` field: 
+sample documents in the ``movies`` collection with a ``title`` field: 
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.documents.kt
    :language: kotlin
@@ -118,6 +123,9 @@ sample documents with a ``title`` field:
    If you use the ``documents()`` method to provide the input to an aggregation pipeline, 
    you must call the ``aggregate()`` method on a database instead of on a 
    collection.
+
+   .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.doc-important.kt
+      :language: kotlin
 
 Sample
 ------
@@ -155,7 +163,8 @@ Use the ``skip()`` method to create a :manual:`$skip </reference/operator/aggreg
 pipeline stage to skip over the specified number of documents before
 passing documents into the next stage.
 
-The following example creates a pipeline stage that skips the first ``5`` documents:
+The following example creates a pipeline stage that skips the first ``5`` documents
+in the ``movies`` collection:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.skip.kt
    :language: kotlin
@@ -166,7 +175,8 @@ Limit
 Use the :manual:`$limit </reference/operator/aggregation/limit/>` pipeline stage
 to limit the number of documents passed to the next stage.
 
-The following example creates a pipeline stage that limits the number of documents to ``4``:
+The following example creates a pipeline stage that limits the number of documents 
+returned from the ``movies`` collection to ``4``:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.limit.kt
    :language: kotlin
@@ -181,10 +191,11 @@ Left Outer Join
 ~~~~~~~~~~~~~~~
 
 The following example creates a pipeline stage that performs a left outer
-join between the ``movies`` and ``comments`` collections:
+join between the ``movies`` and ``comments`` collections in the sample ``mflix`` 
+database:
 
-- It joins the ``_id`` field from ``movies`` to the ``movie_id`` field in ``comments``
-- It outputs the results in the ``joined_comments`` field:
+#. It joins the ``_id`` field from ``movies`` to the ``movie_id`` field in ``comments``
+#. It outputs the results in the ``joined_comments`` field
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup.kt
    :language: kotlin
@@ -192,9 +203,15 @@ join between the ``movies`` and ``comments`` collections:
 Full Join and Uncorrelated Subqueries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following example creates a pipeline stage that joins two collections, ``orders``
-and ``warehouses``, by the item and whether the available quantity is enough
-to fulfill the ordered quantity:
+The following example uses the ``orders``and ``warehouses`` collections. The 
+data is modeled using the following Kotlin data classes: 
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup-data-classes.kt
+   :language: kotlin
+
+The example creates a pipeline stage that joins the two collections by the item 
+and whether the available quantity in the stock inventory is enough to fulfill 
+the ordered quantity:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup-full-join.kt
    :language: kotlin
@@ -211,10 +228,11 @@ for each distinct grouping.
    The driver includes the `Accumulators <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Accumulators.html>`__
    class with static factory methods for each of the supported accumulators.
 
-The following example creates a pipeline stage that groups documents by the value
-of the ``customerId`` field. Each group accumulates the sum and average
-of the values of the ``quantity`` field into the ``totalQuantity`` and
-``averageQuantity`` fields.
+The following example creates a pipeline stage that groups documents 
+in the ``orders`` collection by the value of the ``customerId`` field. 
+Each group accumulates the sum and average
+of the values of the ``ordered`` field into the ``totalQuantity`` and
+``averageQuantity`` fields:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.group.kt
    :language: kotlin
@@ -248,6 +266,9 @@ following builders to create an aggregation accumulation operator:
 Learn which aggregation pipeline stages you can use accumulator operators with
 from the Server manual section on
 :manual:`Accumulators </reference/operator/aggregation/#std-label-agg-operators-group-accumulators>`.
+
+The pick-n accumulator examples use documents from the ``movies`` collection 
+in the ``sample-mflix`` database.
 
 .. _kotlin_aggregates_min_n:
 
@@ -346,10 +367,8 @@ The following example demonstrates how to use the ``top()`` method to return
 the ``title`` and ``imdb.rating`` values for the top rated movies based on the
 ``imdb.rating``, grouped by ``year``.
 
-.. .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.top.kt
-..    :language: kotlin
-
-.. TODO: Troubleshoot decoding error
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.top.kt
+   :language: kotlin
 
 See the `top() API documentation <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Accumulators.html#top(java.lang.String,org.bson.conversions.Bson,OutExpression)>`__
 for more information.
@@ -373,10 +392,8 @@ The following example demonstrates how to use the ``topN()`` method to return
 the ``title`` and ``runtime`` values of the three longest movies based on the
 ``runtime`` values, grouped by ``year``.
 
-.. .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.topN.kt
-..    :language: kotlin
-
-.. TODO: Troubleshoot decoding error
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.topN.kt
+   :language: kotlin
 
 See the `topN() API documentation <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Accumulators.html#topN(java.lang.String,org.bson.conversions.Bson,OutExpression,NExpression)>`__
 for more information.
@@ -393,10 +410,8 @@ The following example demonstrates how to use the ``bottom()`` method to
 return the ``title`` and ``runtime`` values of the shortest movie based on the
 ``runtime`` value, grouped by ``year``.
 
-.. .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bottom.kt
-..    :language: kotlin
-
-.. TODO: Troubleshoot decoding error
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bottom.kt
+   :language: kotlin
 
 See the `bottom() API documentation <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Accumulators.html#bottom(java.lang.String,org.bson.conversions.Bson,OutExpression)>`__
 for more information.
@@ -422,8 +437,6 @@ based on the ``imdb.rating`` value, grouped by ``year``:
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bottomN.kt
    :language: kotlin
 
-.. TODO: Troubleshoot decoding error
-
 See the `bottomN() API documentation <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Accumulators.html#bottomN(java.lang.String,org.bson.conversions.Bson,OutExpression,NExpression)>`__
 for more information.
 
@@ -438,8 +451,6 @@ The following example creates a document for each element in the ``lowest_rated_
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.unwind.kt
    :language: kotlin
-
-.. TODO: Troubleshoot decoding error
 
 To preserve documents that have missing or ``null``
 values for the array field, or where array is empty:
@@ -500,7 +511,13 @@ Use the ``graphLookup()`` method to create a :manual:`$graphLookup </reference/o
 pipeline stage that performs a recursive search on a specified collection to match
 a specified field in one document to a specified field of another document.
 
-The following example computes the reporting graph for users in the
+The following example uses the ``employees`` collection. The data is modeled
+using the following Kotlin data class: 
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.graph-data-class.kt
+   :language: kotlin
+
+The example computes the reporting graph for users in the
 ``employees`` collection, recursively matching the value in the ``reportsTo`` field
 to the ``name`` field:
 
@@ -517,7 +534,7 @@ recursion depth information for every document.
 
 Using ``GraphLookupOptions``, you can specify a filter that documents must match
 in order for MongoDB to include them in your search. In this
-example, only links with "golf" in their ``hobbies`` field will be included.
+example, only links with "Engineering" in their ``department`` field will be included:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.graph-lookup-options.kt
    :language: kotlin
@@ -541,8 +558,8 @@ these groups by count in descending order.
           { "$sort": { "count": -1 } }
       ]
 
-The following example groups documents by the field ``genres``
-and computes the count for each distinct value:
+The following example groups documents in the ``movies`` collection by the field 
+``genres`` and computes the count for each distinct value:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.sort-by-count.kt
    :language: kotlin
@@ -554,13 +571,10 @@ Use the ``replaceRoot()`` method to create a :manual:`$replaceRoot </reference/o
 pipeline stage that replaces each input document with the specified document.
 
 The following example replaces each input document with the nested document
-in the ``spanish_translation`` field:
+in the ``spanishTranslation`` field:
 
-.. .. literalinclude:: /includes/fundamentals/code-snippets/builders/AggBuilders.java
-..    :start-after: // begin replaceRoot
-..    :end-before: // end replaceRoot
-..    :language: java
-..    :dedent:
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.replace-root.kt
+   :language: kotlin
 
 AddFields
 ---------
@@ -573,7 +587,8 @@ pipeline stage that adds new fields to documents.
    Use ``$addFields`` when you do not want to project field inclusion
    or exclusion.
 
-The following example adds two new fields, ``city`` and ``state`` to the input documents:
+The following example adds two new fields, ``city`` and ``state``, to the 
+input documents:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.add-fields.kt
    :language: kotlin
@@ -607,9 +622,14 @@ Use the ``bucket()`` method to create a :manual:`$bucket </reference/operator/ag
 pipeline stage that automates the bucketing of data around predefined boundary
 values.
 
-The following example creates a pipeline stage that groups incoming documents based
+The following examples use data modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-data-class.kt
+   :language: kotlin
+
+This example creates a pipeline stage that groups incoming documents based
 on the value of their ``screenSize`` field, inclusive of the lower boundary
-and exclusive of the upper boundary.
+and exclusive of the upper boundary:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket.kt
    :language: kotlin
@@ -621,7 +641,7 @@ The following example creates a pipeline stage that groups incoming documents ba
 on the value of their ``screenSize`` field, counting the number of documents
 that fall within each bucket, pushing the value of ``screenSize`` into a
 field called ``matches``, and capturing any screen sizes greater than "70"
-into a bucket called "200" for large screen sizes:
+into a bucket called "monster" for monstrously large screen sizes:
 
 .. tip::
 
@@ -692,7 +712,12 @@ on a specified span of documents in a collection.
    The driver includes the `Windows <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Windows.html>`__
    class with static factory methods for building windowed computations.
 
-The following example creates a pipeline stage that computes the
+The following example uses data modeled with the following Kotlin data class: 
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.window-data-class.kt
+   :language: kotlin
+
+The example creates a pipeline stage that computes the
 accumulated rainfall and the average temperature over the past month for
 each locality from more fine-grained measurements presented in the ``rainfall``
 and ``temperature`` fields:
@@ -722,6 +747,11 @@ apart:
 
    Document{{ _id=5553a..., position=Document{{type=Point, coordinates=[-47.9, 47.6]}}, ts=Mon Mar 05 08:00:00 EST 1984, ... }}
    Document{{ _id=5553b..., position=Document{{type=Point, coordinates=[-47.9, 47.6]}}, ts=Mon Mar 05 09:00:00 EST 1984, ... }}
+
+These documents are modeled using the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.densify-data-class.kt
+   :language: kotlin
 
 Suppose you needed to create a pipeline stage that performs the following
 actions on these documents:
@@ -773,6 +803,11 @@ measurements at an hourly interval:
    Document{{_id=6308a..., hour=1, temperature=23C, air_pressure=29.74}}
    Document{{_id=6308b..., hour=2, temperature=23.5C}}
    Document{{_id=6308c..., hour=3, temperature=null, air_pressure=29.76}}
+
+These documents are modeled using the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.fill-data-class.kt
+   :language: kotlin
 
 Suppose you needed to populate missing temperature and air pressure
 data points in the documents as follows:

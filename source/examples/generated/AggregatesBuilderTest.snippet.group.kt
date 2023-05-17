@@ -1,3 +1,3 @@
 Aggregates.group("\$customerId",
-    sum("totalQuantity", "\$quantity"),
-    avg("averageQuantity", "\$quantity"))
+    sum("totalQuantity", "\$ordered"),
+    avg("averageQuantity", "\$ordered"))

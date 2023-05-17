@@ -1,1 +1,1 @@
-replaceRoot("\$fullName")
+replaceRoot("\$spanishTranslation")
