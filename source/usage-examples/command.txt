@@ -40,7 +40,7 @@ statistics from a specific MongoDB database.
 
    .. output::
       :language: json
-      :visible:
+      :visible: false
 
       {
         "db": "sample_mflix",
