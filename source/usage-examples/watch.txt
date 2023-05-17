@@ -13,175 +13,87 @@ stream allows applications to watch for changes to data and react to them.
 The change stream returns **change event** documents when changes occur. A
 change event contains information about the updated data.
 
-Open a change stream by calling the ``watch()`` method on a 
-``MongoCollection``, ``MongoDatabase``, or ``MongoClient`` object as shown in 
+Open a change stream by calling the ``watch()`` method on a
+``MongoCollection``, ``MongoDatabase``, or ``MongoClient`` object as shown in
 the following code example:
 
-TODO: kotlinize
-
-.. code-block:: java
-
-   ChangeStreamIterable<Document> changeStream = database.watch();
+.. literalinclude:: /examples/generated/WatchUsageExampleTest.snippet.basic-watch.kt
+   :language: kotlin
 
 The ``watch()`` method optionally takes an **aggregation pipeline**  which
 consists of an array of **stages** as the first parameter to filter and
 transform the change event output as follows:
 
-TODO: kotlinize
+.. literalinclude:: /examples/generated/WatchUsageExampleTest.snippet.aggregates-watch.kt
+   :language: kotlin
 
-.. code-block:: java
-
-   List<Bson> pipeline = Arrays.asList(
-                           Aggregates.match(
-                              Filters.lt("fullDocument.runtime", 15)));
-   ChangeStreamIterable<Document> changeStream = database.watch(pipeline);
-
-TODO: kotlinize..will be some flow stuff
-
-The ``watch()`` method returns an instance of ``ChangeStreamIterable``, a class
+The ``watch()`` method returns an instance of ``ChangeStreamFlow``, a class
 that offers several methods to access, organize, and traverse the results.
-``ChangeStreamIterable`` also inherits methods from its parent class,
-``MongoIterable`` which implements the core Java interface ``Iterable``.
+``ChangeStreamFlow`` also inherits methods from its parent class ``Flow``
+from the Kotlin Coroutines library.
 
-You can call ``forEach()`` on the ``ChangeStreamIterable`` to handle
-events as they occur, or you can use the ``iterator()`` method which
-returns a ``MongoCursor`` instance that you can use to traverse the results.
-
-You can call methods on the ``MongoCursor`` such as ``hasNext()`` to check
-whether additional results exist, ``next()`` to return the next document
-in the collection, or ``tryNext()``, to immediately return either
-the next available element in the change stream or ``null``. Unlike the
-``MongoCursor`` returned by other queries, a ``MongoCursor`` associated
-with a change stream waits until a change event arrives before
-returning a result from ``next()``. As a result, calls to ``next()``
-using a change stream's ``MongoCursor`` never throw a
-``java.util.NoSuchElementException``.
+You can call ``collect()`` on the ``ChangeStreamFlow`` to handle
+events as they occur. Alternatively, you can use other methods built in to ``Flow``
+to work with the results.
 
 To configure options for processing the documents returned from the change
-stream, use member methods of the ``ChangeStreamIterable`` object returned
-by ``watch()``. See the link to the ``ChangeStreamIterable`` API
+stream, use member methods of the ``ChangeStreamFlow`` object returned
+by ``watch()``. See the link to the ``ChangeStreamFlow`` API
 documentation at the bottom of this example for more details on the
 available methods.
 
-How to Process Change Stream Events with a Callback
----------------------------------------------------
+Process Change Stream Events with .collect()
+--------------------------------------------
 
-To capture events from a change stream, call the ``forEach()`` method
-with a callback function as shown below:
+To capture events from a change stream, call the ``collect()`` method
+as shown below:
 
-.. code-block:: java
+.. literalinclude:: /examples/generated/WatchUsageExampleTest.snippet.collect-change-stream.kt
+   :language: kotlin
 
-   changeStream.forEach(event -> System.out.println("Change observed: " + event));
-
-The callback function triggers when a change event is emitted. You can
-specify logic in the callback to process the event document when it is
+The ``.collect()`` function triggers when a change event is emitted. You can
+specify logic in the function to process the event document when it is
 received.
-
-.. important:: forEach() blocks the current thread
-
-   Calls to ``forEach()`` block the current thread as long as the
-   corresponding change stream listens for events. If your program
-   needs to continue executing other logic, such as processing requests or
-   responding to user input, consider creating and listening to your
-   change stream in a separate thread.
 
 .. note::
 
    For update operation change events, change streams only return the modified
    fields by default rather than the entire updated document. You can configure
    your change stream to also return the most current version of the document
-   by calling the ``fullDocument()`` member method of the ``ChangeStreamIterable``
+   by calling the ``fullDocument()`` member method of the ``ChangeStreamFlow``
    object with the value ``FullDocument.UPDATE_LOOKUP`` as follows:
 
-   .. code-block:: java
-
-      ChangeStreamIterable<Document> changeStream = database.watch()
-                .fullDocument(FullDocument.UPDATE_LOOKUP);
+   .. literalinclude:: /examples/generated/WatchUsageExampleTest.snippet.full-document-changes.kt
+      :language: kotlin
 
 Example
 -------
 
-The following example uses two separate applications to demonstrate how
-to listen for changes using a change stream:
+The following example application opens a change stream on the ``movies`` collection
+in the ``sample_mflix`` database. The application use an aggregation pipeline
+to filter changes based on  ``operationType`` so that it only receives insert and update
+events. Deletes are excluded by omission. The application uses the ``.collect()`` method
+to receive and print the filtered change events that occur on the collection.
 
-- The first application, named ``Watch``, opens a change stream
-  on the ``movies`` collection in the ``sample_mflix`` database.
-  ``Watch`` uses an aggregation pipeline to filter changes based on
-  ``operationType`` so that it only receives insert and update
-  events (deletes are excluded by omission). ``Watch`` uses a callback
-  to receive and print the filtered change events that occur on the
-  collection.
-
-- The second application, named ``WatchCompanion``, inserts a
-  single document into the ``movies`` collection in the ``sample_mflix``
-  database. Next, ``WatchCompanion`` updates the document with a new
-  field value. Finally, ``WatchCompanion`` deletes the document.
-
-First, run ``Watch`` to open the change stream on the collection and
-define a callback on the change stream using the ``forEach()`` method.
-While ``Watch`` is running, run ``WatchCompanion`` to generate change
-events by performing changes to the collection.
+The application launches the ``collect()`` operation in a separate coroutine job,
+which allows the application to continue running while the change stream is open.
+Once the operations are complete, the application closes the change stream and exits.
 
 .. include:: /includes/connect-guide-note.rst
 
-``Watch``:
+.. io-code-block::
 
-TODO: kotlinize
+   .. input:: /examples/generated/Watch.snippet.watch-usage-example.kt
+      :language: kotlin
 
-.. literalinclude:: /includes/usage-examples/code-snippets/Watch.java
-   :language: java
+   .. output::
+      :language: console
+      :visible: false
 
-``WatchCompanion``:
+      Received a change to the collection: ChangeStreamDocument{ operationType=insert, resumeToken={"_data": "82646518C0000000022B022C0100296E5A1004782683FAB5A741B0B0805C207A7FCCED46645F69640064646518C0E6873977DD9059EE0004"}, namespace=sample_mflix.movies, destinationNamespace=null, fullDocument=Movie(title=Back to the Future, year=1985), fullDocumentBeforeChange=null, documentKey={"_id": {"$oid": "646518c0e6873977dd9059ee"}}, clusterTime=Timestamp{value=7234215589353357314, seconds=1684347072, inc=2}, updateDescription=null, txnNumber=null, lsid=null, wallTime=BsonDateTime{value=1684347072952}}
+      Received a change to the collection: ChangeStreamDocument{ operationType=insert, resumeToken={"_data": "82646518C1000000012B022C0100296E5A1004782683FAB5A741B0B0805C207A7FCCED46645F69640064646518C1E6873977DD9059EF0004"}, namespace=sample_mflix.movies, destinationNamespace=null, fullDocument=Movie(title=Freaky Friday, year=2003), fullDocumentBeforeChange=null, documentKey={"_id": {"$oid": "646518c1e6873977dd9059ef"}}, clusterTime=Timestamp{value=7234215593648324609, seconds=1684347073, inc=1}, updateDescription=null, txnNumber=null, lsid=null, wallTime=BsonDateTime{value=1684347073112}}
+      Received a change to the collection: ChangeStreamDocument{ operationType=update, resumeToken={"_data": "8264651D4A000000042B022C0100296E5A1004CAEADF0D7376406A8197E3082CDB3D3446645F6964006464651D4A8C2D2556BA204FB40004"}, namespace=sample_mflix.movies, destinationNamespace=null, fullDocument=null, fullDocumentBeforeChange=null, documentKey={"_id": {"$oid": "64651d4a8c2d2556ba204fb4"}}, clusterTime=Timestamp{value=7234220580105355268, seconds=1684348234, inc=4}, updateDescription=UpdateDescription{removedFields=[], updatedFields={"year": 1986}, truncatedArrays=[], disambiguatedPaths=null}, txnNumber=null, lsid=null, wallTime=BsonDateTime{value=1684348234958}}
 
-TODO: kotlinize
-
-.. literalinclude:: /includes/usage-examples/code-snippets/WatchCompanion.java
-   :language: java
-
-If you run the preceding applications in sequence, you should see output from
-the ``Watch`` application that is similar to the following. Only the
-``insert`` and ``update`` operations are printed, since the aggregation
-pipeline filters out the ``delete`` operation:
-
-.. code-block::
-   :copyable: false
-
-   Received a change to the collection: ChangeStreamDocument{
-     operationType=OperationType{value='insert'},
-     resumeToken={"_data": "825E..."},
-     namespace=sample_mflix.movies,
-     destinationNamespace=null,
-     fullDocument=Document{{_id=5ec3..., test=sample movie document}},
-     documentKey={"_id": {"$oid": "5ec3..."}},
-     clusterTime=Timestamp{...},
-     updateDescription=null,
-     txnNumber=null,
-     lsid=null,
-     wallTime=BsonDateTime{value=1657...}
-   }
-   Received a change to the collection: ChangeStreamDocument{
-     operationType=OperationType{value='update'},
-     resumeToken={"_data": "825E..."},
-     namespace=sample_mflix.movies,
-     destinationNamespace=null,
-     fullDocument=Document{{_id=5ec3..., test=sample movie document, field2=sample movie document update}},
-     documentKey={"_id": {"$oid": "5ec3..."}},
-     clusterTime=Timestamp{...},
-     updateDescription=UpdateDescription{removedFields=[], updatedFields={"field2": "sample movie document update"}},
-     txnNumber=null,
-     lsid=null,
-     wallTime=BsonDateTime{value=1657...}
-   }
-
-You should also see output from the ``WatchCompanion`` application that
-is similar to the following:
-
-.. code-block::
-   :copyable: false
-
-   Success! Inserted document id: BsonObjectId{value=5ec3...}
-   Updated 1 document.
-   Deleted 1 document.
 
 For additional information on the classes and methods mentioned on this
 page, see the following resources:
