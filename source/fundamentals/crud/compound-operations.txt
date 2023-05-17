@@ -207,7 +207,7 @@ The following document in MongoDB represents the room:
 
 This data is modeled with the following Kotlin data class: 
 
-.. literalinclude:: /examples/generated/CompoundOps_BookARoomTest.snippet.room-data-class.kt
+.. literalinclude:: /examples/generated/CompoundTest.snippet.room-data-class.kt
    :language: kotlin
 
 Example With Race Condition
@@ -216,7 +216,7 @@ Example With Race Condition
 Let's say our app uses this ``bookARoomUnsafe`` method to checkout our room to
 a guest:
 
-.. literalinclude:: /examples/generated/CompoundOps_BookARoomTest.snippet.unsafe.kt
+.. literalinclude:: /examples/generated/CompoundTest.snippet.unsafe.kt
    :language: kotlin
    :emphasize-lines: 3,14
 
@@ -264,7 +264,7 @@ Example Without Race Condition
 Let's use a compound operation to avoid the race condition and
 always give our users the correct message. 
 
-.. literalinclude:: /examples/generated/CompoundOps_BookARoomTest.snippet.safe.kt
+.. literalinclude:: /examples/generated/CompoundTest.snippet.safe.kt
    :language: kotlin
    :emphasize-lines: 7
 
