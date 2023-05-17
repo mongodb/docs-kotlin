@@ -33,18 +33,31 @@ statistics from a specific MongoDB database.
 
 .. include:: /includes/connect-guide-note.rst
 
-TODO: kotlinize
+.. io-code-block::
 
-.. literalinclude:: /includes/usage-examples/code-snippets/Command.java
-  :language: java
+   .. input:: /examples/generated/Command.snippet.command-usage-example.kt
+      :language: kotlin
 
-When you run the preceding command, you should see output similar to the
-following:
+   .. output::
+      :language: json
+      :visible:
 
-.. code-block:: none
-   :copyable: false
+      {
+        "db": "sample_mflix",
+        "collections": 5,
+        "views": 0,
+        "objects": 75595,
+        "avgObjSize": 692.1003770090614,
+        "dataSize": 52319328,
+        "storageSize": 29831168,
+        "numExtents": 0,
+        "indexes": 9,
+        "indexSize": 14430208,
+        "fileSize": 0,
+        "nsSizeMB": 0,
+        "ok": 1
+      }
 
-   dbStats: {"db": "sample_mflix", "collections": 5, "views": 0, "objects": 75595, "avgObjSize": 692.1003770090614, "dataSize": 52319328, "storageSize": 29831168, "numExtents": 0, "indexes": 9, "indexSize": 14430208, "fileSize": 0, "nsSizeMB": 0, "ok": 1}
 
 For additional information on the classes and methods mentioned on this
 page, see the following resources:
