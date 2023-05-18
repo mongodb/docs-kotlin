@@ -13,9 +13,8 @@ import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
-import org.bson.codecs.pojo.annotations.BsonId
 
-data class Movie(@BsonId val id: Int, val title: String, val imdb: IMDB){
+data class Movie(val imdb: IMDB){
     data class IMDB(val rating: Double)
 }
 

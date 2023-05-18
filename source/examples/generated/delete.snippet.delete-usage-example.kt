@@ -4,10 +4,9 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
-import org.bson.codecs.pojo.annotations.BsonId
 
 
-data class Movie(@BsonId val id: Int, val title: String)
+data class Movie(val title: String)
 
 fun main() = runBlocking {
     // Replace the uri string with your MongoDB deployment's connection string

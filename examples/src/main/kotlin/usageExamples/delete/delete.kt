@@ -14,10 +14,9 @@ import com.mongodb.client.result.DeleteResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
-import org.bson.codecs.pojo.annotations.BsonId
 
 
-data class Movie(@BsonId val id: Int, val title: String)
+data class Movie(val title: String)
 
 fun main() = runBlocking {
     // :remove-start:
