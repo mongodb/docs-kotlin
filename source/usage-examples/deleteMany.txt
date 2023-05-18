@@ -35,24 +35,24 @@ The query filter passed to the ``deleteMany()`` method matches all
 movie documents that contain a ``rating`` of less than **1.9** in the ``imdb``
 sub-document.
 
-.. include:: /includes/connect-guide-note.rst
-
-.. literalinclude:: /includes/usage-examples/code-snippets/DeleteMany.java
-   :language: java
-
 When you run the example, you should see output that reports the number of
 documents deleted in your call to ``deleteMany()``.
 
-.. code-block:: none
-   :copyable: false
+.. include:: /includes/connect-guide-note.rst
 
-   Deleted document count: 4
+.. io-code-block::
 
-.. include:: /includes/legacy-redirect.rst
+   .. input:: /examples/generated/deleteMany.snippet.delete-many-usage-example.kt
+      :language:  kotlin
+
+   .. output:: 
+      :language:  console
+      :visible:  false
+
+      Deleted document count: 4
    
 For additional information on the classes and methods mentioned on this
 page, see the following API Documentation:
 
-- `deleteMany() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#deleteMany(org.bson.conversions.Bson)>`__
+- `deleteMany() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/delete-many.html>`__
 - `DeleteResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/DeleteResult.html>`__
-- `drop() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#drop()>`__

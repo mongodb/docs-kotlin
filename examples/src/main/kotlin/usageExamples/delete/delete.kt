@@ -35,8 +35,8 @@ fun main() = runBlocking {
     try {
         val result: DeleteResult = collection.deleteOne(query)
         println("Deleted document count: " + result.deletedCount)
-    } catch (me: MongoException) {
-        System.err.println("Unable to delete due to an error: $me")
+    } catch (e: MongoException) {
+        System.err.println("Unable to delete due to an error: $e")
     }
     // :remove-start:
     // clean up

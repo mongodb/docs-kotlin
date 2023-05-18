@@ -13,7 +13,7 @@ import java.util.*
 import kotlin.test.*
 
 // :snippet-start: delete-data-model
-data class Movie(
+data class PaintOrder(
     @BsonId val id: Int,
     val qty: Int,
     val color: String
@@ -27,21 +27,21 @@ internal class DeleteTest {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("paint_store")
-        val collection = database.getCollection<Movie>("paint_order")
+        val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
         @JvmStatic
         private fun beforeAll() {
             runBlocking {
                 val paintOrders = listOf(
-                    Movie(1, 5, "red"),
-                    Movie(2, 8, "purple"),
-                    Movie(3, 0, "blue"),
-                    Movie(4, 0, "white"),
-                    Movie(5, 6, "yellow"),
-                    Movie(6, 0, "pink"),
-                    Movie(7, 0, "green"),
-                    Movie(8, 8, "black")
+                    PaintOrder(1, 5, "red"),
+                    PaintOrder(2, 8, "purple"),
+                    PaintOrder(3, 0, "blue"),
+                    PaintOrder(4, 0, "white"),
+                    PaintOrder(5, 6, "yellow"),
+                    PaintOrder(6, 0, "pink"),
+                    PaintOrder(7, 0, "green"),
+                    PaintOrder(8, 8, "black")
                 )
                 collection.insertMany(paintOrders)
             }
@@ -69,10 +69,10 @@ internal class DeleteTest {
         // confirm docs remaining in collection
         val results = collection.find().sort(ascending("_id")).toList()
         val expected = listOf(
-            Movie(1, 5, "red"),
-            Movie(2, 8, "purple"),
-            Movie(5, 6, "yellow"),
-            Movie(8, 8, "black")
+            PaintOrder(1, 5, "red"),
+            PaintOrder(2, 8, "purple"),
+            PaintOrder(5, 6, "yellow"),
+            PaintOrder(8, 8, "black")
         )
         assertEquals(expected, results)
     }
@@ -89,9 +89,9 @@ internal class DeleteTest {
         val testFilter = Filters.empty()
         val results = collection.find(testFilter).sort(ascending("_id")).toList()
         val expected = listOf(
-            Movie(1, 5, "red"),
-            Movie(2, 8, "purple"),
-            Movie(8, 8, "black")
+            PaintOrder(1, 5, "red"),
+            PaintOrder(2, 8, "purple"),
+            PaintOrder(8, 8, "black")
         )
         assertEquals(expected, results)
     }
@@ -109,8 +109,8 @@ internal class DeleteTest {
         val testFilter = Filters.empty()
         val results = collection.find(testFilter).sort(ascending("_id")).toList()
         val expected = listOf(
-            Movie(1, 5, "red"),
-            Movie(8, 8, "black")
+            PaintOrder(1, 5, "red"),
+            PaintOrder(8, 8, "black")
         )
         assertEquals(expected, results)
     }
