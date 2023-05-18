@@ -309,10 +309,6 @@ The following example creates a ``2dsphere`` index on the ``location.geo`` field
 
       Index created: location.geo_2dsphere
 
-.. important::
-
-   Attempting to create a geospatial index on a field that is covered by a geospatial index will result in an error.
-
 The following is an example of a geospatial query using the index created
 in the preceding code snippet:
 

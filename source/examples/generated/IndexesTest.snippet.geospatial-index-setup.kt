@@ -1,7 +1,4 @@
-try {
-    val resultCreateIndex = theatersCollection.createIndex(Indexes.geo2dsphere("location.geo"))
-    println("Index created: $resultCreateIndex")
-} catch (e: MongoCommandException) {
-    if (e.errorCodeName == "IndexOptionsConflict")
-        println("there's an existing text index with different options")
-}
+val resultCreateIndex = theatersCollection.createIndex(
+    Indexes.geo2dsphere("${Theater::location.name}.${Theater.Location::geo.name}")
+)
+println("Index created: $resultCreateIndex")
