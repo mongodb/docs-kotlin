@@ -46,16 +46,16 @@ internal class DatabaseCollectionsTest {
         database.createCollection("exampleCollection")
         // :snippet-end:
         // Junit test for the above code
-        val collectionList = database.listCollectionNames()
-        assertTrue(collectionList.toList().contains("exampleCollection"))
+        val collectionList = database.listCollectionNames().toList()
+        assertTrue(collectionList.contains("exampleCollection"))
     }
 
     @Test
     fun listCollectionTest() = runBlocking {
         database.createCollection("movies")
         // :snippet-start: get-collections
-        val collectionList = database.listCollectionNames()
-        println(collectionList.toList())
+        val collectionList = database.listCollectionNames().toList()
+        println(collectionList)
         // :snippet-end:
         // :snippet-start: drop-collections
         val collection =
@@ -63,7 +63,7 @@ internal class DatabaseCollectionsTest {
         collection.drop()
         // :snippet-end:
         // Junit test for the above code
-        assertTrue(collectionList.toList().contains("exampleCollection"))
+        assertTrue(collectionList.contains("exampleCollection"))
 
     }
 
@@ -82,7 +82,7 @@ internal class DatabaseCollectionsTest {
         )
         // :snippet-end:
         // Junit test for the above code
-        val collectionList = database.listCollectionNames()
-        assertTrue(collectionList.toList().contains("movies"))
+        val collectionList = database.listCollectionNames().toList()
+        assertTrue(collectionList.contains("movies"))
     }
 }

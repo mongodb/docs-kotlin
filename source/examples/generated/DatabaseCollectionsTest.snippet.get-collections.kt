@@ -1,2 +1,2 @@
-val collectionList = database.listCollectionNames()
-println(collectionList.toList())
+val collectionList = database.listCollectionNames().toList()
+println(collectionList)
