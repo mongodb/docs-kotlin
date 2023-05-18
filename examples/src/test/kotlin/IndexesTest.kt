@@ -419,7 +419,7 @@ class IndexesTest {
         println("INDEXES:: $indexes")
         val clusteredIndex = indexes.find { it.getString("name") == "_id_" }
         assertNotNull(clusteredIndex)
-        assertEquals(Document("_id", 1), clusteredIndex?.get("key"))
+        assertEquals(Document("_id", 1), clusteredIndex["key"])
     }
 
     @Test
