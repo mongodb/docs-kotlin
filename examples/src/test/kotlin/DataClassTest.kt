@@ -80,16 +80,14 @@ internal class DataClassTest {
         val deviceId: String,
         val name: String,
         @BsonProperty("type")
-        val deviceType: String,
+        val deviceType: String
     )
     // :snippet-end:
 
     @Test
     fun insertAnnotatedDataClassTest() = runBlocking {
         // :snippet-start: insert-annotated-data-class
-        val collection = database.getCollection<NetworkDevice>(
-            "network_devices"
-        )
+        val collection = database.getCollection<NetworkDevice>("network_devices")
 
         // Insert the record
         val deviceId = ObjectId().toHexString()
@@ -103,9 +101,7 @@ internal class DataClassTest {
     @Test
     fun retrieveAnnotatedDataClassTest() = runBlocking {
         // :snippet-start: retrieve-annotated-data-class
-        val collection = database.getCollection<NetworkDevice>(
-            "network_devices"
-        )
+        val collection = database.getCollection<NetworkDevice>("network_devices")
         // :remove-start:
         val deviceId = ObjectId().toHexString()
         val device = NetworkDevice(deviceId, "Enterprise Wi-fi", "router")

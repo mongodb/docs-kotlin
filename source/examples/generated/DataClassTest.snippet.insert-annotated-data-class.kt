@@ -1,6 +1,4 @@
-val collection = database.getCollection<NetworkDevice>(
-    "network_devices"
-)
+val collection = database.getCollection<NetworkDevice>("network_devices")
 
 // Insert the record
 val deviceId = ObjectId().toHexString()
