@@ -12,7 +12,7 @@ method on a ``MongoCollection`` object. Pass a query filter to the
 the collection. If you do not include a filter, MongoDB returns all the
 documents in the collection.
 
-For more information on querying MongoDB with the Java driver, see our
+For more information on querying MongoDB with the Kotlin driver, see our
 :doc:`guide on Querying Documents </fundamentals/crud/read-operations/retrieve/>`.
 
 You can also chain methods to the ``find()`` method such as ``sort()`` which
@@ -25,23 +25,20 @@ For more information on the ``sort()`` method, see our
 For more information on the ``projection()`` method, see our
 :doc:`guide on Projections </fundamentals/crud/read-operations/project/>`
 
-The ``find()`` method returns an instance of ``FindIterable``, a class
+The ``find()`` method returns an instance of ``FindFlow``, a class
 that offers several methods to access, organize, and traverse the results.
-``FindIterable`` also inherits methods from its parent class,
-``MongoIterable`` which implements the core Java interface ``Iterable``.
+``FindFlow`` also inherits methods from its parent class ``Flow`` from the
+Kotlin Coroutines library.
 
-You can call the ``iterator()`` method on the ``MongoIterable`` which
-returns a ``MongoCursor`` instance that you can use to traverse the results.
-You can call methods on the ``MongoCursor`` such as ``hasNext()`` to check
-whether additional results exist, or ``next()`` to return the next document
-in the collection. If no documents match the query, calling ``hasNext()``
-returns ``false`` and therefore calling ``next()`` throws an exception.
+You can call the ``collect()`` method to iterate through the fetched results.
+You can also call terminal methods, such as ``firstOrNull()`` to return either 
+the first document or ``null`` if there are no results, or ``first()`` to return 
+the first document in the collection. If no documents match the query, 
+calling ``first()`` throws a ``NoSuchElementException`` exception.
 
-If you call ``next()`` on the iterator either after it has returned the final
-result or when no results exist, it throws an exception of type
-``java.util.NoSuchElementException``. Always use ``hasNext()`` to check that
-additional results exist before you call ``next()``.
-
+.. TODO (DOCSP-29176) Add link to Flow documentation when available
+.. For more information on accessing data from a flow with the Kotlin driver, see our
+.. :doc:`guide on Accessing Data From a Flow </fundamentals/crud/read-operations/flow/>`.
 
 Example
 -------
@@ -61,17 +58,12 @@ the ``movies`` collection. It uses the following objects and methods:
 
 .. include:: /includes/connect-guide-note.rst
 
-.. literalinclude:: /includes/usage-examples/code-snippets/Find.java
-   :language: java
-
-
-.. include:: /includes/legacy-redirect.rst
+.. literalinclude:: /examples/generated/Find.snippet.find-usage-example.kt
+   :language: kotlin
 
 For additional information on the classes and methods mentioned on this
 page, see the following API Documentation:
 
-- `FindIterable <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/FindIterable.html>`__
-- `MongoIterable <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoIterable.html>`__
-- `MongoCursor <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCursor.html>`__
-- `find() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#find()>`__
+- `FindFlow <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-find-flow/index.html>`__
+- `find() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find.html>`__
 
