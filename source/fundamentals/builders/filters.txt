@@ -76,7 +76,7 @@ Most of the ``Filter`` examples in this guide use the following sample collectio
    { "_id": 7, "color": "green", "qty": 8,"vendor": ["B", "C"] }
    { "_id": 8, "color": "orange", "qty": 7, "vendor": ["A", "D"] }
 
-These documents in the ``paints`` are modeled by the following data class for use
+These documents in the ``paints`` collection are modeled by the following data class for use
 with the Kotlin driver:
 
 .. literalinclude:: /examples/generated/FiltersBuildersTest.snippet.paint-order-data-class.kt
@@ -127,7 +127,7 @@ The ``Filters`` comparison operator methods include:
      - all the documents.
 
 The following example creates a filter that matches all documents where
-the value of the ``qty`` field equals "5" in the ``paint_purchases`` collection:
+the value of the ``qty`` field equals "5" in the ``paints`` collection:
 
 .. io-code-block::
 
@@ -324,7 +324,7 @@ The ``Filters`` evaluation operator methods include:
      - documents which contain a specified JavaScript expression.
 
 The following example matches documents that have a ``color`` field
-starting with the letter "p" in the ``paint_purchases`` collection:
+starting with the letter "p" in the ``paints`` collection:
 
 .. io-code-block::
 
