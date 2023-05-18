@@ -59,7 +59,7 @@ your MongoDB instance:
 .. code-block:: kotlin
 
    // Replace the following with your MongoDB deployment's connection string.
-   val uri = "<connection string uri>";
+   val uri = "<connection string uri>"
 
 You can use the :guides:`Atlas Connectivity Guide </cloud/connectionstring/>`
 to learn how to allow connections to your instance of Atlas and to find the
