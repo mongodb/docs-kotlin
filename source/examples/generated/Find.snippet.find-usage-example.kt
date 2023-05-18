@@ -4,7 +4,7 @@ import com.mongodb.client.model.Sorts
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
 
-data class Movie(val title: String, val imdb: IMDB){
+data class Movie(val title: String, val runtime: Int, val imdb: IMDB){
     data class IMDB(val rating: Double)
 }
 
@@ -16,12 +16,12 @@ fun main() = runBlocking {
     val collection = database.getCollection<Movie>("movies")
 
     val projectionFields= Projections.fields(
-        Projections.include("title", "imdb"),
+        Projections.include(Movie::title.name, Movie::imdb.name),
         Projections.excludeId()
     )
-    val resultsFlow = collection.find(lt("runtime", 15))
+    val resultsFlow = collection.find(lt(Movie::runtime.name, 15))
         .projection(projectionFields)
-        .sort(Sorts.descending("title"))
+        .sort(Sorts.descending(Movie::title.name))
     resultsFlow.collect { println(it) }
 
     mongoClient.close()

@@ -15,7 +15,7 @@ import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
-data class Movie(val title: String, val imdb: IMDB) {
+data class Movie(val title: String, val runtime: Int, val imdb: IMDB) {
     data class IMDB(val rating: Double)
 }
 
@@ -31,12 +31,12 @@ fun main() = runBlocking {
     val collection = database.getCollection<Movie>("movies")
 
     val projectionFields= Projections.fields(
-        Projections.include("title", "imdb"),
+        Projections.include(Movie::title.name, Movie::imdb.name),
         Projections.excludeId()
     )
-    val resultsFlow = collection.find(lt("title", "The Room"))
+    val resultsFlow = collection.find(lt(Movie::title.name, "The Room"))
         .projection(projectionFields)
-        .sort(Sorts.descending("imdb.rating"))
+        .sort(Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"))
         .firstOrNull()
 
     println(resultsFlow)
