@@ -1,1 +1,1 @@
-moviesCollection.dropIndex(Indexes.ascending("title"));
+moviesCollection.dropIndex(Indexes.ascending(Movie::title.name));

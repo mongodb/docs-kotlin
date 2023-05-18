@@ -424,9 +424,9 @@ class IndexesTest {
 
     @Test
     fun dropIndexWithSpecificationDocumentTest() = runBlocking {
-        moviesCollection.createIndex(Indexes.ascending("title"))
+        moviesCollection.createIndex(Indexes.ascending(Movie::title.name))
         // :snippet-start: drop-index-with-specification-document
-        moviesCollection.dropIndex(Indexes.ascending("title"));
+        moviesCollection.dropIndex(Indexes.ascending(Movie::title.name));
         // :snippet-end:
         val indexes = moviesCollection.listIndexes().toList()
         assertFalse(indexes.any { it.getString("name") == "title_1" })
