@@ -58,7 +58,7 @@ It uses the following objects and methods:
 
 .. include:: /includes/connect-guide-note.rst
 
-.. literalinclude:: /examples/generated/Find.snippet.find-one-usage-example.kt
+.. literalinclude:: /examples/generated/FindOne.snippet.find-one-usage-example.kt
    :language: kotlin
   
 For additional information on the classes and methods mentioned on this
