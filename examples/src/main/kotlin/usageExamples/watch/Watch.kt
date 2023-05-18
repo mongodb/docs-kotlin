@@ -56,7 +56,7 @@ fun main() = runBlocking {
     )
 
     // Delete event not captured by the change stream watcher
-    collection.deleteOne(Filters.eq("title", "Freaky Friday"))
+    collection.deleteOne(Filters.eq(Movie::title.name, "Freaky Friday"))
 
     sleep(1000) // Give time for the change stream watcher to process all events
 
