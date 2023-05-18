@@ -18,32 +18,32 @@ developed by the MongoDB team and provides a native API for Kotlin
 applications to connect to MongoDB and work with data. It is implemented
 by wrapping the MongoDB Java driver.
 
-`Kmongo <https://litote.org/kmongo/>`__ is a popular community-developed library
+`KMongo <https://litote.org/kmongo/>`__ is a popular community-developed library
 for working with MongoDB from Kotlin applications.
 It is also a wrapper around the Java driver.
 It was created prior to the creation of the official Kotlin driver to serve
 the needs of the Kotlin community.
 
-The Kotlin driver was developed in collaboration with the creator of Kmongo,
+The Kotlin driver was developed in collaboration with the creator of KMongo,
 Julien Buret.
 
-The official Kotlin driver and Kmongo generally have similar APIs.
-Notable similarities between the Kotlin driver and Kmongo include:
+The official Kotlin driver and KMongo have generally similar APIs.
+Notable similarities between the Kotlin driver and KMongo include:
 
 - Support for synchronous and coroutine-based operations
 - Support using data classes to represent MongoDB documents
 - Support KotlinX serialization
 - Full support for MongoDB CRUD APIs and aggregation
 
-The official Kotlin driver and Kmongo generally have similar APIs, but there are some
+Although the official Kotlin driver and KMongo are similar, there are some
 key differences:
 
-- The official driver does not have built-in support for `reactor <https://projectreactor.io/>`__,
+- The official driver does *not* have built-in support for `reactor <https://projectreactor.io/>`__,
   `rxjava2 <https://github.com/ReactiveX/RxJava>`__, `Jackson <https://github.com/FasterXML/jackson>`__,
   or `GSON <https://github.com/google/gson>`__.
 - The official driver does not support MongoDB shell commands.
-- The official driver support type-sage queries with the Builders API,
-  whereas Kmongo uses infix functions and property references for type-safe queries.
+- The official driver supports type-safe queries with the Builders API,
+  whereas KMongo uses infix functions and property references for type-safe queries.
 
 .. _kotlin-faq-connection-pool:
 
@@ -109,10 +109,10 @@ reaches its maximum size, additional threads wait for sockets
 to become available.
 
 The driver does not limit the number of threads that
-can wait for sockets to become available and it is the application's
+can wait for sockets to become available, and it is the application's
 responsibility to limit the size of its pool to bound queuing
 during a load spike. Threads wait for the amount of time specified in
-the ``waitQueueTimeoutMS`` option, which defaults to ``120000``, or 120 seconds.
+the ``waitQueueTimeoutMS`` option, which defaults to ``120000`` (120 seconds).
 
 A thread that waits more than the length of time defined by
 ``waitQueueTimeoutMS`` for a socket raises a connection error. Use this
