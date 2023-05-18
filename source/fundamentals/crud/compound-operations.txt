@@ -145,7 +145,7 @@ the returned document should be in the state after our replace operation.
    .. output:: 
       :language: console
 
-      (id=1, music=classical, color=green)
+      Music(id=1, music=classical, color=green)
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
