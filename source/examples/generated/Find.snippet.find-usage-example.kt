@@ -3,7 +3,6 @@ import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Sorts
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
-import usageExamples.findOne.Movie
 
 data class Movie(val title: String, val imdb: IMDB){
     data class IMDB(val rating: Double)
