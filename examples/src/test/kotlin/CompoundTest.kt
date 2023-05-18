@@ -52,8 +52,7 @@ internal class CompoundOperationsTest {
     @BeforeEach
     fun beforeEach() {
         runBlocking {
-            val room =
-                HotelRoom(1, null, "Blue Room")
+            val room = HotelRoom(1, null, "Blue Room")
             hotelCollection.insertOne(room)
         }
     }

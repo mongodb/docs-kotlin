@@ -98,7 +98,7 @@ following options:
    .. output:: 
       :language: console
 
-      Results(food=donut, color=green)
+      FoodOrder(id=1, food=donut, color=green)
 
 For more information on the ``Projections`` class, see our
 :doc:`guide on the Projections builder </fundamentals/builders/projections/>`.
