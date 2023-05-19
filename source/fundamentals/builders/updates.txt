@@ -36,7 +36,7 @@ type, which you can pass to any method that expects an update argument.
 
 .. tip::
 
-   For brevity, you may choose to import the methods of the `Updates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html>`__ class statically:
+   For brevity, you may choose to import the methods of the `Updates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html>`__ class:
 
    .. code-block:: java
 
@@ -217,8 +217,11 @@ Min
 ~~~
 
 Use the `min() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#min(java.lang.String,TItem)>`__
-method to update the value of a field with the smaller number of the two
-specified in an update operation.
+method to set the value of the field to the given value if the given value is
+less than the current value of the field.
+
+The following example updates the ``qty`` field to "2" because "2" is less than
+current value of the ``qty`` field ("5"):
 
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.min-update.kt
    :language: kotlin
@@ -323,7 +326,7 @@ and `bitwiseXor() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/
 methods to perform a bitwise update of the integer value of a field in
 an update operation.
 
-The following example performs a bitwise ``AND`` between the number
+The following example performs a bitwise ``OR`` between the number
 "10" and the integer value of the ``qty`` field:
 
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.bitwise-or-update.kt
@@ -364,8 +367,7 @@ Use the `addToSet() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/mode
 method to append a value to an array if the value is not already present
 in an update operation.
 
-The following example adds the value "C" to the array value of
-the ``vendor`` field:
+The following example adds the string "C" to the ``vendor`` array:
 
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.add-to-set-update.kt
    :language: kotlin
