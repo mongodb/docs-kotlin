@@ -2,11 +2,13 @@
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import org.bson.codecs.pojo.annotations.BsonExtraElements
+import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -32,7 +34,7 @@ internal class KotlinXSerializationTest {
     }
 
     @Test
-    fun basicSerializationTesT() {
+    fun basicSerializationTest() {
         // ObjectId commented out b/c it errors when trying to serialize
         @Serializable
         data class PaintOrder(
@@ -40,10 +42,10 @@ internal class KotlinXSerializationTest {
             val id: Int,
             val color: String,
             @BsonExtraElements val extraElements: Map<String, String>,
-//            @Contextual val qty: ObjectId,
+            @Contextual val qty: ObjectId,
         )
 
-        val paintOrder = PaintOrder(1, "red",  mapOf("foo" to "bar"), /*ObjectId*/)
+        val paintOrder = PaintOrder(1, "red",  mapOf("foo" to "bar"), ObjectId())
         println(Json.encodeToJsonElement<PaintOrder>(paintOrder))
         assert(true)
     }
