@@ -28,24 +28,24 @@ Example
 The following snippet inserts multiple documents into the ``movies``
 collection.
 
+When you run the example, you should see output with the inserted documents' 
+``ObjectId`` values in each of the value fields:
+
 .. include:: /includes/connect-guide-note.rst
 
-.. literalinclude:: /includes/usage-examples/code-snippets/InsertMany.java
-   :language: java
+.. io-code-block::
 
-When you run the example, you should see output that resembles the following
-with the inserted documents' ``ObjectId`` values in each of the value fields:
+   .. input:: /examples/generated/InsertMany.snippet.insert-many-usage-example.kt
+      :language: kotlin
 
-.. code-block:: none
-   :copyable: false
+   .. output:: 
+      :language: console
 
-   Inserted document ids: {0=BsonObjectId{value=...}, 1=BsonObjectId{value=...}}
-
-.. include:: /includes/legacy-redirect.rst
+      Success! Inserted document ids: {0=BsonObjectId{value=...}, 1=BsonObjectId{value=...}}
 
 For additional information on the classes and methods mentioned on this
 page, see the following API Documentation:
 
-- `insertMany() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#insertMany(java.util.List)>`__
+- `insertMany() <{+api-kotlin+}/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/insert-many.html>`__
 - `Document <{+api+}/apidocs/bson/org/bson/Document.html>`__
 - `InsertManyResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/InsertManyResult.html>`__
