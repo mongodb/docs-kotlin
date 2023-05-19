@@ -29,7 +29,8 @@ fun main() = runBlocking {
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
 
-    val query = Filters.lt("${Movie::imdb.name}.${Movie.IMDB::rating.name}", 1.9)
+    collection.insertMany(listOf(Movie(Movie.IMDB(rating = 2.1)), Movie(Movie.IMDB(rating = 2.5)), Movie(Movie.IMDB(rating = 1.9)), Movie(Movie.IMDB(rating = 1.5)))) // :remove:
+    val query = Filters.lt("${Movie::imdb.name}.${Movie.IMDB::rating.name}", 2.9)
     try {
         val result = collection.deleteMany(query)
         println("Deleted document count: " + result.deletedCount)

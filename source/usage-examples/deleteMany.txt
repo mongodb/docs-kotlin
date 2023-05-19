@@ -32,7 +32,7 @@ The following snippet deletes multiple documents from the ``movies``
 collection in the ``sample_mflix`` database. 
 
 The query filter passed to the ``deleteMany()`` method matches all
-movie documents that contain a ``rating`` of less than **1.9** in the ``imdb``
+movie documents that contain a ``rating`` of less than "2.9" in the ``imdb``
 sub-document.
 
 When you run the example, you should see output that reports the number of
@@ -56,3 +56,4 @@ page, see the following API Documentation:
 
 - `deleteMany() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/delete-many.html>`__
 - `DeleteResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/DeleteResult.html>`__
+- `drop() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#drop()>`__

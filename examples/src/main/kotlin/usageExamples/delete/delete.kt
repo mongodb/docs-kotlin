@@ -10,7 +10,6 @@ package usageExamples.delete
 
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
-import com.mongodb.client.result.DeleteResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
@@ -29,10 +28,11 @@ fun main() = runBlocking {
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
 
+    collection.insertOne(Movie("The Garbage Pail Kids Movie")) // :remove:
     val query = Filters.eq(Movie::title.name, "The Garbage Pail Kids Movie")
 
     try {
-        val result: DeleteResult = collection.deleteOne(query)
+        val result = collection.deleteOne(query)
         println("Deleted document count: " + result.deletedCount)
     } catch (e: MongoException) {
         System.err.println("Unable to delete due to an error: $e")
