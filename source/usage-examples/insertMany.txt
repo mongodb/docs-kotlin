@@ -40,6 +40,7 @@ When you run the example, you should see output with the inserted documents'
 
    .. output:: 
       :language: console
+      :visible: false
 
       Success! Inserted document ids: {0=BsonObjectId{value=...}, 1=BsonObjectId{value=...}}
 
