@@ -6,3 +6,4 @@ val result = collection.findOneAndUpdate(
         .sort(Sorts.ascending(FirstName::firstName.name))
         .returnDocument(ReturnDocument.AFTER)
 )
+println(result)

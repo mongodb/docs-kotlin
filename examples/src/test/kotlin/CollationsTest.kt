@@ -2,6 +2,7 @@
 import com.mongodb.client.model.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
@@ -102,11 +103,10 @@ internal class CollationTest {
         // :snippet-end:
         // :snippet-start: list-indexes
         val collection = database.getCollection<FirstName>("names")
-        val indexInformation = collection.listIndexes().toList().first()
+        val indexInformation = collection.listIndexes().first()
         println(indexInformation.toJson())
         // :snippet-end:
         assertEquals(2, database.listCollectionNames().toList().size)
-        assertEquals("names", database.listCollectionNames().toList()[0])
         assertEquals("en_US", indexInformation.get("collation", Document::class.java).getString("locale"))
     }
 
@@ -126,6 +126,20 @@ internal class CollationTest {
     fun collationOperationTest() = runBlocking {
         val collection = nameCollection
         // :snippet-start: collation-operation
+        val resultsFlow = collection.find()
+            .collation(Collation.builder().locale("en_US").build())
+            .sort(Sorts.ascending("name"));
+        // :snippet-end:
+        val results = resultsFlow.toList()
+        assertEquals("Klara", results[0].firstName)
+        assertEquals("Gunter", results[1].firstName)
+        assertEquals("Günter", results[2].firstName)
+        assertEquals(5, results.size)
+    }
+    @Test
+    fun collationCustomOperationTest() = runBlocking {
+        val collection = nameCollection
+        // :snippet-start: collation-custom-operation
         val findFlow = collection.find()
             .collation(Collation.builder().locale("is").build())
             .sort(Sorts.ascending(FirstName::firstName.name))
@@ -133,6 +147,57 @@ internal class CollationTest {
         println(findFlow.toList())
         assertEquals("Gunter", findFlow.toList()[0].firstName)
         assertEquals("Günter", findFlow.toList()[1].firstName)
+    }
+
+    @Test
+    fun findAndSortExampleTest() = runBlocking {
+        val collection = nameCollection
+        // :snippet-start: find-and-sort
+        val resultsFlow = collection.find()
+            .collation(Collation.builder().locale("de@collation=phonebook").build())
+            .sort(Sorts.ascending(FirstName::firstName.name))
+
+        resultsFlow.collect { println(it) }
+        // :snippet-end:
+        val results = resultsFlow.toList()
+        assertEquals("Günter", results[0].firstName)
+        assertEquals("Gunter", results[1].firstName)
+    }
+
+    @Test
+    fun findOneAndUpdateExampleTest() = runBlocking {
+        val collection = nameCollection
+        // :snippet-start: find-one-and-update
+        val result = collection.findOneAndUpdate(
+            Filters.lt(FirstName::firstName.name, "Gunter"),
+            Updates.set("verified", true),
+            FindOneAndUpdateOptions()
+                .collation(Collation.builder().locale("de@collation=phonebook").build())
+                .sort(Sorts.ascending(FirstName::firstName.name))
+                .returnDocument(ReturnDocument.AFTER)
+        )
+        println(result)
+        // :snippet-end:
+        assertEquals("Günter", result?.firstName) // returning hannah?
+        assertEquals(true, result?.verified)
+    }
+
+    @Test
+    fun findOneAndDeleteExampleTest() = runBlocking {
+        val collection = collationExampleCollection
+        // :snippet-start: find-one-and-delete
+        val result = collection.findOneAndDelete(
+            Filters.gt(CollationExample::a.name, "100"),
+            FindOneAndDeleteOptions()
+                .collation(Collation.builder().locale("en").numericOrdering(true).build())
+                .sort(Sorts.ascending(CollationExample::a.name))
+        )
+        println(result)
+        // :snippet-end:
+        val expected = CollationExample(3, "179 bananas")
+        assertEquals(expected, result)
+        // Clean up
+        collection.drop()
     }
 
     @Test
@@ -151,58 +216,12 @@ internal class CollationTest {
                     .collationStrength(CollationStrength.PRIMARY)
                     .build()
             )
+        resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
         println(results)
         assertEquals(4, results.size)
         assertEquals("Gunter", results[0].id)
         assertEquals(2, results[0].nameCount)
-    }
-
-    @Test
-    fun findAndSortExampleTest() = runBlocking {
-        val collection = nameCollection
-        // :snippet-start: find-and-sort
-        val results = collection.find()
-            .collation(Collation.builder().locale("de@collation=phonebook").build())
-            .sort(Sorts.ascending(FirstName::firstName.name))
-            .toList()
-        // :snippet-end:
-        assertEquals("Günter", results[0].firstName)
-        assertEquals("Gunter", results[1].firstName)
-    }
-
-    @Test
-    fun findOneAndUpdateExampleTest() = runBlocking {
-        val collection = nameCollection
-        // :snippet-start: find-one-and-update
-        val result = collection.findOneAndUpdate(
-            Filters.lt(FirstName::firstName.name, "Gunter"),
-            Updates.set("verified", true),
-            FindOneAndUpdateOptions()
-                .collation(Collation.builder().locale("de@collation=phonebook").build())
-                .sort(Sorts.ascending(FirstName::firstName.name))
-                .returnDocument(ReturnDocument.AFTER)
-        )
-        // :snippet-end:
-        assertEquals("Günter", result?.firstName) // returning hannah?
-        assertEquals(true, result?.verified)
-    }
-
-    @Test
-    fun findOneAndDeleteExampleTest() = runBlocking {
-        val collection = collationExampleCollection
-        // :snippet-start: find-one-and-delete
-        val result = collection.findOneAndDelete(
-            Filters.gt(CollationExample::a.name, "100"),
-            FindOneAndDeleteOptions()
-                .collation(Collation.builder().locale("en").numericOrdering(true).build())
-                .sort(Sorts.ascending(CollationExample::a.name))
-        )
-        // :snippet-end:
-        val expected = CollationExample(3, "179 bananas")
-        assertEquals(expected, result)
-        // Clean up
-        collection.drop()
     }
 }

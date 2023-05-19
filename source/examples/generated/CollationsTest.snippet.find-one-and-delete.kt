@@ -4,3 +4,4 @@ val result = collection.findOneAndDelete(
         .collation(Collation.builder().locale("en").numericOrdering(true).build())
         .sort(Sorts.ascending(CollationExample::a.name))
 )
+println(result)

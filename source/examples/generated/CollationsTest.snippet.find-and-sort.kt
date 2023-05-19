@@ -1,4 +1,5 @@
-val results = collection.find()
+val resultsFlow = collection.find()
     .collation(Collation.builder().locale("de@collation=phonebook").build())
     .sort(Sorts.ascending(FirstName::firstName.name))
-    .toList()
+
+resultsFlow.collect { println(it) }

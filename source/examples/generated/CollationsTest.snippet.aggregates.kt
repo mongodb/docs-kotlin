@@ -10,3 +10,4 @@ val resultsFlow = collection.aggregate<Result>(listOf(groupStage, sortStage))
             .collationStrength(CollationStrength.PRIMARY)
             .build()
     )
+resultsFlow.collect { println(it) }
