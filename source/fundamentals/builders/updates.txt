@@ -246,8 +246,8 @@ Use the `max() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Upd
 method to update the value of a field with the larger number of the two
 specified in an update operation.
 
-The following example sets the value of the ``qty`` field to the
-maximum of its current value and "8":
+The following example sets the value of the ``qty`` field to "8" which is greater
+than the current value of the ``qty`` field ("5"):
 
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.max-update.kt
    :language: kotlin
