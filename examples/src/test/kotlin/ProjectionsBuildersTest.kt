@@ -100,7 +100,7 @@ class ProjectionsBuildersTest {
     @Test
     fun includeOneTest() = runBlocking {
         // :snippet-start: include-one
-        data class Results(val year: Int)
+        data class Results(@BsonId val id: ObjectId, val year: Int)
 
         val filter = Filters.empty()
         val projection = Projections.include(YearlyTemperature::year.name)
@@ -114,7 +114,7 @@ class ProjectionsBuildersTest {
     @Test
     fun includeManyTest() = runBlocking {
         // :snippet-start: include-many
-        data class Results(val year: Int, val type: String)
+        data class Results(@BsonId val id: ObjectId, val year: Int, val type: String)
 
         val filter = Filters.empty()
         val projection = Projections.include(YearlyTemperature::year.name, YearlyTemperature::type.name)
@@ -161,7 +161,7 @@ class ProjectionsBuildersTest {
         val filter = Filters.empty()
         val projection = Projections.fields(
             Projections.include(YearlyTemperature::year.name, YearlyTemperature::type.name),
-            Projections.exclude("_id")
+            Projections.excludeId()
         )
         val resultsFlow = collection.find<Results>(filter).projection(projection)
         resultsFlow.collect { println(it) }

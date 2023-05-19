@@ -35,7 +35,7 @@ to any method that expects a projection.
 
    For brevity, you may choose to import the methods of the
    `Projections <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Projections.html>`__
-   class statically:
+   class:
 
 
    .. code-block:: kotlin
@@ -119,8 +119,8 @@ The following example includes the ``year`` field and implicitly the ``_id`` fie
    .. output::
       :language: console
 
-      Results(year=2018)
-      Results(year=2019)
+      Results(id=6467808db5003e6354a1ee22, year=2018)
+      Results(id=6467808db5003e6354a1ee23, year=2019)
 
 The following example includes the ``year`` and ``type`` fields and implicitly the ``_id`` field:
 
@@ -132,8 +132,8 @@ The following example includes the ``year`` and ``type`` fields and implicitly t
    .. output::
       :language: console
 
-      Results(year=2018, type=even number but not a leap year)
-      Results(year=2019, type=odd number, can't be a leap year)
+      Results(id=646780e3311323724f69a907, year=2018, type=even number but not a leap year)
+      Results(id=646780e3311323724f69a908, year=2019, type=odd number, can't be a leap year)
 
 Exclusion
 ~~~~~~~~~
@@ -153,7 +153,7 @@ The following example excludes the ``temperatures`` field:
       Results(id=6462976102c85b29a7bfc9d5, year=2018, type=even number but not a leap year)
       Results(id=6462976102c85b29a7bfc9d6, year=2019, type=odd number, can't be a leap year)
 
-The following example excludes the ``type`` and ``temperatures`` fields:
+The following example excludes the ``temperatures`` and ``type`` fields:
 
 .. io-code-block::
 

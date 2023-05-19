@@ -1,4 +1,4 @@
-data class Results(val year: Int)
+data class Results(@BsonId val id: ObjectId, val year: Int)
 
 val filter = Filters.empty()
 val projection = Projections.include(YearlyTemperature::year.name)
