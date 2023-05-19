@@ -1,8 +1,8 @@
 Aggregates.group(
-    "\$year",
+    "\$${Movie::year.name}",
     Accumulators.firstN(
-        "first_two_movies",
-        "\$title",
+        Results::firstTwoMovies.name,
+        "\$${Movie::title.name}",
         2
     )
 )

@@ -1,9 +1,7 @@
 
-import com.mongodb.MongoNamespace
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Accumulators.*
 import com.mongodb.client.model.Aggregates.*
-import com.mongodb.client.model.Projections.fields
 import com.mongodb.client.model.Sorts.ascending
 import com.mongodb.client.model.densify.DensifyOptions
 import com.mongodb.client.model.densify.DensifyRange
@@ -18,15 +16,11 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.bson.BsonDouble
-import org.bson.BsonString
 import org.bson.Document
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.*
-import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
 import kotlin.test.assertEquals
 
@@ -265,7 +259,7 @@ class AggregatesBuilderTest {
                 // :snippet-start: project-computed
                 Aggregates.project(
                     Projections.fields(
-                        Projections.computed("rating", "\$rated"),
+                        Projections.computed(Results::rating.name, "\$${Movie::rated.name}"),
                         Projections.excludeId()
                     )
                 )
@@ -284,9 +278,9 @@ class AggregatesBuilderTest {
                 // :snippet-start: documents
                 Aggregates.documents(
                     listOf(
-                        Document("title", "Steel Magnolias"),
-                        Document("title", "Back to the Future"),
-                        Document("title", "Jurassic Park")
+                        Document(Movie::title.name, "Steel Magnolias"),
+                        Document(Movie::title.name, "Back to the Future"),
+                        Document(Movie::title.name, "Jurassic Park")
                     )
                 )
                 // :snippet-end:
@@ -344,21 +338,22 @@ class AggregatesBuilderTest {
 
     @Test
     fun lookupTest() = runBlocking {
-        data class Comment(@BsonId val id: ObjectId, val name: String, val email: String, val movie_id: Int, val text: String, val date: LocalDateTime)
+        data class Comment(@BsonId val id: ObjectId, val name: String, val movieId: Int, val text: String)
+        data class Results(@BsonId val id: Int, val title: String, val year: Int, val cast: List<String>, val genres: List<String>, val type: String, val rated: String, val plot: String, val fullplot: String, val runtime: Int, val imdb: Movie.IMDB, val joinedComments: List<Comment>)
         val commentCollection = database.getCollection<Comment>("comments")
 
         val comments = listOf(
-            Comment(id = ObjectId(), name = "John Doe", email = "john_doe@fakegmail.com", movie_id = 1, text = "This is a great movie. I enjoyed it a lot.", date = Instant.ofEpochMilli(1332804020000).atZone(ZoneId.systemDefault()).toLocalDateTime()),
-            Comment(id = ObjectId(), name = "Andrea Le", email = "andrea_le@fakegmail.com", movie_id = 1, text = "Rem officiis eaque repellendus amet eos doloribus.", date = Instant.ofEpochMilli(1332804016000).atZone(ZoneId.systemDefault()).toLocalDateTime()),
-            Comment(id = ObjectId(), name = "Jane Doe", email = "jane_doe@fakegmail.com", movie_id = 2, text = "I didn't like this movie. It was boring and predictable.", date = Instant.ofEpochMilli(1332804024000).atZone(ZoneId.systemDefault()).toLocalDateTime()),
-            Comment(id = ObjectId(), name = "Bob Smith", email = "bob_smith@fakegmail.com", movie_id = 3, text = "This movie is a masterpiece. Highly recommended.", date = Instant.ofEpochMilli(1332804028000).atZone(ZoneId.systemDefault()).toLocalDateTime()))
+            Comment(id = ObjectId(), name = "John Doe", movieId = 1, text = "This is a great movie. I enjoyed it a lot."),
+            Comment(id = ObjectId(), name = "Andrea Le", movieId = 1, text = "Rem officiis eaque repellendus amet eos doloribus."),
+            Comment(id = ObjectId(), name = "Jane Doe", movieId = 2, text = "I didn't like this movie. It was boring and predictable."),
+            Comment(id = ObjectId(), name = "Bob Smith", movieId = 3, text = "This movie is a masterpiece. Highly recommended."))
         commentCollection.insertMany(comments)
 
         val lookup = movieCollection.aggregate<Document>(listOf(
             // :snippet-start: lookup
-            Aggregates.lookup("comments", "_id", "movie_id", "joined_comments")
+            Aggregates.lookup("comments", "_id", Comment::movieId.name, Results::joinedComments.name
             // :snippet-end:
-        ))
+        )))
         assertEquals(9, lookup.toList().size)
         assertEquals("The Shawshank Redemption", lookup.toList().first()["title"])
     }
@@ -374,12 +369,12 @@ class AggregatesBuilderTest {
         )
         data class Inventory(
             @BsonId val id: Int,
-            val stock_item: String,
-            val instock: Int
+            val stockItem: String,
+            val inStock: Int
         )
         // :snippet-end:
-        data class StockData(val instock: Int)
-        data class Results(val item: String, val ordered: Int, val stockdata: List<StockData>)
+        data class StockData(val inStock: Int)
+        data class Results(val item: String, val ordered: Int, val stockData: List<StockData>)
 
         val orderCollection = database.getCollection<Order>("orders")
         val warehouseCollection = database.getCollection<Inventory>("warehouses")
@@ -399,24 +394,23 @@ class AggregatesBuilderTest {
             Aggregates.match(
                 Filters.expr(
                     Document("\$and", listOf(
-                        Document("\$eq", listOf("$\$order_item", "\$stock_item")),
-                        Document("\$gte", listOf("\$instock", "$\$order_qty"))
+                        Document("\$eq", listOf("$\$order_item", "\$${Inventory::stockItem.name}")),
+                        Document("\$gte", listOf("\$${Inventory::inStock.name}", "$\$order_qty"))
                     ))
                 )
             ),
             Aggregates.project(
                 Projections.fields(
-                    Projections.exclude("customerId", "stock_item"),
+                    Projections.exclude(Order::customerId.name, Inventory::stockItem.name),
                     Projections.excludeId()
                 )
             )
         )
         val innerJoinLookup =
-            Aggregates.lookup("warehouses", variables, pipeline, "stockdata")
+            Aggregates.lookup("warehouses", variables, pipeline, Results::stockData.name)
         // :snippet-end:
         val resultsCollection = database.getCollection<Results>("orders")
         val result = resultsCollection.aggregate<Results>(listOf(innerJoinLookup)).toList()
-        println(result)
         val expected = listOf(
             Results("item1", 5, listOf(StockData(10))),
             Results("item2", 5, listOf(StockData(20))),
@@ -440,8 +434,8 @@ class AggregatesBuilderTest {
         val grouping = orderCollection.aggregate<Results>(listOf(
             // :snippet-start: group
             Aggregates.group("\$customerId",
-                sum("totalQuantity", "\$ordered"),
-                avg("averageQuantity", "\$ordered"))
+                sum(Results::totalQuantity.name, "\$ordered"),
+                avg(Results::averageQuantity.name, "\$ordered"))
             // :snippet-end:
         ))
         val expected = listOf(
@@ -454,73 +448,75 @@ class AggregatesBuilderTest {
 
     @Test
     fun minNTest() = runBlocking {
-        data class Results(val lowest_three_ratings: List<Double>)
+        data class Results(val lowestThreeRatings: List<Double>)
 
         val resultsFlow = movieCollection.aggregate<Results>(listOf(
                 // :snippet-start: minN
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.minN(
-                        "lowest_three_ratings",
-                        "\$imdb.rating",
+                        Results::lowestThreeRatings.name,
+                        "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}",
                         3
                     )
                 )
                 // :snippet-end:
-            ))
+            , Aggregates.sort(Sorts.descending(Movie::year.name))))
+        assertEquals(8.9, resultsFlow.toList().first().lowestThreeRatings.first())
         assertEquals(5, resultsFlow.toList().size)
     }
 
     @Test
     fun maxNTest() = runBlocking {
-        data class Results(val highest_two_ratings: List<Double>)
+        data class Results(val highestTwoRatings: List<Double>)
 
         val resultsFlow = movieCollection.aggregate<Results>(listOf(
                 // :snippet-start: maxN
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.maxN(
-                        "highest_two_ratings",
-                        "\$imdb.rating",
+                        Results::highestTwoRatings.name,
+                        "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}",
                         2
                     )
                 )
                 // :snippet-end:
-            ))
+        ))
         assertEquals(5, resultsFlow.toList().size)
     }
 
     @Test
     fun firstNTest() = runBlocking {
-        data class Results(val first_two_movies: List<String>)
+        data class Results(val firstTwoMovies: List<String>)
 
         val resultsFlow = movieCollection.aggregate<Results>(listOf(
                 // :snippet-start: firstN
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.firstN(
-                        "first_two_movies",
-                        "\$title",
+                        Results::firstTwoMovies.name,
+                        "\$${Movie::title.name}",
                         2
                     )
                 )
                 // :snippet-end:
             ))
+        println(resultsFlow.toList())
         assertEquals(5, resultsFlow.toList().size)
 
     }
 
     @Test
     fun lastNTest() = runBlocking {
-        data class Results(val last_three_movies: List<String>)
+        data class Results(val lastThreeMovies: List<String>)
 
         val resultsFlow = movieCollection.aggregate<Results>(listOf(
                 // :snippet-start: lastN
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.lastN(
-                        "last_three_movies",
-                        "\$title",
+                        Results::lastThreeMovies.name,
+                        "\$${Movie::title.name}",
                         3
                     )
                 )
@@ -532,37 +528,38 @@ class AggregatesBuilderTest {
 
     @Test
     fun topTest() = runBlocking {
-        data class TopRated(val title: BsonString, val rating: BsonDouble)
-        data class Results(val top_rated_movie: List<TopRated>) // ERROR: Unable to decode top_rated_movie for Results data class
+        data class TopRated(val title: String, val rating: Movie.IMDB)
+        data class Results(@BsonId val id: Int, val topRatedMovie: List<TopRated>) // TODO ERROR: Unable to decode topRatedMovie for Results data class (Document{{_id=1972, topRatedMovie=[The Godfather, 8.9]}})
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Results>(listOf(
                 // :snippet-start: top
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.top(
-                        "top_rated_movie",
-                        Sorts.descending("imdb.rating"),
-                        listOf("\$title", "\$imdb.rating")
+                        Results::topRatedMovie.name,
+                        Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
+                        listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}")
                     )
                 )
                 // :snippet-end:
             ))
+        println(resultsFlow.toList())
         assertEquals(5, resultsFlow.toList().size)
     }
 
     @Test
     fun topNTest() = runBlocking {
         data class Longest(val title: String, val runtime: Int)
-        data class Results(@BsonId val year: Int, val longest_three_movies: List<Longest>) // ERROR: Unable to decode longest_three_movies for Results data class
+        data class Results(@BsonId val year: Int, val longestThreeMovies: List<Longest>) // TODO ERROR: Unable to decode longestThreeMovies for Results data class
 
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
                 // :snippet-start: topN
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.topN(
-                        "longest_three_movies",
-                        Sorts.descending("runtime"),
-                        listOf("\$title", "\$runtime"),
+                        Results::longestThreeMovies.name,
+                        Sorts.descending(Movie::runtime.name),
+                        listOf("\$${Movie::title.name}", "\$${Movie::runtime.name}"),
                         3
                     )
                 )
@@ -574,16 +571,16 @@ class AggregatesBuilderTest {
     @Test
     fun bottomTest() = runBlocking {
         data class Shortest(val title: String, val runtime: Int)
-        data class Results(val id: Int, val shortest_movies: List<Shortest>) // ERROR: Unable to decode shortest_movies for Results data class
+        data class Results(val id: Int, val shortestMovies: List<Shortest>) // TODO ERROR: Unable to decode shortestMovies for Results data class
 
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
                 // :snippet-start: bottom
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.bottom(
-                        "shortest_movies",
-                        Sorts.descending("runtime"),
-                        listOf("\$title", "\$runtime")
+                        Results::shortestMovies.name,
+                        Sorts.descending("${Movie::runtime.name}"),
+                        listOf("\$${Movie::title.name}", "\$${Movie::runtime.name}")
                     )
                 )
                 // :snippet-end:
@@ -594,16 +591,16 @@ class AggregatesBuilderTest {
     @Test
     fun bottomNTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowest_rated_two_movies: List<LowestRated>) // ERROR: Unable to decode lowest_rated_two_movies for Results data class
+        data class Results(@BsonId val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
 
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
                 // :snippet-start: bottomN
                 Aggregates.group(
-                    "\$year",
+                    "\$${Movie::year.name}",
                     Accumulators.bottom(
-                        "lowest_rated_two_movies",
-                        Sorts.descending("imdb.rating"),
-                        listOf("\$title", "\$imdb.rating")
+                        Results::lowestRatedTwoMovies.name,
+                        Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
+                        listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
                     )
                 )
                 // :snippet-end:
@@ -614,11 +611,13 @@ class AggregatesBuilderTest {
     @Test
     fun unwindTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowest_rated_two_movies: List<LowestRated>) // ERROR: Unable to decode lowest_rated_two_movies for Results data class
+        data class Results(@BsonId val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(Aggregates.group("\$year", Accumulators.bottom("lowest_rated_two_movies", Sorts.descending("imdb.rating"), listOf("\$title", "\$imdb.rating"))),
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+            // aggregate content to unwind
+            Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: unwind
-                Aggregates.unwind("\$lowest_rated_two_movies")
+                Aggregates.unwind("\$${Results::lowestRatedTwoMovies.name}")
                 // :snippet-end:
             ))
         assertEquals(10, resultsFlow.toList().size)
@@ -627,12 +626,14 @@ class AggregatesBuilderTest {
     @Test
     fun unwindOptionsTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowest_rated_two_movies: List<LowestRated>) // ERROR: Unable to decode lowest_rated_two_movies for Results data class
+        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(Aggregates.group("\$year", Accumulators.bottom("lowest_rated_two_movies", Sorts.descending("imdb.rating"), listOf("\$title", "\$imdb.rating"))),
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+            // aggregate content to unwind
+            Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: unwind-options
                 Aggregates.unwind(
-                    "\$lowest_rated_two_movies",
+                    "\$${Results::lowestRatedTwoMovies.name}",
                     UnwindOptions().preserveNullAndEmptyArrays(true)
                 )
                 // :snippet-end:
@@ -643,12 +644,14 @@ class AggregatesBuilderTest {
     @Test
     fun unwindOptionsArrayTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowest_rated_two_movies: List<LowestRated>) // ERROR: Unable to decode lowest_rated_two_movies for Results data class
+        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(Aggregates.group("\$year", Accumulators.bottom("lowest_rated_two_movies", Sorts.descending("imdb.rating"), listOf("\$title", "\$imdb.rating"))),
-                // :snippet-start: unwind-options-array
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+            // aggregate content to unwind
+            Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
+            // :snippet-start: unwind-options-array
                 Aggregates.unwind(
-                    "\$lowest_rated_two_movies",
+                    "\$${Results::lowestRatedTwoMovies.name}",
                     UnwindOptions().includeArrayIndex("position")
                 )
                 // :snippet-end:
@@ -658,7 +661,12 @@ class AggregatesBuilderTest {
 
     @Test
     fun outTest() = runBlocking {
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(Aggregates.group("\$year", Accumulators.bottom("lowest_rated_two_movies", Sorts.descending("imdb.rating"), listOf("\$title", "\$imdb.rating"))),
+        data class LowestRated(val title: String, val runtime: Int)
+        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+            // aggregate content to push out
+            Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: out
                 Aggregates.out("comments"),
                 // :snippet-end:
@@ -668,8 +676,12 @@ class AggregatesBuilderTest {
 
     @Test
     fun mergeTest() = runBlocking {
+        data class LowestRated(val title: String, val runtime: Int)
+        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
-                Aggregates.group("\$year", Accumulators.bottom("lowest_rated_two_movies", Sorts.descending("imdb.rating"), listOf("\$title", "\$imdb.rating"))),
+            // aggregate content to merge
+            Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: merge
                 Aggregates.merge("comments")
                 // :snippet-end:
@@ -677,25 +689,25 @@ class AggregatesBuilderTest {
         assertEquals(5, resultsFlow.toList().size)
     }
 
-    @Test
-    fun mergeOptionsTest() = runBlocking {
-       // movieCollection.createIndex(Indexes.ascending("year", "title"))
-
-        val resultsFlow = movieCollection.aggregate<Movie>(listOf(
-            Aggregates.project(fields(Projections.computed("year", "\$_id - \$year"), Projections.include("title", "year"))),
-                // :snippet-start: merge-options
-                Aggregates.merge(
-                    MongoNamespace("aggregation", "movies"), // ERROR: 'Cannot find index to verify that join fields will be unique'
-                    MergeOptions().uniqueIdentifier(listOf("year", "title"))
-                        .whenMatched(MergeOptions.WhenMatched.REPLACE)
-                        .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
-                )
-            // :snippet-end:
-            )
-        )
-        println(resultsFlow.toList())
-     //   movieCollection.dropIndex(Indexes.ascending("year", "title"))
-    }
+//    @Test
+//    fun mergeOptionsTest() = runBlocking {
+//       movieCollection.createIndex(Indexes.ascending("year", "title")) // not needed?
+//
+//        val resultsFlow = movieCollection.aggregate<Movie>(listOf(
+//            Aggregates.project(fields(Projections.computed("year", "\$_id - \$year"), Projections.include("title", "year"))), // trying to make the index unique
+//                // :snippet-start: merge-options
+//                Aggregates.merge(
+//                    MongoNamespace("aggregation", "movies"), // TODO ERROR: 'Cannot find index to verify that join fields will be unique'
+//                    MergeOptions().uniqueIdentifier(listOf("year", "title"))
+//                        .whenMatched(MergeOptions.WhenMatched.REPLACE)
+//                        .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
+//                )
+//            // :snippet-end:
+//            )
+//        )
+//        println(resultsFlow.toList())
+//        movieCollection.dropIndex(Indexes.ascending("year", "title"))
+//    }
 
     @Test
     fun graphLookupTest() = runBlocking {
@@ -703,7 +715,8 @@ class AggregatesBuilderTest {
         val resultsFlow = employeesCollection.aggregate<Results>(listOf(
                 // :snippet-start: graph-lookup
                 Aggregates.graphLookup(
-                    "employees", "\$reportsTo", "reportsTo", "name", "reportingHierarchy"
+                    "employees",
+                    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name
                 )
                 // :snippet-end:
             ))
@@ -717,8 +730,9 @@ class AggregatesBuilderTest {
         val resultsFlow = employeesCollection.aggregate<Results>(listOf(
                 // :snippet-start: graph-lookup-depth
                 Aggregates.graphLookup(
-                    "employees", "\$reportsTo", "reportsTo", "name", "reportingHierarchy",
-                    GraphLookupOptions().maxDepth(2).depthField("degrees")
+                    "employees",
+                    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name,
+                    GraphLookupOptions().maxDepth(2).depthField(Depth::degrees.name)
                 )
                 // :snippet-end:
             ))
@@ -732,9 +746,10 @@ class AggregatesBuilderTest {
         val resultsFlow = employeesCollection.aggregate<Results>(listOf(
                 // :snippet-start: graph-lookup-options
                 Aggregates.graphLookup(
-                    "employees", "\$reportsTo", "reportsTo", "name", "reportingHierarchy",
+                    "employees",
+                    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name,
                     GraphLookupOptions().maxDepth(1).restrictSearchWithMatch(
-                        Filters.eq("department", "Engineering")
+                        Filters.eq(Employee::department.name, "Engineering")
                     )
                 )
                 // :snippet-end:
@@ -747,11 +762,11 @@ class AggregatesBuilderTest {
     fun sortByCount() = runBlocking {
         data class Results(@BsonId val id: String, val count: Int)
 
-        val resultsFlow = movieCollection.aggregate<Results>(listOf(Aggregates.unwind("\$genres"),
+        val resultsFlow = movieCollection.aggregate<Results>(listOf(Aggregates.unwind("\$${Movie::genres.name}"),
             // :snippet-start: sort-by-count
-            Aggregates.sortByCount("\$genres"),
+            Aggregates.sortByCount("\$${Movie::genres.name}"),
             // :snippet-end:
-            Aggregates.sort(Sorts.descending("count", "_id"))))
+            Aggregates.sort(Sorts.descending(Results::count.name, "_id"))))
         val results = resultsFlow.toList()
         val actual = listOf(Results("Drama", 8), Results("Crime", 3), Results("Action", 2), Results("Thriller", 1), Results("Sci-Fi", 1), Results("Romance", 1), Results("Mystery", 1),)
         assertEquals(results, actual)
@@ -759,19 +774,19 @@ class AggregatesBuilderTest {
 
     @Test
     fun replaceRootTest() = runBlocking {
-        data class Book(val id: Int, val spanishTranslation: Map<String, String>)
-        val bookCollection = database.getCollection<Book>("books")
-        val books = listOf(Book(1, mapOf("Book1" to "Libro1")), Book(2, mapOf("Book2" to "Libro2")), Book(3, mapOf("Book3" to "Libro3")))
-        bookCollection.insertMany(books)
+        data class Movie(val id: Int, val spanishTranslation: Map<String, String>)
+        val translateCollection = database.getCollection<Movie>("movies_translate")
+        val movies = listOf(Movie(1, mapOf("Movie1" to "Película1")), Movie(2, mapOf("Movie2" to "Película2")), Movie(3, mapOf("Movie3" to "Película3")))
+        translateCollection.insertMany(movies)
 
-        val resultsFlow = bookCollection.aggregate<Document>(listOf(
+        val resultsFlow = translateCollection.aggregate<Document>(listOf(
             // :snippet-start: replace-root
-            replaceRoot("\$spanishTranslation")
+            replaceRoot("\$${Movie::spanishTranslation.name}")
             //  :snippet-end:
 
         ))
-        assertEquals("Libro1", resultsFlow.toList()[0]["Book1"])
-        bookCollection.drop()
+        assertEquals("Película1", resultsFlow.toList()[0]["Movie1"])
+        translateCollection.drop()
     }
 
     @Test
@@ -785,7 +800,7 @@ class AggregatesBuilderTest {
 
         val resultsFlow = contactsCollection.aggregate<Results>(listOf(
             // :snippet-start: add-fields
-            addFields(Field("city", "New York City"), Field("state", "NY"))
+            addFields(Field(Results::city.name, "New York City"), Field(Results::state.name, "NY"))
             // :snippet-end:
         ))
         assertEquals("New York City", resultsFlow.toList()[0].city)
@@ -797,7 +812,7 @@ class AggregatesBuilderTest {
         data class Results(val total: Int)
         val resultsFlow = movieCollection.aggregate<Results>(listOf(
                 // :snippet-start: count
-                Aggregates.count("total")
+                Aggregates.count(Results::total.name)
                 // :snippet-end:
             ))
         assertEquals(9, movieCollection.countDocuments())
@@ -807,7 +822,7 @@ class AggregatesBuilderTest {
     fun bucketTest() = runBlocking {
         val resultsFlow = screenCollection.aggregate<Document>(listOf(
             // :snippet-start: bucket
-            bucket("\$screenSize", listOf(0, 24, 32, 50, 70, 1000))
+            bucket("\$${Screen::screenSize.name}", listOf(0, 24, 32, 50, 70, 1000))
             // :snippet-end:
         ))
         assertEquals(4, resultsFlow.toList().size)
@@ -815,14 +830,15 @@ class AggregatesBuilderTest {
 
     @Test
     fun bucketOptionsTest() = runBlocking {
-        val resultsFlow = screenCollection.aggregate<Document>(listOf(
+        data class Results(val count: Int, val matches: List<Int>)
+        val resultsFlow = screenCollection.aggregate<Results>(listOf(
             // :snippet-start: bucket-options
-            bucket("\$screenSize", listOf(0, 24, 32, 50, 70),
+            bucket("\$${Screen::screenSize.name}", listOf(0, 24, 32, 50, 70),
                 BucketOptions()
                     .defaultBucket("monster")
                     .output(
-                        sum("count", 1),
-                        push("matches", "\$screenSize")
+                        sum(Results::count.name, 1),
+                        push(Results::matches.name, "\$${Screen::screenSize.name}")
                     )
             )
             // :snippet-end:
@@ -832,9 +848,11 @@ class AggregatesBuilderTest {
 
     @Test
     fun bucketAutoTest() = runBlocking {
-        val resultsFlow = screenCollection.aggregate<Document>(listOf(
+        data class MinMax(val min: Int, val max: Int)
+        data class Results(@BsonId val id: List<MinMax>, val count: Int)
+        val resultsFlow = screenCollection.aggregate<Document>(listOf( // TODO: figure out data class (Document{{_id=Document{{min=15, max=27}}, count=1}})
             // :snippet-start: bucket-auto
-            bucketAuto("\$screenSize", 5)
+            bucketAuto("\$${Screen::screenSize.name}", 5)
             // :snippet-end:
         ))
         assertEquals(5, resultsFlow.toList().size)
@@ -842,15 +860,17 @@ class AggregatesBuilderTest {
 
     @Test
     fun bucketAutoOptionsTest() = runBlocking {
-        val resultsFlow = screenCollection.aggregate<Document>(listOf(
+        data class MinMax(val min: Int, val max: Int)
+        data class Bucket(val minMax: List<MinMax>, val count: Int, val avgPrice: Double)
+        data class Results(@BsonId val id: List<Bucket>)
+        val resultsFlow = screenCollection.aggregate<Document>(listOf( // TODO: figure out data class ([Document{{_id=Document{{min=64, max=128}}, count=1, avgPrice=100.0}})
             // :snippet-start: bucket-auto-options
             bucketAuto(
-                "\$price", 5,
+                "\$${Screen::price.name}", 5,
                 BucketAutoOptions()
                     .granularity(BucketGranularity.POWERSOF2)
-                    .output(sum("count", 1), avg("avgPrice", "\$price")
+                    .output(sum(Bucket::count.name, 1), avg(Bucket::avgPrice.name, "\$${Screen::price.name}"))
                     )
-            )
             // :snippet-end:
         ))
         assertEquals(5, resultsFlow.toList().size)
@@ -858,20 +878,21 @@ class AggregatesBuilderTest {
 
     @Test
     fun facetTest() = runBlocking {
-        val resultsFlow = screenCollection.aggregate<Document>(listOf(
+
+        val resultsFlow = screenCollection.aggregate<Document>(listOf( // TODO: figure out data class (Document{{Screen Sizes=[Document{{_id=Document{{min=15, max=27}}, count=1}})
             // :snippet-start: facet
             facet(
                 Facet(
                     "Screen Sizes",
                     bucketAuto(
-                        "\$screenSize",
+                        "\$${Screen::screenSize.name}",
                         5,
                         BucketAutoOptions().output(sum("count", 1))
                     )
                 ),
                 Facet(
                     "Manufacturer",
-                    sortByCount("\$manufacturer"),
+                    sortByCount("\$${Screen::manufacturer.name}"),
                     limit(5)
                 )
             )
@@ -890,6 +911,7 @@ class AggregatesBuilderTest {
             val temperature: Double
         )
         // :snippet-end:
+        data class Results(val localityId: String, val measurementDateTime: Date, val rainfall: Double, val temperature: Double, val monthlyRainfall: Double, val monthlyAvgTemp: Double)
 
         val weatherCollection = database.getCollection<Weather>("weather")
         val weather = listOf(Weather("1", Date(), 50.2, 25.6), Weather("1", Date(), 40.5, 28.3), Weather("1", Date(), 60.1, 23.8), Weather("2", Date(), 45.7, 26.4), Weather("2", Date(), 55.9, 24.9))
@@ -898,14 +920,15 @@ class AggregatesBuilderTest {
         // :snippet-start: window
         val pastMonth = Windows.timeRange(-1, MongoTimeUnit.MONTH, Windows.Bound.CURRENT)
 
-        val resultsFlow = weatherCollection.aggregate<Document>(listOf(
-               Aggregates.setWindowFields("\$localityId",
-                   Sorts.ascending("measurementDateTime"),
-                   WindowOutputFields.sum("monthlyRainfall", "\$rainfall", pastMonth),
-                   WindowOutputFields.avg("monthlyAvgTemp", "\$temperature", pastMonth)
+        val resultsFlow = weatherCollection.aggregate<Results>(listOf(
+               Aggregates.setWindowFields("\$${Weather::localityId.name}",
+                   Sorts.ascending("${Weather::measurementDateTime.name}"),
+                   WindowOutputFields.sum(Results::monthlyRainfall.name, "\$${Weather::rainfall.name}", pastMonth),
+                   WindowOutputFields.avg(Results::monthlyAvgTemp.name, "\$${Weather::temperature.name}", pastMonth)
                )
         // :snippet-end:
         ))
+        println(resultsFlow.toList())
         assertEquals(5, resultsFlow.toList().size)
         weatherCollection.drop()
     }
@@ -917,7 +940,7 @@ class AggregatesBuilderTest {
             @BsonId val id: ObjectId = ObjectId(),
             val hour: Int,
             val temperature: String?,
-            val air_pressure: Double?
+            val airPressure: Double?
         )
         // :snippet-end:
         val weatherCollection = database.getCollection<Weather>("weather")
@@ -926,14 +949,14 @@ class AggregatesBuilderTest {
         // :snippet-start: fill
         val resultsFlow = weatherCollection.aggregate<Weather>(listOf(
             Aggregates.fill(
-                FillOptions.fillOptions().sortBy(ascending("hour")),
-                FillOutputField.value("temperature", "23.6C"),
-                FillOutputField.linear("air_pressure")
+                FillOptions.fillOptions().sortBy(ascending("${Weather::hour.name}")),
+                FillOutputField.value(Weather::temperature.name, "23.6C"),
+                FillOutputField.linear(Weather::airPressure.name)
             )
         ))
         resultsFlow.collect { println(it) }
         // :snippet-end:
-        assertEquals(29.75, resultsFlow.toList()[1].air_pressure)
+        assertEquals(29.75, resultsFlow.toList()[1].airPressure)
     }
 
     @Test
@@ -957,7 +980,7 @@ class AggregatesBuilderTest {
             densify(
                 "ts",
                 DensifyRange.partitionRangeWithStep(15, MongoTimeUnit.MINUTE),
-                DensifyOptions.densifyOptions().partitionByFields("position.coordinates"))
+                DensifyOptions.densifyOptions().partitionByFields("position.coordinates")) // TODO: typesafe this?
             // :snippet-end:
         ))
         resultsFlow.collect{println(it)}
@@ -974,7 +997,7 @@ class AggregatesBuilderTest {
                 // :snippet-start: full-text-search
                 Aggregates.search(
                     SearchOperator.text(
-                        SearchPath.fieldPath("title"), "Future"
+                        SearchPath.fieldPath(Movie::title.name), "Future"
                     ),
                     SearchOptions.searchOptions().index("title")
                 )
@@ -993,7 +1016,7 @@ class AggregatesBuilderTest {
             listOf(
                 // :snippet-start: search-meta
                 Aggregates.searchMeta(
-                    SearchOperator.near(1985, 2, SearchPath.fieldPath("year"))
+                    SearchOperator.near(1985, 2, SearchPath.fieldPath(Movie::year.name))
                 )
                 // :snippet-end:
             )

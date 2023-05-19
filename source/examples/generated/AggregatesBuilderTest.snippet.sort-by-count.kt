@@ -1,1 +1,1 @@
-Aggregates.sortByCount("\$genres"),
+Aggregates.sortByCount("\$${Movie::genres.name}"),

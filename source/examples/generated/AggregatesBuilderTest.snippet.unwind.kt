@@ -1,1 +1,1 @@
-Aggregates.unwind("\$lowest_rated_two_movies")
+Aggregates.unwind("\$${Results::lowestRatedTwoMovies.name}")

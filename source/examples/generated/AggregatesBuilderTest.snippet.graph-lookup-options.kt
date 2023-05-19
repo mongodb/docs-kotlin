@@ -1,6 +1,7 @@
 Aggregates.graphLookup(
-    "employees", "\$reportsTo", "reportsTo", "name", "reportingHierarchy",
+    "employees",
+    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name,
     GraphLookupOptions().maxDepth(1).restrictSearchWithMatch(
-        Filters.eq("department", "Engineering")
+        Filters.eq(Employee::department.name, "Engineering")
     )
 )

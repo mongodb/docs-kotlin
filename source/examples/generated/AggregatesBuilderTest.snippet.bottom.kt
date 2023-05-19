@@ -1,8 +1,8 @@
 Aggregates.group(
-    "\$year",
+    "\$${Movie::year.name}",
     Accumulators.bottom(
-        "shortest_movies",
-        Sorts.descending("runtime"),
-        listOf("\$title", "\$runtime")
+        Results::shortestMovies.name,
+        Sorts.descending("${Movie::runtime.name}"),
+        listOf("\$${Movie::title.name}", "\$${Movie::runtime.name}")
     )
 )

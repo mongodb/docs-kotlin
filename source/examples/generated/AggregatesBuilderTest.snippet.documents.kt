@@ -1,7 +1,7 @@
 Aggregates.documents(
     listOf(
-        Document("title", "Steel Magnolias"),
-        Document("title", "Back to the Future"),
-        Document("title", "Jurassic Park")
+        Document(Movie::title.name, "Steel Magnolias"),
+        Document(Movie::title.name, "Back to the Future"),
+        Document(Movie::title.name, "Jurassic Park")
     )
 )

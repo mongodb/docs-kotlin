@@ -1,3 +1,3 @@
 Aggregates.searchMeta(
-    SearchOperator.near(1985, 2, SearchPath.fieldPath("year"))
+    SearchOperator.near(1985, 2, SearchPath.fieldPath(Movie::year.name))
 )

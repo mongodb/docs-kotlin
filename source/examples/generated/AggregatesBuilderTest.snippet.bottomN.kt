@@ -1,8 +1,8 @@
 Aggregates.group(
-    "\$year",
+    "\$${Movie::year.name}",
     Accumulators.bottom(
-        "lowest_rated_two_movies",
-        Sorts.descending("imdb.rating"),
-        listOf("\$title", "\$imdb.rating")
+        Results::lowestRatedTwoMovies.name,
+        Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
+        listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
     )
 )

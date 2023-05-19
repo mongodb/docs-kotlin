@@ -42,8 +42,8 @@ aggregation as a list:
 .. code-block:: 
    :source: kotlin
 
-   val matchStage = match(eq("some_field", "some_criteria"))
-   val sortByCountStage = sortByCount("some_field")
+   val matchStage = match(eq("someField", "someCriteria"))
+   val sortByCountStage = sortByCount("someField")
    val results = collection.aggregate(listOf(matchStage, sortByCountStage)).toList()
 
 Many ``Aggregation`` examples in this guide use the :atlas:`Atlas sample Mflix dataset </sample-data/sample-mflix>`. The documents in this collection are
@@ -194,8 +194,8 @@ The following example creates a pipeline stage that performs a left outer
 join between the ``movies`` and ``comments`` collections in the sample ``mflix`` 
 database:
 
-#. It joins the ``_id`` field from ``movies`` to the ``movie_id`` field in ``comments``
-#. It outputs the results in the ``joined_comments`` field
+#. It joins the ``_id`` field from ``movies`` to the ``movieId`` field in ``comments``
+#. It outputs the results in the ``joinedComments`` field
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup.kt
    :language: kotlin
@@ -210,8 +210,8 @@ data is modeled using the following Kotlin data classes:
    :language: kotlin
 
 The example creates a pipeline stage that joins the two collections by the item 
-and whether the available quantity in the stock inventory is enough to fulfill 
-the ordered quantity:
+and whether the available quantity in ``inStock`` field is enough to fulfill 
+the ``ordered`` quantity:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup-full-join.kt
    :language: kotlin
@@ -447,7 +447,7 @@ Use the ``unwind()`` method to create an :manual:`$unwind </reference/operator/a
 pipeline stage to deconstruct an array field from input documents, creating
 an output document for each array element.
 
-The following example creates a document for each element in the ``lowest_rated_two_movies`` array:
+The following example creates a document for each element in the ``lowestRatedTwoMovies`` array:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.unwind.kt
    :language: kotlin
@@ -812,7 +812,7 @@ These documents are modeled using the following Kotlin data class:
 Suppose you needed to populate missing temperature and air pressure
 data points in the documents as follows:
 
-- Populate the ``air_pressure`` field for hour "2" using linear interpolation
+- Populate the ``airPressure`` field for hour "2" using linear interpolation
   to calculate the value.
 - Set the missing ``temperature`` value to "23.6C" for hour "3".
 
@@ -828,9 +828,9 @@ these actions resembles the following:
       :language:  console
       :emphasize-lines: 2-3
 
-      Weather(id=6308a..., hour=1, temperature=23C, air_pressure=29.74)
-      Weather(id=6308b..., hour=2, temperature=23.5C, air_pressure=29.75)
-      Weather(id=6308b..., hour=3, temperature=23.6C, air_pressure=29.76)
+      Weather(id=6308a..., hour=1, temperature=23C, airPressure=29.74)
+      Weather(id=6308b..., hour=2, temperature=23.5C, airPressure=29.75)
+      Weather(id=6308b..., hour=3, temperature=23.6C, airPressure=29.76)
 
 See the `fill package API documentation <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/fill/package-summary.html>`__
 for more information.

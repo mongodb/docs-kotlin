@@ -1,7 +1,6 @@
 bucketAuto(
-    "\$price", 5,
+    "\$${Screen::price.name}", 5,
     BucketAutoOptions()
         .granularity(BucketGranularity.POWERSOF2)
-        .output(sum("count", 1), avg("avgPrice", "\$price")
+        .output(sum(Bucket::count.name, 1), avg(Bucket::avgPrice.name, "\$${Screen::price.name}"))
         )
-)

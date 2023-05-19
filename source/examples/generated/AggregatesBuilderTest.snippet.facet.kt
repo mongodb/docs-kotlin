@@ -2,14 +2,14 @@ facet(
     Facet(
         "Screen Sizes",
         bucketAuto(
-            "\$screenSize",
+            "\$${Screen::screenSize.name}",
             5,
             BucketAutoOptions().output(sum("count", 1))
         )
     ),
     Facet(
         "Manufacturer",
-        sortByCount("\$manufacturer"),
+        sortByCount("\$${Screen::manufacturer.name}"),
         limit(5)
     )
 )

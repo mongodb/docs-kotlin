@@ -1,8 +1,8 @@
 Aggregates.group(
-    "\$year",
+    "\$${Movie::year.name}",
     Accumulators.minN(
-        "lowest_three_ratings",
-        "\$imdb.rating",
+        Results::lowestThreeRatings.name,
+        "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}",
         3
     )
 )

@@ -1,1 +1,1 @@
-replaceRoot("\$spanishTranslation")
+replaceRoot("\$${Movie::spanishTranslation.name}")

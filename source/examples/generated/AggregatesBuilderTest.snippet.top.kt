@@ -1,8 +1,8 @@
 Aggregates.group(
-    "\$year",
+    "\$${Movie::year.name}",
     Accumulators.top(
-        "top_rated_movie",
-        Sorts.descending("imdb.rating"),
-        listOf("\$title", "\$imdb.rating")
+        Results::topRatedMovie.name,
+        Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
+        listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}")
     )
 )

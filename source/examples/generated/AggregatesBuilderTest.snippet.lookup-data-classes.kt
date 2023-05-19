@@ -6,6 +6,6 @@ data class Order(
 )
 data class Inventory(
     @BsonId val id: Int,
-    val stock_item: String,
-    val instock: Int
+    val stockItem: String,
+    val inStock: Int
 )

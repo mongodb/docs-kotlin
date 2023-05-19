@@ -1,1 +1,1 @@
-bucketAuto("\$screenSize", 5)
+bucketAuto("\$${Screen::screenSize.name}", 5)
