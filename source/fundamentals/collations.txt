@@ -127,6 +127,8 @@ for more information.
 The following snippet shows how to specify the "en_US" locale collation
 when creating a new collection called ``items``:
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
    :dedent:
@@ -136,6 +138,8 @@ when creating a new collection called ``items``:
 To check whether you created the collation successfully, retrieve a list
 of the indexes on that collection as follows:
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
    :dedent:
@@ -144,12 +148,16 @@ of the indexes on that collection as follows:
 
 The output of your code should contain the following:
 
-.. code-block:: none
+.. code-block:: js
    :copyable: false
 
-   { ...
-     "collation": { "locale": "en_US", ... }
-     ...
+   {
+     // ...
+     "collation": {
+        "locale": "en_US",
+        // ...
+     }
+     // ...
    }
 
 .. _collations-index:
@@ -169,6 +177,8 @@ criteria:
 The following code snippet shows how you can create an index on the "name"
 field with the "en_US" locale collation in ascending order:
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
    :dedent:
@@ -177,6 +187,8 @@ field with the "en_US" locale collation in ascending order:
 
 To check whether you created the collation successfully, retrieve a list
 of the indexes on that collection as follows:
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
@@ -196,6 +208,8 @@ The output of the preceding code should contain the following:
 
 The following code snippet shows an example operation that specifies the
 same collation and is covered by the index we created in the preceding code snippet:
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
@@ -224,6 +238,8 @@ following characteristics:
   by the collection's default collation index.
 - Since the specified collation is not covered by an index, the sort
   operation is performed in-memory.
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
@@ -297,6 +313,8 @@ You can use the ``Collation.Builder`` class to specify values for the
 preceding collation options. You can call the ``build()`` method to construct a
 ``Collation`` object as shown in the following code snippet:
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
    :dedent:
@@ -327,6 +345,8 @@ you start with the following collection of documents:
    { "_id" : 4, "first_name" : "Jürgen" }
    { "_id" : 5, "first_name" : "Hannah" }
 
+TODO: data class
+
 In the following examples, we specify the "de@collation=phonebook" locale and
 variant collation. The "de" part of the collation specifies the German
 locale and the "collation=phonebook" part specifies a variant. The
@@ -349,6 +369,8 @@ to receive the results.
    The following code example uses imports from the
    ``import com.mongodb.client.model`` package for convenience.
 
+TODO: kotlinize
+
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
    :dedent:
@@ -370,8 +392,10 @@ the output should resemble the following:
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `find() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#find()>`__
-- `sort() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/FindIterable.html#sort(org.bson.conversions.Bson)>`__
+TODO: kotlinize
+
+- `find() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#find()>`__
+- `sort() <{+api-kotlin+}/apidocs/mongodb-driver-sync/com/mongodb/client/FindIterable.html#sort(org.bson.conversions.Bson)>`__
 - `Sorts <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__
 
 findOneAndUpdate() Example
@@ -391,6 +415,8 @@ In this example, we demonstrate the following:
   collation.
 - Add a new field "verified" with the value "true".
 - Retrieve and print the updated document.
+
+TODO: kotlinize...prob delete note per patterns used in the docs
 
 .. note::
 
@@ -419,7 +445,7 @@ returns the following update document:
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `findOneAndUpdate <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#findOneAndUpdate(org.bson.conversions.Bson,java.util.List,com.mongodb.client.model.FindOneAndUpdateOptions)>`__
+- `findOneAndUpdate <{+api-kotlin+}/4.10/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find-one-and-update.html>`__
 - `findOneAndUpdateOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/FindOneAndUpdateOptions.html>`__
 - `Filters <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__
 - `Updates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html>`__
@@ -445,9 +471,13 @@ contains the following documents:
    { "_id" : 2, "a" : "84 oranges" }
    { "_id" : 3, "a" : "179 bananas" }
 
+TODO: data class
+
 In the collation, we set the ``locale`` option to "en" and the
 ``numericOrdering`` option to "true" in order to sort strings based on their
 numerical order.
+
+TODO: kotlinize...prob delete note per patterns used in the docs
 
 .. note::
 
@@ -479,7 +509,7 @@ by binary collation.
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `findOneAndDelete <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#findOneAndDelete(org.bson.conversions.Bson)>`__
+- `findOneAndDelete <{+api-kotlin+}/4.10/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find-one-and-delete.html>`__
 - `FindOneAndDeleteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/FindOneAndDeleteOptions.html>`__
 - `Filters <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__
 - `Sorts <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__
@@ -494,7 +524,7 @@ perform an aggregation, call the ``aggregate()`` method on a
 ``MongoCollection`` object.
 
 To specify a collation for an aggregation operation, call the ``collation()``
-method on the ``AggregateIterable`` returned by the aggregation operation.
+method on the ``AggregateFlow`` returned by the aggregation operation.
 Make sure to specify a sort aggregation stage on which to apply the
 collation in your aggregation pipeline.
 
@@ -511,6 +541,8 @@ a collation by specifying the following:
   the prior aggregation stage.
 - Construct a collation object, specifying the German locale and
   a collation strength that ignores accents and umlauts.
+
+TODO: kotlinize
 
 .. literalinclude:: /includes/fundamentals/code-snippets/CollationCollectionExample.java
    :language: java
@@ -531,8 +563,8 @@ The preceding code outputs the following documents:
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
-- `aggregate() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#aggregate(java.util.List)>`__
-- `AggregateIterable <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/AggregateIterable.html>`__
+- `aggregate() <{+api-kotlin+}/4.10/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/aggregate.html>`__
+- `AggregateFlow <{+api-kotlin+}/4.10/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-aggregate-flow/index.html>`__
 - `CollationStrength <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/CollationStrength.html>`__
 - `Accumulators <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Accumulators.html>`__
 - `Aggregates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Aggregates.html>`__
