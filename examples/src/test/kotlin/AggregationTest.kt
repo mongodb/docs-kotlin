@@ -143,7 +143,7 @@ class AggregationTest {
         // :snippet-start: build-documents-tip
         Document("\$arrayElemAt", listOf("\$categories", 0))
         // is equivalent to
-        val method2 = // :remove
+        val method2 = // :remove:
         Document.parse("{ \$arrayElemAt: ['\$categories', 0] }")
         // :snippet-end:
         // assert to test equivalency

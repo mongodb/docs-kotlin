@@ -3,7 +3,7 @@ data class FruitName(
     val name: String
 )
 
-// return all documents with *only* the name field
+// Return all documents with *only* the name field
 // excludes the id
 val filter = Filters.empty()
 val projection = Projections.fields(
