@@ -13,7 +13,6 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import java.sql.Timestamp
 
@@ -37,7 +36,7 @@ fun main() = runBlocking {
     val query = Filters.gt(Movie::num_mflix_comments.name, 50)
     val updates = Updates.combine(
         Updates.addToSet(Movie::genres.name, "Frequently Discussed"),
-        Updates.currentTimestamp("${Results::lastUpdated.name}")
+        Updates.currentTimestamp(Results::lastUpdated.name)
     )
     try {
         val result = collection.updateMany(query, updates)
@@ -45,7 +44,6 @@ fun main() = runBlocking {
     } catch (e: MongoException) {
         System.err.println("Unable to update due to an error: $e")
     }
-    println(collection.find(query).toList())
     // :remove-start:
     // clean up
     database.drop()

@@ -18,8 +18,6 @@ fun main() = runBlocking {
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
 
-    collection.insertOne(Movie("Cool Runnings 2", 90, listOf("Adventure", "Family", "Comedy")))
-
     val query = Filters.eq(Movie::title.name, "Cool Runnings 2")
     val updates = Updates.combine(
         Updates.set(Movie::runtime.name, 99),
