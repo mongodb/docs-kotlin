@@ -54,7 +54,7 @@ class DistinctTest {
     fun distinctCountriesTest() = runBlocking {
         val distinct =
             // :snippet-start: countries
-            collection.distinct(Movie::countries.name, Filters.empty(), String::class.java)
+            collection.distinct<String>(Movie::countries.name)
             // :snippet-end:
                 .toList()
         assertEquals(4, distinct.size)
@@ -64,9 +64,7 @@ class DistinctTest {
     fun distinctAwardsTest() = runBlocking {
         val distinct =
             // :snippet-start: awards
-            collection.distinct(
-                "${Movie::awards.name}.${Movie.Awards::wins.name}", Filters.empty(), Integer::class.java
-            )
+            collection.distinct<Int>("${Movie::awards.name}.${Movie.Awards::wins.name}")
             // :snippet-end:
                 .toList()
         assertEquals(3, distinct.size)
@@ -76,9 +74,7 @@ class DistinctTest {
     fun distinctFilterTest() = runBlocking {
         val distinct =
             // :snippet-start: filter
-            collection.distinct(
-                Movie::type.name, Filters.eq(Movie::languages.name, "French"), String::class.java
-            )
+            collection.distinct<String>(Movie::type.name, Filters.eq(Movie::languages.name, "French"))
             // :snippet-end:
                 .toList()
         assertEquals(1, distinct.size)

@@ -13,9 +13,8 @@ fun main() = runBlocking {
     val collection = database.getCollection<Movie>("movies")
 
     try {
-        val resultsFlow = collection.distinct(
-            Movie::year.name, Filters.eq(Movie::directors.name, "Carl Franklin"),
-            Int::class.java
+        val resultsFlow = collection.distinct<Int>(
+            Movie::year.name, Filters.eq(Movie::directors.name, "Carl Franklin")
         )
         resultsFlow.collect { println(it) }
     } catch (e: MongoException) {

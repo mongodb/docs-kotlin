@@ -28,9 +28,8 @@ fun main() = runBlocking {
 
     collection.insertMany(listOf(Movie(1992,listOf("Carl Franklin")), Movie(1995,listOf("Carl Franklin")), Movie(1998,listOf("Carl Franklin"))))// :remove:
     try {
-        val resultsFlow = collection.distinct(
-            Movie::year.name, Filters.eq(Movie::directors.name, "Carl Franklin"),
-            Int::class.java
+        val resultsFlow = collection.distinct<Int>(
+            Movie::year.name, Filters.eq(Movie::directors.name, "Carl Franklin")
         )
         resultsFlow.collect { println(it) }
     } catch (e: MongoException) {

@@ -1,1 +1,1 @@
-collection.distinct(Movie::countries.name, Filters.empty(), String::class.java)
+collection.distinct<String>(Movie::countries.name)
