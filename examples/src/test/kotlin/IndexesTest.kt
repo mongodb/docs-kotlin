@@ -15,7 +15,11 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-
+// :replace-start: {
+//    "terms": {
+//       "CONNECTION_URI_PLACEHOLDER": "\"<connection string>\""
+//    }
+// }
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IndexesTest {
 
@@ -461,3 +465,4 @@ class IndexesTest {
         assertEquals("_id_", indexes.first().getString("name"))
     }
 }
+// :replace-end:

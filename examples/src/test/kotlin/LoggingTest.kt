@@ -15,6 +15,11 @@ import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.test.*
 
+// :replace-start: {
+//    "terms": {
+//       "CONNECTION_URI_PLACEHOLDER": "\"<connection string>\""
+//    }
+// }
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class LoggingTest {
 
@@ -60,3 +65,4 @@ internal class LoggingTest {
 
 }
 
+// :replace-end:
