@@ -6,11 +6,13 @@ package usageExamples.count
 //    }
 // }
 // :snippet-start: count-usage-example
+
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
+
 
 data class Movie(val countries: List<String>)
 
@@ -24,6 +26,7 @@ fun main() = runBlocking {
     val mongoClient = MongoClient.create(uri)
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
+
 
     collection.insertOne(Movie(listOf("Spain", "USA"))) // :remove:
     val query = Filters.eq(Movie::countries.name, "Spain")
