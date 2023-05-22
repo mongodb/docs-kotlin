@@ -84,7 +84,6 @@ document with the ``color`` field set to ``"green"`` and  update the
 The example also uses a ``FindOneAndUpdateOptions`` instance to specify the
 following options:
 
-- Exclude the ``_id`` field from the found document with a projection.
 - Specify an upsert, which inserts the document specified by the query filter if no documents match the query.
 - Set a maximum execution time of 5 seconds for this operation on the MongoDB
   instance. If the operation takes longer, the ``findOneAndUpdate()`` method
@@ -239,10 +238,10 @@ And Pat sees this output:
 
 When we look at our database, we see the following: 
 
-.. code-block:: console
+.. code-block:: json
    :copyable: false
 
-   HotelRoom(id=1, guest=Jan, room=Blue Room, reserved=true)
+    {"_id": 1, "guest": "Jan", "room": "Blue Room", "reserved": false}
 
 Pat will be unhappy. When Pat shows up to our hotel, Jan will be
 occupying her room. What went wrong?
@@ -287,10 +286,10 @@ And Pat sees this output:
 
 When we look at our database, we see the following: 
 
-.. code-block:: console
+.. code-block:: json
    :copyable: false
 
-   HotelRoom(id=1, guest=Jan, room=Blue Room, reserved=true)
+    {"_id": 1, "guest": "Jan", "room": "Blue Room", "reserved": false}
  
 Pat got the correct message. While she might be sad she didn't get the
 reservation, at least she knows not to travel to our hotel.
