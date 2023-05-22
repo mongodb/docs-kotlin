@@ -27,7 +27,7 @@ MongoDB driver for server-side Kotlin applications using coroutines. Download it
 following our Quick Start guide.
 
 If your Kotlin application requires synchronous processing, use the
-:driver:`Sync Driver <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-sync/>` which uses synchronous operations
+`Sync Driver <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-sync/>`__ which uses synchronous operations
 to make blocking calls to MongoDB.
 
 Quick Start
