@@ -14,10 +14,7 @@ import java.util.*
 import kotlin.test.*
 
 // :snippet-start: bulk-data-model
-data class SampleDoc(
-    @BsonId val id: Int,
-    val x: Int? = null
-)
+data class Fruit(@BsonId val id: Int, val type: String)
 // :snippet-end:
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -26,15 +23,15 @@ internal class BulkTest {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("sample_db")
-        val collection = database.getCollection<SampleDoc>("sample_docs")
+        val collection = database.getCollection<Fruit>("fruit")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val sampleDocuments = listOf(
-                    SampleDoc(1),
-                    SampleDoc(2)
+                    Fruit(1, "apple"),
+                    Fruit(2, "banana")
                 )
                 collection.insertMany(sampleDocuments)
             }
@@ -42,7 +39,7 @@ internal class BulkTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
@@ -53,17 +50,14 @@ internal class BulkTest {
     @Test
     fun insertOperationTest() = runBlocking {
         // :snippet-start: insert-one
-        val doc3 = InsertOneModel(SampleDoc(3))
-        val doc4 = InsertOneModel(SampleDoc(4))
+        val orange = InsertOneModel(Fruit(3, "orange"))
+        val kiwi = InsertOneModel(Fruit(4, "kiwi"))
         // :snippet-end:
         // :snippet-start: bulk-write-exception
-        val doc5 = InsertOneModel(SampleDoc(1))
-        val doc6 = InsertOneModel(SampleDoc(3))
+        val cherry = InsertOneModel(Fruit(1, "cherry"))
+        val mango = InsertOneModel(Fruit(5, "mango"))
         try {
-            val bulkOperations = listOf(
-                (doc5),
-                (doc6)
-            )
+            val bulkOperations = listOf(cherry, mango)
             val bulkWrite = collection.bulkWrite(bulkOperations)
             assertFalse(bulkWrite.wasAcknowledged()) // :remove:
         } catch (e: MongoBulkWriteException) {
@@ -72,8 +66,8 @@ internal class BulkTest {
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
-            SampleDoc(1),
-            SampleDoc(2)
+            Fruit(1, "apple"),
+            Fruit(2, "banana")
         )
         assertEquals(expected, collection.find().toList())
     }
@@ -82,7 +76,7 @@ internal class BulkTest {
     fun replaceOneTest() = runBlocking {
         // :snippet-start: replace-one
         val filter = Filters.eq("_id", 1)
-        val insert = SampleDoc(1, 4)
+        val insert = Fruit(1, "blueberry")
         val doc = ReplaceOneModel(filter, insert)
         // :snippet-end:
         // Junit test for the above code
@@ -94,8 +88,8 @@ internal class BulkTest {
     fun updateOneTest() = runBlocking {
         // :snippet-start: update-one
         val filter = Filters.eq("_id", 2)
-        val update = Updates.set(SampleDoc::x.name, 8)
-        val doc = UpdateOneModel<SampleDoc>(filter, update)
+        val update = Updates.set(Fruit::type.name, "peach")
+        val doc = UpdateOneModel<Fruit>(filter, update)
         // :snippet-end:
         // Junit test for the above code
         val updateTest = collection.bulkWrite(listOf(doc))
@@ -106,7 +100,7 @@ internal class BulkTest {
     fun deleteOneTest() = runBlocking {
         // :snippet-start: delete
         val filter = Filters.eq("_id", 1)
-        val doc = DeleteOneModel<SampleDoc>(filter)
+        val doc = DeleteOneModel<Fruit>(filter)
         // :snippet-end:
         // Junit test for the above code
         val deleteTest = collection.bulkWrite(listOf(doc))
@@ -117,24 +111,22 @@ internal class BulkTest {
     @Test
     fun orderOfOperationsTest() = runBlocking {
         // :snippet-start: ordered
-        val doc1: InsertOneModel<SampleDoc> = InsertOneModel(SampleDoc(3))
-        val doc2: ReplaceOneModel<SampleDoc> = ReplaceOneModel(
+        val insertDragonFruit = InsertOneModel(Fruit(3, "dragon fruit"))
+        val replaceKumquat = ReplaceOneModel(
             Filters.eq("_id", 1),
-            SampleDoc(1, 2)
+            Fruit(1, "kumquat")
         )
-        val doc3: UpdateOneModel<SampleDoc> =
-            UpdateOneModel(
+        val updateDragonFruit = UpdateOneModel<Fruit>(
                 Filters.eq("_id", 3),
-                Updates.set(SampleDoc::x.name, 2)
+                Updates.set(Fruit::type.name, "pitahaya")
             )
-        val doc4: DeleteManyModel<SampleDoc> =
-            DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
+        val deleteApple = DeleteManyModel<Fruit>(Filters.eq(Fruit::type.name, "apple"))
 
         val bulkOperations = listOf(
-            doc1,
-            doc2,
-            doc3,
-            doc4
+            insertDragonFruit,
+            replaceKumquat,
+            updateDragonFruit,
+            deleteApple
         )
 
         val update = collection.bulkWrite(bulkOperations)
@@ -145,24 +137,22 @@ internal class BulkTest {
 
     @Test
     fun unorderedExecutionTest() = runBlocking {
-        val doc1: InsertOneModel<SampleDoc> = InsertOneModel(SampleDoc(3))
-        val doc2: ReplaceOneModel<SampleDoc> = ReplaceOneModel(
+        val insertWatermelon = InsertOneModel(Fruit(3, "watermelon"))
+        val replaceCantaloupe = ReplaceOneModel(
             Filters.eq("_id", 1),
-            SampleDoc(1, 2)
+            Fruit(1, "cantaloupe")
         )
-        val doc3: UpdateOneModel<SampleDoc> =
-            UpdateOneModel(
+        val updateWatermelonToHoneydew = UpdateOneModel<Fruit>(
                 Filters.eq("_id", 3),
-                Updates.set(SampleDoc::x.name, 2)
+                Updates.set(Fruit::type.name, "honeydew")
             )
-        val doc4: DeleteManyModel<SampleDoc> =
-            DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
+        val deleteBanana = DeleteManyModel<Fruit>(Filters.eq(Fruit::type.name, "banana"))
 
         val bulkOperations = listOf(
-            doc1,
-            doc2,
-            doc3,
-            doc4
+            insertWatermelon,
+            replaceCantaloupe,
+            updateWatermelonToHoneydew,
+            deleteBanana
         )
         // :snippet-start: unordered
         val options = BulkWriteOptions().ordered(false)

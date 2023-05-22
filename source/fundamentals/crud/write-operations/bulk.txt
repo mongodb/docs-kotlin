@@ -41,8 +41,8 @@ in a collection:
 
 .. code-block:: json
 
-   { "_id": 1 }
-   { "_id": 2 }
+   { "_id": 1, "type": "apple" }
+   { "_id": 2, "type": "banana" }
 
 This data is modeled with the following Kotlin data class:
 
@@ -221,13 +221,15 @@ The following example performs these bulk operations:
 - An insert operation for a document where the ``_id`` is "3"
 - A replace operation for a document where the ``_id`` is "1" with a document that contains an additional field
 - An update operation for a document where the ``_id`` is "3" to a document that contains an additional field
-- A delete operation for all documents that contain the field ``x`` with the value "2"
+- A delete operation for all documents that contain the field ``x`` with the value "apple"
 
 .. literalinclude:: /examples/generated/BulkTest.snippet.ordered.kt
    :language: kotlin
 
 After running this example, your collection contains the following 
 document:
+
+TODO: literalinclude
 
 .. code-block:: json
    :copyable: false
