@@ -8,19 +8,19 @@ Retrieve Distinct Values of a Field
 
 You can retrieve a list of distinct values for a field across a
 collection by calling the ``distinct()`` method on a ``MongoCollection``
-object. 
+object. Pass the document field name as the first parameter, a query filter to 
+limit any results as the second parameter, and the class you want to cast the 
+results to as the third parameter. 
 
-The below snippets demonstrate the ``distinct()`` method using the ``movies``
-collection in the ``sample_mflix`` sample database with documents modeled 
+The following snippets demonstrate the ``distinct()`` method using the ``movies``
+collection in the ``sample_mflix`` sample database. Documents are modeled 
 with the following Kotlin data class:
 
 .. literalinclude:: /examples/generated/DistinctTest.snippet.example-data-class.kt
    :language: kotlin
 
-Pass the document field name as the first parameter, an empty query filter as
-the second parameter, and the class you want to cast the results to as the 
-third parameter. The following returns each distinct value of the 
-``countries`` field in the ``movies`` collection:
+The following method call returns each distinct value of the ``countries`` 
+field in the ``movies`` collection:
 
 .. literalinclude:: /examples/generated/DistinctTest.snippet.countries.kt
    :language: kotlin

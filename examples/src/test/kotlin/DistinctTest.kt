@@ -52,35 +52,35 @@ class DistinctTest {
 
     @Test
     fun distinctCountriesTest() = runBlocking {
-        val docs =
+        val distinct =
             // :snippet-start: countries
             collection.distinct(Movie::countries.name, Filters.empty(), String::class.java)
             // :snippet-end:
                 .toList()
-        assertEquals(4, docs.size)
+        assertEquals(4, distinct.size)
     }
 
     @Test
     fun distinctAwardsTest() = runBlocking {
-        val docs =
+        val distinct =
             // :snippet-start: awards
             collection.distinct(
                 "${Movie::awards.name}.${Movie.Awards::wins.name}", Filters.empty(), Integer::class.java
             )
             // :snippet-end:
                 .toList()
-        assertEquals(3, docs.size)
+        assertEquals(3, distinct.size)
     }
 
     @Test
     fun distinctFilterTest() = runBlocking {
-        val docs =
+        val distinct =
             // :snippet-start: filter
             collection.distinct(
                 Movie::type.name, Filters.eq(Movie::languages.name, "French"), String::class.java
             )
             // :snippet-end:
                 .toList()
-        assertEquals(1, docs.size)
+        assertEquals(1, distinct.size)
     }
 }
