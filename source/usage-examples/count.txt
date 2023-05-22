@@ -31,11 +31,9 @@ a filter.
    of the built-in index on the ``_id`` field. Use this technique only when
    calling ``countDocuments()`` with an empty query parameter.
 
-   .. code-block:: kotlin
-
-      val opts = CountOptions().hintString("_id_")
-      val numDocuments = collection.countDocuments(BsonDocument(), opts)
-
+   .. literalinclude:: /examples/generated/CountTest.snippet.hint.kt
+      :language:  kotlin
+   
 When you call the ``countDocuments()`` method, you can optionally pass a
 **query filter** parameter. You cannot pass any parameters when you call
 ``estimatedDocumentCount()``.
@@ -93,6 +91,7 @@ like this (exact numbers may vary depending on your data):
 
    .. output:: 
       :language:  console
+      :visible: false
 
       Estimated number of documents in the movies collection: 23541
       Number of movies from Spain: 755

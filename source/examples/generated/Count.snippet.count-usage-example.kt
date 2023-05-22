@@ -1,7 +1,9 @@
+
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
+
 
 data class Movie(val countries: List<String>)
 
@@ -11,6 +13,7 @@ fun main() = runBlocking {
     val mongoClient = MongoClient.create(uri)
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
+
 
     val query = Filters.eq(Movie::countries.name, "Spain")
     try {
