@@ -77,7 +77,9 @@ internal class CompoundOperationsTest {
             .upsert(true)
             .maxTime(5, TimeUnit.SECONDS)
         /* The result variable contains your document in the
-            state before your update operation is performed. */
+            state before your update operation is performed
+            or null if the document was inserted due to upsert
+            being true */
         val result = collection.findOneAndUpdate(filter, update, options)
         println(result)
         // :snippet-end:
@@ -101,8 +103,7 @@ internal class CompoundOperationsTest {
         val replace = Music(1, "classical", "green")
         val options = FindOneAndReplaceOptions()
             .returnDocument(ReturnDocument.AFTER)
-        val musicCollection = database.getCollection<Music>("example")
-        val result = musicCollection.findOneAndReplace(filter, replace, options)
+        val result = collection.withDocumentClass<Music>().findOneAndReplace(filter, replace, options)
         println(result)
         // :snippet-end:
         assertEquals(replace, result)

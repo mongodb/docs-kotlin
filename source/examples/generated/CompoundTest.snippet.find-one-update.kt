@@ -5,6 +5,8 @@ val options = FindOneAndUpdateOptions()
     .upsert(true)
     .maxTime(5, TimeUnit.SECONDS)
 /* The result variable contains your document in the
-    state before your update operation is performed. */
+    state before your update operation is performed
+    or null if the document was inserted due to upsert
+    being true */
 val result = collection.findOneAndUpdate(filter, update, options)
 println(result)
