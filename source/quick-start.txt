@@ -112,7 +112,7 @@ want to connect to as shown below.
 
 .. TODO:(DOCSP-29148) will have to update the image and description of UI for kotlin
 
-.. important:: Use Java driver connection string
+.. important:: Use Java Driver Connection String
 
    The Kotlin driver has not yet been added to the Atlas UI. You can use the
    Java driver connection string instead.
