@@ -1,1 +1,1 @@
-Aggregates.lookup("comments", "_id", Comment::movieId.name, Results::joinedComments.name
+Aggregates.lookup("comments", "_id", Comment::movie_id.name, Results::joinedComments.name

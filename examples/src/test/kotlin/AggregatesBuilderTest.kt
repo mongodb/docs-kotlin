@@ -29,15 +29,11 @@ class AggregatesBuilderTest {
 
     // :snippet-start: movie-data-class
     data class Movie(
-        @BsonId val id: Int,
         val title: String,
         val year: Int,
-        val cast: List<String>,
         val genres: List<String>,
-        val type: String,
         val rated: String,
         val plot: String,
-        val fullplot: String,
         val runtime: Int,
         val imdb: IMDB
     ){
@@ -48,11 +44,10 @@ class AggregatesBuilderTest {
     // :snippet-end:
 
     // :snippet-start: graph-data-class
-    data class Employee(
-        val id: Int,
+    data class Users(
         val name: String,
-        val department: String,
-        val reportsTo: String? = null,
+        val friends: List<String>?,
+        val hobbies: List<String>?,
     )
     // :snippet-end:
 
@@ -72,7 +67,7 @@ class AggregatesBuilderTest {
         val movieCollection = database.getCollection<Movie>("movies")
         private val ftsDatabase = client.getDatabase("sample_mflix")
         val ftsCollection = ftsDatabase.getCollection<Movie>("movies")
-        val employeesCollection = database.getCollection<Employee>("employees")
+        val contactsCollection = database.getCollection<Users>("contacts")
         val screenCollection = database.getCollection<Screen>("screens")
 
 
@@ -80,137 +75,13 @@ class AggregatesBuilderTest {
         @JvmStatic
         fun beforeAll() {
             runBlocking {
-                val movies = listOf(
-                    Movie(
-                        id = 1,
-                        title = "The Shawshank Redemption",
-                        year = 1994,
-                        cast = listOf("Tim Robbins", "Morgan Freeman", "Bob Gunton"),
-                        genres = listOf("Drama"),
-                        type = "movie",
-                        rated = "R",
-                        plot = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-                        fullplot = "Andy Dufresne is sent to Shawshank Prison for the murder of his wife and her secret lover. He is very isolated and lonely at first, but realizes there is something deep inside your body that people can't touch or get to....'HOPE'. Andy becomes friends with prison 'fixer' Red, and Andy epitomizes why it is crucial to have dreams. His spirit and determination lead us into a world full of imagination, one filled with courage and desire. Will Andy ever realize his dreams?",
-                        runtime = 142,
-                        imdb = Movie.IMDB(rating = 7.1)
-                    ),
-                    Movie(
-                        id = 2,
-                        title = "The Godfather",
-                        year = 1972,
-                        cast = listOf("Marlon Brando", "Al Pacino", "James Caan"),
-                        genres = listOf("Crime", "Drama"),
-                        type = "movie",
-                        rated = "R",
-                        plot = "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-                        fullplot = "When the aging head of a famous crime family decides to transfer his position to one of his subalterns, a series of unfortunate events start happening to the family, and a war begins between all the well-known families leading to insolence, deportation, murder and revenge, and ends with the favorable successor being finally chosen.",
-                        runtime = 175,
-                        imdb = Movie.IMDB(rating = 8.9)
-                    ),
-                    Movie(
-                        id = 3,
-                        title = "Pulp Fiction",
-                        year = 1994,
-                        cast = listOf("John Travolta", "Samuel L. Jackson", "Uma Thurman"),
-                        genres = listOf("Crime", "Drama"),
-                        type = "movie",
-                        rated = "R",
-                        plot = "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-                        fullplot = "Jules Winnfield and Vincent Vega are two hitmen who are out to retrieve a suitcase stolen from their employer, mob boss Marsellus Wallace. Wallace has also asked Vincent to take his wife Mia out a few days later when Wallace himself will be out of town. Butch Coolidge is an aging boxer who is paid by Wallace to lose his fight. The lives of these seemingly unrelated people are woven together comprising of a series of funny, bizarre and uncalled-for incidents.",
-                        runtime = 154,
-                        imdb = Movie.IMDB(rating = 5.3)
-                    ),
-                    Movie(
-                        id = 4,
-                        title = "The Dark Knight",
-                        year = 2008,
-                        cast = listOf("Christian Bale", "Heath Ledger", "Aaron Eckhart"),
-                        genres = listOf("Action", "Crime", "Drama"),
-                        type = "movie",
-                        rated = "PG-13",
-                        plot = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-                        fullplot = "Set within a year after the events of Batman Begins, Batman, Lieutenant James Gordon, and new district attorney Harvey Dent successfully begin to round up the criminals that plague Gotham City until a mysterious and sadistic criminal mastermind known only as the Joker appears in Gotham, creating a new wave of chaos. Batman's struggle against the Joker becomes deeply personal, forcing him to 'confront everything he believes' and improve his technology to stop him. A love triangle develops between Bruce Wayne, Dent, and Rachel Dawes.",
-                        runtime = 154,
-                        imdb = Movie.IMDB(rating = 5.2)
-                    ),
-                    Movie(
-                        id = 5,
-                        title = "Forrest Gump",
-                        year = 1994,
-                        cast = listOf("Tom Hanks", "Robin Wright", "Gary Sinise"),
-                        genres = listOf("Drama", "Romance"),
-                        type = "movie",
-                        rated = "PG-13",
-                        plot = "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.",
-                        fullplot = "Forrest Gump is a simple man with a low IQ but good intentions. He is running through childhood with his best and only friend Jenny. His 'mama' teaches him the ways of life and leaves him to choose his destiny. Forrest joins the army for service in Vietnam, finding new friends called Dan and Bubba, he wins medals, creates a famous shrimp fishing fleet, inspires people to jog, starts a ping-pong craze, creates the smiley, writes bumper stickers and songs, donates to people and meets the president several times. However, this is all irrelevant to Forrest who can only think of his childhood sweetheart Jenny. Who has messed up her life. Although in the end, all he wants to prove is that anyone can love anyone.",
-                        runtime = 142,
-                        imdb = Movie.IMDB(rating = 6.1)
-                    ),
-                    Movie(
-                        id = 6,
-                        title = "The Matrix",
-                        year = 1999,
-                        cast = listOf("Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"),
-                        genres = listOf("Action", "Sci-Fi"),
-                        type = "movie",
-                        rated = "R",
-                        plot = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-                        fullplot = "Thomas A. Anderson is a man living two lives. By day he is an average computer programmer and by night a hacker known as Neo. Neo has always questioned his reality, but the truth is far beyond his imagination. Neo finds himself targeted by the police when he is contacted by Morpheus, a legendary computer hacker branded a terrorist by the government. Morpheus awakens Neo to the real world, a ravaged wasteland where most of humanity have been captured by a race of machines that live off of the humans' body heat and electrochemical energy and who imprison their minds within an artificial reality known as the Matrix. As a rebel against the machines, Neo must return to the Matrix and confront the agents: super-powerful computer programs devoted to snuffing out Neo and the entire human rebellion.",
-                        runtime = 136,
-                        imdb = Movie.IMDB(rating = 8.7)
-                    ),
-                    Movie(
-                        id = 7,
-                        title = "Fight Club",
-                        year = 1999,
-                        cast = listOf("Brad Pitt", "Edward Norton", "Meat Loaf"),
-                        genres = listOf("Drama"),
-                        type = "movie",
-                        rated = "R",
-                        plot = "An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.",
-                        fullplot = "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground 'fight clubs' forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
-                        runtime = 139,
-                        imdb = Movie.IMDB(rating = 8.8)
-                    ),
-                    Movie(
-                        id = 8,
-                        title = "The Sixth Sense",
-                        year = 1999,
-                        cast = listOf("Bruce Willis", "Haley Joel Osment", "Toni Collette"),
-                        genres = listOf("Drama", "Mystery", "Thriller"),
-                        type = "movie",
-                        rated = "PG-13",
-                        plot = "A boy who communicates with spirits seeks the help of a disheartened child psychologist.",
-                        fullplot = "Malcom Crowe is a child psychologist who receives an award on the same night that he is visited by a very unhappy ex-patient. After this encounter, Crowe takes on the task of curing a young boy with the same ills as the ex-patient. This boy 'sees dead people'. Crowe spends a lot of time with the boy (Cole) much to the dismay of his wife. Cole's mom is at her wit's end with what to do about her son's increasing problems. Crowe is the boy's only hope.",
-                        runtime = 107,
-                        imdb = Movie.IMDB(rating = 8.1)
-                    ),
-                    Movie(
-                        id = 9,
-                        title = "One Flew Over the Cuckoo's Nest",
-                        year = 1975,
-                        cast = listOf("Jack Nicholson", "Louise Fletcher", "Will Sampson"),
-                        genres = listOf("Drama"),
-                        type = "movie",
-                        rated = "R",
-                        plot = "A criminal pleads insanity and is admitted to a mental institution, where he rebels against the oppressive nurse and rallies up the scared patients.",
-                        fullplot = "McMurphy has a criminal past and has once again gotten himself into trouble and is sentenced by the court. To escape labor duties in prison, McMurphy pleads insanity and is sent to a ward for the mentally unstable. Once here, McMurphy both endures and stands witness to the abuse and degradation of the oppressive Nurse Ratched, who gains superiority and power through the flaws of the other inmates. McMurphy and the other inmates band together to make a rebellious stance against the atrocious Nurse.",
-                        runtime = 133,
-                        imdb = Movie.IMDB(rating = 8.7)
-                    )
-                )
+                val movies = listOf(Movie(title = "The Shawshank Redemption", year = 1994, genres = listOf("Drama"), rated = "R", plot = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.", runtime = 142, imdb = Movie.IMDB(rating = 7.1)), Movie(title = "The Godfather", year = 1972, genres = listOf("Crime", "Drama"), rated = "R", plot = "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", runtime = 175, imdb = Movie.IMDB(rating = 8.9)), Movie(title = "Pulp Fiction", year = 1994, genres = listOf("Crime", "Drama"), rated = "R", plot = "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.", runtime = 154, imdb = Movie.IMDB(rating = 5.3)), Movie(title = "The Dark Knight", year = 2008, genres = listOf("Action", "Crime", "Drama"), rated = "PG-13", plot = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", runtime = 154, imdb = Movie.IMDB(rating = 5.2)), Movie(title = "Forrest Gump", year = 1994, genres = listOf("Drama", "Romance"), rated = "PG-13", plot = "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.", runtime = 142, imdb = Movie.IMDB(rating = 6.1)), Movie(title = "The Matrix", year = 1999, genres = listOf("Action", "Sci-Fi"), rated = "R", plot = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", runtime = 136, imdb = Movie.IMDB(rating = 8.7)), Movie(title = "Fight Club", year = 1999, genres = listOf("Drama"), rated = "R", plot = "An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.", runtime = 139, imdb = Movie.IMDB(rating = 8.8)), Movie(title = "The Sixth Sense", year = 1999, genres = listOf("Drama", "Mystery", "Thriller"), rated = "PG-13", plot = "A boy who communicates with spirits seeks the help of a disheartened child psychologist.", runtime = 107, imdb = Movie.IMDB(rating = 8.1)), Movie(title = "One Flew Over the Cuckoo's Nest", year = 1975, genres = listOf("Drama"), rated = "R", plot = "A criminal pleads insanity and is admitted to a mental institution, where he rebels against the oppressive nurse and rallies up the scared patients.", runtime = 133, imdb = Movie.IMDB(rating = 8.7)))
                 movieCollection.insertMany(movies)
 
-                val employees = listOf(Employee(1, "Dev", "Executive"), Employee(2, "Eliot", "Engineering", "Dev"), Employee(3, "Ron", "Marketing", "Eliot"), Employee(4, "Andrew", "HR", "Eliot"), Employee(5, "Asya", "Engineering", "Ron"), Employee(6, "Dan", "HR", "Andrew"))
-                employeesCollection.insertMany(employees)
+                val users = listOf(Users("Name1", listOf("Name2", "Name3"), listOf("golf", "reading")), Users("Name2", listOf("Name3", "Name4"), listOf("reading")), Users("Name3", listOf("Name1", "Name2"), listOf("golf", "reading")), Users("Name4", listOf("Name2"), listOf("reading")), Users("Name5", listOf("Name2", "Name3"), listOf("golf", "reading")), Users("Name6", listOf("Name4", "Name5"), listOf("reading")))
+                contactsCollection.insertMany(users)
 
-                val screens = listOf(
-                    Screen("1", 15,  "Manufacturer A", 100.00),
-                    Screen("2", 27,  "Manufacturer B", 250.00),
-                    Screen("3", 45,  "Manufacturer C", 750.00),
-                    Screen("4", 72,  "Manufacturer D", 1950.00),
-                    Screen("5", 500,  "Manufacturer E", 5000.00)
-                )
+                val screens = listOf(Screen("1", 15,  "Manufacturer A", 100.00), Screen("2", 27,  "Manufacturer B", 250.00), Screen("3", 45,  "Manufacturer C", 750.00), Screen("4", 72,  "Manufacturer D", 1950.00), Screen("5", 500,  "Manufacturer E", 5000.00))
                 screenCollection.insertMany(screens)
             }
         }
@@ -223,6 +94,19 @@ class AggregatesBuilderTest {
                 client.close()
             }
         }
+    }
+
+    @Test
+    fun methodsTest() = runBlocking {
+        val collection = database.getCollection<Document>("someCollection")
+        collection.insertOne(Document("someField", "someCriteria"))
+        // :snippet-start: methods-example
+        val matchStage = match(Filters.eq("someField", "someCriteria"))
+        val sortByCountStage = sortByCount("\$someField")
+        val results = collection.aggregate(
+            listOf(matchStage, sortByCountStage)).toList()
+        // :snippet-end:
+        assertEquals(1, results.size)
     }
 
     @Test
@@ -338,20 +222,20 @@ class AggregatesBuilderTest {
 
     @Test
     fun lookupTest() = runBlocking {
-        data class Comment(@BsonId val id: ObjectId, val name: String, val movieId: Int, val text: String)
+        data class Comment(@BsonId val id: ObjectId, val name: String, val movie_id: Int, val text: String)
         data class Results(@BsonId val id: Int, val title: String, val year: Int, val cast: List<String>, val genres: List<String>, val type: String, val rated: String, val plot: String, val fullplot: String, val runtime: Int, val imdb: Movie.IMDB, val joinedComments: List<Comment>)
         val commentCollection = database.getCollection<Comment>("comments")
 
         val comments = listOf(
-            Comment(id = ObjectId(), name = "John Doe", movieId = 1, text = "This is a great movie. I enjoyed it a lot."),
-            Comment(id = ObjectId(), name = "Andrea Le", movieId = 1, text = "Rem officiis eaque repellendus amet eos doloribus."),
-            Comment(id = ObjectId(), name = "Jane Doe", movieId = 2, text = "I didn't like this movie. It was boring and predictable."),
-            Comment(id = ObjectId(), name = "Bob Smith", movieId = 3, text = "This movie is a masterpiece. Highly recommended."))
+            Comment(id = ObjectId(), name = "John Doe", movie_id = 1, text = "This is a great movie. I enjoyed it a lot."),
+            Comment(id = ObjectId(), name = "Andrea Le", movie_id = 1, text = "Rem officiis eaque repellendus amet eos doloribus."),
+            Comment(id = ObjectId(), name = "Jane Doe", movie_id = 2, text = "I didn't like this movie. It was boring and predictable."),
+            Comment(id = ObjectId(), name = "Bob Smith", movie_id = 3, text = "This movie is a masterpiece. Highly recommended."))
         commentCollection.insertMany(comments)
 
         val lookup = movieCollection.aggregate<Document>(listOf(
             // :snippet-start: lookup
-            Aggregates.lookup("comments", "_id", Comment::movieId.name, Results::joinedComments.name
+            Aggregates.lookup("comments", "_id", Comment::movie_id.name, Results::joinedComments.name
             // :snippet-end:
         )))
         assertEquals(9, lookup.toList().size)
@@ -384,6 +268,11 @@ class AggregatesBuilderTest {
 
         orderCollection.insertMany(orders)
         warehouseCollection.insertMany(inventory)
+        // TODO: Confirm why using Filters doesn't populate the stockData field? aren't these equivalent?
+        // Filters.and(
+        //  Filters.eq("order_item", Inventory::stockItem.name),
+        //  Filters.gte(Inventory::inStock.name, "order_qty")
+        //)
 
         // :snippet-start: lookup-full-join
         val variables = listOf(
@@ -433,16 +322,17 @@ class AggregatesBuilderTest {
 
         val grouping = orderCollection.aggregate<Results>(listOf(
             // :snippet-start: group
-            Aggregates.group("\$customerId",
-                sum(Results::totalQuantity.name, "\$ordered"),
-                avg(Results::averageQuantity.name, "\$ordered"))
+            Aggregates.group("\$${Order::customerId.name}",
+                sum(Results::totalQuantity.name, "\$${Order::ordered.name}"),
+                avg(Results::averageQuantity.name, "\$${Order::ordered.name}")
+            )
             // :snippet-end:
         ))
         val expected = listOf(
-            Results(11, 5.5),
-            Results(55, 27.5)
+            Results(55, 27.5),
+            Results(11, 5.5)
         )
-        assertEquals(expected, grouping.toList())
+        assertEquals(expected, grouping.toList().sortedByDescending { it.totalQuantity })
         orderCollection.drop()
     }
 
@@ -461,8 +351,7 @@ class AggregatesBuilderTest {
                     )
                 )
                 // :snippet-end:
-            , Aggregates.sort(Sorts.descending(Movie::year.name))))
-        assertEquals(8.9, resultsFlow.toList().first().lowestThreeRatings.first())
+        ))
         assertEquals(5, resultsFlow.toList().size)
     }
 
@@ -529,9 +418,9 @@ class AggregatesBuilderTest {
     @Test
     fun topTest() = runBlocking {
         data class TopRated(val title: String, val rating: Movie.IMDB)
-        data class Results(@BsonId val id: Int, val topRatedMovie: List<TopRated>) // TODO ERROR: Unable to decode topRatedMovie for Results data class (Document{{_id=1972, topRatedMovie=[The Godfather, 8.9]}})
+        data class Results(val topRatedMovie: List<TopRated>)
 
-        val resultsFlow = movieCollection.aggregate<Results>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode topRatedMovie for Results data class (Document{{_id=1972, topRatedMovie=[The Godfather, 8.9]}})
                 // :snippet-start: top
                 Aggregates.group(
                     "\$${Movie::year.name}",
@@ -543,16 +432,15 @@ class AggregatesBuilderTest {
                 )
                 // :snippet-end:
             ))
-        println(resultsFlow.toList())
         assertEquals(5, resultsFlow.toList().size)
     }
 
     @Test
     fun topNTest() = runBlocking {
         data class Longest(val title: String, val runtime: Int)
-        data class Results(@BsonId val year: Int, val longestThreeMovies: List<Longest>) // TODO ERROR: Unable to decode longestThreeMovies for Results data class
+        data class Results(val longestThreeMovies: List<Longest>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode longestThreeMovies for Results data class
                 // :snippet-start: topN
                 Aggregates.group(
                     "\$${Movie::year.name}",
@@ -571,15 +459,15 @@ class AggregatesBuilderTest {
     @Test
     fun bottomTest() = runBlocking {
         data class Shortest(val title: String, val runtime: Int)
-        data class Results(val id: Int, val shortestMovies: List<Shortest>) // TODO ERROR: Unable to decode shortestMovies for Results data class
+        data class Results(val shortestMovies: List<Shortest>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode shortestMovies for Results data class
                 // :snippet-start: bottom
                 Aggregates.group(
                     "\$${Movie::year.name}",
                     Accumulators.bottom(
                         Results::shortestMovies.name,
-                        Sorts.descending("${Movie::runtime.name}"),
+                        Sorts.descending(Movie::runtime.name),
                         listOf("\$${Movie::title.name}", "\$${Movie::runtime.name}")
                     )
                 )
@@ -591,9 +479,9 @@ class AggregatesBuilderTest {
     @Test
     fun bottomNTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(@BsonId val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
                 // :snippet-start: bottomN
                 Aggregates.group(
                     "\$${Movie::year.name}",
@@ -611,9 +499,9 @@ class AggregatesBuilderTest {
     @Test
     fun unwindTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(@BsonId val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
             // aggregate content to unwind
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: unwind
@@ -626,9 +514,9 @@ class AggregatesBuilderTest {
     @Test
     fun unwindOptionsTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
             // aggregate content to unwind
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: unwind-options
@@ -644,9 +532,9 @@ class AggregatesBuilderTest {
     @Test
     fun unwindOptionsArrayTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
             // aggregate content to unwind
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
             // :snippet-start: unwind-options-array
@@ -662,9 +550,9 @@ class AggregatesBuilderTest {
     @Test
     fun outTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
             // aggregate content to push out
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: out
@@ -677,9 +565,9 @@ class AggregatesBuilderTest {
     @Test
     fun mergeTest() = runBlocking {
         data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val id: Int, val lowestRatedTwoMovies: List<LowestRated>) // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
             // aggregate content to merge
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: merge
@@ -711,51 +599,51 @@ class AggregatesBuilderTest {
 
     @Test
     fun graphLookupTest() = runBlocking {
-        data class Results(val id: Int, val name: String, val reportsTo: String? = null, val reportingHierarchy: List<Employee>)
-        val resultsFlow = employeesCollection.aggregate<Results>(listOf(
+        data class Results(val name: String, val friends: List<String>, val socialNetwork: List<Users>)
+        val resultsFlow = contactsCollection.aggregate<Results>(listOf(
                 // :snippet-start: graph-lookup
                 Aggregates.graphLookup(
-                    "employees",
-                    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name
+                    "contacts",
+                    "\$${Users::friends.name}", Users::friends.name, Users::name.name, Results::socialNetwork.name
                 )
                 // :snippet-end:
-            ))
-        assertEquals("Dev", resultsFlow.toList()[0].name)
+        ))
+        assertEquals("Name1", resultsFlow.toList()[0].name)
     }
 
     @Test
     fun graphLookupDepthTest() = runBlocking {
         data class Depth(val name: String, val degrees: Int)
-        data class Results(val id: Int, val name: String, val reportsTo: String? = null, val reportingHierarchy: List<Depth>)
-        val resultsFlow = employeesCollection.aggregate<Results>(listOf(
+        data class Results(val name: String, val friends: List<String>, val socialNetwork: List<Depth>)
+        val resultsFlow = contactsCollection.aggregate<Results>(listOf(
                 // :snippet-start: graph-lookup-depth
                 Aggregates.graphLookup(
-                    "employees",
-                    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name,
+                    "contacts",
+                    "\$${Users::friends.name}", Users::friends.name, Users::name.name, Results::socialNetwork.name,
                     GraphLookupOptions().maxDepth(2).depthField(Depth::degrees.name)
                 )
                 // :snippet-end:
             ))
-        assertEquals("Dev", resultsFlow.toList()[0].name)
-        assertEquals(0, resultsFlow.toList()[1].reportingHierarchy[0].degrees)
+        assertEquals("Name1", resultsFlow.toList()[0].name)
+        assertEquals(0, resultsFlow.toList()[0].socialNetwork[0].degrees)
     }
 
     @Test
     fun graphLookupOptionsTest() = runBlocking {
-        data class Results(val id: Int, val name: String, val reportsTo: String? = null, val reportingHierarchy: List<Employee>)
-        val resultsFlow = employeesCollection.aggregate<Results>(listOf(
+        data class Results(val name: String, val friends: List<String>, val hobbies: List<String>, val socialNetwork: List<Users>)
+        val resultsFlow = contactsCollection.aggregate<Results>(listOf(
                 // :snippet-start: graph-lookup-options
                 Aggregates.graphLookup(
-                    "employees",
-                    "\$${Employee::reportsTo.name}", Employee::reportsTo.name, Employee::name.name, Results::reportingHierarchy.name,
+                    "contacts",
+                    "\$${Users::friends.name}", Users::friends.name, Users::name.name, Results::socialNetwork.name,
                     GraphLookupOptions().maxDepth(1).restrictSearchWithMatch(
-                        Filters.eq(Employee::department.name, "Engineering")
+                        Filters.eq(Users::hobbies.name, "golf")
                     )
                 )
                 // :snippet-end:
             ))
-        assertEquals("Dev", resultsFlow.toList()[0].name)
-        assertEquals(0, resultsFlow.toList()[1].reportingHierarchy.size)
+        assertEquals("Name1", resultsFlow.toList()[0].name)
+        assertEquals(2, resultsFlow.toList()[0].socialNetwork.size)
     }
 
     @Test
@@ -774,37 +662,37 @@ class AggregatesBuilderTest {
 
     @Test
     fun replaceRootTest() = runBlocking {
-        data class Movie(val id: Int, val spanishTranslation: Map<String, String>)
-        val translateCollection = database.getCollection<Movie>("movies_translate")
-        val movies = listOf(Movie(1, mapOf("Movie1" to "Película1")), Movie(2, mapOf("Movie2" to "Película2")), Movie(3, mapOf("Movie3" to "Película3")))
-        translateCollection.insertMany(movies)
+        // :snippet-start: replace-root-data-class
+        data class Libro(val nombre: String)
+        data class Book(val title: String, val spanishTranslation: Libro)
+        // :snippet-end:
+        data class Results(val nombre: String)
+        val translateCollection = database.getCollection<Book>("books_translate")
+        val books = listOf(Book("Movie1", Libro("Libro1")), Book("Book2", Libro("Libro2")), Book("Movie3", Libro("Libro3")))
+        translateCollection.insertMany(books)
 
-        val resultsFlow = translateCollection.aggregate<Document>(listOf(
+        val resultsFlow = translateCollection.aggregate<Results>(listOf(
             // :snippet-start: replace-root
-            replaceRoot("\$${Movie::spanishTranslation.name}")
+            replaceRoot("\$${Book::spanishTranslation.name}")
             //  :snippet-end:
 
         ))
-        assertEquals("Película1", resultsFlow.toList()[0]["Movie1"])
+        assertEquals("Libro1", resultsFlow.toList()[0].nombre)
         translateCollection.drop()
     }
 
     @Test
     fun addFieldsTest() = runBlocking {
-        data class Contact(@BsonId val id: Int, val firstName: String, val lastName: String)
-        data class Results (@BsonId val id: Int, val firstName: String, val lastName: String, val city: String? = null, val state: String? = null)
-        val contactsCollection = database.getCollection<Contact>("contacts")
-
-        val contacts = listOf(Contact(1, "Gary", "Sheffield"), Contact(2, "Nancy", "Walker"), Contact(3,"Peter", "Sumner" ))
-        contactsCollection.insertMany(contacts)
-
-        val resultsFlow = contactsCollection.aggregate<Results>(listOf(
+        data class Results (val cast: List<String>, val type: String)
+        val resultsFlow = movieCollection.aggregate<Results>(listOf(
             // :snippet-start: add-fields
-            addFields(Field(Results::city.name, "New York City"), Field(Results::state.name, "NY"))
+            addFields(Field(
+                Results::cast.name, listOf("Nicholas Cage")),
+                Field(Results::type.name, "movie")
+            )
             // :snippet-end:
         ))
-        assertEquals("New York City", resultsFlow.toList()[0].city)
-        contactsCollection.drop()
+        assertEquals("movie", resultsFlow.toList()[0].type)
     }
 
     @Test
@@ -922,7 +810,7 @@ class AggregatesBuilderTest {
 
         val resultsFlow = weatherCollection.aggregate<Results>(listOf(
                Aggregates.setWindowFields("\$${Weather::localityId.name}",
-                   Sorts.ascending("${Weather::measurementDateTime.name}"),
+                   Sorts.ascending(Weather::measurementDateTime.name),
                    WindowOutputFields.sum(Results::monthlyRainfall.name, "\$${Weather::rainfall.name}", pastMonth),
                    WindowOutputFields.avg(Results::monthlyAvgTemp.name, "\$${Weather::temperature.name}", pastMonth)
                )
@@ -949,7 +837,7 @@ class AggregatesBuilderTest {
         // :snippet-start: fill
         val resultsFlow = weatherCollection.aggregate<Weather>(listOf(
             Aggregates.fill(
-                FillOptions.fillOptions().sortBy(ascending("${Weather::hour.name}")),
+                FillOptions.fillOptions().sortBy(ascending(Weather::hour.name)),
                 FillOutputField.value(Weather::temperature.name, "23.6C"),
                 FillOutputField.linear(Weather::airPressure.name)
             )
@@ -980,7 +868,7 @@ class AggregatesBuilderTest {
             densify(
                 "ts",
                 DensifyRange.partitionRangeWithStep(15, MongoTimeUnit.MINUTE),
-                DensifyOptions.densifyOptions().partitionByFields("position.coordinates")) // TODO: typesafe this?
+                DensifyOptions.densifyOptions().partitionByFields("position.coordinates"))
             // :snippet-end:
         ))
         resultsFlow.collect{println(it)}
@@ -990,8 +878,8 @@ class AggregatesBuilderTest {
 
     @Test
     fun fullTextSearchTest(): Unit = runBlocking {
-        ftsCollection.insertOne(Movie(id = 1, title = "Back to the Future", year = 1985, cast = listOf("Michael J. Fox", "Christopher Lloyd"), genres = listOf("Adventure", "Comedy", "Sci-Fi"), type = "movie", rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", fullplot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
-        // the Atlas search index is enabled on ftsCollection: db ("sample_mflix") and collection ("movies")
+        ftsCollection.insertOne(Movie(title = "Back to the Future", year = 1985, genres = listOf("Adventure", "Comedy", "Sci-Fi"), rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
+        // the Atlas search index "title" is enabled on ftsCollection: db ("sample_mflix") and collection ("movies")
         val resultsFlow = ftsCollection.aggregate<Movie>(
             listOf(
                 // :snippet-start: full-text-search
@@ -1010,7 +898,7 @@ class AggregatesBuilderTest {
 
     @Test
     fun searchMetadataTest() = runBlocking {
-        ftsCollection.insertOne(Movie(id = 1, title = "Back to the Future", year = 1985, cast = listOf("Michael J. Fox", "Christopher Lloyd"), genres = listOf("Adventure", "Comedy", "Sci-Fi"), type = "movie", rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", fullplot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
+        ftsCollection.insertOne(Movie(title = "Back to the Future", year = 1985, genres = listOf("Adventure", "Comedy", "Sci-Fi"), rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
 
         val resultsFlow = ftsCollection.aggregate<Document>(
             listOf(

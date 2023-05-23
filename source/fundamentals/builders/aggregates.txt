@@ -39,12 +39,8 @@ The examples on this page assume imports for methods of the following classes:
 Use these methods to construct pipeline stages and specify them in your
 aggregation as a list:
 
-.. code-block:: 
-   :source: kotlin
-
-   val matchStage = match(eq("someField", "someCriteria"))
-   val sortByCountStage = sortByCount("someField")
-   val results = collection.aggregate(listOf(matchStage, sortByCountStage)).toList()
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.methods-example.kt
+   :language: kotlin
 
 Many ``Aggregation`` examples in this guide use the :atlas:`Atlas sample Mflix dataset </sample-data/sample-mflix>`. The documents in this collection are
 modeled by the following ``Movie`` data class for use with the Kotlin driver: 
@@ -62,7 +58,11 @@ query filter, filtering out documents that do not match.
 .. tip::
 
    The filter can be an instance of any class that implements ``Bson``, but it's
-   convenient to combine with use of the :ref:`Filters <filters-builders>` class.
+   convenient to combine with use of the `Filters <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__
+   class.
+   
+   .. TODO (DOCSP-29262) Replace with link to Filters builder doc when available
+   .. :ref:`Filters <filters-builders>` class.
 
 The following example creates a pipeline stage that matches all documents 
 in the ``movies`` collection where the
@@ -81,7 +81,10 @@ in aggregation follows the same rules as :doc:`field projection in queries </fun
 .. tip::
 
    Though the projection can be an instance of any class that implements ``Bson``,
-   it's convenient to combine with use of :ref:`Projections <projections-builders>`.
+   it's convenient to combine with use of `Projects <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Projections.html>`__.
+   
+   .. TODO (DOCSP-) Replace with link to Projections builder page when available
+   .. :ref:`Projections <projections-builders>`.
 
 The following example creates a pipeline stage that includes the ``title`` and 
 ``plot`` fields but excludes the ``_id`` field:
@@ -95,7 +98,7 @@ Projecting Computed Fields
 The ``$project`` stage can project computed fields as well.
 
 The following example creates a pipeline stage that projects the ``rated`` field
-into a new field called ``rating``, effectively renaming the field.
+into a new field called ``rating``, effectively renaming the field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.project-computed.kt
    :language: kotlin
@@ -133,7 +136,8 @@ Sample
 Use the ``sample()`` method to create a :manual:`$sample </reference/operator/aggregation/sample/>`
 pipeline stage to randomly select documents from input.
 
-The following example creates a pipeline stage that randomly selects 5 documents:
+The following example creates a pipeline stage that randomly selects 5 documents
+from the ``movies`` collection:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.sample.kt
    :language: kotlin
@@ -147,7 +151,11 @@ pipeline stage to sort by the specified criteria.
 .. tip::
 
    Though the sort criteria can be an instance of any class that
-   implements ``Bson``, it's convenient to combine with use of :ref:`Sorts <sorts-builders>`.
+   implements ``Bson``, it's convenient to combine with use of 
+   `Sorts <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__. 
+
+   .. TODO (DOCSP-29265) Replace with link to Sorts builder doc when available
+   .. :ref:`Sorts <sorts-builders>`.
 
 The following example creates a pipeline stage that sorts in descending order according
 to the value of the ``year`` field and then in ascending order according to the
@@ -194,7 +202,7 @@ The following example creates a pipeline stage that performs a left outer
 join between the ``movies`` and ``comments`` collections in the sample ``mflix`` 
 database:
 
-#. It joins the ``_id`` field from ``movies`` to the ``movieId`` field in ``comments``
+#. It joins the ``_id`` field from ``movies`` to the ``movie_id`` field in ``comments``
 #. It outputs the results in the ``joinedComments`` field
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup.kt
@@ -203,8 +211,8 @@ database:
 Full Join and Uncorrelated Subqueries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following example uses the ``orders``and ``warehouses`` collections. The 
-data is modeled using the following Kotlin data classes: 
+The following example uses the fictional ``orders`` and ``warehouses`` collections. 
+The data is modeled using the following Kotlin data classes: 
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.lookup-data-classes.kt
    :language: kotlin
@@ -511,14 +519,14 @@ Use the ``graphLookup()`` method to create a :manual:`$graphLookup </reference/o
 pipeline stage that performs a recursive search on a specified collection to match
 a specified field in one document to a specified field of another document.
 
-The following example uses the ``employees`` collection. The data is modeled
+The following example uses the ``contacts`` collection. The data is modeled
 using the following Kotlin data class: 
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.graph-data-class.kt
    :language: kotlin
 
 The example computes the reporting graph for users in the
-``employees`` collection, recursively matching the value in the ``reportsTo`` field
+``contact`` collection, recursively matching the value in the ``friends`` field
 to the ``name`` field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.graph-lookup.kt
@@ -534,7 +542,7 @@ recursion depth information for every document.
 
 Using ``GraphLookupOptions``, you can specify a filter that documents must match
 in order for MongoDB to include them in your search. In this
-example, only links with "Engineering" in their ``department`` field will be included:
+example, only links with "golf" in their ``hobbies`` field will be included:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.graph-lookup-options.kt
    :language: kotlin
@@ -558,8 +566,8 @@ these groups by count in descending order.
           { "$sort": { "count": -1 } }
       ]
 
-The following example groups documents in the ``movies`` collection by the field 
-``genres`` and computes the count for each distinct value:
+The following example groups documents in the ``movies`` collection by the  
+``genres`` field and computes the count for each distinct value:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.sort-by-count.kt
    :language: kotlin
@@ -570,8 +578,14 @@ ReplaceRoot
 Use the ``replaceRoot()`` method to create a :manual:`$replaceRoot </reference/operator/aggregation/replaceRoot/>`
 pipeline stage that replaces each input document with the specified document.
 
-The following example replaces each input document with the nested document
-in the ``spanishTranslation`` field:
+The following example uses a fictional ``books`` collection that contains data 
+modeled using the following Kotlin data class: 
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.replace-root-data-class.kt
+   :language: kotlin
+
+Each input document is replaced by the nested document in the 
+``spanishTranslation`` field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.replace-root.kt
    :language: kotlin
@@ -587,8 +601,8 @@ pipeline stage that adds new fields to documents.
    Use ``$addFields`` when you do not want to project field inclusion
    or exclusion.
 
-The following example adds two new fields, ``city`` and ``state``, to the 
-input documents:
+The following example adds two new fields, ``cast`` and ``type``, to the 
+input documents in the ``movie`` collection:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.add-fields.kt
    :language: kotlin
@@ -659,7 +673,7 @@ pipeline stage that automatically determines the boundaries of each bucket
 in its attempt to distribute the documents evenly into a specified number of buckets.
 
 The following example creates a pipeline stage that will attempt to create and evenly
-distribute documents into *5* buckets using the value of their ``price`` field:
+distribute documents into 5 buckets using the value of their ``price`` field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-auto.kt
    :language: kotlin
@@ -668,7 +682,7 @@ Use the ``BucketAutoOptions`` class to specify a :wikipedia:`preferred number <P
 based scheme to set boundary values, and specify additional accumulators.
 
 The following example creates a pipeline stage that will attempt to create and evenly
-distribute documents into *5* buckets using the value of their ``price`` field,
+distribute documents into 5 buckets using the value of their ``price`` field,
 setting the bucket boundaries at powers of 2 (2, 4, 8, 16, ...). It also counts
 the number of documents in each bucket, and calculates their average ``price``
 in a new field called ``avgPrice``:
@@ -692,8 +706,8 @@ The following example creates a pipeline stage that executes two parallel aggreg
 - The first aggregation distributes incoming documents into 5 groups according to
   their ``screenSize`` field.
 
-- The second aggregation counts all *manufacturers* and returns their count, limited
-  to the top **5**.
+- The second aggregation counts all manufacturers and returns their count, limited
+  to the top 5.
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.facet.kt
    :language: kotlin
@@ -712,7 +726,8 @@ on a specified span of documents in a collection.
    The driver includes the `Windows <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Windows.html>`__
    class with static factory methods for building windowed computations.
 
-The following example uses data modeled with the following Kotlin data class: 
+The following example uses a fictional ``weather`` collection using data modeled 
+with the following Kotlin data class: 
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.window-data-class.kt
    :language: kotlin

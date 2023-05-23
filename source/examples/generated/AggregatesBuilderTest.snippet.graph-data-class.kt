@@ -1,6 +1,5 @@
-data class Employee(
-    val id: Int,
+data class Users(
     val name: String,
-    val department: String,
-    val reportsTo: String? = null,
+    val friends: List<String>?,
+    val hobbies: List<String>?,
 )

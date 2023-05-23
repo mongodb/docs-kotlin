@@ -1,1 +1,4 @@
-addFields(Field(Results::city.name, "New York City"), Field(Results::state.name, "NY"))
+addFields(Field(
+    Results::cast.name, listOf("Nicholas Cage")),
+    Field(Results::type.name, "movie")
+)
