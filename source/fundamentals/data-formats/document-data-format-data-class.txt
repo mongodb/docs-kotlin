@@ -24,7 +24,7 @@ Serialize and Deserialize a Data Class
 The driver natively supports encoding and decoding Kotlin data classes for
 MongoDB read and write operations using the **default codec registry**. The
 default codec registry is a collection of classes called **codecs** that
-define how to convert encode and decode Kotlin types.
+define how to encode and decode Kotlin and Java types.
 
 .. _fundamentals-example-data-class:
 
@@ -86,8 +86,7 @@ You can use the following annotations on data classes:
 
    * - ``BsonProperty``
      - Specifies a custom document field name when converting the data class
-       field to BSON. You can include a discriminator to serialize data classes
-       nested within the field.
+       field to BSON.
 
    * - ``BsonRepresentation``
      - Specifies the BSON type used to store the value when different from the
