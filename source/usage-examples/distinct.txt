@@ -21,14 +21,14 @@ with the following Kotlin data class:
 The following method call returns each distinct value of the ``countries`` 
 field in the ``movies`` collection:
 
-.. literalinclude:: /examples/generated/DistinctTest.snippet.countries.kt
+.. literalinclude:: /examples/generated/DistinctTest.snippet.simple-distinct.kt
    :language: kotlin
 
 You can specify a field on the document or one within an **embedded document**
 using **dot notation**. The following method call returns each distinct
 value of the ``wins`` field in the ``awards`` embedded document:
 
-.. literalinclude:: /examples/generated/DistinctTest.snippet.awards.kt
+.. literalinclude:: /examples/generated/DistinctTest.snippet.dot-notation.kt
    :language: kotlin
 
 You can also limit the set of documents from which your MongoDB instance retrieves 

@@ -51,9 +51,9 @@ class DistinctTest {
     }
 
     @Test
-    fun distinctCountriesTest() = runBlocking {
+    fun simpleDistinctTest() = runBlocking {
         val distinct =
-            // :snippet-start: countries
+            // :snippet-start: simple-distinct
             collection.distinct<String>(Movie::countries.name)
             // :snippet-end:
                 .toList()
@@ -61,9 +61,9 @@ class DistinctTest {
     }
 
     @Test
-    fun distinctAwardsTest() = runBlocking {
+    fun dotNotationDistinctTest() = runBlocking {
         val distinct =
-            // :snippet-start: awards
+            // :snippet-start: dot-notation
             collection.distinct<Int>("${Movie::awards.name}.${Movie.Awards::wins.name}")
             // :snippet-end:
                 .toList()
