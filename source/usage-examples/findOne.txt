@@ -26,8 +26,9 @@ For more information on the ``projection()`` method, see our
 
 The ``find()`` method returns an instance of ``FindFlow``, a class
 that offers several methods to access, organize, and traverse the results.
-``FindFlow`` also inherits methods from its parent class ``Flow`` from the
-Kotlin Coroutines library, such as ``first()`` and ``firstOrNull()``.
+.. TODO (DOCSP-29176) Update with accurate inheritance information when available
+.. ``FindFlow`` also inherits methods from its parent class ``Flow`` from the
+.. Kotlin Coroutines library, such as ``first()`` and ``firstOrNull()``.
 
 The ``firstOrNull()`` method returns the first document from the retrieved results
 or ``null`` if there are no results. The ``first()`` method returns 
