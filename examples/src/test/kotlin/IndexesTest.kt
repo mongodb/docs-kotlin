@@ -204,6 +204,7 @@ class IndexesTest {
         data class Results(val title: String)
 
         val resultsFlow = moviesCollection.find<Results>(filter).sort(sort).projection(projection)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -214,6 +215,7 @@ class IndexesTest {
     fun compoundIndexTest() = runBlocking {
         // :snippet-start: compound-index-setup
         val resultCreateIndex = moviesCollection.createIndex(Indexes.ascending(Movie::type.name, Movie::rated.name))
+
         println("Index created: $resultCreateIndex")
         // :snippet-end:
         assertEquals("type_1_rated_1", resultCreateIndex)
@@ -228,6 +230,7 @@ class IndexesTest {
             Projections.excludeId()
         )
         val resultsFlow = moviesCollection.find(filter).sort(sort).projection(projection)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -239,6 +242,7 @@ class IndexesTest {
         // :snippet-start: multikey-index-setup
         val resultCreateIndex =
             moviesCollection.createIndex(Indexes.ascending(Movie::rated.name, Movie::genres.name, Movie::title.name))
+
         println("Index created: $resultCreateIndex")
         // :snippet-end:
         assertEquals("rated_1_genres_1_title_1", resultCreateIndex)
@@ -253,6 +257,7 @@ class IndexesTest {
             Projections.excludeId()
         )
         val resultsFlow = moviesCollection.find(filter).sort(sort).projection(projection)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -292,6 +297,7 @@ class IndexesTest {
         data class Results(val fullplot: String)
 
         val resultsFlow = moviesCollection.find<Results>(filter).projection(projection)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -339,6 +345,7 @@ class IndexesTest {
         val resultCreateIndex = theatersCollection.createIndex(
             Indexes.geo2dsphere("${Theater::location.name}.${Theater.Location::geo.name}")
         )
+
         println("Index created: $resultCreateIndex")
         // :snippet-end:
         // Test that the index was created
@@ -351,6 +358,7 @@ class IndexesTest {
             refPoint, 1000.0, 0.0
         )
         val resultsFlow = theatersCollection.find(filter)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -441,6 +449,7 @@ class IndexesTest {
         moviesCollection.createIndex(Indexes.text("title"), IndexOptions().name("title_text"))
         // :snippet-start: list-indexes
         val indexes = moviesCollection.listIndexes()
+
         indexes.collect { println(it.toJson()) }
         // :snippet-end:
         // :snippet-start: drop-index-with-name

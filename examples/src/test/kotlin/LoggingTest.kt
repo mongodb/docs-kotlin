@@ -31,7 +31,7 @@ internal class LoggingTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 client.close()
             }

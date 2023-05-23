@@ -9,4 +9,5 @@ val projection = Projections.fields(
     Projections.include(FruitName::name.name)
 )
 val flowResults = collection.find<FruitName>(filter).projection(projection)
+
 flowResults.collect { println(it)}

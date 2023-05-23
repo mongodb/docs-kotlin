@@ -82,6 +82,7 @@ class AggregationTest {
                     Accumulators.sum("count", 1))
             )
         )
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
 
@@ -110,6 +111,7 @@ class AggregationTest {
                 )
             )
         )
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -130,6 +132,7 @@ class AggregationTest {
                 Aggregates.group("\$${Restaurant::stars.name}", Accumulators.sum("count", 1))
             )
         ).explain(ExplainVerbosity.EXECUTION_STATS)
+
         // Prettyprint the output
         println(explanation.toJson(JsonWriterSettings.builder().indent(true).build()))
         // :snippet-end:
