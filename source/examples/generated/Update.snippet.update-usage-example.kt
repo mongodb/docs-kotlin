@@ -5,11 +5,9 @@ import com.mongodb.client.model.UpdateOptions
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
-import java.sql.Timestamp
+import java.util.*
 
-data class Movie(val title: String, val runtime: Int, val genres: List<String>)
-
-data class Results(val lastUpdated: Timestamp)
+data class Movie(val title: String, val runtime: Int, val genres: List<String>, val lastUpdated: Date)
 
 fun main() = runBlocking {
     // Replace the uri string with your MongoDB deployment's connection string
@@ -22,7 +20,7 @@ fun main() = runBlocking {
     val updates = Updates.combine(
         Updates.set(Movie::runtime.name, 99),
         Updates.addToSet(Movie::genres.name, "Sports"),
-        Updates.currentTimestamp(Results::lastUpdated.name)
+        Updates.currentTimestamp(Movie::lastUpdated.name)
     )
     val options = UpdateOptions().upsert(true)
     try {

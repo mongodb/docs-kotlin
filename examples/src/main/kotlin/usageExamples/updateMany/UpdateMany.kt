@@ -14,12 +14,9 @@ import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
-import java.sql.Timestamp
+import java.util.*
 
-
-data class Movie(val num_mflix_comments: Int, val genres: List<String>)
-
-data class Results(val lastUpdated: Timestamp)
+data class Movie(val num_mflix_comments: Int, val genres: List<String>, val lastUpdated: Date)
 
 fun main() = runBlocking {
     // :remove-start:
@@ -32,11 +29,11 @@ fun main() = runBlocking {
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
 
-    collection.insertOne(Movie(100, listOf("Adventure", "Family", "Comedy"))) // :remove:
+    collection.insertOne(Movie(100, listOf("Adventure", "Family", "Comedy"), Date())) // :remove:
     val query = Filters.gt(Movie::num_mflix_comments.name, 50)
     val updates = Updates.combine(
         Updates.addToSet(Movie::genres.name, "Frequently Discussed"),
-        Updates.currentTimestamp(Results::lastUpdated.name)
+        Updates.currentTimestamp(Movie::lastUpdated.name)
     )
     try {
         val result = collection.updateMany(query, updates)

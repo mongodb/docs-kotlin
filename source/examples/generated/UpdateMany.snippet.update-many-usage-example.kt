@@ -4,12 +4,9 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
-import java.sql.Timestamp
+import java.util.*
 
-
-data class Movie(val num_mflix_comments: Int, val genres: List<String>)
-
-data class Results(val lastUpdated: Timestamp)
+data class Movie(val num_mflix_comments: Int, val genres: List<String>, val lastUpdated: Date)
 
 fun main() = runBlocking {
     // Replace the uri string with your MongoDB deployment's connection string
@@ -21,7 +18,7 @@ fun main() = runBlocking {
     val query = Filters.gt(Movie::num_mflix_comments.name, 50)
     val updates = Updates.combine(
         Updates.addToSet(Movie::genres.name, "Frequently Discussed"),
-        Updates.currentTimestamp(Results::lastUpdated.name)
+        Updates.currentTimestamp(Movie::lastUpdated.name)
     )
     try {
         val result = collection.updateMany(query, updates)
