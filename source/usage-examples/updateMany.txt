@@ -90,6 +90,8 @@ class documentation for more information.
 
       Modified document count: 53
 
+After you run the example, you should see a similar output.
+
 If you query the updated document or documents, they should look something like
 this:
 
@@ -105,5 +107,5 @@ page, see the following API Documentation:
 - `UpdateOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/UpdateOptions.html>`__
 - `combine() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#combine(org.bson.conversions.Bson...)>`__
 - `addToSet() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#addToSet(java.lang.String,TItem)>`__
-- `currentTimestamp() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#currentTimestamp(java.lang.String)>`__
+- `currentDate() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#currentDate(java.lang.String)>`__
 - `UpdateResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/UpdateResult.html>`__

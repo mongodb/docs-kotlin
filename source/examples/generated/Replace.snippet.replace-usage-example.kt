@@ -19,7 +19,7 @@ fun main() = runBlocking {
         val options = ReplaceOptions().upsert(true)
         val result = collection.replaceOne(query, replaceDocument, options)
         println("Modified document count: " + result.modifiedCount)
-        println("Upserted id: " + result.upsertedId) // only contains a value when an upsert is performed
+        println("Upserted id: " + result.upsertedId) // only contains a non-null value when an upsert is performed
     } catch (e: MongoException) {
         System.err.println("Unable to replace due to an error: $e")
     }
