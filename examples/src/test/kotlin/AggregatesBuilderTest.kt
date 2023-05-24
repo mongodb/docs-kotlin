@@ -1,4 +1,5 @@
 
+import com.mongodb.MongoNamespace
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Accumulators.*
 import com.mongodb.client.model.Aggregates.*
@@ -14,6 +15,7 @@ import com.mongodb.client.model.search.SearchOptions
 import com.mongodb.client.model.search.SearchPath
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
@@ -23,7 +25,6 @@ import org.junit.jupiter.api.*
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.test.assertEquals
-
 
 class AggregatesBuilderTest {
 
@@ -415,6 +416,7 @@ class AggregatesBuilderTest {
         assertEquals(5, resultsFlow.toList().size)
     }
 
+    // TODO: Ben this is an error I was getting for most of the following pick-n accumulator tests
     @Test
     fun topTest() = runBlocking {
         data class TopRated(val title: String, val rating: Movie.IMDB)
@@ -577,25 +579,30 @@ class AggregatesBuilderTest {
         assertEquals(5, resultsFlow.toList().size)
     }
 
-//    @Test
-//    fun mergeOptionsTest() = runBlocking {
-//       movieCollection.createIndex(Indexes.ascending("year", "title")) // not needed?
-//
-//        val resultsFlow = movieCollection.aggregate<Movie>(listOf(
-//            Aggregates.project(fields(Projections.computed("year", "\$_id - \$year"), Projections.include("title", "year"))), // trying to make the index unique
-//                // :snippet-start: merge-options
-//                Aggregates.merge(
-//                    MongoNamespace("aggregation", "movies"), // TODO ERROR: 'Cannot find index to verify that join fields will be unique'
-//                    MergeOptions().uniqueIdentifier(listOf("year", "title"))
-//                        .whenMatched(MergeOptions.WhenMatched.REPLACE)
-//                        .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
-//                )
-//            // :snippet-end:
-//            )
-//        )
-//        println(resultsFlow.toList())
-//        movieCollection.dropIndex(Indexes.ascending("year", "title"))
-//    }
+    // TODO: I can't figure out this Cannot find index to verify that join fields will be unique error. Are you familiar with it?
+    //  I tried making the index unique through id concat; also read it's an issue with partial indexes (which these aren't, as far as i know)
+    //  I cannot figure out what mongo wants to ensure these are unique join fields.
+    //  I tried the concat computation on line 685 to get the year=year+id 🤷‍♀️ but no dice.
+    //  The only other thing I saw was a limitation on partial indexes, which neither the 'year' or 'title' index appeared to be...
+    @Test
+    fun mergeOptionsTest() = runBlocking {
+       movieCollection.createIndex(Indexes.ascending("year", "title")) // not needed?
+
+        val resultsFlow = movieCollection.aggregate<Movie>(listOf(
+            Aggregates.project(Projections.fields(Projections.computed("year", "\$_id - \$year"), Projections.include("title", "year"))), // trying to make the index unique
+                // :snippet-start: merge-options
+                Aggregates.merge(
+                    MongoNamespace("aggregation", "movies"), // TODO ERROR: 'Cannot find index to verify that join fields will be unique'
+                    MergeOptions().uniqueIdentifier(listOf("year", "title"))
+                        .whenMatched(MergeOptions.WhenMatched.REPLACE)
+                        .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
+                )
+            // :snippet-end:
+            )
+        )
+        println(resultsFlow.toList())
+        movieCollection.dropIndex(Indexes.ascending("year", "title"))
+    }
 
     @Test
     fun graphLookupTest() = runBlocking {
@@ -734,6 +741,7 @@ class AggregatesBuilderTest {
         assertEquals(4, resultsFlow.toList().size)
     }
 
+    // TODO Ben: not sure how to model this and the other bucket test results
     @Test
     fun bucketAutoTest() = runBlocking {
         data class MinMax(val min: Int, val max: Int)
@@ -876,24 +884,30 @@ class AggregatesBuilderTest {
         weatherCollection.drop()
     }
 
+    // TODO: Ben this and the next test are the Atlas searches I can't figure out.
+    //  they are working on the Atlas side, but the code isn't returning anything so there's something missing in the search setup..
     @Test
     fun fullTextSearchTest(): Unit = runBlocking {
+        ftsCollection.deleteMany(Document())
         ftsCollection.insertOne(Movie(title = "Back to the Future", year = 1985, genres = listOf("Adventure", "Comedy", "Sci-Fi"), rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
+        delay(5000)
         // the Atlas search index "title" is enabled on ftsCollection: db ("sample_mflix") and collection ("movies")
         val resultsFlow = ftsCollection.aggregate<Movie>(
             listOf(
                 // :snippet-start: full-text-search
                 Aggregates.search(
-                    SearchOperator.text(
-                        SearchPath.fieldPath(Movie::title.name), "Future"
-                    ),
+                    SearchOperator.text(SearchPath.fieldPath(Movie::title.name), "Future"),
                     SearchOptions.searchOptions().index("title")
                 )
                 // :snippet-end:
             )
         )
-        resultsFlow.collect { println(it) }  // TODO figure out why this isn't returning anything
-        ftsCollection.drop()
+        resultsFlow.collect { println("FTS:: $it") }  // TODO figure out why this isn't returning anything
+        val results = resultsFlow.toList()
+        assertEquals(1, results.size)
+        assertEquals("Back to the Future", results.first().title)
+        ftsCollection.deleteMany(Document())
+
     }
 
     @Test
