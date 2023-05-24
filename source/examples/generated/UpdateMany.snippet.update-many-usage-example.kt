@@ -18,7 +18,7 @@ fun main() = runBlocking {
     val query = Filters.gt(Movie::num_mflix_comments.name, 50)
     val updates = Updates.combine(
         Updates.addToSet(Movie::genres.name, "Frequently Discussed"),
-        Updates.currentTimestamp(Movie::lastUpdated.name)
+        Updates.currentDate(Movie::lastUpdated.name)
     )
     try {
         val result = collection.updateMany(query, updates)

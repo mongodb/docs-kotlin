@@ -66,9 +66,10 @@ in the ``movies`` collection of the ``sample_mflix`` database:
 We use the ``Updates`` builder, a factory class that contains static
 helper methods, to construct the update document. While you can pass an update
 document instead of using the builder, the builder provides type checking and
-simplified syntax. 
+simplified syntax. See the `Updates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html>`__ 
+class documentation for more information.
 
-.. TODO: (DOCSP-29266) Add a link to the Updates builder documentation once it is available
+.. TODO: (DOCSP-29266) Replace above with link to the Updates builder documentation once available
 .. For more information on the ``Updates`` builder, see our 
 .. :doc:`guide on the Updates builder </fundamentals/builders/updates/>`.
 
@@ -93,21 +94,12 @@ Or if the example resulted in an upsert:
    Modified document count: 0
    Upserted id: BsonObjectId{value=...}
 
-
 If you query the updated document, it should look something like this:
 
 .. code-block:: none
    :copyable: false
 
-   Document {
-     { _id=...,
-       plot=...,
-       genres=[Adventure, Comedy, Family, Sports],
-       runtime=99,
-       ...
-       lastUpdated=Timestamp{...}
-     }
-   }
+   Movie(title=Cool Runnings 2, runtime=99, genres=[ ... Sports], lastUpdated= ... )
 
 For additional information on the classes and methods mentioned on this
 page, see the following API Documentation:

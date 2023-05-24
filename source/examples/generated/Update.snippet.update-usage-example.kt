@@ -20,13 +20,13 @@ fun main() = runBlocking {
     val updates = Updates.combine(
         Updates.set(Movie::runtime.name, 99),
         Updates.addToSet(Movie::genres.name, "Sports"),
-        Updates.currentTimestamp(Movie::lastUpdated.name)
+        Updates.currentDate(Movie::lastUpdated.name)
     )
     val options = UpdateOptions().upsert(true)
     try {
         val result = collection.updateOne(query, updates, options)
         println("Modified document count: " + result.modifiedCount)
-        println("Upserted id: " + result.upsertedId) // only contains a value when an upsert is performed
+        println("Upserted id: " + result.upsertedId) // only contains a non-null value when an upsert is performed
     } catch (e: MongoException) {
         System.err.println("Unable to update due to an error: $e")
     }
