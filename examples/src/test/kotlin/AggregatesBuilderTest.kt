@@ -287,7 +287,7 @@ class AggregatesBuilderTest {
         // TODO: Confirm why using Filters doesn't populate the stockData field? aren't these equivalent?
         // Filters.and(
         //  Filters.eq("order_item", Inventory::stockItem.name),
-        //  Filters.gte(Inventory::inStock.name, "order_qty")
+        //  Filters.gte(Inventory::inStock.name, "\$\$order_qty")
         //)
 
         // :snippet-start: lookup-full-join
@@ -321,7 +321,9 @@ class AggregatesBuilderTest {
             Results("item2", 5, listOf(StockData(20))),
             Results("item3", 5, listOf(StockData(30)))
         )
-      assertEquals(expected,result)
+        assertEquals(expected, result)
+
+        // cleanup
         warehouseCollection.drop()
         orderCollection.drop()
     }
@@ -434,15 +436,14 @@ class AggregatesBuilderTest {
     // TODO: Ben this is an error I was getting for most of the following pick-n accumulator tests
     @Test
     fun topTest() = runBlocking {
-        data class TopRated(val title: String, val rating: Movie.IMDB)
-        data class Results(val topRatedMovie: List<TopRated>)
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode topRatedMovie for Results data class (Document{{_id=1972, topRatedMovie=[The Godfather, 8.9]}})
+
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
                 // :snippet-start: top
                 Aggregates.group(
                     "\$${Movie::year.name}",
                     Accumulators.top(
-                        Results::topRatedMovie.name,
+                        "topRatedMovie",
                         Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"),
                         listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}")
                     )
@@ -767,7 +768,6 @@ class AggregatesBuilderTest {
         assertEquals(4, resultsFlow.toList().size)
     }
 
-    // TODO Ben: not sure how to model this and the other bucket test results
     @Test
     fun bucketAutoTest() = runBlocking {
         data class MinMax(val min: Int, val max: Int)
@@ -783,25 +783,29 @@ class AggregatesBuilderTest {
     @Test
     fun bucketAutoOptionsTest() = runBlocking {
         data class MinMax(val min: Int, val max: Int)
-        data class Bucket(val minMax: List<MinMax>, val count: Int, val avgPrice: Double)
-        data class Results(@BsonId val id: List<Bucket>)
-        val resultsFlow = screenCollection.aggregate<Document>(listOf( // TODO: figure out data class ([Document{{_id=Document{{min=64, max=128}}, count=1, avgPrice=100.0}})
+        data class Results(@BsonId val id: MinMax, val count: Int, val avgPrice: Double)
+
+        // example kotlin nested data classes
+        val resultsFlow = screenCollection.aggregate<Results>(listOf(
             // :snippet-start: bucket-auto-options
             bucketAuto(
                 "\$${Screen::price.name}", 5,
                 BucketAutoOptions()
                     .granularity(BucketGranularity.POWERSOF2)
-                    .output(sum(Bucket::count.name, 1), avg(Bucket::avgPrice.name, "\$${Screen::price.name}"))
+                    .output(sum(Results::count.name, 1), avg(Results::avgPrice.name, "\$${Screen::price.name}"))
                     )
             // :snippet-end:
         ))
+        println(resultsFlow.toList().first())
         assertEquals(5, resultsFlow.toList().size)
     }
 
     @Test
     fun facetTest() = runBlocking {
-
-        val resultsFlow = screenCollection.aggregate<Document>(listOf( // TODO: figure out data class (Document{{Screen Sizes=[Document{{_id=Document{{min=15, max=27}}, count=1}})
+        data class MinMax(val min: Int, val max: Int)
+        data class ScreenSize(@BsonId val id: MinMax, val count: Int)
+        data class Results(val `Screen Sizes`: List<ScreenSize>)
+        val resultsFlow = screenCollection.aggregate<Results>(listOf(
             // :snippet-start: facet
             facet(
                 Facet(
@@ -820,6 +824,7 @@ class AggregatesBuilderTest {
             )
             // :snippet-end:
         ))
+        println(resultsFlow.toList().first())
         assertEquals(1, resultsFlow.toList().size)
     }
 
