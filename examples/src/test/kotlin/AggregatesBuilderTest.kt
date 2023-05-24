@@ -3,6 +3,8 @@ import com.mongodb.MongoNamespace
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Accumulators.*
 import com.mongodb.client.model.Aggregates.*
+import com.mongodb.client.model.Projections.fields
+import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.Sorts.ascending
 import com.mongodb.client.model.densify.DensifyOptions
 import com.mongodb.client.model.densify.DensifyRange
@@ -15,7 +17,7 @@ import com.mongodb.client.model.search.SearchOptions
 import com.mongodb.client.model.search.SearchPath
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
@@ -66,10 +68,18 @@ class AggregatesBuilderTest {
         private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         private val database = client.getDatabase("aggregation")
         val movieCollection = database.getCollection<Movie>("movies")
-        private val ftsDatabase = client.getDatabase("sample_mflix")
-        val ftsCollection = ftsDatabase.getCollection<Movie>("movies")
         val contactsCollection = database.getCollection<Users>("contacts")
         val screenCollection = database.getCollection<Screen>("screens")
+
+        // Notes about this collection:
+        // It uses Atlas Search, configured through the Atlas UI. It has 2 standard indexes, named "title" and "year",
+        // which are used the examples below.
+        // There's some funkiness with adding data in the unit test file before it's been indexed.
+        // If you add the data in the @BeforeAll block right before running the tests, the data doesn't get indexed in time.
+        // This even occurs with a 5-second delay between adding the data and querying the index.
+        // The solution is to add the data beforehand and just query it in this file.
+        private val ftsDatabase = client.getDatabase("sample_mflix")
+        val ftsCollection = ftsDatabase.getCollection<Movie>("movies")
 
 
         @BeforeAll
@@ -84,6 +94,11 @@ class AggregatesBuilderTest {
 
                 val screens = listOf(Screen("1", 15,  "Manufacturer A", 100.00), Screen("2", 27,  "Manufacturer B", 250.00), Screen("3", 45,  "Manufacturer C", 750.00), Screen("4", 72,  "Manufacturer D", 1950.00), Screen("5", 500,  "Manufacturer E", 5000.00))
                 screenCollection.insertMany(screens)
+
+                // Note that this collection and DB aren't dropped. It seems when they're dropped, it also drops the Atlas Search index.
+                val backToTheFuture = ftsCollection.find(Filters.eq(Movie::title.name, "Back to the Future")).firstOrNull()
+                if(backToTheFuture == null)
+                    ftsCollection.insertOne(Movie(title = "Back to the Future", year = 1985, genres = listOf("Adventure", "Comedy", "Sci-Fi"), rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
             }
         }
 
@@ -566,33 +581,41 @@ class AggregatesBuilderTest {
 
     @Test
     fun mergeTest() = runBlocking {
-        data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
+//        database.getCollection<Document>("nineties_movies").drop()
+//        database.createCollection("nineties_movies")
+        val resultsFlow = movieCollection.aggregate<Document>(
+            listOf(
 
-        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
-            // aggregate content to merge
-            Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
+                Aggregates.match(Filters.and(Filters.gte(Movie::year.name, 1990), Filters.lt(Movie::year.name, 2000))),
                 // :snippet-start: merge
-                Aggregates.merge("comments")
+                Aggregates.merge("nineties_movies")
                 // :snippet-end:
-            ))
-        assertEquals(5, resultsFlow.toList().size)
+            )
+        )
+        val results = resultsFlow.toList()
+        println(results)
+        assertEquals(6, resultsFlow.toList().size)
+        assertEquals(6, results.filter { it.getInteger(Movie::year.name) in 1990..1999 }.size)
+
+        // clean up
+        database.getCollection<Document>("nineties_movies").drop()
     }
 
-    // TODO: I can't figure out this Cannot find index to verify that join fields will be unique error. Are you familiar with it?
-    //  I tried making the index unique through id concat; also read it's an issue with partial indexes (which these aren't, as far as i know)
-    //  I cannot figure out what mongo wants to ensure these are unique join fields.
-    //  I tried the concat computation on line 685 to get the year=year+id 🤷‍♀️ but no dice.
-    //  The only other thing I saw was a limitation on partial indexes, which neither the 'year' or 'title' index appeared to be...
     @Test
     fun mergeOptionsTest() = runBlocking {
-       movieCollection.createIndex(Indexes.ascending("year", "title")) // not needed?
+        val uniqueIndexOption = IndexOptions().unique(true)
+        val movieRatings = database.getCollection<Document>("movie_ratings")
+        movieRatings.createIndex(Indexes.ascending("year", "title"), uniqueIndexOption)
 
-        val resultsFlow = movieCollection.aggregate<Movie>(listOf(
-            Aggregates.project(Projections.fields(Projections.computed("year", "\$_id - \$year"), Projections.include("title", "year"))), // trying to make the index unique
+        listOf(
+            project(fields(include("height", "\$biometrics.height")))
+        )
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
+            Aggregates.match(Filters.eq(Movie::title.name, "The Sixth Sense")),
+            Aggregates.project(Projections.fields(Projections.computed("rating", "\$imdb.rating"), Projections.include("title", "year"))), // trying to make the index unique
                 // :snippet-start: merge-options
                 Aggregates.merge(
-                    MongoNamespace("aggregation", "movies"), // TODO ERROR: 'Cannot find index to verify that join fields will be unique'
+                    MongoNamespace("aggregation", "movie_ratings"),
                     MergeOptions().uniqueIdentifier(listOf("year", "title"))
                         .whenMatched(MergeOptions.WhenMatched.REPLACE)
                         .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
@@ -600,8 +623,11 @@ class AggregatesBuilderTest {
             // :snippet-end:
             )
         )
-        println(resultsFlow.toList())
-        movieCollection.dropIndex(Indexes.ascending("year", "title"))
+        val results = resultsFlow.toList()
+        assertEquals(1, results.size)
+        assertEquals(results, movieRatings.find().toList())
+        movieRatings.dropIndexes()
+        movieRatings.drop()
     }
 
     @Test
@@ -745,8 +771,8 @@ class AggregatesBuilderTest {
     @Test
     fun bucketAutoTest() = runBlocking {
         data class MinMax(val min: Int, val max: Int)
-        data class Results(@BsonId val id: List<MinMax>, val count: Int)
-        val resultsFlow = screenCollection.aggregate<Document>(listOf( // TODO: figure out data class (Document{{_id=Document{{min=15, max=27}}, count=1}})
+        data class Results(@BsonId val id: MinMax, val count: Int)
+        val resultsFlow = screenCollection.aggregate<Results>(listOf(
             // :snippet-start: bucket-auto
             bucketAuto("\$${Screen::screenSize.name}", 5)
             // :snippet-end:
@@ -884,14 +910,8 @@ class AggregatesBuilderTest {
         weatherCollection.drop()
     }
 
-    // TODO: Ben this and the next test are the Atlas searches I can't figure out.
-    //  they are working on the Atlas side, but the code isn't returning anything so there's something missing in the search setup..
     @Test
     fun fullTextSearchTest(): Unit = runBlocking {
-        ftsCollection.deleteMany(Document())
-        ftsCollection.insertOne(Movie(title = "Back to the Future", year = 1985, genres = listOf("Adventure", "Comedy", "Sci-Fi"), rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
-        delay(5000)
-        // the Atlas search index "title" is enabled on ftsCollection: db ("sample_mflix") and collection ("movies")
         val resultsFlow = ftsCollection.aggregate<Movie>(
             listOf(
                 // :snippet-start: full-text-search
@@ -902,29 +922,26 @@ class AggregatesBuilderTest {
                 // :snippet-end:
             )
         )
-        resultsFlow.collect { println("FTS:: $it") }  // TODO figure out why this isn't returning anything
         val results = resultsFlow.toList()
         assertEquals(1, results.size)
         assertEquals("Back to the Future", results.first().title)
-        ftsCollection.deleteMany(Document())
-
     }
 
     @Test
     fun searchMetadataTest() = runBlocking {
-        ftsCollection.insertOne(Movie(title = "Back to the Future", year = 1985, genres = listOf("Adventure", "Comedy", "Sci-Fi"), rated = "PG", plot = "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean.", runtime = 116, imdb = Movie.IMDB(rating = 8.5)))
-
         val resultsFlow = ftsCollection.aggregate<Document>(
             listOf(
                 // :snippet-start: search-meta
                 Aggregates.searchMeta(
-                    SearchOperator.near(1985, 2, SearchPath.fieldPath(Movie::year.name))
+                    SearchOperator.near(1985, 2, SearchPath.fieldPath(Movie::year.name)),
+                    SearchOptions.searchOptions().index("year")
                 )
                 // :snippet-end:
             )
         )
-        println(resultsFlow.toList()) // TODO figure out why this is returning 0 documents
-        ftsCollection.drop()
+        val results = resultsFlow.toList()
+        assertEquals(1, resultsFlow.toList().size)
+        assertEquals(1, results.first().get("count", Document::class.java).get("lowerBound", java.lang.Long::class.java)?.toInt())
     }
 
 }
