@@ -9,9 +9,9 @@ Count Documents
 There are two instance methods in the ``MongoCollection`` class that you can
 call to count the number of documents in a collection:
 
-- ``countDocuments()`` returns the number of documents in the collection
-  that match a specified query. If you specify an empty query filter,
-  the method returns the total number of documents in the collection.
+- ``countDocuments()`` returns an **accurate** count of the number of documents 
+  in the collection that match a specified query. If you specify an empty query 
+  filter, the method returns the total number of documents in the collection.
 
 - ``estimatedDocumentCount()`` returns an **estimation** of the number of
   documents in the collection based on the collection metadata. You cannot
@@ -20,7 +20,7 @@ call to count the number of documents in a collection:
 The ``estimatedDocumentCount()`` method returns more quickly than the
 ``countDocuments()`` method because it uses the collection's metadata rather
 than scanning the entire collection. The ``countDocuments()`` method returns
-an **accurate** count of the number of documents and supports specifying
+an accurate count of the number of documents and supports specifying
 a filter.
 
 .. tip::
@@ -29,7 +29,7 @@ a filter.
    collection, you can improve performance by avoiding a collection scan. To do
    this, use a :manual:`hint </reference/method/cursor.hint>` to take advantage
    of the built-in index on the ``_id`` field. Use this technique only when
-   calling ``countDocuments()`` with an empty query parameter.
+   calling ``countDocuments()`` with an empty query parameter:
 
    .. literalinclude:: /examples/generated/CountTest.snippet.hint.kt
       :language:  kotlin
@@ -70,7 +70,7 @@ specify the behavior of the call:
      - You can specify the maximum execution time using the ``maxTime()``
        method.
 
-Both methods return the number of matching documents as a ``long`` primitive.
+Both methods return the number of matching documents as a ``Long`` primitive.
 
 Example
 -------
@@ -78,7 +78,7 @@ Example
 The following example estimates the number of documents in the
 ``movies`` collection in the ``sample_mflix`` database, and then returns
 an accurate count of the number of documents in the ``movies``
-collection with ``Canada`` in the ``countries`` field.
+collection with ``Spain`` in the ``countries`` field.
 If you run the preceding sample code, you should see output that looks something
 like this (exact numbers may vary depending on your data):
 
