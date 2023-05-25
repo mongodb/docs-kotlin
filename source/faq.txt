@@ -16,7 +16,7 @@ How Is the Kotlin Driver Different from Kmongo?
 The Kotlin driver is the official MongoDB driver for Kotlin. It is
 developed by the MongoDB team and provides a native API for Kotlin
 applications to connect to MongoDB and work with data. It is implemented
-by wrapping the MongoDB Java driver.
+by wrapping the :driver:`MongoDB Java driver </java-drivers/>`.
 
 `KMongo <https://litote.org/kmongo/>`__ is a popular community-developed library
 for working with MongoDB from Kotlin applications.
@@ -33,7 +33,7 @@ Notable similarities between the Kotlin driver and KMongo include:
 - Support for synchronous and coroutine-based operations
 - Support using data classes to represent MongoDB documents
 - Support KotlinX serialization
-- Full support for MongoDB CRUD APIs and aggregation
+- Support for MongoDB CRUD APIs and aggregation
 
 Although the official Kotlin driver and KMongo are similar, there are some
 key differences:
@@ -123,6 +123,7 @@ When ``MongoClient.close()`` is called by any thread, the driver
 closes all idle sockets and closes all sockets that are in
 use as they are returned to the pool.
 
+To learn more about connecting to MongoDB, refer to the :ref:`Connection Guide <connect-to-mongodb>`.
 
 Support
 -------
