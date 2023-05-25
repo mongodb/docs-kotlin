@@ -128,12 +128,12 @@ internal class CollationTest {
         // :snippet-start: collation-operation
         val resultsFlow = collection.find()
             .collation(Collation.builder().locale("en_US").build())
-            .sort(Sorts.ascending("name"));
+            .sort(Sorts.ascending(FirstName::firstName.name));
         // :snippet-end:
         val results = resultsFlow.toList()
-        assertEquals("Klara", results[0].firstName)
-        assertEquals("Gunter", results[1].firstName)
-        assertEquals("Günter", results[2].firstName)
+        assertEquals("Gunter", results[0].firstName)
+        assertEquals("Günter", results[1].firstName)
+        assertEquals("Hannah", results[2].firstName)
         assertEquals(5, results.size)
     }
     @Test

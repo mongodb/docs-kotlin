@@ -1,3 +1,3 @@
 val resultsFlow = collection.find()
     .collation(Collation.builder().locale("en_US").build())
-    .sort(Sorts.ascending("name"));
+    .sort(Sorts.ascending(FirstName::firstName.name));
