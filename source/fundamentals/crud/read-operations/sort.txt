@@ -155,13 +155,15 @@ by the ``_id`` field:
    .. input:: /examples/generated/SortTest.snippet.ascending-sort.kt
       :language: kotlin
 
-   .. output:: 
+   .. output::
       :language:  console
 
-      FoodOrder(id=6, letter=c, food=maple donut)
-      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=1, letter=c, food=coffee with milk)
+      FoodOrder(id=2, letter=a, food=donuts and coffee)
+      FoodOrder(id=3, letter=a, food=maple syrup)
       FoodOrder(id=4, letter=b, food=coffee with sugar)
-      ...
+      FoodOrder(id=5, letter=a, food=milk and cookies)
+      FoodOrder(id=6, letter=c, food=maple donut)
 
 Descending
 ~~~~~~~~~~
@@ -185,7 +187,9 @@ in descending order:
       FoodOrder(id=6, letter=c, food=maple donut)
       FoodOrder(id=5, letter=a, food=milk and cookies)
       FoodOrder(id=4, letter=b, food=coffee with sugar)
-      ...
+      FoodOrder(id=3, letter=a, food=maple syrup)
+      FoodOrder(id=2, letter=a, food=donuts and coffee)
+      FoodOrder(id=1, letter=c, food=coffee with milk)
 
 .. _sorts-crud-handling-ties:
 

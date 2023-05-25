@@ -6,13 +6,15 @@ Builders
 
 .. toctree::
 
+
+   /fundamentals/builders/sort
    /fundamentals/builders/indexes
+
 
 .. TODO: add these pages back when the kotlin version pages are added
 .. /fundamentals/builders/aggregates
 .. /fundamentals/builders/filters
 .. /fundamentals/builders/projections
-.. /fundamentals/builders/sort
 .. /fundamentals/builders/updates
 
 .. contents:: On this page
@@ -102,12 +104,11 @@ Available Builders
 ------------------
 
 - :ref:`Indexes <indexes-builders>` for creating index keys.
+- :ref:`Sorts <sorts-builders>` for building sort criteria.
 
 .. TODO: add these pages back when the kotlin version pages are added
-
 .. - :ref:`Aggregates <aggregates-builders>` for building aggregation pipelines.
 .. - :ref:`Filters <filters-builders>` for building query filters.
 .. - :ref:`Projections <projections-builders>` for building projections.
-.. - :ref:`Sorts <sorts-builders>` for building sort criteria.
 .. - :ref:`Updates <updates-builders>` for building updates.
 
