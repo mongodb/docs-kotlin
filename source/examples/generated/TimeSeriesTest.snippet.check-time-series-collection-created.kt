@@ -1,3 +1,4 @@
-val commandResult = database.runCommand(Document("listCollections", BsonInt64(1)))
+val commandResult = database.listCollections().toList()
+    .find { it["name"] == "september2021" }
 
-println(commandResult.toJson())
+println(commandResult?.toJson(JsonWriterSettings.builder().indent(true).build()))

@@ -1,3 +1,4 @@
+
 import com.mongodb.*
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.*
@@ -5,9 +6,9 @@ import com.mongodb.client.model.Projections.*
 import com.mongodb.client.model.TimeSeriesOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.bson.BsonInt64
-import org.bson.Document
+import org.bson.json.JsonWriterSettings
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.TestInstance
@@ -41,15 +42,15 @@ internal class TimeSeriesTest {
         database.createCollection("september2021", collOptions)
         // :snippet-end:
         // :snippet-start: check-time-series-collection-created
-        val commandResult = database.runCommand(Document("listCollections", BsonInt64(1)))
+        val commandResult = database.listCollections().toList()
+            .find { it["name"] == "september2021" }
 
-        println(commandResult.toJson())
+        println(commandResult?.toJson(JsonWriterSettings.builder().indent(true).build()))
         // :snippet-end:
+        assertEquals("timeseries", commandResult?.getString("type") )
+
         // clean up
         database.drop()
-        // access the commandResult.cursor.firstBatch[0].type
-        val type = ((commandResult["cursor"] as Document )[ "firstBatch" ] as List<Document>)[0].getString("type")
-        assertEquals("timeseries", type )
     }
 
 

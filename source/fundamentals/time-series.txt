@@ -65,28 +65,22 @@ To check if you successfully created the collection, send the
       :language:  kotlin
 
    .. output::
-      :language:  js
-      :emphasize-lines: 8, 10
+      :language:  json
+      :emphasize-lines: 3, 5-9
 
       {
-         "cursor": {
-            "id": 0,
-            "ns": "fall_weather.$cmd.listCollections",
-            "firstBatch": [
-               {
-                  "name": "september2021",
-                  "type": "timeseries",
-                  "options": {
-                     "timeseries": {
-                        // ...
-                     }
-                  },
-                  // ...
-               },
-               // ...
-            ]
-         },
-         // ...
+        "name": "september2021",
+        "type": "timeseries",
+        "options": {
+          "timeseries": {
+            "timeField": "temperature",
+            "granularity": "seconds",
+            "bucketMaxSpanSeconds": 3600
+          }
+        },
+        "info": {
+          "readOnly": false
+        }
       }
 
 Query a Time Series Collection
