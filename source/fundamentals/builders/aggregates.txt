@@ -27,8 +27,7 @@ The examples on this page assume imports for methods of the following classes:
 - ``Sorts``
 - ``Accumulators``
 
-.. code-block:: 
-   :source: kotlin
+.. code-block:: kotlin
 
    import com.mongodb.client.model.Aggregates.*
    import com.mongodb.client.model.Filters.*
@@ -463,12 +462,12 @@ The following example creates a document for each element in the ``lowestRatedTw
 To preserve documents that have missing or ``null``
 values for the array field, or where array is empty:
 
-.. input:: /examples/generated/AggregatesBuilderTest.snippet.unwind-options.kt
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.unwind-options.kt
    :language: kotlin
 
 To include the array index (in this example, in a field called ``"position"``):
 
-.. input:: /examples/generated/AggregatesBuilderTest.snippet.unwind-options-array.kt
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.unwind-options-array.kt
    :language: kotlin
 
 Out
@@ -485,7 +484,7 @@ the same database.
 The following example writes the results of the pipeline to the ``nineties_movies``
 collection:
 
-.. input:: /examples/generated/AggregatesBuilderTest.snippet.out.kt
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.out.kt
    :language: kotlin
 
 Merge
@@ -501,7 +500,7 @@ pipeline stage that merges all documents into the specified collection.
 The following example merges the pipeline into the ``nineties_movies`` collection 
 using the default options:
 
-.. input:: /examples/generated/AggregatesBuilderTest.snippet.merge.kt
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.merge.kt
    :language: kotlin
 
 The following example merges the pipeline into the ``movie_ratings`` collection 
