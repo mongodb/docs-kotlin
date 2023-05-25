@@ -61,6 +61,8 @@ you let the driver automatically generate ``_id`` values.
 For additional information on unique indexes, see the manual entry on 
 :manual:`Unique Indexes </core/index-unique/>`.
 
+.. _insert-single-document:
+
 Insert a Single Document
 ------------------------
 
@@ -92,7 +94,9 @@ see the following resources:
 - `insertOne() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/insert-one.html>`__ API Documentation
 - `InsertOneResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/InsertOneResult.html>`__ API Documentation
 - Manual Explanation on :manual:`insertOne() </reference/method/db.collection.insertOne/>`
-- Runnable :doc:`Insert a Document Example </usage-examples/insertOne>` 
+
+.. TODO(DOCSP-29251): add back
+.. - Runnable :doc:`Insert a Document Example </usage-examples/insertOne>`
 
 Insert Multiple Documents
 -------------------------
@@ -165,7 +169,9 @@ see the following resources:
 - `insertMany() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/insert-many.html>`__ API Documentation
 - `InsertManyResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/InsertManyResult.html>`__ API Documentation
 - Manual Explanation on :manual:`insertMany() </reference/method/db.collection.insertMany/>`
-- Runnable :doc:`Insert Multiple Documents Example </usage-examples/insertMany>`
+
+.. TODO(DOCSP-29251): add back
+.. - Runnable :doc:`Insert Multiple Documents Example </usage-examples/insertMany>`
 
 Summary
 -------

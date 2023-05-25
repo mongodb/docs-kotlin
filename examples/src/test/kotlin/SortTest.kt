@@ -82,6 +82,7 @@ internal class SortTest {
         val resultsFlow = collection.aggregate(listOf(
             Aggregates.sort(Sorts.ascending("_id"))
         ))
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -101,6 +102,7 @@ internal class SortTest {
         // :snippet-start: ascending-sort
         val resultsFlow = collection.find()
             .sort(Sorts.ascending("_id"))
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -120,6 +122,7 @@ internal class SortTest {
         // :snippet-start: descending-sort
         val resultsFlow = collection.find()
             .sort(Sorts.descending("_id"))
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -163,6 +166,7 @@ internal class SortTest {
             Sorts.descending(FoodOrder::letter.name), Sorts.ascending("_id")
         )
         val results = collection.find().sort(orderBySort)
+
         results.collect {println(it) }
         // :snippet-end:
         // Junit test for the above code
