@@ -1,1 +1,1 @@
-Aggregates.merge("comments")
+Aggregates.merge("nineties_movies")

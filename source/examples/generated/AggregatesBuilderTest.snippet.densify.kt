@@ -1,4 +1,5 @@
 densify(
     "ts",
     DensifyRange.partitionRangeWithStep(15, MongoTimeUnit.MINUTE),
-    DensifyOptions.densifyOptions().partitionByFields("position.coordinates"))
+    DensifyOptions.densifyOptions().partitionByFields("Position.coordinates")
+)

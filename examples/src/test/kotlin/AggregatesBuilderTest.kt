@@ -239,7 +239,7 @@ class AggregatesBuilderTest {
     @Test
     fun lookupTest() = runBlocking {
         data class Comment(@BsonId val id: ObjectId, val name: String, val movie_id: Int, val text: String)
-        data class Results(@BsonId val id: Int, val title: String, val year: Int, val cast: List<String>, val genres: List<String>, val type: String, val rated: String, val plot: String, val fullplot: String, val runtime: Int, val imdb: Movie.IMDB, val joinedComments: List<Comment>)
+        data class Results(@BsonId val id: Int, val title: String, val year: Int, val cast: List<String>, val genres: List<String>, val type: String, val rated: String, val plot: String, val fullplot: String, val runtime: Int, val imdb: Movie.IMDB, val joined_comments: List<Comment>)
         val commentCollection = database.getCollection<Comment>("comments")
 
         val comments = listOf(
@@ -251,7 +251,7 @@ class AggregatesBuilderTest {
 
         val lookup = movieCollection.aggregate<Document>(listOf(
             // :snippet-start: lookup
-            Aggregates.lookup("comments", "_id", Comment::movie_id.name, Results::joinedComments.name
+            Aggregates.lookup("comments", "_id", Comment::movie_id.name, Results::joined_comments.name
             // :snippet-end:
         )))
         assertEquals(9, lookup.toList().size)
@@ -436,8 +436,6 @@ class AggregatesBuilderTest {
     // TODO: Ben this is an error I was getting for most of the following pick-n accumulator tests
     @Test
     fun topTest() = runBlocking {
-
-
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
                 // :snippet-start: top
                 Aggregates.group(
@@ -574,7 +572,7 @@ class AggregatesBuilderTest {
             // aggregate content to push out
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom(Results::lowestRatedTwoMovies.name, Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: out
-                Aggregates.out("comments"),
+                Aggregates.out("nineties_movies"),
                 // :snippet-end:
             ))
         assertEquals(5, resultsFlow.toList().size)
@@ -582,24 +580,14 @@ class AggregatesBuilderTest {
 
     @Test
     fun mergeTest() = runBlocking {
-//        database.getCollection<Document>("nineties_movies").drop()
-//        database.createCollection("nineties_movies")
-        val resultsFlow = movieCollection.aggregate<Document>(
-            listOf(
-
-                Aggregates.match(Filters.and(Filters.gte(Movie::year.name, 1990), Filters.lt(Movie::year.name, 2000))),
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(Aggregates.match(Filters.and(Filters.gte(Movie::year.name, 1990), Filters.lt(Movie::year.name, 2000))),
                 // :snippet-start: merge
                 Aggregates.merge("nineties_movies")
                 // :snippet-end:
-            )
-        )
+            ))
         val results = resultsFlow.toList()
-        println(results)
         assertEquals(6, resultsFlow.toList().size)
-        assertEquals(6, results.filter { it.getInteger(Movie::year.name) in 1990..1999 }.size)
-
-        // clean up
-        database.getCollection<Document>("nineties_movies").drop()
+        assertEquals(6, results.filter { it.getInteger(Movie::year.name) in (1990..1999) }.size)
     }
 
     @Test
@@ -608,9 +596,7 @@ class AggregatesBuilderTest {
         val movieRatings = database.getCollection<Document>("movie_ratings")
         movieRatings.createIndex(Indexes.ascending("year", "title"), uniqueIndexOption)
 
-        listOf(
-            project(fields(include("height", "\$biometrics.height")))
-        )
+        listOf(project(fields(include("height", "\$biometrics.height"))))
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
             Aggregates.match(Filters.eq(Movie::title.name, "The Sixth Sense")),
             Aggregates.project(Projections.fields(Projections.computed("rating", "\$imdb.rating"), Projections.include("title", "year"))), // trying to make the index unique
@@ -657,9 +643,10 @@ class AggregatesBuilderTest {
                     GraphLookupOptions().maxDepth(2).depthField(Depth::degrees.name)
                 )
                 // :snippet-end:
-            ))
+        ))
+        println(resultsFlow.toList())
         assertEquals("Name1", resultsFlow.toList()[0].name)
-        assertEquals(0, resultsFlow.toList()[0].socialNetwork[0].degrees)
+        assertEquals(4, resultsFlow.toList()[0].socialNetwork.size)
     }
 
     @Test
@@ -697,10 +684,10 @@ class AggregatesBuilderTest {
     @Test
     fun replaceRootTest() = runBlocking {
         // :snippet-start: replace-root-data-class
-        data class Libro(val nombre: String)
+        data class Libro(val titulo: String)
         data class Book(val title: String, val spanishTranslation: Libro)
         // :snippet-end:
-        data class Results(val nombre: String)
+        data class Results(val titulo: String)
         val translateCollection = database.getCollection<Book>("books_translate")
         val books = listOf(Book("Movie1", Libro("Libro1")), Book("Book2", Libro("Libro2")), Book("Movie3", Libro("Libro3")))
         translateCollection.insertMany(books)
@@ -711,7 +698,7 @@ class AggregatesBuilderTest {
             //  :snippet-end:
 
         ))
-        assertEquals("Libro1", resultsFlow.toList()[0].nombre)
+        assertEquals("Libro1", resultsFlow.toList()[0].titulo)
         translateCollection.drop()
     }
 
@@ -867,7 +854,7 @@ class AggregatesBuilderTest {
             @BsonId val id: ObjectId = ObjectId(),
             val hour: Int,
             val temperature: String?,
-            val airPressure: Double?
+            val air_pressure: Double?
         )
         // :snippet-end:
         val weatherCollection = database.getCollection<Weather>("weather")
@@ -878,12 +865,12 @@ class AggregatesBuilderTest {
             Aggregates.fill(
                 FillOptions.fillOptions().sortBy(ascending(Weather::hour.name)),
                 FillOutputField.value(Weather::temperature.name, "23.6C"),
-                FillOutputField.linear(Weather::airPressure.name)
+                FillOutputField.linear(Weather::air_pressure.name)
             )
         ))
         resultsFlow.collect { println(it) }
         // :snippet-end:
-        assertEquals(29.75, resultsFlow.toList()[1].airPressure)
+        assertEquals(29.75, resultsFlow.toList()[1].air_pressure)
     }
 
     @Test
@@ -907,11 +894,11 @@ class AggregatesBuilderTest {
             densify(
                 "ts",
                 DensifyRange.partitionRangeWithStep(15, MongoTimeUnit.MINUTE),
-                DensifyOptions.densifyOptions().partitionByFields("position.coordinates"))
+                DensifyOptions.densifyOptions().partitionByFields("Position.coordinates")
+            )
             // :snippet-end:
         ))
         resultsFlow.collect{println(it)}
-
         weatherCollection.drop()
     }
 
