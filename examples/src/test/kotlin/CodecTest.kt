@@ -104,7 +104,7 @@ internal class CodecTest {
         override fun <T> get(clazz: Class<T>, registry: CodecRegistry): Codec<T>? {
             return if (clazz == Monolight::class.java) {
                 MonolightCodec(registry) as Codec<T>
-            } else null // return null when not a provider for the requested class
+            } else null // Return null when not a provider for the requested class
         }
     }
     // :snippet-end:
@@ -150,7 +150,8 @@ internal class CodecTest {
     @Test
     fun bsonTypeClassMapReplacementTest() {
         // :snippet-start: bson-type-class-map-replacement
-        val replacements = mutableMapOf<BsonType, Class<*>>(BsonType.ARRAY to MutableSet::class.java) // TODO: see if can find better typing for this than `Any`
+        // TODO: see if can find better typing for this than `*`
+        val replacements = mutableMapOf<BsonType, Class<*>>(BsonType.ARRAY to MutableSet::class.java)
         val bsonTypeClassMap = BsonTypeClassMap(replacements)
         val clazz = bsonTypeClassMap[BsonType.ARRAY]
         println("Java type: " + clazz.name)
