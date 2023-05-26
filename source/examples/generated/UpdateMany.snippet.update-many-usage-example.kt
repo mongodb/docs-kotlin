@@ -1,4 +1,3 @@
-
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
@@ -6,7 +5,11 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
-data class Movie(val num_mflix_comments: Int, val genres: List<String>, val lastUpdated: Date)
+data class Movie(
+    val num_mflix_comments: Int,
+    val genres: List<String>,
+    val lastUpdated: Date
+)
 
 fun main() = runBlocking {
     // Replace the uri string with your MongoDB deployment's connection string

@@ -7,7 +7,6 @@ package usageExamples.update
 //    }
 // }
 // :snippet-start: update-usage-example
-
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
@@ -17,7 +16,12 @@ import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
-data class Movie(val title: String, val runtime: Int, val genres: List<String>, val lastUpdated: Date)
+data class Movie(
+    val title: String,
+    val runtime: Int,
+    val genres: List<String>,
+    val lastUpdated: Date
+)
 
 fun main() = runBlocking {
     // :remove-start:
