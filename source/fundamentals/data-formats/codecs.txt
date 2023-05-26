@@ -21,8 +21,8 @@ In this guide, you can learn about **Codecs** and the supporting classes that
 handle the encoding and decoding of Kotlin objects to and from BSON data
 in the MongoDB Kotlin driver. The ``Codec`` abstraction allows you to map any Kotlin type to
 a corresponding BSON type. You can use this to map your domain objects
-directly to and from BSON instead of using an intermediate map-based object such
-as ``Document`` or ``BsonDocument``.
+directly to and from BSON instead of using data classes or an intermediate
+map-based object such as ``Document`` or ``BsonDocument``.
 
 You can learn how to specify custom encoding and decoding logic using
 the ``Codec`` abstraction and view example implementations in the following
@@ -156,7 +156,7 @@ implementations:
 
 - ``IntegerCodec``, a ``Codec`` that converts ``Integers`` and is part of the BSON package.
 - :ref:`PowerStatusCodec <codecs-powerstatus-codec>`, our sample ``Codec``
-  that converts certain Kotlin strings to BSON booleans.
+  that converts a Kotlin enum to BSON booleans.
 
 You can retrieve the ``Codec`` instances from the ``CodecRegistry`` instance
 from the prior example using the following code:
@@ -304,7 +304,7 @@ This class contains the following fields, each of which we need to assign a
   which we use the :ref:`PowerStatusCodec <codecs-powerstatus-codec>` that
   converts specific enum values to BSON booleans.
 - ``colorTemperature`` describes the color of the light and contains an
-  ``Integer`` value for which we use the ``IntegerCodec`` included in the
+  ``Int`` value for which we use the ``IntegerCodec`` included in the
   BSON library.
 
 The following code example shows how we can implement a ``Codec`` for the
