@@ -1,4 +1,4 @@
-addFields(Field(
-    Results::cast.name, listOf("Nicholas Cage")),
-    Field(Results::type.name, "movie")
+addFields(
+    Field("watched", false),
+    Field("type", "movie")
 )

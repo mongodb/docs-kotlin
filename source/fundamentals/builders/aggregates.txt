@@ -600,7 +600,7 @@ pipeline stage that adds new fields to documents.
    Use ``$addFields`` when you do not want to project field inclusion
    or exclusion.
 
-The following example adds two new fields, ``cast`` and ``type``, to the 
+The following example adds two new fields, ``watched`` and ``type``, to the 
 input documents in the ``movie`` collection:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.add-fields.kt
@@ -671,7 +671,12 @@ Use the ``bucketAuto()`` method to create a :manual:`$bucketAuto </reference/ope
 pipeline stage that automatically determines the boundaries of each bucket
 in its attempt to distribute the documents evenly into a specified number of buckets.
 
-The following example creates a pipeline stage that will attempt to create and evenly
+The following examples use data modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-data-class.kt
+   :language: kotlin
+
+This exampled creates a pipeline stage that will attempt to create and evenly
 distribute documents into 5 buckets using the value of their ``price`` field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-auto.kt
@@ -700,7 +705,12 @@ Facet
 Use the ``facet()`` method to create a :manual:`$facet </reference/operator/aggregation/facet/>`
 pipeline stage that allows for the definition of parallel pipelines.
 
-The following example creates a pipeline stage that executes two parallel aggregations:
+The following examples use data modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-data-class.kt
+   :language: kotlin
+
+This example creates a pipeline stage that executes two parallel aggregations:
 
 - The first aggregation distributes incoming documents into 5 groups according to
   their ``screenSize`` field.

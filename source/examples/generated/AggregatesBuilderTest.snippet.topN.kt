@@ -1,7 +1,7 @@
 Aggregates.group(
     "\$${Movie::year.name}",
     Accumulators.topN(
-        Results::longestThreeMovies.name,
+        "longestThreeMovies",
         Sorts.descending(Movie::runtime.name),
         listOf("\$${Movie::title.name}", "\$${Movie::runtime.name}"),
         3

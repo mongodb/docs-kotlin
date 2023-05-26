@@ -1,6 +1,6 @@
 Aggregates.project(
     Projections.fields(
-        Projections.computed(Results::rating.name, "\$${Movie::rated.name}"),
+        Projections.computed("rating", "\$${Movie::rated.name}"),
         Projections.excludeId()
     )
 )

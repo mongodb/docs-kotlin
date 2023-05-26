@@ -1,1 +1,1 @@
-Aggregates.count(Results::total.name)
+Aggregates.count("total")

@@ -1,4 +1,4 @@
 Aggregates.unwind(
-    "\$${Results::lowestRatedTwoMovies.name}",
+    "\$${"lowestRatedTwoMovies"}",
     UnwindOptions().includeArrayIndex("position")
 )

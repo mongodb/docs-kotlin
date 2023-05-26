@@ -1,7 +1,7 @@
 Aggregates.group(
     "\$${Movie::year.name}",
     Accumulators.lastN(
-        Results::lastThreeMovies.name,
+        "lastThreeMovies",
         "\$${Movie::title.name}",
         3
     )

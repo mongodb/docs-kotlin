@@ -1,7 +1,7 @@
 Aggregates.group(
     "\$${Movie::year.name}",
     Accumulators.maxN(
-        Results::highestTwoRatings.name,
+        "highestTwoRatings",
         "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}",
         2
     )

@@ -19,4 +19,4 @@ val pipeline = listOf(
     )
 )
 val innerJoinLookup =
-    Aggregates.lookup("warehouses", variables, pipeline, Results::stockData.name)
+    Aggregates.lookup("warehouses", variables, pipeline, "stockData")
