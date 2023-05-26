@@ -25,7 +25,7 @@ It was created prior to the creation of the official Kotlin driver to serve
 the needs of the Kotlin community.
 
 The Kotlin driver was developed in collaboration with the creator of KMongo,
-Julien Buret.
+Julien Buret, to give users an officially-supported driver.
 
 The official Kotlin driver and KMongo have generally similar APIs.
 Notable similarities between the Kotlin driver and KMongo include:
