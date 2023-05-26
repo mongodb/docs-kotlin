@@ -3,8 +3,6 @@ import com.mongodb.MongoNamespace
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Accumulators.*
 import com.mongodb.client.model.Aggregates.*
-import com.mongodb.client.model.Projections.fields
-import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.Sorts.ascending
 import com.mongodb.client.model.densify.DensifyOptions
 import com.mongodb.client.model.densify.DensifyRange
@@ -170,9 +168,8 @@ class AggregatesBuilderTest {
 
     @Test
     fun documentsTest() = runBlocking {
-        data class Results(val title: String)
         // :snippet-start: doc-important
-        val docsStage = database.aggregate<Results>( // ... )
+        val docsStage = database.aggregate<Document>( // ... )
             // :snippet-end:
             listOf(
                 // :snippet-start: documents
@@ -562,7 +559,7 @@ class AggregatesBuilderTest {
             // aggregate content to push out
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom("lowestRatedTwoMovies", Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: out
-                Aggregates.out("nineties_movies"),
+                Aggregates.out("classic_movies"),
                 // :snippet-end:
             ))
         assertEquals(5, resultsFlow.toList().size)
@@ -586,19 +583,18 @@ class AggregatesBuilderTest {
         val movieRatings = database.getCollection<Document>("movie_ratings")
         movieRatings.createIndex(Indexes.ascending("year", "title"), uniqueIndexOption)
 
-        listOf(project(fields(include("height", "\$biometrics.height"))))
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
             Aggregates.match(Filters.eq(Movie::title.name, "The Sixth Sense")),
-            Aggregates.project(Projections.fields(Projections.computed("rating", "\$imdb.rating"), Projections.include("title", "year"))), // trying to make the index unique
-                // :snippet-start: merge-options
-                Aggregates.merge(
-                    MongoNamespace("aggregation", "movie_ratings"),
-                    MergeOptions().uniqueIdentifier(listOf("year", "title"))
+            Aggregates.project(Projections.fields(Projections.computed("rating", "\$imdb.rating"), Projections.include("title", "year"))),
+            // :snippet-start: merge-options
+            Aggregates.merge(
+                MongoNamespace("aggregation", "movie_ratings"),
+                MergeOptions().uniqueIdentifier(listOf("year", "title"))
                         .whenMatched(MergeOptions.WhenMatched.REPLACE)
-                        .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
-                )
-            // :snippet-end:
+                    .whenNotMatched(MergeOptions.WhenNotMatched.INSERT)
             )
+            // :snippet-end:
+        )
         )
         val results = resultsFlow.toList()
         assertEquals(1, results.size)
@@ -818,8 +814,6 @@ class AggregatesBuilderTest {
             val temperature: Double
         )
         // :snippet-end:
-        data class Results(val localityId: String, val measurementDateTime: Date, val rainfall: Double, val temperature: Double, val monthlyRainfall: Double, val monthlyAvgTemp: Double)
-
         val weatherCollection = database.getCollection<Weather>("weather")
         val weather = listOf(Weather("1", Date(), 50.2, 25.6), Weather("1", Date(), 40.5, 28.3), Weather("1", Date(), 60.1, 23.8), Weather("2", Date(), 45.7, 26.4), Weather("2", Date(), 55.9, 24.9))
         weatherCollection.insertMany(weather)
@@ -827,14 +821,24 @@ class AggregatesBuilderTest {
         // :snippet-start: window
         val pastMonth = Windows.timeRange(-1, MongoTimeUnit.MONTH, Windows.Bound.CURRENT)
 
-        val resultsFlow = weatherCollection.aggregate<Results>(listOf(
+        val resultsFlow = weatherCollection.aggregate<Document>(
+            listOf(
                Aggregates.setWindowFields("\$${Weather::localityId.name}",
                    Sorts.ascending(Weather::measurementDateTime.name),
-                   WindowOutputFields.sum("monthlyRainfall", "\$${Weather::rainfall.name}", pastMonth),
-                   WindowOutputFields.avg("monthlyAvgTemp", "\$${Weather::temperature.name}", pastMonth)
+                   WindowOutputFields.sum(
+                       "monthlyRainfall",
+                       "\$${Weather::rainfall.name}",
+                       pastMonth
+                   ),
+                   WindowOutputFields.avg(
+                       "monthlyAvgTemp",
+                       "\$${Weather::temperature.name}",
+                       pastMonth
+                   )
                )
+            )
         // :snippet-end:
-        ))
+        )
         println(resultsFlow.toList())
         assertEquals(5, resultsFlow.toList().size)
         weatherCollection.drop()
@@ -854,13 +858,15 @@ class AggregatesBuilderTest {
         val weather = listOf(Weather(ObjectId(), 1, "23C", 29.74), Weather(ObjectId(), 2, "23.5C", null), Weather(ObjectId(), 3, null, 29.76))
         weatherCollection.insertMany(weather)
         // :snippet-start: fill
-        val resultsFlow = weatherCollection.aggregate<Weather>(listOf(
-            Aggregates.fill(
-                FillOptions.fillOptions().sortBy(ascending(Weather::hour.name)),
-                FillOutputField.value(Weather::temperature.name, "23.6C"),
-                FillOutputField.linear(Weather::air_pressure.name)
+        val resultsFlow = weatherCollection.aggregate<Weather>(
+            listOf(
+                Aggregates.fill(
+                    FillOptions.fillOptions().sortBy(ascending(Weather::hour.name)),
+                    FillOutputField.value(Weather::temperature.name, "23.6C"),
+                    FillOutputField.linear(Weather::air_pressure.name)
+                )
             )
-        ))
+        )
         resultsFlow.collect { println(it) }
         // :snippet-end:
         assertEquals(29.75, resultsFlow.toList()[1].air_pressure)
@@ -901,7 +907,9 @@ class AggregatesBuilderTest {
             listOf(
                 // :snippet-start: full-text-search
                 Aggregates.search(
-                    SearchOperator.text(SearchPath.fieldPath(Movie::title.name), "Future"),
+                    SearchOperator.text(
+                        SearchPath.fieldPath(Movie::title.name), "Future"
+                    ),
                     SearchOptions.searchOptions().index("title")
                 )
                 // :snippet-end:
@@ -928,5 +936,4 @@ class AggregatesBuilderTest {
         assertEquals(1, resultsFlow.toList().size)
         assertEquals(1, results.first().get("count", Document::class.java).get("lowerBound", java.lang.Long::class.java)?.toInt())
     }
-
 }

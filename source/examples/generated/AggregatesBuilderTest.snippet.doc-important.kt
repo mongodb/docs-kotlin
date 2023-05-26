@@ -1,1 +1,1 @@
-val docsStage = database.aggregate<Results>( // ... )
+val docsStage = database.aggregate<Document>( // ... )

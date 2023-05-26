@@ -481,7 +481,7 @@ the same database.
 
    The ``$out`` stage must be the last stage in any aggregation pipeline.
 
-The following example writes the results of the pipeline to the ``nineties_movies``
+The following example writes the results of the pipeline to the ``classic_movies``
 collection:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.out.kt
