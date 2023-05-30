@@ -8,7 +8,7 @@ Network Compression
 You can enable a driver option to compress messages which reduces the amount
 of data passed over the network between MongoDB and your application.
 
-The driver supports the following algorithms:
+The MongoDB Kotlin driver supports the following algorithms:
 
 1. `Snappy <https://google.github.io/snappy/>`__: available in MongoDB 3.4 and later.
 
@@ -51,10 +51,12 @@ connection string using ``ConnectionString`` or by calling the method in the
       ``MongoClients.create()``. You can specify one or more compression
       algorithms, separating them with commas:
 
+      TODO: kotlinize 
+
       .. code-block:: java
 
-         ConnectionString connectionString = new ConnectionString("mongodb+srv://<user>:<password>@<cluster-url>/?compressors=snappy,zlib,zstd");
-         MongoClient mongoClient = MongoClients.create(connectionString);
+         val connectionString = ConnectionString("mongodb+srv://<user>:<password>@<cluster-url>/?compressors=snappy,zlib,zstd");
+         val mongoClient = MongoClients.create(connectionString);
 
       Specify compression algorithms using the following strings:
 
@@ -70,15 +72,17 @@ connection string using ``ConnectionString`` or by calling the method in the
       builder method a list of `MongoCompressor <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoCompressor.html>`__
       instances. You can specify one or more compression algorithms in the list:
 
+      TODO: kotlinize 
+
       .. code-block:: java
          :emphasize-lines: 2-4
 
-         MongoClientSettings settings = MongoClientSettings.builder()
+         val settings = MongoClientSettings.builder()
               .compressorList(Arrays.asList(MongoCompressor.createSnappyCompressor(),
                                             MongoCompressor.createZlibCompressor(),
                                             MongoCompressor.createZstdCompressor()))
               .build();
-         MongoClient client = MongoClients.create(settings);
+         val client = MongoClients.create(settings);
 
 .. _compression-dependencies:
 
