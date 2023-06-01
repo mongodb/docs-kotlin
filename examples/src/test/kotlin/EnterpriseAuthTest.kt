@@ -4,19 +4,18 @@ import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.reactivestreams.client.MongoClients
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.TestInstance
-import java.util.*
 import javax.security.auth.Subject
 import javax.security.auth.login.LoginContext
-import kotlin.test.*
+import kotlin.test.Ignore
+import kotlin.test.Test
 // :replace-start: {
 //    "terms": {
 //       "USERNAME": "<username>",
 //       "PASSWORD": "<password>",
-//       "HOSTNAME": "\"<hostname>\"",
-//       "PORT": "\"<port>\"",
-//       "SOURCE": "\"$external\""
+//       "HOSTNAME": "<hostname>",
+//       "PORT": "<port>",
+//       "SOURCE": "$external",
+//       "LOGINMODULE": "<LoginModule implementation from JAAS config>"
 //    }
 // }
 
@@ -26,7 +25,7 @@ import kotlin.test.*
 *  to ensure accuracy.
 */
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Ignore
 internal class EnterpriseAuthTest {
 
     companion object {
@@ -37,9 +36,10 @@ internal class EnterpriseAuthTest {
         val PORT = dotenv["MONGODB_PORT"].toInt()
         val PASSWORD = dotenv["MONGODB_PASSWORD"]
         val SOURCE = dotenv["MONGODB_SOURCE"]
+        val LOGINMODULE = dotenv["MONGODB_LOGIN_MODULE"]
     }
 
-    @Ignore
+    @Test
     fun createGSSAPICred() = runBlocking {
         // :snippet-start: auth-creds-gssapi
         val credential = MongoCredential.createGSSAPICredential(USERNAME)
@@ -55,7 +55,7 @@ internal class EnterpriseAuthTest {
         // :snippet-end:
     }
 
-    @Ignore
+    @Test
     fun serviceNameKey() = runBlocking {
         // :snippet-start: service-name-key
         val credential = MongoCredential.createGSSAPICredential(USERNAME)
@@ -63,16 +63,16 @@ internal class EnterpriseAuthTest {
         // :snippet-end:
     }
 
-    @Ignore
+    @Test
     fun javaSubjectKey() = runBlocking {
         // :snippet-start: java-subject-key
-        val loginContext = LoginContext("<LoginModule implementation from JAAS config>")
+        val loginContext = LoginContext(LOGINMODULE)
         loginContext.login()
         val subject: Subject = loginContext.subject
 
         val credential = MongoCredential.createGSSAPICredential(USERNAME)
             .withMechanismProperty(MongoCredential.JAVA_SUBJECT_KEY, subject)
-
+        // :snippet-end:
         val settings = MongoClientSettings.builder()
                 .applyToClusterSettings { builder ->
                     builder.hosts(listOf(ServerAddress(HOSTNAME, PORT)))
@@ -81,10 +81,9 @@ internal class EnterpriseAuthTest {
                 .build()
 
         val mongoClient = MongoClients.create(settings)
-        // :snippet-end:
     }
 
-    @Ignore
+    @Test
     fun kerberosSubjectProvider() = runBlocking {
         // :snippet-start: kerberos-subject-provider
         /* All MongoClient instances sharing this instance of KerberosSubjectProvider
@@ -110,7 +109,7 @@ internal class EnterpriseAuthTest {
 
 
 
-    @Ignore
+    @Test
     fun ldapCredential() = runBlocking {
         // :snippet-start: ldap-mongo-credential
         val credential = MongoCredential.createPlainCredential(USERNAME, SOURCE, PASSWORD.toCharArray())
@@ -127,7 +126,7 @@ internal class EnterpriseAuthTest {
     }
 // :replace-end:
 
-    @Ignore
+    @Test
     fun gssapiConnectionString() = runBlocking {
         // :replace-start: {
         //    "terms": {
@@ -140,7 +139,7 @@ internal class EnterpriseAuthTest {
         // :snippet-end:
         // :replace-end:
     }
-    @Ignore
+    @Test
     fun gssapiPropertiesConnectionString() = runBlocking {
         // :replace-start: {
         //    "terms": {
@@ -155,7 +154,7 @@ internal class EnterpriseAuthTest {
     }
 
 
-    @Ignore
+    @Test
     fun ldapConnectionString() = runBlocking {
         // :replace-start: {
         //    "terms": {

@@ -87,8 +87,6 @@ mechanism:
 
       Your code to instantiate a ``MongoClient`` should look something like this:
 
-      .. code-block:: kotlin
-
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.gssapi-connection-string.kt
          :language: kotlin
 
@@ -181,7 +179,7 @@ You may need to specify one or more of the following additional
             .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.java-subject-key.kt
                :language: kotlin            
 
-By default, the Java driver caches Kerberos tickets by ``MongoClient`` instance.
+By default, the Kotlin driver caches Kerberos tickets by ``MongoClient`` instance.
 If your deployment needs to frequently create and destroy ``MongoClient`` instances,
 you can change the default Kerberos ticket caching behavior to cache by process
 to improve performance.
@@ -203,7 +201,7 @@ to improve performance.
       To cache Kerberos tickets by process, you must specify the ``JAVA_SUBJECT_PROVIDER``
       mechanism property and provide a
       `KerberosSubjectProvider <https://mongodb.github.io/mongo-java-driver/4.2/apidocs/mongodb-driver-core/com/mongodb/KerberosSubjectProvider.html#%3Cinit%3E()>`__
-      in your ``MongoCredential`` instance. The code to configure the Java driver to cache Kerberos tickets
+      in your ``MongoCredential`` instance. The code to configure the Kotlin driver to cache Kerberos tickets
       by process should resemble the following:
 
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.kerberos-subject-provider.kt
