@@ -449,7 +449,7 @@ that returns new credentials as shown in the following example:
 
    .. literalinclude:: /examples/generated/AuthTest.snippet.aws-connection-string-session-token.kt
       :language: kotlin
-      :emphasize-lines: 2, 4
+      :emphasize-lines: 2, 5
    
 .. _x509-auth-mechanism:
 
