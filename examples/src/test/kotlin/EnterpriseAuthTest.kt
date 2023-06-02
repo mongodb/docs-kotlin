@@ -1,26 +1,20 @@
 
 import com.mongodb.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import com.mongodb.reactivestreams.client.MongoClients
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
 import javax.security.auth.Subject
 import javax.security.auth.login.LoginContext
 import kotlin.test.Ignore
-import kotlin.test.Test
 // :replace-start: {
 //    "terms": {
-//       "USERNAME": "<username>",
-//       "PASSWORD": "<password>",
-//       "HOSTNAME": "<hostname>",
 //       "PORT": "<port>",
-//       "SOURCE": "$external",
-//       "LOGINMODULE": "<LoginModule implementation from JAAS config>"
+//       "LOGINMODULE": "\"<LoginModule implementation from JAAS config>\""
 //    }
 // }
 
 
-/* NOTE: Enterprise authentication examples are currently untested.
+/* NOTE: Enterprise authentication examples will not be tested.
 *  Like the Java examples, we're relying on technical reviewers
 *  to ensure accuracy.
 */
@@ -28,25 +22,18 @@ import kotlin.test.Test
 @Ignore
 internal class EnterpriseAuthTest {
 
-    companion object {
-        private val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
-        val USERNAME = dotenv["MONGODB_USER_NAME"]
-        val HOSTNAME = dotenv["MONGODB_HOST_NAME"]
-        val PORT = dotenv["MONGODB_PORT"].toInt()
-        val PASSWORD = dotenv["MONGODB_PASSWORD"]
-        val SOURCE = dotenv["MONGODB_SOURCE"]
-        val LOGINMODULE = dotenv["MONGODB_LOGIN_MODULE"]
-    }
+    val PORT = 27017
+    val LOGINMODULE = "loginModule"
+    val external = "external"
 
-    @Test
+
     fun createGSSAPICred() = runBlocking {
         // :snippet-start: auth-creds-gssapi
-        val credential = MongoCredential.createGSSAPICredential(USERNAME)
+        val credential = MongoCredential.createGSSAPICredential("<username>")
 
         val settings = MongoClientSettings.builder()
                 .applyToClusterSettings { builder ->
-                    builder.hosts(listOf(ServerAddress(HOSTNAME, PORT)))
+                    builder.hosts(listOf(ServerAddress("<hostname>", PORT)))
                 }
                 .credential(credential)
                 .build()
@@ -55,35 +42,24 @@ internal class EnterpriseAuthTest {
         // :snippet-end:
     }
 
-    @Test
     fun serviceNameKey() = runBlocking {
         // :snippet-start: service-name-key
-        val credential = MongoCredential.createGSSAPICredential(USERNAME)
+        val credential = MongoCredential.createGSSAPICredential("<username>")
             .withMechanismProperty(MongoCredential.SERVICE_NAME_KEY, "myService")
         // :snippet-end:
     }
 
-    @Test
     fun javaSubjectKey() = runBlocking {
         // :snippet-start: java-subject-key
         val loginContext = LoginContext(LOGINMODULE)
         loginContext.login()
         val subject: Subject = loginContext.subject
 
-        val credential = MongoCredential.createGSSAPICredential(USERNAME)
+        val credential = MongoCredential.createGSSAPICredential("<username>")
             .withMechanismProperty(MongoCredential.JAVA_SUBJECT_KEY, subject)
         // :snippet-end:
-        val settings = MongoClientSettings.builder()
-                .applyToClusterSettings { builder ->
-                    builder.hosts(listOf(ServerAddress(HOSTNAME, PORT)))
-                }
-                .credential(credential)
-                .build()
-
-        val mongoClient = MongoClients.create(settings)
     }
 
-    @Test
     fun kerberosSubjectProvider() = runBlocking {
         // :snippet-start: kerberos-subject-provider
         /* All MongoClient instances sharing this instance of KerberosSubjectProvider
@@ -91,32 +67,21 @@ internal class EnterpriseAuthTest {
         val myLoginContext = "myContext"
         /* Login context defaults to "com.sun.security.jgss.krb5.initiate"
         if unspecified in KerberosSubjectProvider */
-        val credential = MongoCredential.createGSSAPICredential(USERNAME)
+        val credential = MongoCredential.createGSSAPICredential("<username>")
             .withMechanismProperty(
                 MongoCredential.JAVA_SUBJECT_PROVIDER_KEY,
                 KerberosSubjectProvider(myLoginContext)
             )
         // :snippet-end:
-        val settings = MongoClientSettings.builder()
-                .applyToClusterSettings { builder ->
-                    builder.hosts(listOf(ServerAddress(HOSTNAME, PORT)))
-                }
-                .credential(credential)
-                .build()
-
-        val mongoClient = MongoClients.create(settings)
     }
 
-
-
-    @Test
     fun ldapCredential() = runBlocking {
         // :snippet-start: ldap-mongo-credential
-        val credential = MongoCredential.createPlainCredential(USERNAME, SOURCE, PASSWORD.toCharArray())
+        val credential = MongoCredential.createPlainCredential("<username>", "$external", "<password>".toCharArray())
 
         val settings = MongoClientSettings.builder()
             .applyToClusterSettings { builder ->
-                builder.hosts(listOf(ServerAddress(HOSTNAME, PORT)))
+                builder.hosts(listOf(ServerAddress("<hostname>", PORT)))
             }
             .credential(credential)
             .build()
@@ -124,48 +89,27 @@ internal class EnterpriseAuthTest {
         val mongoClient = MongoClient.create(settings)
         // :snippet-end:
     }
-// :replace-end:
 
-    @Test
     fun gssapiConnectionString() = runBlocking {
-        // :replace-start: {
-        //    "terms": {
-        //       "CONNECTION_URI_PLACEHOLDER": "\"<username>@<hostname>:<port>/?authSource=$external&authMechanism=GSSAPI\""
-        //    }
-        // }
         // :snippet-start: gssapi-connection-string
-        val connectionString = ConnectionString(CONNECTION_URI_PLACEHOLDER)
+        val connectionString = ConnectionString("<username>@<hostname>:<port>/?authSource=$external&authMechanism=GSSAPI")
         val mongoClient = MongoClient.create(connectionString)
         // :snippet-end:
-        // :replace-end:
     }
-    @Test
+
     fun gssapiPropertiesConnectionString() = runBlocking {
-        // :replace-start: {
-        //    "terms": {
-        //       "CONNECTION_URI_PLACEHOLDER": "\"<username>@<hostname>:<port>/?authSource=$external&authMechanism=GSSAPI&authMechanismProperties=SERVICE_NAME:myService\""
-        //    }
-        // }
         // :snippet-start: gssapi-properties-connection-string
-        val connectionString = ConnectionString(CONNECTION_URI_PLACEHOLDER)
+        val connectionString = ConnectionString("<username>@<hostname>:<port>/?authSource=$external&authMechanism=GSSAPI&authMechanismProperties=SERVICE_NAME:myService")
         val mongoClient = MongoClient.create(connectionString)
         // :snippet-end:
-        // :replace-end:
     }
 
-
-    @Test
     fun ldapConnectionString() = runBlocking {
-        // :replace-start: {
-        //    "terms": {
-        //       "CONNECTION_URI_PLACEHOLDER": "\"<username>:<password>@<hostname>:<port>/?authSource=$external&authMechanism=PLAIN\""
-        //    }
-        // }
         // :snippet-start: ldap-connection-string
-        val connectionString = ConnectionString(CONNECTION_URI_PLACEHOLDER)
+        val connectionString = ConnectionString("<username>:<password>@<hostname>:<port>/?authSource=$external&authMechanism=PLAIN")
         val mongoClient = MongoClient.create(connectionString)
         // :snippet-end:
-        // :replace-end:
     }
 }
+// :replace-end:
 
