@@ -29,7 +29,7 @@ internal class QueryDocumentTest {
     companion object {
         val dotenv = dotenv()
         val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("paint_store")
+        val database = client.getDatabase("query_document")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
@@ -64,7 +64,7 @@ internal class QueryDocumentTest {
 
 
     @Test
-    fun comparisonTest() = runBlocking {
+    fun comparisonQueryTest() = runBlocking {
         // :snippet-start: comparison-filter
         val filter = Filters.gt("qty", 7)
         collection.find(filter).collect { println(it) }
@@ -79,7 +79,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun logicalTest() = runBlocking {
+    fun logicalQueryTest() = runBlocking {
         // :snippet-start: logical-filter
         val filter = Filters.and(Filters.lte("qty", 5), Filters.ne("color", "pink"))
         collection.find(filter).collect { println(it) }
@@ -93,7 +93,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun arrayTest() = runBlocking {
+    fun arrayQueryTest() = runBlocking {
         // :snippet-start: array-filter
         val filter = Filters.size("vendor", 3)
         collection.find(filter).collect { println(it) }
@@ -107,7 +107,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun elementTest() = runBlocking {
+    fun elementQueryTest() = runBlocking {
         // :snippet-start: element-filter
         val filter = Filters.exists("rating")
         collection.find(filter).collect { println(it) }
@@ -122,7 +122,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun evaluationTest() = runBlocking {
+    fun evaluationQueryTest() = runBlocking {
         // :snippet-start: evaluation-filter
         val filter = Filters.regex("color", "k$")
         collection.find(filter).collect { println(it) }
