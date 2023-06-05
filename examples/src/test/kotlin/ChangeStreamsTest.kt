@@ -9,7 +9,7 @@ import com.mongodb.client.model.changestream.FullDocumentBeforeChange
 import com.mongodb.client.model.changestream.OperationType
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -27,8 +27,8 @@ import kotlin.test.*
 internal class ChangeStreamsTest {
 
     companion object {
-        private val dotenv = dotenv()
-        private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        private val dotenv = getConfig()
+        private val client = MongoClient.create(dotenv.connectionUri)
         val database = client.getDatabase("censusData")
 
         @AfterAll
