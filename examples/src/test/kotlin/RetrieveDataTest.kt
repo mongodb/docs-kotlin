@@ -29,7 +29,7 @@ internal class RetrieveDataTest {
     companion object {
         private val config = getConfig()
         private val client = MongoClient.create(config.connectionUri)
-        private val database = client.getDatabase("paint_store")
+        private val database = client.getDatabase("retrieve_data")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll

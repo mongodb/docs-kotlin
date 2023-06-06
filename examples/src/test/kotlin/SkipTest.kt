@@ -29,7 +29,7 @@ internal class SkipTest {
     companion object {
         val config = getConfig()
         val client = MongoClient.create(config.connectionUri)
-        val database = client.getDatabase("paint_store")
+        val database = client.getDatabase("skip")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
