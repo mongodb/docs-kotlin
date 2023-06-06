@@ -2,6 +2,7 @@
 
 import InsertTest.Companion.client
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -24,8 +25,8 @@ import kotlin.test.*
 internal class LoggingTest {
 
     companion object {
-        val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
         val DB_NAME_PLACEHOLDER = "logging"
         val COLLECTION_NAME_PLACEHOLDER = "logging"
 

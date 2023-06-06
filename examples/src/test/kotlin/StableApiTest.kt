@@ -4,6 +4,7 @@ import com.mongodb.MongoClientSettings
 import com.mongodb.ServerApi
 import com.mongodb.ServerApiVersion
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -18,8 +19,8 @@ import kotlin.test.assertEquals
 internal class StableApiTest {
 
     companion object {
-        val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
     }
     @Test
     fun connectToStableApiTest() {

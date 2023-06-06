@@ -2,6 +2,7 @@
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Sorts.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -33,8 +34,8 @@ internal class CompoundOperationsTest {
     )
     // :snippet-end:
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("compound_operations")
         val collection = database.getCollection<FoodOrder>("example")
         val hotelCollection = database.getCollection<HotelRoom>("rooms")

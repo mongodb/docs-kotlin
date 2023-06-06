@@ -5,6 +5,7 @@ import com.mongodb.client.model.*
 import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Position
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -56,8 +57,8 @@ class IndexesTest {
     // :snippet-end:
 
     companion object {
-        private val dotenv = dotenv()
-        private val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        private val config = getConfig()
+        private val CONNECTION_URI_PLACEHOLDER = config.connectionUri
 
         // :snippet-start: set-up
         val mongoClient = MongoClient.create(CONNECTION_URI_PLACEHOLDER)

@@ -1,6 +1,7 @@
 
 import com.mongodb.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
 import org.bson.BsonInt64
@@ -20,8 +21,8 @@ import kotlin.test.*
 internal class ConnectionTest {
 
     companion object {
-        private val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        private val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
         var higherScopedClient: MongoClient? = null
 
         @AfterAll

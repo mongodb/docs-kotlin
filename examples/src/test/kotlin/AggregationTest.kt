@@ -5,6 +5,7 @@ import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -34,8 +35,8 @@ class AggregationTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        private val mongoClient = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        private val mongoClient = MongoClient.create(config.connectionUri)
         private val database = mongoClient.getDatabase("aggregation")
         val collection = database.getCollection<Restaurant>("restaurants")
 

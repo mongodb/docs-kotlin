@@ -4,6 +4,7 @@ import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import config.getConfig
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -26,8 +27,8 @@ internal class RetrieveDataTest {
     // :snippet-end:
 
     companion object {
-        private val dotenv = dotenv()
-        private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        private val config = getConfig()
+        private val client = MongoClient.create(config.connectionUri)
         private val database = client.getDatabase("paint_store")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
