@@ -20,8 +20,8 @@ import kotlin.test.*
 internal class ConnectionTest {
 
     companion object {
-        private val dotenv = getConfig()
-        val CONNECTION_URI_PLACEHOLDER = dotenv.connectionUri
+        private val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
         var higherScopedClient: MongoClient? = null
 
         @AfterAll

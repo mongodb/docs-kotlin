@@ -27,8 +27,8 @@ import kotlin.test.*
 internal class ChangeStreamsTest {
 
     companion object {
-        private val dotenv = getConfig()
-        private val client = MongoClient.create(dotenv.connectionUri)
+        private val config = getConfig()
+        private val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("censusData")
 
         @AfterAll

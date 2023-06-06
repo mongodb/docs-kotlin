@@ -27,8 +27,8 @@ internal class QueryDocumentTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("query_document")
         val collection = database.getCollection<PaintOrder>("paint_order")
 

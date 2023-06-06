@@ -24,8 +24,8 @@ import kotlin.test.*
 internal class LoggingTest {
 
     companion object {
-        val dotenv = getConfig()
-        val CONNECTION_URI_PLACEHOLDER = dotenv.connectionUri
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
         val DB_NAME_PLACEHOLDER = "logging"
         val COLLECTION_NAME_PLACEHOLDER = "logging"
 

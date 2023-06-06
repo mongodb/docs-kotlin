@@ -30,8 +30,8 @@ internal class BuildersTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("marketing")
         val collection = database.getCollection<User>("users")
 

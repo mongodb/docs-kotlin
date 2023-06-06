@@ -15,10 +15,10 @@ import kotlin.test.assertEquals
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MonitoringTest {
     companion object {
-        private val dotenv = getConfig()
+        private val config = getConfig()
         private const val COLLECTION = "compound-ops"
         private const val DATABASE = "test"
-        private val URI = ConnectionString(dotenv.connectionUri)
+        private val URI = ConnectionString(config.connectionUri)
     }
 
     @Test

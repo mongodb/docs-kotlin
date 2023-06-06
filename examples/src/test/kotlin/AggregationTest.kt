@@ -34,8 +34,8 @@ class AggregationTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = getConfig()
-        private val mongoClient = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        private val mongoClient = MongoClient.create(config.connectionUri)
         private val database = mongoClient.getDatabase("aggregation")
         val collection = database.getCollection<Restaurant>("restaurants")
 

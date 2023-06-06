@@ -24,8 +24,8 @@ data class Book(
 internal class LimitTest {
 
     companion object {
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("library")
         val collection = database.getCollection<Book>("books")
 

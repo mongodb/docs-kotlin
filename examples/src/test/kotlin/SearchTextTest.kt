@@ -27,8 +27,8 @@ internal class SearchTextTest {
 // :snippet-end:
 
     companion object {
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("movies")
         val collection = database.getCollection<Movies>("fast_and_furious_movies")
 

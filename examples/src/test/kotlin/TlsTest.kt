@@ -23,8 +23,8 @@ import kotlin.test.*
 internal class TlsTest {
 
     companion object {
-        val dotenv = getConfig()
-        val CONNECTION_URI_PLACEHOLDER = dotenv.connectionUri
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
     }
 
     @Test

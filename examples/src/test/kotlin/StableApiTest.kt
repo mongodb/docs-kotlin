@@ -18,8 +18,8 @@ import kotlin.test.assertEquals
 internal class StableApiTest {
 
     companion object {
-        val dotenv = getConfig()
-        val CONNECTION_URI_PLACEHOLDER = dotenv.connectionUri
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
     }
     @Test
     fun connectToStableApiTest() {

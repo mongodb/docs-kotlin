@@ -56,8 +56,8 @@ internal class SearchGeospatialTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("sample_mflix")
         val collection = database.getCollection<Theater>("theaters")
 

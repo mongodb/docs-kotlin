@@ -29,8 +29,8 @@ internal class ProjectTest {
 
     companion object {
 
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("grocery_store")
         val collection = database.getCollection<Fruit>("fruits")
 

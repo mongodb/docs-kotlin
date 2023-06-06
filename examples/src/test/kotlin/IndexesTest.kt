@@ -56,8 +56,8 @@ class IndexesTest {
     // :snippet-end:
 
     companion object {
-        private val dotenv = getConfig()
-        private val CONNECTION_URI_PLACEHOLDER = dotenv.connectionUri
+        private val config = getConfig()
+        private val CONNECTION_URI_PLACEHOLDER = config.connectionUri
 
         // :snippet-start: set-up
         val mongoClient = MongoClient.create(CONNECTION_URI_PLACEHOLDER)

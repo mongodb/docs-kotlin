@@ -26,8 +26,8 @@ internal class RetrieveDataTest {
     // :snippet-end:
 
     companion object {
-        private val dotenv = getConfig()
-        private val client = MongoClient.create(dotenv.connectionUri)
+        private val config = getConfig()
+        private val client = MongoClient.create(config.connectionUri)
         private val database = client.getDatabase("retrieve_data")
         val collection = database.getCollection<PaintOrder>("paint_order")
 

@@ -21,8 +21,8 @@ import kotlin.test.*
 internal class DocumentsTest {
 
     companion object {
-        private val dotenv = getConfig()
-        val mongoClient = MongoClient.create(dotenv.connectionUri)
+        private val config = getConfig()
+        val mongoClient = MongoClient.create(config.connectionUri)
 
         @AfterAll
         @JvmStatic

@@ -26,8 +26,8 @@ internal class SortTest {
         )
         // :snippet-end:
 
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("cafe")
         val collection = database.getCollection<FoodOrder>("food_order")
 

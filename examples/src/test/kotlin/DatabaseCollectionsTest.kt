@@ -23,8 +23,8 @@ internal class DatabaseCollectionsTest {
     )
     // :snippet-end:
     companion object {
-        val dotenv = getConfig()
-        val client = MongoClient.create(dotenv.connectionUri)
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         // :snippet-start: access-database
         val database = client.getDatabase("testDatabase")
         // :snippet-end:
