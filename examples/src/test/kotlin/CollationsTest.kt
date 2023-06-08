@@ -17,7 +17,11 @@ import kotlin.test.assertEquals
 internal class CollationTest {
 
     // :snippet-start: data-class-first-name
-    data class FirstName(@BsonId val id: Int, val firstName: String, val verified: Boolean = false)
+    data class FirstName(
+        @BsonId val id: Int, 
+        val firstName: String, 
+        val verified: Boolean = false
+    )
     // :snippet-end:
     // :snippet-start: data-class-collation-example
     data class CollationExample(@BsonId val id: Int, val a: String)

@@ -321,7 +321,7 @@ Collation Examples
 This section contains examples that demonstrate how to use a selection of
 MongoDB operations that support collations.
 
-In the following examples, we specify the "de@collation=phonebook" locale and
+In the following examples, we specify the ``"de@collation=phonebook"`` locale and
 variant collation. The "de" part of the collation specifies the German
 locale and the "collation=phonebook" part specifies a variant. The
 "de" locale collation contains rules for prioritizing proper nouns,
@@ -375,7 +375,7 @@ In this example, we demonstrate the following:
 
 - Retrieve the first document in our :ref:`example collection <collation-example-collection>`
   that precedes "Gunter" in an ascending order.
-- Set options for operation including the "de@collation=phonebook"
+- Set options for operation including the ``"de@collation=phonebook"``
   collation.
 - Add a new field "verified" with the value "true".
 - Retrieve and print the updated document.
