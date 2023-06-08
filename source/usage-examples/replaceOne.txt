@@ -81,8 +81,8 @@ The following snippet uses the following objects and methods:
 
 .. include:: /includes/connect-guide-note.rst
 
-.. literalinclude:: /includes/usage-examples/code-snippets/ReplaceOne.java
-   :language: java
+.. literalinclude:: /examples/generated/Replace.snippet.replace-usage-example.kt
+   :language: kotlin
 
 After you run the example, you should see output that looks something like
 this:
@@ -106,19 +106,12 @@ If you query the replaced document, it should look something like this:
 .. code-block:: none
    :copyable: false
 
-   Document {
-     { _id=...,
-       title=50 Violins,
-       fullplot=A dramatization of the true story of Roberta Guaspari who co-founded the Opus 118 Harlem School of Music
-     }
-   }
-
-.. include:: /includes/legacy-redirect.rst
+   Movie(title=50 Violins, fullplot= A dramatization of the true story of Roberta Guaspari who co-founded the Opus 118 Harlem School of Music)
 
 For additional information on the classes and methods mentioned on this
 page, see the following API Documentation:
 
-- `ReplaceOne <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#replaceOne(org.bson.conversions.Bson,TDocument)>`__
+- `ReplaceOne <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/replace-one.html>`__
 - `ReplaceOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/ReplaceOptions.html?is-external=true>`__
 - `UpdateResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/UpdateResult.html>`__
 - `eq() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html#eq(java.lang.String,TItem)>`__

@@ -50,31 +50,33 @@ message that should look something like this:
    E11000 duplicate key error collection: ...
 
 For more information on the types of exceptions raised under specific
-conditions, see the API documentation for ``updateOne()``, linked at the
+conditions, see the ``updateOne()`` API documentation linked at the
 bottom of this page.
 
 Example
 -------
 
-In this example, we update the first match for our query in the ``movies``
-collection of the ``sample_mflix`` database. We perform the following
-updates to the matching document:
+In this example, we perform the following updates to the first match for our query 
+in the ``movies`` collection of the ``sample_mflix`` database:
 
-- Set the value of ``runtime`` to ``99``
-- Add ``Sports`` to the array of ``genres`` only if it does not already
-  exist
-- Set the value of ``lastUpdated`` to the current time.
+#. Set the value of ``runtime`` to ``99``
+#. Add ``Sports`` to the array of ``genres`` only if it does not already exist
+#. Set the value of ``lastUpdated`` to the current time
 
 We use the ``Updates`` builder, a factory class that contains static
 helper methods, to construct the update document. While you can pass an update
 document instead of using the builder, the builder provides type checking and
-simplified syntax. For more information on the ``Updates`` builder, see our 
-:doc:`guide on the Updates builder </fundamentals/builders/updates/>`.
+simplified syntax. See the `Updates <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html>`__ 
+class documentation for more information.
+
+.. TODO: (DOCSP-29266) Replace above with link to the Updates builder documentation once available
+.. For more information on the ``Updates`` builder, see our 
+.. :doc:`guide on the Updates builder </fundamentals/builders/updates/>`.
 
 .. include:: /includes/connect-guide-note.rst
 
-.. literalinclude:: /includes/usage-examples/code-snippets/UpdateOne.java
-   :language: java
+.. literalinclude:: /examples/generated/Update.snippet.update-usage-example.kt
+   :language: kotlin
 
 After you run the example, you should see output that looks something like this:
 
@@ -92,31 +94,20 @@ Or if the example resulted in an upsert:
    Modified document count: 0
    Upserted id: BsonObjectId{value=...}
 
-
 If you query the updated document, it should look something like this:
 
 .. code-block:: none
    :copyable: false
 
-   Document {
-     { _id=...,
-       plot=...,
-       genres=[Adventure, Comedy, Family, Sports],
-       runtime=99,
-       ...
-       lastUpdated=Timestamp{...}
-     }
-   }
-
-.. include:: /includes/legacy-redirect.rst
+   Movie(title=Cool Runnings 2, runtime=99, genres=[ ... Sports], lastUpdated= ... )
 
 For additional information on the classes and methods mentioned on this
 page, see the following API Documentation:
 
-- `UpdateOne <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#updateOne(org.bson.conversions.Bson,java.util.List,com.mongodb.client.model.UpdateOptions)>`__
+- `UpdateOne <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/update-one.html>`__
 - `UpdateOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/UpdateOptions.html>`__
 - `combine() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#combine(org.bson.conversions.Bson...)>`__
 - `set() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#set(java.lang.String,TItem)>`__
 - `addToSet() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#addToSet(java.lang.String,TItem)>`__
-- `currentTimestamp() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#currentTimestamp(java.lang.String)>`__
+- `currentDate() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#currentDate(java.lang.String)>`__
 - `UpdateResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/result/UpdateResult.html>`__
