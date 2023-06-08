@@ -8,7 +8,13 @@ package usageExamples.bulkWrite
 // }
 // :snippet-start: bulk-write-usage-example
 import com.mongodb.MongoException
-import com.mongodb.client.model.*
+import com.mongodb.client.model.DeleteOneModel
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.InsertOneModel
+import com.mongodb.client.model.ReplaceOneModel
+import com.mongodb.client.model.UpdateOneModel
+import com.mongodb.client.model.UpdateOptions
+import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
