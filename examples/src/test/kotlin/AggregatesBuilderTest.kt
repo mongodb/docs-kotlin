@@ -286,12 +286,6 @@ class AggregatesBuilderTest {
 
         orderCollection.insertMany(orders)
         warehouseCollection.insertMany(inventory)
-        // TODO: Confirm why using Filters doesn't populate the stockData field? aren't these equivalent?
-        // Filters.and(
-        //  Filters.eq("order_item", Inventory::stockItem.name),
-        //  Filters.gte(Inventory::inStock.name, "\$\$order_qty")
-        //)
-
         // :snippet-start: lookup-full-join
         val variables = listOf(
             Variable("order_item", "\$item"),
