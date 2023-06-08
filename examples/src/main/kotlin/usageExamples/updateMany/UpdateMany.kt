@@ -13,12 +13,12 @@ import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import java.time.LocalDateTime
 
 data class Movie(
     val num_mflix_comments: Int,
     val genres: List<String>,
-    val lastUpdated: Date
+    val lastUpdated: LocalDateTime
 )
 
 fun main() = runBlocking {
@@ -32,7 +32,7 @@ fun main() = runBlocking {
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
 
-    collection.insertOne(Movie(100, listOf("Adventure", "Family", "Comedy"), Date())) // :remove:
+    collection.insertOne(Movie(100, listOf("Adventure", "Family", "Comedy"), LocalDateTime.now())) // :remove:
     val query = Filters.gt(Movie::num_mflix_comments.name, 50)
     val updates = Updates.combine(
         Updates.addToSet(Movie::genres.name, "Frequently Discussed"),
