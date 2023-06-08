@@ -28,9 +28,9 @@ The ``bulkWrite()`` method accepts the following parameters:
 
 - A ``List`` of objects that implement ``WriteModel``: the classes that
   implement ``WriteModel`` correspond to the aforementioned write
-  operations. E.g. the ``InsertOneModel`` class wraps the ``insertOne`` write 
-  operation. See the links to the API documentation at the bottom of this page 
-  for more information on each class.
+  operations. For example, the ``InsertOneModel`` class wraps the ``insertOne`` 
+  write operation. See the links to the API documentation at the bottom of this 
+  page for more information on each class.
   
 - ``BulkWriteOptions``: *optional* object that specifies settings such as
   whether to ensure your MongoDB instance orders your write operations.
@@ -79,27 +79,26 @@ to ``bulkWrite()`` includes examples of the ``InsertOneModel``,
 
 .. include:: /includes/connect-guide-note.rst
 
-.. literalinclude:: /includes/usage-examples/code-snippets/BulkWrite.java
-   :language: java
+.. io-code-block::
 
-The output should look something like this:
+   .. input:: /examples/generated/BulkWrite.snippet.bulk-write-usage-example.kt
+      :language: kotlin
 
-.. code-block:: none
-   :copyable: false
+   .. output:: 
+      :language:  console
+      :visible: false
 
-   Result statistics:
-   inserted: 3
-   updated: 2
-   deleted: 1
-
-.. include:: /includes/legacy-redirect.rst
+      Result statistics:
+      inserted: 3
+      updated: 2
+      deleted: 1
 
 For additional information on the classes and methods mentioned on this
 page, see the following resources:
 
 - :manual:`Unique Index </core/index-unique>` Server Manual Entry
 - :manual:`Schema Validation </core/schema-validation>` Server Manual Entry
-- `bulkWrite() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#bulkWrite(java.util.List,com.mongodb.client.model.BulkWriteOptions)>`__ API Documentation
+- `bulkWrite() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/bulk-write.html>`__ API Documentation
 - `BulkWriteOptions <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/BulkWriteOptions.html>`__ API Documentation
 - `BulkWriteResult <{+api+}/apidocs/mongodb-driver-core/com/mongodb/bulk/BulkWriteResult.html>`__ API Documentation
 - `InsertOneModel <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/InsertOneModel.html>`__ API Documentation
