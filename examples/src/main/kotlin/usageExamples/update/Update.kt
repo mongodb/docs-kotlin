@@ -14,13 +14,13 @@ import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import java.time.LocalDateTime
 
 data class Movie(
     val title: String,
     val runtime: Int,
     val genres: List<String>,
-    val lastUpdated: Date
+    val lastUpdated: LocalDateTime
 )
 
 fun main() = runBlocking {
@@ -34,7 +34,7 @@ fun main() = runBlocking {
     val database = mongoClient.getDatabase("sample_mflix")
     val collection = database.getCollection<Movie>("movies")
 
-    collection.insertOne(Movie("Cool Runnings 2", 90, listOf("Adventure", "Family", "Comedy"), Date())) // :remove:
+    collection.insertOne(Movie("Cool Runnings 2", 90, listOf("Adventure", "Family", "Comedy"), LocalDateTime.now())) // :remove:
     val query = Filters.eq(Movie::title.name, "Cool Runnings 2")
     val updates = Updates.combine(
         Updates.set(Movie::runtime.name, 99),
