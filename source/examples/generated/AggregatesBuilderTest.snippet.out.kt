@@ -1,1 +1,1 @@
-Aggregates.out("classic_movies"),
+Aggregates.out("classic_movies")

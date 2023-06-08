@@ -1,6 +1,6 @@
 data class Weather(
     val localityId: String,
-    val measurementDateTime: Date,
+    val measurementDateTime: LocalDateTime,
     val rainfall: Double,
     val temperature: Double
 )

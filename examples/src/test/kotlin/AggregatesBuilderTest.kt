@@ -23,9 +23,9 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.*
 import java.time.LocalDateTime
-import java.util.*
 import kotlin.test.assertEquals
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AggregatesBuilderTest {
 
     // :snippet-start: movie-data-class
@@ -435,9 +435,11 @@ class AggregatesBuilderTest {
         assertEquals(5, resultsFlow.toList().size)
     }
 
-    // TODO: Ben this is an error I was getting for most of the following pick-n accumulator tests
     @Test
     fun topTest() = runBlocking {
+        data class LowestRated(val title: String, val runtime: Int)
+        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
+        // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class -- using Document for this and subsequent top tests
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
                 // :snippet-start: top
                 Aggregates.group(
@@ -507,9 +509,6 @@ class AggregatesBuilderTest {
 
     @Test
     fun unwindTest() = runBlocking {
-        data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
-
         val resultsFlow = movieCollection.aggregate<Document>(listOf(
             // aggregate content to unwind
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom("lowestRatedTwoMovies", Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
@@ -522,10 +521,7 @@ class AggregatesBuilderTest {
 
     @Test
     fun unwindOptionsTest() = runBlocking {
-        data class LowestRated(val title: String, val runtime: Int)
-        data class Results(val lowestRatedTwoMovies: List<LowestRated>)
-
-        val resultsFlow = movieCollection.aggregate<Document>(listOf( // TODO ERROR: Unable to decode lowestRatedTwoMovies for Results data class
+        val resultsFlow = movieCollection.aggregate<Document>(listOf(
             // aggregate content to unwind
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom("lowestRatedTwoMovies", Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: unwind-options
@@ -559,7 +555,7 @@ class AggregatesBuilderTest {
             // aggregate content to push out
             Aggregates.group("\$${Movie::year.name}", Accumulators.bottom("lowestRatedTwoMovies", Sorts.descending("${Movie::imdb.name}.${Movie.IMDB::rating.name}"), listOf("\$${Movie::title.name}", "\$${Movie::imdb.name}.${Movie.IMDB::rating.name}"))),
                 // :snippet-start: out
-                Aggregates.out("classic_movies"),
+                Aggregates.out("classic_movies")
                 // :snippet-end:
             ))
         assertEquals(5, resultsFlow.toList().size)
@@ -809,13 +805,13 @@ class AggregatesBuilderTest {
         // :snippet-start: window-data-class
         data class Weather(
             val localityId: String,
-            val measurementDateTime: Date,
+            val measurementDateTime: LocalDateTime,
             val rainfall: Double,
             val temperature: Double
         )
         // :snippet-end:
         val weatherCollection = database.getCollection<Weather>("weather")
-        val weather = listOf(Weather("1", Date(), 50.2, 25.6), Weather("1", Date(), 40.5, 28.3), Weather("1", Date(), 60.1, 23.8), Weather("2", Date(), 45.7, 26.4), Weather("2", Date(), 55.9, 24.9))
+        val weather = listOf(Weather("1", LocalDateTime.now(), 50.2, 25.6), Weather("1", LocalDateTime.now(), 40.5, 28.3), Weather("1", LocalDateTime.now(), 60.1, 23.8), Weather("2", LocalDateTime.now(), 45.7, 26.4), Weather("2", LocalDateTime.now(), 55.9, 24.9))
         weatherCollection.insertMany(weather)
 
         // :snippet-start: window
