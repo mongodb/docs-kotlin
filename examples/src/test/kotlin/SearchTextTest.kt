@@ -13,16 +13,17 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.*
 
-// :snippet-start: search-data-model
-data class Movies(
-    @BsonId val id: Int,
-    val title: String,
-    val tags: List<String>
-)
-// :snippet-end:
-
+// TODO: light refactor on these examples so that they don't collect directly from find() op, but rather assign to val findFlow
+// and then collect/println from that for consistency with other examples
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SearchTextTest {
+    // :snippet-start: search-data-model
+    data class Movies(
+        @BsonId val id: Int,
+        val title: String,
+        val tags: List<String>
+    )
+// :snippet-end:
 
     companion object {
         val dotenv = dotenv()
@@ -32,7 +33,7 @@ internal class SearchTextTest {
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val fastAndFuriousMovies = listOf(
                     Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
@@ -46,7 +47,7 @@ internal class SearchTextTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
