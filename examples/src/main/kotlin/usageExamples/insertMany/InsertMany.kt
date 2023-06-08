@@ -1,4 +1,4 @@
-package usageExamples.includeMany
+package usageExamples.insertMany
 
 // :replace-start: {
 //    "terms": {
