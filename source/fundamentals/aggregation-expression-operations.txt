@@ -29,17 +29,17 @@ about the Query API, see the :manual:`Server manual documentation </query-api/>`
 How to Use Operations
 ---------------------
 
-The examples in this guide assume that you include the following static
-imports in your code:
+The examples in this guide assume that you include the following imports
+in your code:
 
 .. code-block:: kotlin
    :copyable: true
 
-   import static com.mongodb.client.model.Aggregates.*;
-   import static com.mongodb.client.model.Accumulators.*
-   import static com.mongodb.client.model.Projections.*;
-   import static com.mongodb.client.model.Filters.*;
-   import static com.mongodb.client.model.mql.MqlValues.*;
+   import com.mongodb.client.model.Aggregates.*
+   import com.mongodb.client.model.Accumulators.*
+   import com.mongodb.client.model.Projections.*
+   import com.mongodb.client.model.Filters.*
+   import com.mongodb.client.model.mql.MqlValues.*
 
 To access document fields in an expression, you need to reference the
 current document being processed by the aggregation pipeline. Use the
@@ -88,7 +88,7 @@ matches only documents that meet both criteria.
        .gt(of(0))
        .and(current()
            .getString("state")
-           .eq(of("New Mexico")));
+           .eq(of("New Mexico")))
 
 While some aggregation stages, such as ``group()``, accept operations
 directly, other stages expect that you first include your operation in a
