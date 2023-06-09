@@ -78,7 +78,7 @@ internal class NetworkCompressionTest {
             )
             .build()
 
-        lateinit var higherScopedCommandResult: Document
+        lateinit var higherScopedCommandResult: Document // :remove:
         // Create a new client with your settings
         val mongoClient = MongoClient.create(settings)
         // :snippet-end:

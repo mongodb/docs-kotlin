@@ -11,6 +11,5 @@ val settings = MongoClientSettings.builder()
     )
     .build()
 
-lateinit var higherScopedCommandResult: Document
 // Create a new client with your settings
 val mongoClient = MongoClient.create(settings)
