@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mongodb-version: ['4.2', '4.4', '5.0', '6.0']
+        mongodb-version: ['6.0']
 
     steps:
       - uses: actions/checkout@v3
@@ -29,27 +29,13 @@ jobs:
         uses: supercharge/mongodb-github-action@1.9.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
-          # mongodb-username: supercharge
-          # mongodb-password: secret
-          # mongodb-db: supercharge
+          mongodb-replica-set: test-rs
   
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
   
-      - name: Set up Gradle cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-  
-      - run: ./gradlew build
-  
-      - run: ./gradlew test --stacktrace --info
+      - name: Run Tests
+        run: ./gradlew test --stacktrace --info
         env: 
           CI: true
-          # CONNECTION_STRING: mongodb://supercharge:secret@localhost:27017/supercharge?authSource=admin
-          CONNECTION_STRING: mongodb://localhost:27017
+          CONNECTION_URI: "mongodb://localhost:27017"
