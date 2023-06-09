@@ -51,9 +51,9 @@ class AggExpressionsTest {
         val precip = current().getInteger("precipitation")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(
-            group(month,
-                avg("avgPrecipMM", precip.multiply(25.4))
+        listOf(group(
+            month,
+            avg("avgPrecipMM", precip.multiply(25.4))
         ))
         // :snippet-end:
         )
@@ -96,17 +96,15 @@ class AggExpressionsTest {
         var showtimes = current().getArray<MqlDocument>("showtimes")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(
-            project(
-                fields(
-                    computed("availableShowtimes", showtimes
-                        .filter { showtime ->
-                            val seats = showtime.getArray<MqlInteger>("seats")
-                            val totalSeats = seats.sum { n -> n }
-                            val ticketsBought = showtime.getInteger("ticketsBought")
-                            val isAvailable = ticketsBought.lt(totalSeats)
-                            isAvailable
-                    })
+        listOf(project(fields(
+            computed("availableShowtimes", showtimes
+                .filter { showtime ->
+                    val seats = showtime.getArray<MqlInteger>("seats")
+                    val totalSeats = seats.sum { n -> n }
+                    val ticketsBought = showtime.getInteger("ticketsBought")
+                    val isAvailable = ticketsBought.lt(totalSeats)
+                    isAvailable
+                })
         )))
         // :snippet-end:
         )
@@ -383,11 +381,11 @@ class AggExpressionsTest {
         val address = current().getDocument("mailing.address")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-            listOf(match(expr(address
-                .getString("state")
-                .eq(of("WA"))
-            )))
-            // :snippet-end:
+        listOf(match(expr(address
+            .getString("state")
+            .eq(of("WA"))
+        )))
+        // :snippet-end:
         )
 
         // Uncomment to see output
