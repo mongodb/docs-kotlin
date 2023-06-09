@@ -4,7 +4,7 @@ import com.mongodb.MongoClientSettings
 import com.mongodb.event.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.management.JMXConnectionPoolListener
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
@@ -15,10 +15,10 @@ import kotlin.test.assertEquals
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MonitoringTest {
     companion object {
-        private val dotenv = dotenv()
+        private val config = getConfig()
         private const val COLLECTION = "compound-ops"
         private const val DATABASE = "test"
-        private val URI = ConnectionString(dotenv["MONGODB_CONNECTION_URI"])
+        private val URI = ConnectionString(config.connectionUri)
     }
 
     @Test
@@ -60,7 +60,6 @@ class MonitoringTest {
         // Run some commands to test the counter
         collection.find().firstOrNull()
         collection.find().firstOrNull()
-
         // :snippet-end: monitor-command-example
         assertEquals(2, commandCounter.commandCount["find"])
         mongoClient.close()
@@ -70,7 +69,6 @@ class MonitoringTest {
     fun monitorClusterEventTest() = runBlocking {
         // :snippet-start: cluster-listener-impl
         class IsWriteable : ClusterListener {
-            // TODO: make publically gettable but not settable
             private var isWritable = false
 
             // :remove-start:

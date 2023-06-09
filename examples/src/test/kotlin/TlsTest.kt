@@ -1,7 +1,8 @@
+
 import com.mongodb.*
 import com.mongodb.connection.netty.NettyStreamFactoryFactory
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.SslProvider
 import kotlinx.coroutines.runBlocking
@@ -12,13 +13,18 @@ import java.util.*
 import javax.net.ssl.SSLContext
 import kotlin.test.*
 
+// :replace-start: {
+//    "terms": {
+//       "CONNECTION_URI_PLACEHOLDER": "\"<connection string>\""
+//    }
+// }
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TlsTest {
 
     companion object {
-        val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
     }
 
     @Test
@@ -102,3 +108,4 @@ internal class TlsTest {
         assertEquals(true, settings.streamFactoryFactory is NettyStreamFactoryFactory)
     }
 }
+// :replace-end:

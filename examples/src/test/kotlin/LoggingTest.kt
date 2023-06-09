@@ -1,32 +1,37 @@
 
 
+// :snippet-start: slf4j-import
+// :snippet-end:
 import InsertTest.Companion.client
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.TestInstance
-// :snippet-start: slf4j-import
 import org.slf4j.LoggerFactory
-// :snippet-end:
 import java.util.*
 import kotlin.test.*
 
+// :replace-start: {
+//    "terms": {
+//       "CONNECTION_URI_PLACEHOLDER": "\"<connection string>\""
+//    }
+// }
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class LoggingTest {
 
     companion object {
-        val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
         val DB_NAME_PLACEHOLDER = "logging"
         val COLLECTION_NAME_PLACEHOLDER = "logging"
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 client.close()
             }
@@ -60,3 +65,4 @@ internal class LoggingTest {
 
 }
 
+// :replace-end:

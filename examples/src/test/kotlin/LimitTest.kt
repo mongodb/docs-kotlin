@@ -1,6 +1,7 @@
+
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -23,14 +24,14 @@ data class Book(
 internal class LimitTest {
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("library")
         val collection = database.getCollection<Book>("books")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val books = listOf(
                     Book(1, "The Brothers Karamazov", "Dostoyevsky", 824),
@@ -46,7 +47,7 @@ internal class LimitTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
@@ -60,6 +61,7 @@ internal class LimitTest {
         val results = collection.find()
             .sort(descending("length"))
             .limit(3)
+
         results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
@@ -78,6 +80,7 @@ internal class LimitTest {
             .sort(descending("length"))
             .skip(3)
             .limit(3)
+
         results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
