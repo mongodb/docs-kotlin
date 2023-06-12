@@ -8,6 +8,8 @@ data class Movie(val title: String, val runtime: Int, val imdb: IMDB){
     data class IMDB(val rating: Double)
 }
 
+data class Results(val title: String)
+
 fun main() = runBlocking {
     // Replace the uri string with your MongoDB deployment's connection string
     val uri = "<connection string uri>"
@@ -19,9 +21,11 @@ fun main() = runBlocking {
         Projections.include(Movie::title.name, Movie::imdb.name),
         Projections.excludeId()
     )
-    val resultsFlow = collection.find(lt(Movie::runtime.name, 15))
+    val resultsFlow = collection.withDocumentClass<Results>()
+        .find(lt(Movie::runtime.name, 15))
         .projection(projectionFields)
         .sort(Sorts.descending(Movie::title.name))
+
     resultsFlow.collect { println(it) }
 
     mongoClient.close()
