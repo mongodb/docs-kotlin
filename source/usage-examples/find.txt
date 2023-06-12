@@ -27,6 +27,7 @@ For more information on the ``projection()`` method, see our
 
 The ``find()`` method returns an instance of ``FindFlow``, a class
 that offers several methods to access, organize, and traverse the results.
+
 .. TODO (DOCSP-29176) Update with accurate inheritance information when available
 .. ``FindFlow`` also inherits methods from its parent class ``Flow`` from the
 .. Kotlin Coroutines library.

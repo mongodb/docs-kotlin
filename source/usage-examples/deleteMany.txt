@@ -32,7 +32,7 @@ The following snippet deletes multiple documents from the ``movies``
 collection in the ``sample_mflix`` database. 
 
 The query filter passed to the ``deleteMany()`` method matches all
-movie documents that contain a ``rating`` of less than "2.9" in the ``imdb``
+movie documents that contain a ``rating`` of less than ``2.9`` in the ``imdb``
 sub-document.
 
 When you run the example, you should see output that reports the number of
