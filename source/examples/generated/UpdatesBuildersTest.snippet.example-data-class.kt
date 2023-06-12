@@ -3,5 +3,5 @@ data class PaintOrder (
     val color: String,
     val qty: Int?,
     val vendor: List<String>?,
-    val lastModified: Date?
+    val lastModified: LocalDate?
 )

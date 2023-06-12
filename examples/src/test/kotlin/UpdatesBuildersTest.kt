@@ -13,6 +13,8 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.test.assertEquals
 
@@ -23,7 +25,7 @@ class ProjectionsBuildersTest {
         val color: String,
         val qty: Int?,
         val vendor: List<String>?,
-        val lastModified: Date?
+        val lastModified: LocalDate?
     )
     // :snippet-end:
 
@@ -48,7 +50,7 @@ class ProjectionsBuildersTest {
     @BeforeEach
     fun beforeEach() {
         runBlocking {
-            val date = Date(946756228) // Jan 1, 2000
+            val date = LocalDate.of(2000, 1, 1) // Jan 1, 2000
             val redPaint = PaintOrder(1, "red", 5, listOf("A", "D", "M"), date)
             collection.insertOne(redPaint)
         }
@@ -86,13 +88,10 @@ class ProjectionsBuildersTest {
         collection.deleteOne(Filters.eq("_id", 1))
         // :snippet-start: set-on-insert-update
         val filter = Filters.eq("_id", 1)
-        val update = Updates.combine(
-            Updates.setOnInsert(PaintOrder::qty.name, 7),
-            Updates.setOnInsert(PaintOrder::color.name, "red"),
-        )
+        val update = Updates.setOnInsert(PaintOrder::color.name, "pink")
         collection.updateOne(filter, update, UpdateOptions().upsert(true))
         // :snippet-end:
-        assertEquals(7, getDocument().qty)
+        assertEquals("pink", getDocument().color)
     }
 
     @Test
@@ -125,7 +124,6 @@ class ProjectionsBuildersTest {
         assertEquals(null, getDocument().qty)
         val doc = collection.find<Document>(filter).first()
         assertEquals(5, doc.getInteger("quantity"))
-
     }
 
     @Test
@@ -155,11 +153,10 @@ class ProjectionsBuildersTest {
         val update = Updates.currentDate(PaintOrder::lastModified.name)
         collection.updateOne(filter, update)
         // :snippet-end:
-        val docTime = getDocument().lastModified!!.time
-        val nowTime = Date().time
-        val diff = nowTime - docTime
-        assert(diff < 10000)
-
+        val docTime = getDocument().lastModified!!
+        val nowTime = LocalDate.now()
+        val diff = nowTime.compareTo(docTime)
+        assert(diff == 0)
     }
 
     @Test
@@ -234,10 +231,10 @@ class ProjectionsBuildersTest {
     fun pushUpdateTest() = runBlocking {
         // :snippet-start: push-update
         val filter = Filters.eq("_id", 1)
-        val update = Updates.push(PaintOrder::vendor.name, "C")
+        val update = Updates.push(PaintOrder::vendor.name, "Q")
         collection.updateOne(filter, update)
         // :snippet-end:
-        assertEquals(listOf("A", "D", "M", "C"), getDocument().vendor)
+        assertEquals(listOf("A", "D", "M", "Q"), getDocument().vendor)
     }
 
     @Test
