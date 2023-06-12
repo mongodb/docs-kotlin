@@ -182,7 +182,7 @@ Each section has a table that describes aggregation methods
 available in the driver and corresponding expression operators in the
 Query API. The method names link to API documentation and the
 aggregation pipeline operator names link to descriptions and examples in
-the Server manual documentation. While each Java method is effectively
+the Server manual documentation. While each method is effectively
 equivalent to the corresponding Query API expression, they may differ in
 expected parameters and implementation.
 
@@ -209,7 +209,7 @@ You can perform an arithmetic operation on a value of type ``MqlInteger`` or
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - | `abs() for MqlInteger <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlInteger.html#abs()>`__
@@ -274,7 +274,7 @@ using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `all() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlArray.html#all(java.util.function.Function)>`__
@@ -424,7 +424,7 @@ using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `and() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlBoolean.html#and(com.mongodb.client.model.mql.MqlBoolean)>`__
@@ -476,7 +476,7 @@ using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `eq() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlValue.html#eq(com.mongodb.client.model.mql.MqlValue)>`__
@@ -531,7 +531,7 @@ this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `cond() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlBoolean.html#cond(T,T)>`__
@@ -599,14 +599,14 @@ You can apply custom functions to values of type
 
 To improve readability and allow for code reuse, you can move redundant
 code into static methods. However, it is not possible to directly chain
-static methods in Java. The ``passTo()`` method lets you chain values
+static methods in Kotlin. The ``passTo()`` method lets you chain values
 into custom static methods.
 
 .. list-table::
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `passTo() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlValue.html#passTo(java.util.function.Function)>`__
@@ -688,7 +688,7 @@ types using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `asDocument() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlMap.html#asDocument()>`__
@@ -747,7 +747,7 @@ using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `dayOfMonth() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlDate.html#dayOfMonth(com.mongodb.client.model.mql.MqlString)>`__
@@ -825,7 +825,7 @@ using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - | `getArray() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlDocument.html#getArray(java.lang.String)>`__
@@ -912,7 +912,7 @@ You can perform a map operation on a value of either type ``MqlMap`` or
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `entries() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlMap.html#entries()>`__
@@ -1000,7 +1000,7 @@ using the methods described in this section.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `append() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlString.html#append(com.mongodb.client.model.mql.MqlString)>`__
@@ -1064,7 +1064,7 @@ data type, see ``switchOn()``.
    :header-rows: 1
    :widths: 50 50
 
-   * - Java Method
+   * - Method
      - Aggregation Pipeline Operator
 
    * - `isArrayOr() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/mql/MqlValue.html#isArrayOr(com.mongodb.client.model.mql.MqlArray)>`__

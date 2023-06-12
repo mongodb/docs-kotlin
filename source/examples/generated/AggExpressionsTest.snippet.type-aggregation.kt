@@ -1,6 +1,8 @@
 val rating = current().getField("rating")
 
-listOf(project(fields(
-    computed("numericalRating", rating
-        .isNumberOr(of(1)))
+listOf(
+    Aggregates.project(
+        Projections.fields(
+            Projections.computed("numericalRating", rating
+                .isNumberOr(of(1)))
 )))

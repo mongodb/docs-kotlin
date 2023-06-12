@@ -1,8 +1,10 @@
 val lastName = current().getString("lastName")
 val employeeID = current().getString("employeeID")
 
-listOf(project(fields(
-    computed("username", lastName
-        .append(employeeID)
-        .toLower())
+listOf(
+    Aggregates.project(
+        Projections.fields(
+            Projections.computed("username", lastName
+                .append(employeeID)
+                .toLower())
 )))

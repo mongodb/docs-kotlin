@@ -1,9 +1,8 @@
-import com.mongodb.client.model.Accumulators.avg
-import com.mongodb.client.model.Aggregates.*
+import com.mongodb.client.model.Accumulators
+import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Field
-import com.mongodb.client.model.Filters.expr
-import com.mongodb.client.model.Projections.computed
-import com.mongodb.client.model.Projections.fields
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Projections
 import com.mongodb.client.model.mql.*
 import com.mongodb.client.model.mql.MqlValues.current
 import com.mongodb.client.model.mql.MqlValues.of
@@ -16,12 +15,12 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import kotlin.test.assertEquals
-
+import config.getConfig
 
 class AggExpressionsTest {
     companion object {
-        val dotenv = dotenv()
-        private val mongoClient = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        private val mongoClient = MongoClient.create(config.connectionUri)
         private val database = mongoClient.getDatabase("aggExpressions")
 
         @AfterAll
@@ -51,9 +50,10 @@ class AggExpressionsTest {
         val precip = current().getInteger("precipitation")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(group(
-            month,
-            avg("avgPrecipMM", precip.multiply(25.4))
+        listOf(
+            Aggregates.group(
+                month,
+                Accumulators.avg("avgPrecipMM", precip.multiply(25.4))
         ))
         // :snippet-end:
         )
@@ -93,18 +93,20 @@ class AggExpressionsTest {
         collection.insertMany(entries)
 
         // :snippet-start: array-aggregation
-        var showtimes = current().getArray<MqlDocument>("showtimes")
+        val showtimes = current().getArray<MqlDocument>("showtimes")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("availableShowtimes", showtimes
-                .filter { showtime ->
-                    val seats = showtime.getArray<MqlInteger>("seats")
-                    val totalSeats = seats.sum { n -> n }
-                    val ticketsBought = showtime.getInteger("ticketsBought")
-                    val isAvailable = ticketsBought.lt(totalSeats)
-                    isAvailable
-                })
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("availableShowtimes", showtimes
+                        .filter { showtime ->
+                            val seats = showtime.getArray<MqlInteger>("seats")
+                            val totalSeats = seats.sum { n -> n }
+                            val ticketsBought = showtime.getInteger("ticketsBought")
+                            val isAvailable = ticketsBought.lt(totalSeats)
+                            isAvailable
+                        })
         )))
         // :snippet-end:
         )
@@ -136,10 +138,12 @@ class AggExpressionsTest {
         val temperature = current().getInteger("temperature")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("extremeTemp", temperature
-                .lt(of(10))
-                .or(temperature.gt(of(95))))
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("extremeTemp", temperature
+                        .lt(of(10))
+                        .or(temperature.gt(of(95))))
         )))
         // :snippet-end:
         )
@@ -173,7 +177,10 @@ class AggExpressionsTest {
         val location = current().getString("location")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(match(expr(location.eq(of("California")))))
+        listOf(
+            Aggregates.match(
+                Filters.expr(location.eq(of("California")))
+        ))
         // :snippet-end:
         )
 
@@ -206,13 +213,15 @@ class AggExpressionsTest {
         val member = current().getField("member")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("membershipLevel",
-                member.switchOn{field -> field
-                    .isString{s-> s}
-                    .isBoolean{b -> b.cond(of("Gold"), of("Guest"))}
-                    .isArray { a -> a.last()}
-                    .defaults{ d -> of("Guest")}})
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("membershipLevel",
+                        member.switchOn{field -> field
+                            .isString{s-> s}
+                            .isBoolean{b -> b.cond(of("Gold"), of("Guest"))}
+                            .isArray { a -> a.last()}
+                            .defaults{ d -> of("Guest")}})
         )))
         // :snippet-end:
         )
@@ -267,10 +276,12 @@ class AggExpressionsTest {
         val students = current().getArray<MqlDocument>("students")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("evaluation", students
-                .passArrayTo { students -> gradeAverage(students, "finalGrade") }
-                .passNumberTo { grade -> evaluate(grade, of(70), of(85)) })
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("evaluation", students
+                        .passArrayTo { s -> gradeAverage(s, "finalGrade") }
+                        .passNumberTo { grade -> evaluate(grade, of(70), of(85)) })
         )))
         // :snippet-end:
         )
@@ -305,11 +316,12 @@ class AggExpressionsTest {
         val graduationYear = current().getString("graduationYear")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(addFields(
-            Field("reunionYear",
-                graduationYear
-                    .parseInteger()
-                    .add(5))
+        listOf(
+            Aggregates.addFields(
+                Field("reunionYear",
+                    graduationYear
+                        .parseInteger()
+                        .add(5))
         ))
         // :snippet-end:
         )
@@ -344,10 +356,12 @@ class AggExpressionsTest {
         val deliveryDate = current().getString("deliveryDate")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(match(expr(deliveryDate
-            .parseDate()
-            .dayOfWeek(of("America/New_York"))
-            .eq(of(2))
+        listOf(
+            Aggregates.match(
+                Filters.expr(deliveryDate
+                    .parseDate()
+                    .dayOfWeek(of("America/New_York"))
+                    .eq(of(2))
         )))
         // :snippet-end:
         )
@@ -381,9 +395,11 @@ class AggExpressionsTest {
         val address = current().getDocument("mailing.address")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(match(expr(address
-            .getString("state")
-            .eq(of("WA"))
+        listOf(
+            Aggregates.match(
+                Filters.expr(address
+                    .getString("state")
+                    .eq(of("WA"))
         )))
         // :snippet-end:
         )
@@ -413,10 +429,12 @@ class AggExpressionsTest {
         val warehouses = current().getMap<MqlNumber>("warehouses")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("totalInventory", warehouses
-                .entries()
-                .sum { v -> v.getValue() })
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("totalInventory", warehouses
+                        .entries()
+                        .sum { v -> v.getValue() })
         )))
         // :snippet-end:
         )
@@ -450,16 +468,18 @@ class AggExpressionsTest {
         val employeeID = current().getString("employeeID")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("username", lastName
-                .append(employeeID)
-                .toLower())
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("username", lastName
+                        .append(employeeID)
+                        .toLower())
         )))
         // :snippet-end:
         )
 
         // Uncomment to see output
-        resultsFlow.collect { println(it) }
+        // resultsFlow.collect { println(it) }
 
         val result = resultsFlow.toList()
         assertEquals(2, result.size)
@@ -486,9 +506,11 @@ class AggExpressionsTest {
         val rating = current().getField("rating")
 
         val resultsFlow = collection.aggregate<Document>( // :remove:
-        listOf(project(fields(
-            computed("numericalRating", rating
-                .isNumberOr(of(1)))
+        listOf(
+            Aggregates.project(
+                Projections.fields(
+                    Projections.computed("numericalRating", rating
+                        .isNumberOr(of(1)))
         )))
         // :snippet-end:
         )
