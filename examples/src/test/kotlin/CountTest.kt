@@ -1,7 +1,7 @@
 
 import com.mongodb.client.model.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.runBlocking
 import org.bson.BsonDocument
 import org.bson.codecs.pojo.annotations.BsonId
@@ -17,8 +17,8 @@ internal class CountTest {
     data class Movie(@BsonId val id: Int, val title: String)
 
     companion object {
-        private val dotenv = dotenv()
-        private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         private val database = client.getDatabase("sample_mflix")
         val collection = database.getCollection<Movie>("movies")
 
