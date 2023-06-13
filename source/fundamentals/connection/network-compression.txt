@@ -5,6 +5,12 @@
 Network Compression
 ===================
 
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 1
+   :class: singlecol
+
 The {+driver-long+} provides a connection option to compress messages,
 This reduces the amount of data passed over the network between MongoDB
 and your application.
@@ -42,7 +48,7 @@ algorithms in the following ways:
 
 .. tabs::
 
-   .. tab:: ``ConnectionString``
+   .. tab:: ConnectionString
       :tabid: specify compressors in connection string
 
       To enable compression on your connection in a `ConnectionString
@@ -54,14 +60,14 @@ algorithms in the following ways:
       - ``"zlib"`` for `Zlib <https://zlib.net/>`__ compression
       - ``"zstd"`` for `Zstandard <https://github.com/facebook/zstd/>`__ compression
 
-      The following example shows how to specify Snappy and
+      The following example shows how to specify Snappy, Zlib, and
       Zstandard as the compression algorithms for a connection:
 
       .. literalinclude:: /examples/generated/NetworkCompressionTest.snippet.connection-string-compression-example.kt
          :language: kotlin
          :emphasize-lines: 2
 
-   .. tab:: ``MongoClientSettings``
+   .. tab:: MongoClientSettings
       :tabid: specify compressors in MongoClientSettings
 
       To enable compression using within your `MongoClientSettings <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.html>`__,
@@ -76,12 +82,12 @@ algorithms in the following ways:
       - ``createZlibCompressor()`` for `Zlib <https://zlib.net/>`__ compression
       - ``createZstdCompressor()`` for `Zstandard <https://github.com/facebook/zstd/>`__ compression
 
-      The following example shows how to specify Snappy and
+      The following example shows how to specify Snappy, Zlib, and
       Zstandard as the compression algorithms for a connection:
 
       .. literalinclude:: /examples/generated/NetworkCompressionTest.snippet.mongoclientsettings-compression-example.kt
          :language: kotlin
-         :emphasize-lines: 8-9
+         :emphasize-lines: 8-10
 
 .. _compression-dependencies:
 
@@ -94,5 +100,3 @@ The JDK supports `Zlib <https://zlib.net/>`__ compression natively, but
 implementations. See
 `snappy-java <https://github.com/xerial/snappy-kotlin>`__ and
 `zstd-java <https://github.com/luben/zstd-jni>`__ for details.
-
-

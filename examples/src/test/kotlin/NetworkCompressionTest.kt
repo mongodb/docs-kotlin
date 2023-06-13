@@ -10,6 +10,7 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
+
 // :replace-start: {
 //    "terms": {
 //       "CONNECTION_URI_PLACEHOLDER": "\"<connection string>\"",
@@ -21,8 +22,8 @@ import kotlin.test.*
 internal class NetworkCompressionTest {
 
     companion object {
-        private val dotenv = dotenv()
-        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        private val config = getConfig()
+        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
         var higherScopedClient: MongoClient? = null
 
         @AfterAll
@@ -32,21 +33,20 @@ internal class NetworkCompressionTest {
                 higherScopedClient?.close()
             }
         }
-
     }
 
     @Test
     fun connectionStringCompressionTest() = runBlocking {
-        // :snippet-start: connection-string-compression-example
-        // Replace the placeholders with values from your connection string
+
         val uri = CONNECTION_URI_PLACEHOLDER // :remove:
-        val connectionString = ConnectionString("${uri}&compressors=snappy,zstd")
+        // :snippet-start: connection-string-compression-example
+        // Replace the placeholders with values from your MongoDB deployment's connection string
+        val connectionString = ConnectionString("${uri}&compressors=snappy,zlib,zstd")
 
         lateinit var higherScopedCommandResult: Document // :remove:
         // Create a new client with your settings
         val mongoClient = MongoClient.create(connectionString)
         // :snippet-end:
-
         val database = mongoClient.getDatabase("admin")
         try {
             // Send a ping to confirm a successful connection
@@ -57,14 +57,15 @@ internal class NetworkCompressionTest {
         } catch (me: MongoException) {
             System.err.println(me)
         }
-
         higherScopedClient = mongoClient
         assertEquals(1, higherScopedCommandResult["ok"])
     }
+
     @Test
     fun mongoClientSettingsCompressionTest() = runBlocking {
+
         // :snippet-start: mongoclientsettings-compression-example
-        // Replace the placeholder with your Atlas connection string
+        // Replace the placeholder with your MongoDB deployment's connection string
         val uri = CONNECTION_URI_PLACEHOLDER
 
         val settings = MongoClientSettings.builder()
@@ -72,26 +73,25 @@ internal class NetworkCompressionTest {
             .compressorList(
                 listOf(
                     MongoCompressor.createSnappyCompressor(),
+                    MongoCompressor.createZlibCompressor(),
                     MongoCompressor.createZstdCompressor())
             )
             .build()
 
-        lateinit var higherScopedCommandResult: Document // :remove:
+        lateinit var higherScopedCommandResult: Document
         // Create a new client with your settings
         val mongoClient = MongoClient.create(settings)
         // :snippet-end:
-
         val database = mongoClient.getDatabase("admin")
         try {
             // Send a ping to confirm a successful connection
             val command = Document("ping", BsonInt64(1))
             val commandResult = database.runCommand(command)
             println("Pinged your deployment. You successfully connected to MongoDB!")
-            higherScopedCommandResult = commandResult // :remove:
+            higherScopedCommandResult = commandResult
         } catch (me: MongoException) {
             System.err.println(me)
         }
-
         higherScopedClient = mongoClient
         assertEquals(1, higherScopedCommandResult["ok"])
     }

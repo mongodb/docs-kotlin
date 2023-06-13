@@ -102,7 +102,7 @@ connection behavior:
      - Sets the :ref:`command listeners <command-events-kotlin>`.
 
    * - ``compressorList()``
-     - Sets the :ref:`compressors <compression>` to use for compressing
+     - Sets the :ref:`compressors <network-compression>` to use for compressing
        messages to the server.
 
    * - ``credential()``
@@ -394,7 +394,6 @@ settings to modify the driver's behavior:
    * - ``minSize()``
      - Sets the minimum amount of connections associated with a connection
        pool.
-
 
 .. note::
 
