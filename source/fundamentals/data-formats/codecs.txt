@@ -348,3 +348,6 @@ see the following API Documentation:
 - `MongoClientSettings.getDefaultCodecRegistry() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.html#getDefaultCodecRegistry()>`__
 - `Codec <{+api+}/apidocs/bson/org/bson/codecs/Codec.html>`__
 - `CodecProvider <{+api+}/apidocs/bson/org/bson/codecs/configuration/CodecProvider.html>`__
+
+.. TODO add a section about using kotlinx serialization as a way to
+.. bypass needing custom codecs (DOCSP-29226)
