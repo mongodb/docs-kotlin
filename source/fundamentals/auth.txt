@@ -87,7 +87,7 @@ mechanism:
 
       To specify the default authentication mechanism using a connection
       string, omit the mechanism. Your code to instantiate a ``MongoClient``
-      should look something like this:
+      should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.default-cred-string.kt
          :language: kotlin
@@ -97,14 +97,14 @@ mechanism:
 
       To specify the default authentication mechanism using the
       ``MongoCredential`` class, use the ``createCredential()`` method. Your
-      code to instantiate a ``MongoClient`` should look something like this:
+      code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.default-mongo-cred.kt
          :language: kotlin
 
 For more information on the challenge-response (CR) and salted
 challenge-response authentication mechanisms (SCRAM) that MongoDB supports,
-see the :manual:`SCRAM </core/security-scram/>` section of the server manual.
+see the :manual:`SCRAM </core/security-scram/>` section of the Server manual.
 
 .. _scram-sha-256-auth-mechanism:
 
@@ -143,7 +143,7 @@ mechanism:
       To specify the ``SCRAM-SHA-256`` authentication mechanism using a
       connection string, assign the ``authMechanism`` parameter the value
       ``SCRAM-SHA-256`` in your connection string. Your code to instantiate
-      a ``MongoClient`` should look something like this:
+      a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-256-string.kt
          :language: kotlin
@@ -154,7 +154,7 @@ mechanism:
       To specify the default authentication mechanism using the
       ``MongoCredential`` class, use the
       `createScramSha256Credential() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoCredential.html#createScramSha256Credential(java.lang.String,java.lang.String,char[])>`__
-      method. Your code to instantiate a ``MongoClient`` should look something like this:
+      method. Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-256-cred.kt
          :language: kotlin
@@ -195,7 +195,7 @@ mechanism:
       To specify the ``SCRAM-SHA-1`` authentication mechanism using a
       connection string, assign the ``authMechanism`` parameter the value
       ``SCRAM-SHA-1`` in your connection string. Your code to instantiate
-      a ``MongoClient`` should look something like this:
+      a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-1-string.kt
          :language: kotlin
@@ -206,7 +206,7 @@ mechanism:
       To specify the default authentication mechanism using the
       ``MongoCredential`` class, use the
       `createScramSha1Credential() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoCredential.html#createScramSha1Credential(java.lang.String,java.lang.String,char[])>`__
-      method. Your code to instantiate a ``MongoClient`` should look something like this:
+      method. Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-1-cred.kt
          :language: kotlin
@@ -441,15 +441,13 @@ that returns new credentials as shown in the following example:
    :language: kotlin
    :emphasize-lines: 4-6, 9
 
-.. note::
+If you must provide AWS IAM credentials in a connection string, you can add 
+it to your ``MongoClientSettings`` by calling the `applyConnectionString() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.Builder.html#applyConnectionString(com.mongodb.ConnectionString)>`__
+method:
 
-   If you must provide AWS IAM credentials in a connection string, you can add 
-   it to your ``MongoClientSettings`` by calling the `applyConnectionString() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.Builder.html#applyConnectionString(com.mongodb.ConnectionString)>`__
-   method:
-
-   .. literalinclude:: /examples/generated/AuthTest.snippet.aws-connection-string-session-token.kt
-      :language: kotlin
-      :emphasize-lines: 2, 5
+.. literalinclude:: /examples/generated/AuthTest.snippet.aws-connection-string-session-token.kt
+   :language: kotlin
+   :emphasize-lines: 2, 5
    
 .. _x509-auth-mechanism:
 
@@ -485,7 +483,7 @@ mechanism:
       string, assign the ``authMechanism`` parameter the value ``MONGODB-X509``
       and enable TLS by assigning the ``tls``
       parameter a ``true`` value. Your code to instantiate a ``MongoClient``
-      should look something like this:
+      should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.x-509-string.kt
          :language: kotlin
@@ -500,7 +498,7 @@ mechanism:
       `applyToSslSettings() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.Builder.html#applyToSslSettings(com.mongodb.Block)>`__
       method and setting the ``enabled`` property to ``true`` in the
       `SslSettings.Builder <{+api+}/apidocs/mongodb-driver-core/com/mongodb/connection/SslSettings.Builder.html>`__
-      block. Your code to instantiate a ``MongoClient`` should look something like this:
+      block. Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.x-509-cred.kt
          :language: kotlin

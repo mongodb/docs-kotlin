@@ -1,5 +1,5 @@
 val awsFreshCredentialSupplier: Supplier<AwsCredential> = Supplier {
-    // ... Add your code here to fetch new credentials
+    // Add your code here to fetch new credentials
 
     // Return the new credentials
     AwsCredential("<awsKeyId>", "<awsSecretKey>", "<awsSessionToken>")

@@ -329,7 +329,7 @@ internal class AuthTest {
     fun awsRefreshCredsTest() = runBlocking {
         // :snippet-start: aws-refresh-credentials
         val awsFreshCredentialSupplier: Supplier<AwsCredential> = Supplier {
-            // ... Add your code here to fetch new credentials
+            // Add your code here to fetch new credentials
 
             // Return the new credentials
             AwsCredential(AWS_KEY, AWS_SECRET, AWS_TOKEN)
