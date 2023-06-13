@@ -424,7 +424,7 @@ in the following example:
 
 .. literalinclude:: /examples/generated/AuthTest.snippet.aws-credential-mongo-cred.kt
    :language: kotlin
-   :emphasize-lines: 1
+   :emphasize-lines: 1, 9
 
 If you need to specify an AWS session token, pass it to the
 `withMechanismProperty() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoCredential.html#withMechanismProperty(java.lang.String,T)>`__
