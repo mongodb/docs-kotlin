@@ -156,7 +156,7 @@ implementations:
 
 - ``IntegerCodec``, a ``Codec`` that converts ``Integers`` and is part of the BSON package.
 - :ref:`PowerStatusCodec <codecs-powerstatus-codec>`, our sample ``Codec``
-  that converts a Kotlin enum to BSON booleans.
+  that converts Kotlin enum values to BSON booleans.
 
 You can retrieve the ``Codec`` instances from the ``CodecRegistry`` instance
 from the prior example using the following code:

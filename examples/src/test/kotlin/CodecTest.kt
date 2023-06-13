@@ -33,9 +33,7 @@ internal class CodecTest {
 
     // :snippet-start: example-codec
     class PowerStatusCodec : Codec<PowerStatus> {
-        override fun encode(writer: BsonWriter, value: PowerStatus, encoderContext: EncoderContext) {
-            writer.writeBoolean(value == PowerStatus.ON)
-        }
+        override fun encode(writer: BsonWriter, value: PowerStatus, encoderContext: EncoderContext) = writer.writeBoolean(value == PowerStatus.ON)
 
         override fun decode(reader: BsonReader, decoderContext: DecoderContext): PowerStatus {
             return when (reader.readBoolean()) {
@@ -44,9 +42,7 @@ internal class CodecTest {
             }
         }
 
-        override fun getEncoderClass(): Class<PowerStatus> {
-            return PowerStatus::class.java
-        }
+        override fun getEncoderClass(): Class<PowerStatus> = PowerStatus::class.java
     }
     // :snippet-end:
 
@@ -92,15 +88,14 @@ internal class CodecTest {
             return monolight
         }
 
-        override fun getEncoderClass(): Class<Monolight> {
-            return Monolight::class.java
-        }
+        override fun getEncoderClass(): Class<Monolight> = Monolight::class.java
     }
     // :snippet-end:
 
     // TODO: is there a more kotlin semantic way to do this?
     // :snippet-start: codec-provider
     class MonolightCodecProvider : CodecProvider {
+        @Suppress("UNCHECKED_CAST")
         override fun <T> get(clazz: Class<T>, registry: CodecRegistry): Codec<T>? {
             return if (clazz == Monolight::class.java) {
                 MonolightCodec(registry) as Codec<T>
@@ -111,11 +106,8 @@ internal class CodecTest {
 
     @Test
     fun overrideDefaultCodecTest() {
-        // TODO: does this example even make sense?
         class MyEnumCodec : Codec<PowerStatus> {
-            override fun encode(writer: BsonWriter, value: PowerStatus, encoderContext: EncoderContext) {
-                writer.writeBoolean(value == PowerStatus.ON)
-            }
+            override fun encode(writer: BsonWriter, value: PowerStatus, encoderContext: EncoderContext) = writer.writeBoolean(value == PowerStatus.ON)
 
             override fun decode(reader: BsonReader, decoderContext: DecoderContext): PowerStatus {
                 return when (reader.readBoolean()) {
@@ -124,9 +116,7 @@ internal class CodecTest {
                 }
             }
 
-            override fun getEncoderClass(): Class<PowerStatus> {
-                return PowerStatus::class.java
-            }
+            override fun getEncoderClass(): Class<PowerStatus> = PowerStatus::class.java
         }
         // :snippet-start: override-default-codec
         val newRegistry = CodecRegistries.fromRegistries(
@@ -142,7 +132,7 @@ internal class CodecTest {
         // :snippet-start: bson-type-class-map
         val bsonTypeClassMap = BsonTypeClassMap()
         val clazz = bsonTypeClassMap[BsonType.ARRAY]
-        println("Java type: " + clazz.name)
+        println("Class name: " + clazz.name)
         // :snippet-end:
         assertEquals(clazz, List::class.java)
     }
@@ -150,11 +140,10 @@ internal class CodecTest {
     @Test
     fun bsonTypeClassMapReplacementTest() {
         // :snippet-start: bson-type-class-map-replacement
-        // TODO: see if can find better typing for this than `*`
         val replacements = mutableMapOf<BsonType, Class<*>>(BsonType.ARRAY to MutableSet::class.java)
         val bsonTypeClassMap = BsonTypeClassMap(replacements)
         val clazz = bsonTypeClassMap[BsonType.ARRAY]
-        println("Java type: " + clazz.name)
+        println("Class name: " + clazz.name)
         // :snippet-end:
         assertEquals(clazz, MutableSet::class.java)
     }

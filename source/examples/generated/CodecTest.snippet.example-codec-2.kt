@@ -30,7 +30,5 @@ class MonolightCodec(registry: CodecRegistry) : Codec<Monolight> {
         return monolight
     }
 
-    override fun getEncoderClass(): Class<Monolight> {
-        return Monolight::class.java
-    }
+    override fun getEncoderClass(): Class<Monolight> = Monolight::class.java
 }
