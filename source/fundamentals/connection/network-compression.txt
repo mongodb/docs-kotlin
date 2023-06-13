@@ -5,16 +5,15 @@
 Network Compression
 ===================
 
-You can enable a driver option to compress messages which reduces the amount
-of data passed over the network between MongoDB and your application.
+The {+driver-long+} provides a connection option to compress messages,
+This reduces the amount of data passed over the network between MongoDB
+and your application.
 
-The MongoDB Kotlin driver supports the following algorithms:
+The driver supports the following algorithms:
 
 1. `Snappy <https://google.github.io/snappy/>`__: available in MongoDB 3.4 and later.
-
-2. `Zlib <https://zlib.net/>`__: available in MongoDB 3.6 and later.
-
-3. `Zstandard <https://github.com/facebook/zstd/>`__: available in MongoDB 4.2 and later.
+#. `Zlib <https://zlib.net/>`__: available in MongoDB 3.6 and later.
+#. `Zstandard <https://github.com/facebook/zstd/>`__: available in MongoDB 4.2 and later.
 
 The driver tests against the following versions of these libraries:
 
@@ -22,67 +21,67 @@ The driver tests against the following versions of these libraries:
 - ``{+zstdVersion+}``
 
 If you specify multiple compression algorithms, the driver selects the
-first one in the list supported by the MongoDB instance to which it is
-connected.
+first one that is supported by the MongoDB instance that the driver is
+connected to.
 
 .. note::
 
-   Applications that require Snappy or Zstandard compression must
-   :ref:`add explicit dependencies <compression-dependencies>` for those
-   algorithms.
+   If your application requires Snappy or Zstandard compression, you must add
+   :ref:`explicit dependencies <compression-dependencies>` for those algorithms.
 
 .. _enable-compression:
 
 Specify Compression Algorithms
 ------------------------------
 
-You can enable compression for the connection to your MongoDB instance
-by specifying the algorithms in one of two ways: adding the parameter to your
-connection string using ``ConnectionString`` or by calling the method in the
-``MongoClientSettings.Builder`` class.
+You can enable compression on your connection by specifying the
+algorithms in the following ways:
+
+- Adding the ``compressors`` parameter to your ``ConnectionString`` instance
+- Calling the ``compressorList()`` method from the ``MongoClientSettings`` builder
 
 .. tabs::
 
-   .. tab:: ConnectionString
-      :tabid: connectionstring
+   .. tab:: ``ConnectionString``
+      :tabid: specify compressors in connection string
 
-      To enable compression using the `ConnectionString <{+api+}/apidocs/mongodb-driver-core/com/mongodb/ConnectionString.html>`__,
-      add the parameter ``compressors`` in the connection string passed to
-      ``MongoClients.create()``. You can specify one or more compression
-      algorithms, separating them with commas:
+      To enable compression on your connection in a `ConnectionString
+      <{+api+}/apidocs/mongodb-driver-core/com/mongodb/ConnectionString.html>`__
+      instance, specify the ``compressors`` parameter. You can specify
+      one or more of the following values for the ``compressors`` parameter:
 
-      TODO: kotlinize 
+      - ``"snappy"`` for `Snappy <https://google.github.io/snappy/>`__ compression
+      - ``"zlib"`` for `Zlib <https://zlib.net/>`__ compression
+      - ``"zstd"`` for `Zstandard <https://github.com/facebook/zstd/>`__ compression
 
-      .. code-block:: java
+      The following example shows how to specify Snappy and
+      Zstandard as the compression algorithms for a connection:
 
-         val connectionString = ConnectionString("mongodb+srv://<user>:<password>@<cluster-url>/?compressors=snappy,zlib,zstd");
-         val mongoClient = MongoClients.create(connectionString);
+      .. literalinclude:: /examples/generated/NetworkCompressionTest.snippet.connection-string-compression-example.kt
+         :language: kotlin
+         :emphasize-lines: 2
 
-      Specify compression algorithms using the following strings:
+   .. tab:: ``MongoClientSettings``
+      :tabid: specify compressors in MongoClientSettings
 
-      - "snappy" for `Snappy <https://google.github.io/snappy/>`__ compression
-      - "zlib" for `Zlib <https://zlib.net/>`__ compression
-      - "zstd" for `Zstandard <https://github.com/facebook/zstd/>`__ compression
+      To enable compression using within your `MongoClientSettings <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.html>`__,
+      call the `compressorList() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.Builder.html#compressorList(java.util.List)>`__
+      builder method and pass one or more `MongoCompressor <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoCompressor.html>`__
+      instances as a parameter.
 
-   .. tab:: MongoClientSettings
-      :tabid: mongoclientsettings
+      You can specify compression algorithms by calling the following
+      methods from ``MongoCompressor``:
 
-      To enable compression using the `MongoClientSettings <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.html>`__,
-      pass the `compressorList() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.Builder.html#compressorList(java.util.List)>`__
-      builder method a list of `MongoCompressor <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoCompressor.html>`__
-      instances. You can specify one or more compression algorithms in the list:
+      - ``createSnappyCompressor()`` for `Snappy <https://google.github.io/snappy/>`__ compression
+      - ``createZlibCompressor()`` for `Zlib <https://zlib.net/>`__ compression
+      - ``createZstdCompressor()`` for `Zstandard <https://github.com/facebook/zstd/>`__ compression
 
-      TODO: kotlinize 
+      The following example shows how to specify Snappy and
+      Zstandard as the compression algorithms for a connection:
 
-      .. code-block:: java
-         :emphasize-lines: 2-4
-
-         val settings = MongoClientSettings.builder()
-              .compressorList(Arrays.asList(MongoCompressor.createSnappyCompressor(),
-                                            MongoCompressor.createZlibCompressor(),
-                                            MongoCompressor.createZstdCompressor()))
-              .build();
-         val client = MongoClients.create(settings);
+      .. literalinclude:: /examples/generated/NetworkCompressionTest.snippet.mongoclientsettings-compression-example.kt
+         :language: kotlin
+         :emphasize-lines: 8-9
 
 .. _compression-dependencies:
 

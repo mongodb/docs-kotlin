@@ -1,10 +1,9 @@
-
 import com.mongodb.*
-import com.mongodb.client.model.Filters.*
-import com.mongodb.client.model.Projections.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.runBlocking
+import org.bson.BsonInt64
+import org.bson.Document
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.TestInstance
@@ -13,7 +12,8 @@ import kotlin.test.*
 
 // :replace-start: {
 //    "terms": {
-//       "CONNECTION_STRING_CONNECTION_URI_PLACEHOLDER": "\"mongodb+srv://<user>:<password>@<cluster-url>/?compressors=snappy,zlib,zstd\""
+//       "CONNECTION_URI_PLACEHOLDER": "\"<connection string>\"",
+//       "${uri}&": "mongodb+srv://<user>:<password>@<cluster-url>/?"
 //    }
 // }
 
@@ -21,36 +21,79 @@ import kotlin.test.*
 internal class NetworkCompressionTest {
 
     companion object {
-
-        val dotenv = dotenv()
-        var CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        private val dotenv = dotenv()
+        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        var higherScopedClient: MongoClient? = null
 
         @AfterAll
         @JvmStatic
         fun afterAll() {
             runBlocking {
-                // TODO
+                higherScopedClient?.close()
             }
         }
+
     }
 
-    @Ignore // Ignoring b/c couldn't find a good way to assert that compressors applied
     @Test
-    fun connectionStringTest() {
-        val CONNECTION_STRING_CONNECTION_URI_PLACEHOLDER = "$CONNECTION_URI_PLACEHOLDER&compressors=snappy,zlib,zstd"
-        // :snippet-start: connection-string
-        val connectionString =
-            ConnectionString(CONNECTION_STRING_CONNECTION_URI_PLACEHOLDER)
+    fun connectionStringCompressionTest() = runBlocking {
+        // :snippet-start: connection-string-compression-example
+        // Replace the placeholders with values from your connection string
+        val uri = CONNECTION_URI_PLACEHOLDER // :remove:
+        val connectionString = ConnectionString("${uri}&compressors=snappy,zstd")
+
+        lateinit var higherScopedCommandResult: Document // :remove:
+        // Create a new client with your settings
         val mongoClient = MongoClient.create(connectionString)
         // :snippet-end:
-        // clean up
-        mongoClient.close()
-    }
 
-    @Ignore
+        val database = mongoClient.getDatabase("admin")
+        try {
+            // Send a ping to confirm a successful connection
+            val command = Document("ping", BsonInt64(1))
+            val commandResult = database.runCommand(command)
+            println("Pinged your deployment. You successfully connected to MongoDB!")
+            higherScopedCommandResult = commandResult // :remove:
+        } catch (me: MongoException) {
+            System.err.println(me)
+        }
+
+        higherScopedClient = mongoClient
+        assertEquals(1, higherScopedCommandResult["ok"])
+    }
     @Test
-    fun builderTest() {
-        
+    fun mongoClientSettingsCompressionTest() = runBlocking {
+        // :snippet-start: mongoclientsettings-compression-example
+        // Replace the placeholder with your Atlas connection string
+        val uri = CONNECTION_URI_PLACEHOLDER
+
+        val settings = MongoClientSettings.builder()
+            .applyConnectionString(ConnectionString(uri))
+            .compressorList(
+                listOf(
+                    MongoCompressor.createSnappyCompressor(),
+                    MongoCompressor.createZstdCompressor())
+            )
+            .build()
+
+        lateinit var higherScopedCommandResult: Document // :remove:
+        // Create a new client with your settings
+        val mongoClient = MongoClient.create(settings)
+        // :snippet-end:
+
+        val database = mongoClient.getDatabase("admin")
+        try {
+            // Send a ping to confirm a successful connection
+            val command = Document("ping", BsonInt64(1))
+            val commandResult = database.runCommand(command)
+            println("Pinged your deployment. You successfully connected to MongoDB!")
+            higherScopedCommandResult = commandResult // :remove:
+        } catch (me: MongoException) {
+            System.err.println(me)
+        }
+
+        higherScopedClient = mongoClient
+        assertEquals(1, higherScopedCommandResult["ok"])
     }
 }
 // :replace-end:
