@@ -78,14 +78,14 @@ mechanism:
       string:
 
       - Assign the ``authMechanism`` URL parameter to the value ``GSSAPI``
-      - (*optional*) Assign the ``authSource`` URL parameter to the value ``$external``
+      - *(optional)* Assign the ``authSource`` URL parameter to the value ``$external``
 
       .. note::
 
          If you specify the ``GSSAPI`` mechanism, you cannot assign
          ``authSource`` to any value other than ``$external``.
 
-      Your code to instantiate a ``MongoClient`` should look something like this:
+      Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.gssapi-connection-string.kt
          :language: kotlin
@@ -95,7 +95,7 @@ mechanism:
 
       To specify the GSSAPI authentication mechanism using the
       ``MongoCredential`` class, use the ``createGSSAPICredential()``
-      method. Your code to instantiate a ``MongoClient`` should look something like this:
+      method. Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.auth-creds-gssapi.kt
          :language: kotlin
@@ -142,7 +142,7 @@ You may need to specify one or more of the following additional
       ``<PROPERTY_NAME>:<value>``.
 
       Your code to instantiate a ``MongoClient`` using GSSAPI and additional
-      properties might look something like this:
+      properties might resemble the following:
 
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.gssapi-properties-connection-string.kt
          :language: kotlin      
@@ -261,14 +261,14 @@ mechanism:
       string:
 
       - Assign the ``authMechanism`` URL parameter to the value ``PLAIN``
-      - (*optional*) Assign the ``authSource`` URL parameter to the value ``$external``
+      - *(optional)* Assign the ``authSource`` URL parameter to the value ``$external``
 
       .. note::
 
          If you specify the ``PLAIN`` mechanism, you cannot assign
          ``authSource`` to any value other than ``$external``.
 
-      Your code to instantiate a ``MongoClient`` should look something like this:
+      Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.ldap-connection-string.kt
          :language: kotlin
@@ -278,7 +278,7 @@ mechanism:
 
       To specify the LDAP (PLAIN) authentication mechanism using the
       ``MongoCredential`` class, use the ``createPlainCredential()``
-      method. Your code to instantiate a ``MongoClient`` should look something like this:
+      method. Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/EnterpriseAuthTest.snippet.ldap-mongo-credential.kt
          :language: kotlin
