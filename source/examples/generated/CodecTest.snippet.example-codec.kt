@@ -1,7 +1,5 @@
 class PowerStatusCodec : Codec<PowerStatus> {
-    override fun encode(writer: BsonWriter, value: PowerStatus, encoderContext: EncoderContext) {
-        writer.writeBoolean(value == PowerStatus.ON)
-    }
+    override fun encode(writer: BsonWriter, value: PowerStatus, encoderContext: EncoderContext) = writer.writeBoolean(value == PowerStatus.ON)
 
     override fun decode(reader: BsonReader, decoderContext: DecoderContext): PowerStatus {
         return when (reader.readBoolean()) {
@@ -10,7 +8,5 @@ class PowerStatusCodec : Codec<PowerStatus> {
         }
     }
 
-    override fun getEncoderClass(): Class<PowerStatus> {
-        return PowerStatus::class.java
-    }
+    override fun getEncoderClass(): Class<PowerStatus> = PowerStatus::class.java
 }
