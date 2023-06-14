@@ -1,7 +1,8 @@
+
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
@@ -10,9 +11,6 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
-
-
-
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ChangeTest {
@@ -25,15 +23,15 @@ internal class ChangeTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("paint_store")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val paintOrders = listOf(
                     PaintOrder(1, "red", 5),
@@ -48,19 +46,21 @@ internal class ChangeTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
             }
         }
     }
+
     @Test
     fun updateOneTest() = runBlocking {
         // :snippet-start: update-one
         val filter = Filters.eq(PaintOrder::color.name, "yellow")
         val update = Updates.inc(PaintOrder::qty.name, 1)
         val result = collection.updateOne(filter, update)
+
         println("Matched document count: $result.matchedCount")
         println("Modified document count: $result.modifiedCount")
         // :snippet-end:
@@ -73,6 +73,7 @@ internal class ChangeTest {
         val filter = Filters.empty()
         val update = Updates.inc(PaintOrder::qty.name, 20)
         val result = collection.updateMany(filter, update)
+
         println("Matched document count: $result.matchedCount")
         println("Modified document count: $result.modifiedCount")
         // :snippet-end:
@@ -86,6 +87,7 @@ internal class ChangeTest {
         val filter = Filters.eq(PaintOrder::color.name, "pink")
         val update = PaintOrder(5, "orange", 25)
         val result = collection.replaceOne(filter, update)
+
         println("Matched document count: $result.matchedCount")
         println("Modified document count: $result.modifiedCount")
         // :snippet-end:

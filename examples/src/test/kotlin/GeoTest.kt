@@ -7,7 +7,7 @@ import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Polygon
 import com.mongodb.client.model.geojson.Position
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
@@ -56,15 +56,15 @@ internal class SearchGeospatialTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("sample_mflix")
         val collection = database.getCollection<Theater>("theaters")
 
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 collection.insertMany(
                     listOf(
@@ -316,7 +316,7 @@ internal class SearchGeospatialTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
 
                 collection.drop()
@@ -366,6 +366,7 @@ internal class SearchGeospatialTest {
             Projections.excludeId()
         )
         val resultsFlow = collection.find(query).projection(projection)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -393,6 +394,7 @@ internal class SearchGeospatialTest {
         )
         val resultsFlow = collection.find<TheaterResults>(geoWithinComparison)
             .projection(projection)
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()

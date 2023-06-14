@@ -5,7 +5,7 @@ import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Projections
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
@@ -34,8 +34,8 @@ class AggregationTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        private val mongoClient = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        private val mongoClient = MongoClient.create(config.connectionUri)
         private val database = mongoClient.getDatabase("aggregation")
         val collection = database.getCollection<Restaurant>("restaurants")
 
@@ -82,6 +82,7 @@ class AggregationTest {
                     Accumulators.sum("count", 1))
             )
         )
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
 
@@ -110,6 +111,7 @@ class AggregationTest {
                 )
             )
         )
+
         resultsFlow.collect { println(it) }
         // :snippet-end:
         val results = resultsFlow.toList()
@@ -130,6 +132,7 @@ class AggregationTest {
                 Aggregates.group("\$${Restaurant::stars.name}", Accumulators.sum("count", 1))
             )
         ).explain(ExplainVerbosity.EXECUTION_STATS)
+
         // Prettyprint the output
         println(explanation.toJson(JsonWriterSettings.builder().indent(true).build()))
         // :snippet-end:
@@ -143,7 +146,7 @@ class AggregationTest {
         // :snippet-start: build-documents-tip
         Document("\$arrayElemAt", listOf("\$categories", 0))
         // is equivalent to
-        val method2 = // :remove
+        val method2 = // :remove:
         Document.parse("{ \$arrayElemAt: ['\$categories', 0] }")
         // :snippet-end:
         // assert to test equivalency

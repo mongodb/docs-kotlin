@@ -3,7 +3,7 @@ import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -14,7 +14,8 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
-
+// TODO: light refactor on these examples so that they don't collect directly from find() op, but rather assign to val findFlow
+// and then collect/println from that for consistency with other examples
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SkipTest {
     // :snippet-start: skip-data-model
@@ -25,14 +26,14 @@ internal class SkipTest {
     )
     // :snippet-end:
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("paint_store")
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
+        val database = client.getDatabase("skip")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
 
                 val paintOrders = listOf(
@@ -52,7 +53,7 @@ internal class SkipTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()

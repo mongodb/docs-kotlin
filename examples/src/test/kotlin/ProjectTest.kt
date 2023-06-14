@@ -5,7 +5,7 @@ import com.mongodb.client.model.Filters.*
 import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Projections.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -29,14 +29,14 @@ internal class ProjectTest {
 
     companion object {
 
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("grocery_store")
         val collection = database.getCollection<Fruit>("fruits")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 collection.insertMany(
                     listOf(
@@ -51,7 +51,7 @@ internal class ProjectTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
@@ -73,6 +73,7 @@ internal class ProjectTest {
             Projections.include(FruitName::name.name)
         )
         val flowResults = collection.find<FruitName>(filter).projection(projection)
+
         flowResults.collect { println(it)}
         // :snippet-end:
         val resultList = listOf(
@@ -101,6 +102,7 @@ internal class ProjectTest {
                 Projections.excludeId()
             )
             val flowResults = collection.find<FruitName>(filter).projection(projection)
+
             flowResults.collect { println(it)}
             // :snippet-end:
             val resultList = listOf(
@@ -127,6 +129,7 @@ internal class ProjectTest {
                 Projections.excludeId()
             )
             val flowResults = collection.find<FruitRating>(filter).projection(projection)
+
             flowResults.collect { println(it)}
             // :snippet-end:
             val resultList = listOf(

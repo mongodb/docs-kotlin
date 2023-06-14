@@ -2,7 +2,7 @@
 import com.mongodb.MongoBulkWriteException
 import com.mongodb.client.model.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -23,14 +23,14 @@ data class SampleDoc(
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BulkTest {
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("sample_db")
         val collection = database.getCollection<SampleDoc>("sample_docs")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val sampleDocuments = listOf(
                     SampleDoc(1),
@@ -42,7 +42,7 @@ internal class BulkTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
@@ -117,18 +117,16 @@ internal class BulkTest {
     @Test
     fun orderOfOperationsTest() = runBlocking {
         // :snippet-start: ordered
-        val doc1: InsertOneModel<SampleDoc> = InsertOneModel(SampleDoc(3))
-        val doc2: ReplaceOneModel<SampleDoc> = ReplaceOneModel(
+        val doc1= InsertOneModel(SampleDoc(3))
+        val doc2 = ReplaceOneModel(
             Filters.eq("_id", 1),
             SampleDoc(1, 2)
         )
-        val doc3: UpdateOneModel<SampleDoc> =
-            UpdateOneModel(
+        val doc3  = UpdateOneModel<SampleDoc>(
                 Filters.eq("_id", 3),
                 Updates.set(SampleDoc::x.name, 2)
             )
-        val doc4: DeleteManyModel<SampleDoc> =
-            DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
+        val doc4 = DeleteManyModel<SampleDoc>(Filters.eq(SampleDoc::x.name, 2))
 
         val bulkOperations = listOf(
             doc1,
@@ -145,18 +143,16 @@ internal class BulkTest {
 
     @Test
     fun unorderedExecutionTest() = runBlocking {
-        val doc1: InsertOneModel<SampleDoc> = InsertOneModel(SampleDoc(3))
-        val doc2: ReplaceOneModel<SampleDoc> = ReplaceOneModel(
+        val doc1 = InsertOneModel(SampleDoc(3))
+        val doc2 = ReplaceOneModel(
             Filters.eq("_id", 1),
             SampleDoc(1, 2)
         )
-        val doc3: UpdateOneModel<SampleDoc> =
-            UpdateOneModel(
+        val doc3 = UpdateOneModel<SampleDoc>(
                 Filters.eq("_id", 3),
                 Updates.set(SampleDoc::x.name, 2)
             )
-        val doc4: DeleteManyModel<SampleDoc> =
-            DeleteManyModel(Filters.eq(SampleDoc::x.name, 2))
+        val doc4 = DeleteManyModel<SampleDoc>(Filters.eq(SampleDoc::x.name, 2))
 
         val bulkOperations = listOf(
             doc1,

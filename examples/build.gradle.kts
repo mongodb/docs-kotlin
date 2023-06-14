@@ -23,7 +23,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.5")
     implementation("ch.qos.logback:logback-classic:1.4.7")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
-    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.17.1")
     implementation("io.netty:netty-all:4.1.91.Final")
     implementation("io.netty:netty-tcnative-boringssl-static:2.0.59.Final:${osdetector.classifier}")
     implementation("org.xerial.snappy:snappy-java:1.1.10.0")
