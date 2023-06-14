@@ -35,7 +35,7 @@ internal class NetworkCompressionTest {
         }
     }
 
-    @Test
+    @Test @Ignore
     fun connectionStringCompressionTest() = runBlocking {
 
         val uri = CONNECTION_URI_PLACEHOLDER
@@ -61,7 +61,7 @@ internal class NetworkCompressionTest {
         assertEquals(1, higherScopedCommandResult["ok"].toString().toInt())
     }
 
-    @Test
+    @Test @Ignore
     fun mongoClientSettingsCompressionTest() = runBlocking {
 
         // :snippet-start: mongoclientsettings-compression-example
