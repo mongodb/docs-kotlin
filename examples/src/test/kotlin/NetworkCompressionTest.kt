@@ -1,6 +1,6 @@
 import com.mongodb.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.runBlocking
 import org.bson.BsonInt64
 import org.bson.Document
@@ -38,7 +38,7 @@ internal class NetworkCompressionTest {
     @Test
     fun connectionStringCompressionTest() = runBlocking {
 
-        val uri = CONNECTION_URI_PLACEHOLDER // :remove:
+        val uri = CONNECTION_URI_PLACEHOLDER
         // :snippet-start: connection-string-compression-example
         // Replace the placeholders with values from your MongoDB deployment's connection string
         val connectionString = ConnectionString("${uri}&compressors=snappy,zlib,zstd")
@@ -53,12 +53,12 @@ internal class NetworkCompressionTest {
             val command = Document("ping", BsonInt64(1))
             val commandResult = database.runCommand(command)
             println("Pinged your deployment. You successfully connected to MongoDB!")
-            higherScopedCommandResult = commandResult // :remove:
+            higherScopedCommandResult = commandResult
         } catch (me: MongoException) {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        assertEquals(1, higherScopedCommandResult["ok"])
+        assertEquals(1, higherScopedCommandResult["ok"].toString().toInt())
     }
 
     @Test
@@ -93,7 +93,7 @@ internal class NetworkCompressionTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        assertEquals(1, higherScopedCommandResult["ok"])
+        assertEquals(1, higherScopedCommandResult["ok"].toString().toInt())
     }
 }
 // :replace-end:
