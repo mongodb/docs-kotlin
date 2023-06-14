@@ -1,9 +1,10 @@
+
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
 import com.mongodb.client.model.Sorts.ascending
 import com.mongodb.client.model.TextSearchOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -13,7 +14,8 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.*
 
-
+// TODO: light refactor on these examples so that they don't collect directly from find() op, but rather assign to val findFlow
+// and then collect/println from that for consistency with other examples
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SearchTextTest {
     // :snippet-start: search-data-model
@@ -25,14 +27,14 @@ internal class SearchTextTest {
 // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("movies")
         val collection = database.getCollection<Movies>("fast_and_furious_movies")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
                 val fastAndFuriousMovies = listOf(
                     Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
@@ -46,7 +48,7 @@ internal class SearchTextTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()

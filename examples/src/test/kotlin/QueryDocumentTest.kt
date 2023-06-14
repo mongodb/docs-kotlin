@@ -1,7 +1,7 @@
 
 import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -12,6 +12,8 @@ import org.junit.jupiter.api.TestInstance
 import java.util.*
 import kotlin.test.*
 
+// TODO: light refactor on these examples so that they don't collect directly from find() op, but rather assign to val findFlow
+// and then collect/println from that for consistency with other examples
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class QueryDocumentTest {
     // :snippet-start: query-data-model
@@ -25,14 +27,14 @@ internal class QueryDocumentTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("paint_store")
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
+        val database = client.getDatabase("query_document")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
         @JvmStatic
-        private fun beforeAll() {
+        fun beforeAll() {
             runBlocking {
 
                 val paintOrders = listOf(
@@ -52,7 +54,7 @@ internal class QueryDocumentTest {
 
         @AfterAll
         @JvmStatic
-        private fun afterAll() {
+        fun afterAll() {
             runBlocking {
                 collection.drop()
                 client.close()
@@ -62,7 +64,7 @@ internal class QueryDocumentTest {
 
 
     @Test
-    fun comparisonTest() = runBlocking {
+    fun comparisonQueryTest() = runBlocking {
         // :snippet-start: comparison-filter
         val filter = Filters.gt("qty", 7)
         collection.find(filter).collect { println(it) }
@@ -77,7 +79,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun logicalTest() = runBlocking {
+    fun logicalQueryTest() = runBlocking {
         // :snippet-start: logical-filter
         val filter = Filters.and(Filters.lte("qty", 5), Filters.ne("color", "pink"))
         collection.find(filter).collect { println(it) }
@@ -91,7 +93,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun arrayTest() = runBlocking {
+    fun arrayQueryTest() = runBlocking {
         // :snippet-start: array-filter
         val filter = Filters.size("vendor", 3)
         collection.find(filter).collect { println(it) }
@@ -105,7 +107,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun elementTest() = runBlocking {
+    fun elementQueryTest() = runBlocking {
         // :snippet-start: element-filter
         val filter = Filters.exists("rating")
         collection.find(filter).collect { println(it) }
@@ -120,7 +122,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun evaluationTest() = runBlocking {
+    fun evaluationQueryTest() = runBlocking {
         // :snippet-start: evaluation-filter
         val filter = Filters.regex("color", "k$")
         collection.find(filter).collect { println(it) }
