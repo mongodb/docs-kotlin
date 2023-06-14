@@ -259,8 +259,8 @@ These sections contain code examples that use the following placeholders:
 
 .. _kotlin-mongodb-aws-sdk:
 
-AWS SDK for Java
-++++++++++++++++
+AWS SDK 
++++++++
 
 You can use one of the AWS SDK for Java v1 or v2 to specify your credentials.
 This method offers the following features:
