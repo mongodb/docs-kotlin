@@ -1,7 +1,7 @@
 
 import com.mongodb.client.model.Filters
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import config.getConfig
+import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -27,9 +27,9 @@ internal class QueryDocumentTest {
     // :snippet-end:
 
     companion object {
-        val config = getConfig()
-        val client = MongoClient.create(config.connectionUri)
-        val database = client.getDatabase("query_document")
+        val dotenv = dotenv()
+        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val database = client.getDatabase("paint_store")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
@@ -64,7 +64,7 @@ internal class QueryDocumentTest {
 
 
     @Test
-    fun comparisonQueryTest() = runBlocking {
+    fun comparisonTest() = runBlocking {
         // :snippet-start: comparison-filter
         val filter = Filters.gt("qty", 7)
         collection.find(filter).collect { println(it) }
@@ -79,7 +79,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun logicalQueryTest() = runBlocking {
+    fun logicalTest() = runBlocking {
         // :snippet-start: logical-filter
         val filter = Filters.and(Filters.lte("qty", 5), Filters.ne("color", "pink"))
         collection.find(filter).collect { println(it) }
@@ -93,7 +93,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun arrayQueryTest() = runBlocking {
+    fun arrayTest() = runBlocking {
         // :snippet-start: array-filter
         val filter = Filters.size("vendor", 3)
         collection.find(filter).collect { println(it) }
@@ -107,7 +107,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun elementQueryTest() = runBlocking {
+    fun elementTest() = runBlocking {
         // :snippet-start: element-filter
         val filter = Filters.exists("rating")
         collection.find(filter).collect { println(it) }
@@ -122,7 +122,7 @@ internal class QueryDocumentTest {
     }
 
     @Test
-    fun evaluationQueryTest() = runBlocking {
+    fun evaluationTest() = runBlocking {
         // :snippet-start: evaluation-filter
         val filter = Filters.regex("color", "k$")
         collection.find(filter).collect { println(it) }

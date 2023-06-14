@@ -9,7 +9,7 @@ import com.mongodb.client.model.changestream.FullDocumentBeforeChange
 import com.mongodb.client.model.changestream.OperationType
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import config.getConfig
+import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -27,8 +27,8 @@ import kotlin.test.*
 internal class ChangeStreamsTest {
 
     companion object {
-        private val config = getConfig()
-        private val client = MongoClient.create(config.connectionUri)
+        private val dotenv = dotenv()
+        private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("censusData")
 
         @AfterAll
@@ -136,9 +136,8 @@ internal class ChangeStreamsTest {
 
     }
 
-    // NOTE: Test is being ignored because it will not work with a shared M0 cluster.
-    // Must have a local cluster with a replica set or >=M10 on Atlas to successfully run.
-    @Ignore
+    // NOTE: will not work with a shared M0 cluster. Must have a local cluster with a replica set or >=M10 on Atlas.
+    @Test
     fun createCollectionWithPreAndPostImagesTest() = runBlocking {
         val collectionName = "myChangeStreamCollection"
         // :snippet-start: create-collection-with-pre-and-post-images
@@ -175,9 +174,8 @@ internal class ChangeStreamsTest {
 
     }
 
-    // NOTE: Test is being ignored because it will not work with a shared M0 cluster.
-    // Must have a local cluster with a replica set or >=M10 on Atlas to successfully run.
-    @Ignore
+    // NOTE: will not work with a shared M0 cluster. Must have a local cluster with a replica set or >=M10 on Atlas.
+    @Test
     fun preImageConfigurationTest() = runBlocking {
         val collectionName = "myChangeStreamCollection2"
         val createdCollection = database.getCollection<Document>(collectionName)

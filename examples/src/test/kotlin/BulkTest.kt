@@ -2,7 +2,7 @@
 import com.mongodb.MongoBulkWriteException
 import com.mongodb.client.model.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import config.getConfig
+import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
@@ -23,8 +23,8 @@ data class SampleDoc(
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BulkTest {
     companion object {
-        val config = getConfig()
-        val client = MongoClient.create(config.connectionUri)
+        val dotenv = dotenv()
+        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
         val database = client.getDatabase("sample_db")
         val collection = database.getCollection<SampleDoc>("sample_docs")
 

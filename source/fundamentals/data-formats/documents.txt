@@ -1,5 +1,3 @@
-.. _kotlin-document-format:
-
 =========
 Documents
 =========
@@ -11,6 +9,7 @@ Documents
    :backlinks: none
    :depth: 2
    :class: singlecol
+
 
 Overview
 --------

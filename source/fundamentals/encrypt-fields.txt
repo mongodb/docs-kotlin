@@ -1,3 +1,0 @@
-.. _kotlin-fle:
-
-.. sharedinclude:: dbx/encrypt-fields.rst

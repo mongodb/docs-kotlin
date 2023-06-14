@@ -1,8 +1,7 @@
-
 import com.mongodb.*
 import com.mongodb.connection.netty.NettyStreamFactoryFactory
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import config.getConfig
+import io.github.cdimascio.dotenv.dotenv
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.SslProvider
 import kotlinx.coroutines.runBlocking
@@ -23,8 +22,8 @@ import kotlin.test.*
 internal class TlsTest {
 
     companion object {
-        val config = getConfig()
-        val CONNECTION_URI_PLACEHOLDER = config.connectionUri
+        val dotenv = dotenv()
+        val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
     }
 
     @Test
