@@ -1,7 +1,7 @@
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.BsonReader
@@ -167,8 +167,8 @@ internal class CodecTest {
         // :snippet-start: full-example
         fun main() = runBlocking {
             // :remove-start:
-            val dotenv = dotenv()
-            val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+            val config = getConfig()
+            val CONNECTION_URI_PLACEHOLDER = config.connectionUri
             // :remove-end:
             val mongoClient = MongoClient.create(CONNECTION_URI_PLACEHOLDER)
             val codecRegistry = CodecRegistries.fromRegistries(
