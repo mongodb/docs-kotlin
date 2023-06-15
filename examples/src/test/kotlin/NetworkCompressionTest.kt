@@ -21,6 +21,12 @@ import kotlin.test.*
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class NetworkCompressionTest {
 
+    /* NOTE: Network compression tests are not run by default. To run these tests,
+    * you need access to a deployment that has a username and password.
+    * Set up your .env variable with this connection string, then replace
+    * the @Ignore annotation with @Test on the tests you want to run.
+    */
+
     companion object {
         private val config = getConfig()
         val CONNECTION_URI_PLACEHOLDER = config.connectionUri
@@ -35,7 +41,7 @@ internal class NetworkCompressionTest {
         }
     }
 
-    @Test @Ignore
+    @Ignore
     fun connectionStringCompressionTest() = runBlocking {
 
         val uri = CONNECTION_URI_PLACEHOLDER
@@ -61,7 +67,7 @@ internal class NetworkCompressionTest {
         assertEquals(1, higherScopedCommandResult["ok"].toString().toInt())
     }
 
-    @Test @Ignore
+    @Ignore
     fun mongoClientSettingsCompressionTest() = runBlocking {
 
         // :snippet-start: mongoclientsettings-compression-example
