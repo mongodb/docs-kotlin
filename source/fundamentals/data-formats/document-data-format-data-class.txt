@@ -75,7 +75,7 @@ and returns the updated document as a ``NewDataStorage`` type:
 
    .. input:: /examples/generated/DataClassTest.snippet.retrieve-diff-data-class.kt
       :language: kotlin
-      :emphasize-lines: 2,9
+      :emphasize-lines: 2-6,14
 
    .. output::
       :language: console

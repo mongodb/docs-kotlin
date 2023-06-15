@@ -140,7 +140,7 @@ class:
 
    .. input:: /examples/generated/DatabaseCollectionsTest.snippet.return-type.kt
       :language:  kotlin
-      :emphasize-lines: 4-9, 19
+      :emphasize-lines: 5-10,21-23
 
    .. output:: 
       :language:  console
