@@ -107,6 +107,8 @@ that specify the validation rules and expressions:
 For more information, see the server documentation for :manual:`document
 validation </core/document-validation>`.
 
+.. _db-coll-specify-return-type:
+
 Specify Return Type
 ~~~~~~~~~~~~~~~~~~~
 
