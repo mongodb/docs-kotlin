@@ -14,7 +14,7 @@ Migrate from KMongo
 Overview
 --------
 
-In this section, you can identify the changes you need to make to migrate from
+In this page, you can identify the changes you need to make to migrate from
 the KMongo coroutine driver to the MongoDB Kotlin driver. 
 
 .. include:: /includes/kmongo-description.rst
@@ -373,12 +373,25 @@ separate companion libraries that provide asynchronous support to the core libra
 
 KMongo supports the following asynchronous paradigms:
 
-| Async Style | KMongo Packages |
-| --- | --- |
-| Reactive Streams | ``org.litote.kmongo:kmongo-async`` |
-| Coroutines | ``org.litote.kmongo.reactivestreams`` and ``org.litote.kmongo.coroutine`` |
-| Reactor | ``org.litote.kmongo:kmongo-reactor`` |
-| RxJava2 | ``org.litote.kmongo:kmongo-rxjava2`` |
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 10 40
+
+   * - Async Style
+     - Package
+
+   * - Reactive Streams
+     - | ``org.litote.kmongo:kmongo-async``
+
+   * - Coroutines
+     - | ``com.mongodb.kotlin.client.coroutine`` and ``org.litote.kmongo.coroutine``
+
+   * - Reactor
+     - | ``org.litote.kmongo:kmongo-reactor``
+
+   * - RxJava2
+     - | ``org.litote.kmongo:kmongo-rxjava2``
 
 To write synchronous code with KMongo:
 
@@ -430,10 +443,19 @@ for coroutines as an asynchronous paradigm. The MongoDB Kotlin driver does not
 currently provide support for other asynchronous paradigms such as Reactive 
 Streams, Reactor, or RxJava2.
 
-| Driver | Package |
-| --- | --- |
-| Sync | ``com.mongodb.kotlin.client`` |
-| Coroutines | ``com.mongodb.kotlin.client.coroutine`` | 
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 1
+   :widths: 10 40
+
+   * - Driver
+     - Package
+
+   * - Sync
+     - | ``com.mongodb.kotlin.client``
+
+   * - Coroutines
+     - | ``com.mongodb.kotlin.client.coroutine``
 
 Unlike KMongo, if you want to write asynchronous code, you only need to import 
 the relevant package. 
