@@ -1,0 +1,129 @@
+.. _fundamentals-kotlin-serialization:
+
+====================
+Kotlin Serialization
+====================
+
+.. contents:: On this page
+   :local:
+   :backlinks: none
+   :depth: 2
+   :class: singlecol
+
+Overview
+--------
+
+The Kotlin driver supports the ``kotlinx.serialization`` library for serializing 
+and deserializing Kotlin objects. 
+
+The driver also provides an efficient ``Bson`` serializer that can can be used with 
+``@Serializable`` classes. The ``bson-kotlinx`` library also supports 
+:ref:`codec customization <kotlin-custom-codec>`, such as encoding defaults, 
+encoding nulls, and defining class discriminators.
+
+Although you can use the Kotlin driver with the Kotlinx Serialization's ``Json`` 
+library, the ``Json`` serializer does *not* directly support BSON value types such
+as ``ObjectId``. You must provide a custom serializer that can handle the 
+conversion between BSON and JSON. 
+
+Add Kotlin Serialization to Your Project
+----------------------------------------
+
+The Kotlin driver serialization support depends on the the official Kotlin 
+Serialization library. You must add `Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization>`__ 
+to your project:
+
+.. tabs::
+   :hidden:
+
+   .. tab::
+      :tabid: Gradle
+
+      If you are using `Gradle <https://gradle.org/>`__, add the following to your
+      ``build.gradle.kts`` dependencies list:
+
+      .. code-block:: kotlin
+        :caption: build.gradle.kts
+
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:{+serializationVersion+}")
+
+   .. tab::
+      :tabid: Maven
+
+      If you are using `Maven <https://maven.apache.org/>`__, add the following to
+      your ``pom.xml`` dependencies list:
+
+      .. code-block:: kotlin
+        :caption: pom.xml
+   
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-serialization-core</artifactId>
+            <version>{+serializationVersion+}</version>
+        </dependency>
+
+Annotate Data Classes
+---------------------
+
+Once added, you can annotate your data classes with ``@Serializable`` annotation 
+that comes from the Kotlin Serialization framework.
+
+.. note:: 
+
+    You cannot use :ref:`annotations <fundamentals-data-class-annotations>` 
+    from the ``org.bson.codecs.pojo.annotations`` package on ``@Serializable`` data classes.
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.basic-serialization.kt
+    :language: kotlin
+
+.. _kotlin-custom-codec:
+
+Create a Custom Codec
+---------------------
+
+You can create a custom codec using the Kotlin driver's Bson serializer, 
+located in the ``org.bson.codecs.kotlinx`` package.
+
+To create a custom codec, install the ``bson-kotlinx`` dependency to your project.
+
+.. tabs::
+   :hidden:
+
+   .. tab::
+      :tabid: Gradle
+
+      If you are using `Gradle <https://gradle.org/>`__, add the following to your
+      ``build.gradle.kts`` dependencies list:
+
+      .. code-block:: kotlin
+        :caption: build.gradle.kts
+
+        implementation("org.mongodb:bson-kotlinx:{+full-version+}")
+
+   .. tab::
+      :tabid: Maven
+
+      If you are using `Maven <https://maven.apache.org/>`__, add the following to
+      your ``pom.xml`` dependencies list:
+
+      .. code-block:: kotlin
+        :caption: pom.xml
+   
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>bson-kotlinx</artifactId>
+            <version>{+full-version+}</version>
+        </dependency>
+
+Then you can define your codec using the `KotlinSerializerCodec.create() <apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__ 
+method:
+
+.. code-block:: kotlin
+    :copyable: true
+
+   import org.bson.codecs.configuration.CodecRegistries
+   import org.bson.codecs.kotlinx.BsonConfiguration
+   import org.bson.codecs.kotlinx.KotlinSerializerCodec
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.custom-serialization.kt
+    :language: kotlin

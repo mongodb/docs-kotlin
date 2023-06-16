@@ -1,13 +1,20 @@
 
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
-import org.bson.codecs.pojo.annotations.BsonExtraElements
+import org.bson.Document
+import org.bson.codecs.configuration.CodecRegistries
+import org.bson.codecs.kotlinx.BsonConfiguration
+import org.bson.codecs.kotlinx.KotlinSerializerCodec
+import org.bson.codecs.kotlinx.ObjectIdSerializer
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.*
@@ -20,34 +27,113 @@ import kotlin.test.*
 internal class KotlinXSerializationTest {
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("paint_store")
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
+        val database = client.getDatabase("serialization")
+        //val collection = database.getCollection<PaintOrder>("orders")
 
         @AfterAll
         @JvmStatic
         fun afterAll() {
             runBlocking {
+                database.drop()
                 client.close()
             }
         }
     }
 
+//    @AfterEach
+//    fun afterEach() {
+//        runBlocking {
+//            collection.drop()
+//        }
+//    }
+
+    @OptIn(ExperimentalSerializationApi::class)
     @Test
-    fun basicSerializationTest() {
-        // ObjectId commented out b/c it errors when trying to serialize
+    fun basicEncodeToJsonTest() = runBlocking {
+
         @Serializable
         data class PaintOrder(
             @SerialName("_id")
             val id: Int,
             val color: String,
-            @BsonExtraElements val extraElements: Map<String, String>,
-            @Contextual val qty: ObjectId,
+            val qty: Int
         )
 
-        val paintOrder = PaintOrder(1, "red",  mapOf("foo" to "bar"), ObjectId())
-        println(Json.encodeToJsonElement<PaintOrder>(paintOrder))
-        assert(true)
+        val paintOrder = PaintOrder(1, "red", 5)
+        val collection = database.getCollection<PaintOrder>("orders")
+
+
+        val insertOneResult = collection.insertOne(paintOrder)
+        println(insertOneResult)
+        val results = collection.find().firstOrNull()
+        println(Json.encodeToJsonElement(paintOrder))
+
+
+        println(results)
+        assertEquals(paintOrder.id, 1)
+
+        collection.drop()
+    }
+    @Test
+    fun basicSerializationTest() = runBlocking {
+        // :snippet-start: basic-serialization
+        @Serializable
+        data class PaintOrder(
+            @SerialName("_id") // Use instead of @BsonId
+            @Contextual val id: ObjectId?,
+            val color: String,
+            val qty: Int,
+            @SerialName("brand")
+            val manufacturer: String = "Acme", // Use instead of @BsonProperty
+        )
+        // :snippet-end:
+
+        val collection = database.getCollection<PaintOrder>("orders")
+        val paintOrder = PaintOrder(ObjectId(), "red", 5, "Acme")
+
+        val insertOneResult = collection.insertOne(paintOrder)
+        println(insertOneResult)
+        assertEquals(paintOrder.id, insertOneResult.insertedId?.asObjectId()?.value)
+
+        println(collection.withDocumentClass<Document>().find().firstOrNull()?.toJson())
+
+        collection.drop()
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Test
+    fun customSerializationTest() = runBlocking {
+        @Serializable
+        data class PaintOrder(
+            @SerialName("_id")
+            @Contextual val id: @Serializable(with = ObjectIdSerializer::class) ObjectId?,
+            val color: String,
+            val qty: Int,
+            @SerialName("brand")
+            val manufacturer: String = "Acme"
+        )
+
+        val collection = database.getCollection<PaintOrder>("orders2")
+
+        // :snippet-start: custom-serialization
+        val myCustomCodec = KotlinSerializerCodec.create<PaintOrder>(
+            bsonConfiguration = BsonConfiguration(encodeDefaults = false)
+        )
+
+        val registry = CodecRegistries.fromRegistries(
+            CodecRegistries.fromCodecs(myCustomCodec), collection.codecRegistry
+        )
+        // :snippet-end:
+
+        val paint = PaintOrder(ObjectId(), "red", 5)
+        val insertOneResult = collection.withCodecRegistry(registry).insertOne(paint)
+        println(insertOneResult)
+        assertEquals(paint.id, insertOneResult.insertedId?.asObjectId()?.value)
+        val result = collection.withDocumentClass<Document>().find().first()
+        println(collection.find().first())
+        collection.drop()
     }
 
 }
