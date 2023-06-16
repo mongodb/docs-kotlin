@@ -4,8 +4,6 @@
 Document Data Format: Data Classes
 ==================================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -68,14 +66,16 @@ collection.
 
 The following example performs an update to the document
 represented by the ``DataStorage`` data class in the previous example
-and returns the updated document as a ``NewDataStorage`` type:
+and returns the updated document as a ``NewDataStorage`` type. The
+operation adds the ``releaseDate`` field to the document with a
+``name`` value of ``tape``:
 
 .. io-code-block::
    :copyable: true
 
    .. input:: /examples/generated/DataClassTest.snippet.retrieve-diff-data-class.kt
       :language: kotlin
-      :emphasize-lines: 2-6,14
+      :emphasize-lines: 2-6,13-15
 
    .. output::
       :language: console
