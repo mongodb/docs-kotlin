@@ -30,7 +30,6 @@ internal class KotlinXSerializationTest {
         val config = getConfig()
         val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("serialization")
-        //val collection = database.getCollection<PaintOrder>("orders")
 
         @AfterAll
         @JvmStatic
@@ -42,17 +41,9 @@ internal class KotlinXSerializationTest {
         }
     }
 
-//    @AfterEach
-//    fun afterEach() {
-//        runBlocking {
-//            collection.drop()
-//        }
-//    }
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Test
     fun basicEncodeToJsonTest() = runBlocking {
-
         @Serializable
         data class PaintOrder(
             @SerialName("_id")
@@ -64,14 +55,10 @@ internal class KotlinXSerializationTest {
         val paintOrder = PaintOrder(1, "red", 5)
         val collection = database.getCollection<PaintOrder>("orders")
 
-
         val insertOneResult = collection.insertOne(paintOrder)
         println(insertOneResult)
-        val results = collection.find().firstOrNull()
         println(Json.encodeToJsonElement(paintOrder))
 
-
-        println(results)
         assertEquals(paintOrder.id, 1)
 
         collection.drop()
@@ -92,12 +79,8 @@ internal class KotlinXSerializationTest {
 
         val collection = database.getCollection<PaintOrder>("orders")
         val paintOrder = PaintOrder(ObjectId(), "red", 5, "Acme")
-
         val insertOneResult = collection.insertOne(paintOrder)
-        println(insertOneResult)
         assertEquals(paintOrder.id, insertOneResult.insertedId?.asObjectId()?.value)
-
-        println(collection.withDocumentClass<Document>().find().firstOrNull()?.toJson())
 
         collection.drop()
     }
@@ -129,10 +112,9 @@ internal class KotlinXSerializationTest {
 
         val paint = PaintOrder(ObjectId(), "red", 5)
         val insertOneResult = collection.withCodecRegistry(registry).insertOne(paint)
-        println(insertOneResult)
         assertEquals(paint.id, insertOneResult.insertedId?.asObjectId()?.value)
-        val result = collection.withDocumentClass<Document>().find().first()
-        println(collection.find().first())
+        val result = collection.withDocumentClass<Document>().find().first().toJson()
+        assertFalse(result.contains("manufacturer"))
         collection.drop()
     }
 

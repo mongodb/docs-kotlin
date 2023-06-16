@@ -16,12 +16,18 @@ Overview
 The Kotlin driver supports the ``kotlinx.serialization`` library for serializing 
 and deserializing Kotlin objects. 
 
-The driver also provides an efficient ``Bson`` serializer that can can be used with 
-``@Serializable`` classes. The ``bson-kotlinx`` library also supports 
-:ref:`codec customization <kotlin-custom-codec>`, such as encoding defaults, 
-encoding nulls, and defining class discriminators.
+The driver provides an efficient ``Bson`` serializer that can can be used with 
+``@Serializable`` classes to handle the serialization of Kotlin objects to BSON data. 
+The ``bson-kotlinx`` library also supports :ref:`custom codecs <kotlin-custom-codec>`
+with configurations such as encoding defaults, encoding nulls, and defining class 
+discriminators.
 
-Although you can use the Kotlin driver with the Kotlinx Serialization's ``Json`` 
+.. note::
+
+    To use the ``Codec`` interface to specify custom encoding and decoding of 
+    Kotlin objects to BSON data, see the :ref:`Codecs <fundamentals-codecs>` documentation.
+
+Although you can use the Kotlin driver with the Kotlin Serialization's ``Json`` 
 library, the ``Json`` serializer does *not* directly support BSON value types such
 as ``ObjectId``. You must provide a custom serializer that can handle the 
 conversion between BSON and JSON. 
@@ -34,7 +40,6 @@ Serialization library. You must add `Kotlin Serialization <https://github.com/Ko
 to your project:
 
 .. tabs::
-   :hidden:
 
    .. tab::
       :tabid: Gradle
@@ -81,13 +86,15 @@ that comes from the Kotlin Serialization framework.
 Create a Custom Codec
 ---------------------
 
-You can create a custom codec using the Kotlin driver's Bson serializer, 
-located in the ``org.bson.codecs.kotlinx`` package.
+Use the ``KotlinSerializerCodec`` class located in the ``org.bson.codecs.kotlinx`` 
+package to create a custom codec for your ``@Serializable`` data classes. 
+
+You can use the ``BsonConfiguration`` class for further customization, including
+encoding defaults, encoding nulls, and defining class discriminators.
 
 To create a custom codec, install the ``bson-kotlinx`` dependency to your project.
 
 .. tabs::
-   :hidden:
 
    .. tab::
       :tabid: Gradle
@@ -116,7 +123,7 @@ To create a custom codec, install the ``bson-kotlinx`` dependency to your projec
         </dependency>
 
 Then you can define your codec using the `KotlinSerializerCodec.create() <apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__ 
-method:
+method and add it to the registry:
 
 .. code-block:: kotlin
     :copyable: true
@@ -127,3 +134,11 @@ method:
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.custom-serialization.kt
     :language: kotlin
+
+For more information about the methods and classes mentioned in this section,
+see the following API Documentation:
+
+- `KotlinSerializerCodec <{+api-kotlin+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/index.html>`__
+- `KotlinSerializerCodec.create() <{+api-kotlin+}apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__
+- `BsonConfiguration <{+api-kotlin+}apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-bson-configuration/index.html>`__
+ 
