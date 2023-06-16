@@ -69,42 +69,6 @@ The following example accesses a collection named ``testCollection`` from a
    MongoDB implicitly creates the collection when you first insert data
    into that collection.
 
-Create a Collection
--------------------
-
-Use the `createCollection()
-<{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/create-collection.html>`__
-method of a ``MongoDatabase`` instance to create a collection
-in a database of your connected MongoDB instance.
-
-The following example creates a collection called ``exampleCollection``:
-
-.. literalinclude:: /examples/generated/DatabaseCollectionsTest.snippet.create-collection.kt
-   :language: kotlin
-
-You can specify collection options like maximum size and document
-validation rules using the `CreateCollectionOptions
-<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/CreateCollectionOptions.html>`__
-class. The ``createCollection()`` method accepts an instance of
-``CreateCollectionOptions`` as an optional second parameter.
-
-Document Validation
-~~~~~~~~~~~~~~~~~~~
-
-**Document validation** provides the ability to validate documents
-against a series of filters during writes to a collection. You can
-specify these filters using the `ValidationOptions
-<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/ValidationOptions.html>`__
-class, which accepts a series of `Filters
-<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__ instances
-that specify the validation rules and expressions:
-
-.. literalinclude:: /examples/generated/DatabaseCollectionsTest.snippet.validation.kt
-   :language: kotlin
-
-For more information, see the server documentation for :manual:`document
-validation </core/document-validation>`.
-
 .. _db-coll-specify-return-type:
 
 Specify Return Type
@@ -146,6 +110,42 @@ document with a ``name`` value of ``"strawberry"``:
       :language:  console
 
       NewFruit(id=1, name=strawberry, quantity=205, seasons=[summer, fall])
+
+Create a Collection
+-------------------
+
+Use the `createCollection()
+<{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/create-collection.html>`__
+method of a ``MongoDatabase`` instance to create a collection
+in a database of your connected MongoDB instance.
+
+The following example creates a collection called ``exampleCollection``:
+
+.. literalinclude:: /examples/generated/DatabaseCollectionsTest.snippet.create-collection.kt
+   :language: kotlin
+
+You can specify collection options like maximum size and document
+validation rules using the `CreateCollectionOptions
+<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/CreateCollectionOptions.html>`__
+class. The ``createCollection()`` method accepts an instance of
+``CreateCollectionOptions`` as an optional second parameter.
+
+Document Validation
+~~~~~~~~~~~~~~~~~~~
+
+**Document validation** provides the ability to validate documents
+against a series of filters during writes to a collection. You can
+specify these filters using the `ValidationOptions
+<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/ValidationOptions.html>`__
+class, which accepts a series of `Filters
+<{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__ instances
+that specify the validation rules and expressions:
+
+.. literalinclude:: /examples/generated/DatabaseCollectionsTest.snippet.validation.kt
+   :language: kotlin
+
+For more information, see the server documentation for :manual:`document
+validation </core/document-validation>`.
       
 Get a List of Collections
 -------------------------
