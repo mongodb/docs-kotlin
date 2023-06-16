@@ -9,9 +9,7 @@ Builders
    /fundamentals/builders/indexes
    /fundamentals/builders/sort
    /fundamentals/builders/projections
-
-.. TODO add when builders pages are ready
-.. /fundamentals/builders/updates
+   /fundamentals/builders/updates
 
 .. contents:: On this page
    :local:
@@ -104,7 +102,4 @@ Available Builders
 - :ref:`Aggregates <aggregates-builders>` for building aggregation pipelines.
 - :ref:`Indexes <indexes-builders>` for creating index keys.
 - :ref:`Projections <projections-builders>` for building projections.
-
-.. TODO: add these pages back when the kotlin version pages are added
-.. - :ref:`Updates <updates-builders>` for building updates.
-
+- :ref:`Updates <updates-builders>` for building updates.
