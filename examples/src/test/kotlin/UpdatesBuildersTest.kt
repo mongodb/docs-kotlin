@@ -13,8 +13,9 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 import kotlin.test.assertEquals
 
@@ -25,7 +26,7 @@ class ProjectionsBuildersTest {
         val color: String,
         val qty: Int?,
         val vendor: List<String>?,
-        val lastModified: LocalDate?
+        val lastModified: LocalDateTime?
     )
     // :snippet-end:
 
@@ -39,8 +40,8 @@ class ProjectionsBuildersTest {
         @JvmStatic
         fun afterAll() {
             runBlocking {
-                database.drop()
-                client.close()
+                //database.drop()
+                //client.close()
             }
         }
     }
@@ -50,7 +51,7 @@ class ProjectionsBuildersTest {
     @BeforeEach
     fun beforeEach() {
         runBlocking {
-            val date = LocalDate.of(2000, 1, 1) // Jan 1, 2000
+            val date = LocalDateTime.of(2000, 1, 1,7,0,0) // Jan 1, 2000, 7:00:00
             val redPaint = PaintOrder(1, "red", 5, listOf("A", "D", "M"), date)
             collection.insertOne(redPaint)
         }
@@ -59,7 +60,7 @@ class ProjectionsBuildersTest {
     @AfterEach
     fun afterEach() {
         runBlocking {
-            collection.drop()
+            //collection.drop()
         }
     }
 
@@ -154,9 +155,11 @@ class ProjectionsBuildersTest {
         collection.updateOne(filter, update)
         // :snippet-end:
         val docTime = getDocument().lastModified!!
-        val nowTime = LocalDate.now()
-        val diff = nowTime.compareTo(docTime)
-        assert(diff == 0)
+        val nowTime = LocalDateTime.now(ZoneId.of("UTC"))
+        println(docTime)
+        println(nowTime)
+        val diff = Duration.between(docTime, nowTime).toSeconds()
+        assert(diff < 10)
     }
 
     @Test

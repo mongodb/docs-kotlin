@@ -47,11 +47,11 @@ The examples in this guide use the following document:
 .. code-block:: json
 
    {
-       "_id": 1,
-       "color": "red",
-       "qty": 5,
-       "vendor": [ "A", "D", "M" ],
-       "lastModified": { "$date": "2000-01-01T00:00:00Z" }
+      "_id": 1,
+      "color": "red",
+      "qty": 5,
+      "vendor": [ "A", "D", "M" ],
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 This example is modeled by the following data class unless otherwise noted:
@@ -85,7 +85,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 11,
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Unset
@@ -108,7 +108,7 @@ The preceding example updates the original document to the following state:
       "_id": 1,
       "color": "red",
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Set On Insert
@@ -159,7 +159,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 8,
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Multiply
@@ -184,7 +184,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 10,
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Rename
@@ -207,7 +207,7 @@ The preceding example updates the original document to the following state:
       "_id": 1,
       "color": "red",
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" },
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" },
       "quantity": 5,
    }
 
@@ -234,7 +234,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 2,
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Max
@@ -260,7 +260,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 8,
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Current Date
@@ -276,7 +276,7 @@ the current date as a BSON date:
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.current-date-update.kt
    :language: kotlin
 
-Since we wrote this page on June 12, 2023, the preceding example updates
+Since we wrote this page on June 16, 2023, the preceding example updates
 the original document to the following state:
 
 .. code-block:: json
@@ -287,7 +287,7 @@ the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "A", "D", "M" ],
-      "$date": "2023-06-12T18:25:07.018Z"
+      "$date": "2023-06-16T17:13:06.373Z"
    }
 
 Current Timestamp
@@ -303,7 +303,7 @@ the current date as a BSON timestamp:
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.current-timestamp-update.kt
    :language: kotlin
 
-Since we wrote this page on June 12, 2023, the preceding example updates
+Since we wrote this page on June 16, 2023, the preceding example updates
 the original document to the following state:
 
 .. code-block:: json
@@ -314,7 +314,7 @@ the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "A", "D", "M" ],
-      "$timestamp": { "t": 1686594451, "i": 3 }
+      "$timestamp": { "t": 1686935654, "i": 3 }
    }
 
 Bit
@@ -352,7 +352,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 15,
       "vendor": [ "A", "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 .. _array_updates:
@@ -382,7 +382,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "A", "D", "M", "C" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Pop
@@ -409,7 +409,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "D", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Pull All
@@ -434,7 +434,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "D" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Pull
@@ -460,7 +460,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "A", "M" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 Push
@@ -484,7 +484,7 @@ The preceding example updates the original document to the following state:
       "color": "red",
       "qty": 5,
       "vendor": [ "A", "D", "M", "Q" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
 
 .. _multiple_updates:
@@ -513,5 +513,5 @@ The preceding example updates the original document to the following state:
       "color": "purple",
       "qty": 11,
       "vendor": [ "A", "D", "M", "R" ],
-      "lastModified": { "$date": "2000-01-01T00:00:00.000Z" }
+      "lastModified": { "$date": "2000-01-01T07:00:00.000Z" }
    }
