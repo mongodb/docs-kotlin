@@ -4,7 +4,7 @@ import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Polygon
 import com.mongodb.client.model.geojson.Position
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -25,8 +25,8 @@ class FiltersBuildersTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("paints_r_us")
         val collection = database.getCollection<PaintOrder>("paints")
 

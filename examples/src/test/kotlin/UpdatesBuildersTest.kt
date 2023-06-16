@@ -3,7 +3,7 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.bson.BsonTimestamp
@@ -19,7 +19,7 @@ import java.time.ZoneId
 import java.util.*
 import kotlin.test.assertEquals
 
-class ProjectionsBuildersTest {
+class UpdatesBuildersTest {
     // :snippet-start: example-data-class
     data class PaintOrder (
         @BsonId val id: Int,
@@ -31,8 +31,8 @@ class ProjectionsBuildersTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("store")
         val collection = database.getCollection<PaintOrder>("paint_orders")
 
@@ -40,8 +40,8 @@ class ProjectionsBuildersTest {
         @JvmStatic
         fun afterAll() {
             runBlocking {
-                //database.drop()
-                //client.close()
+                database.drop()
+                client.close()
             }
         }
     }
@@ -60,7 +60,7 @@ class ProjectionsBuildersTest {
     @AfterEach
     fun afterEach() {
         runBlocking {
-            //collection.drop()
+            collection.drop()
         }
     }
 
