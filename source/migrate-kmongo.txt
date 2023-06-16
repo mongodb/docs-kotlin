@@ -15,7 +15,7 @@ Overview
 --------
 
 In this page, you can identify the changes you need to make to migrate from
-the KMongo coroutine driver to the MongoDB Kotlin driver. 
+the KMongo driver to the official MongoDB Kotlin driver. 
 
 .. include:: /includes/kmongo-description.rst
 
@@ -29,50 +29,52 @@ Connect to MongoDB Cluster
 Both drivers let you connect to and communicate with MongoDB clusters from a 
 Kotlin application.
 
-KMongo
-~~~~~~
+.. tabs::
 
-To connect to a MongoDB cluster using KMongo with coroutines: 
+   .. tab::
+      :tabid: {+driver-long+}
 
-.. code-block:: kotlin
+      To connect to a MongoDB cluster using the MongoDB Kotlin driver: 
 
-  import org.litote.kmongo.reactivestreams.*  
-  import org.litote.kmongo.coroutine.* 
+      .. code-block:: kotlin
 
-  data class Jedi(val name: String, val age: Int)
+        import com.mongodb.kotlin.client.coroutine.MongoClient
 
-  // Get new MongoClient instance using coroutine extension
-  val client = KMongo.createClient().coroutine 
-  
-  val database = client.getDatabase("test")
-  // Get a collection of documents of type Jedi 
-  val col = database.getCollection<Jedi>()
+        data class Jedi(val name: String, val age: Int)   
 
-Unlike the MongoDB Kotlin driver, KMongo allows the collection name to be
-inferred from the data class name.
+        // Replace the placeholder with your MongoDB deployment's connection string
+        val uri = CONNECTION_STRING_URI_PLACEHOLDER
 
-MongoDB Kotlin Driver
-~~~~~~~~~~~~~~~~~~~~~
+        val mongoClient = MongoClient.create(uri)
+        
+        val database = mongoClient.getDatabase("test")
+        // Get a collection of documents of type Jedi
+        val collection = database.getCollection<Jedi>("jedi")
 
-To connect to a MongoDB cluster using the MongoDB Kotlin driver: 
+      See the :ref:`Connect to MongoDB <connect-to-mongodb>` documentation for more 
+      information.
+      
+   .. tab::
+      :tabid: KMongo
 
-.. code-block:: kotlin
+      To connect to a MongoDB cluster using KMongo with coroutines: 
 
-  import com.mongodb.kotlin.client.coroutine.MongoClient
+      .. code-block:: kotlin
 
-  data class Jedi(val name: String, val age: Int)   
+        import org.litote.kmongo.reactivestreams.*  
+        import org.litote.kmongo.coroutine.* 
 
-  // Replace the placeholder with your MongoDB deployment's connection string
-  val uri = CONNECTION_STRING_URI_PLACEHOLDER
+        data class Jedi(val name: String, val age: Int)
 
-  val mongoClient = MongoClient.create(uri)
-  
-  val database = mongoClient.getDatabase("test")
-  // Get a collection of documents of type Jedi
-  val collection = database.getCollection<Jedi>("jedi")
+        // Get new MongoClient instance using coroutine extension
+        val client = KMongo.createClient().coroutine 
+        
+        val database = client.getDatabase("test")
+        // Get a collection of documents of type Jedi 
+        val col = database.getCollection<Jedi>()
 
-See the :ref:`Connect to MongoDB <connect-to-mongodb>` documentation for more 
-information.
+      Unlike the MongoDB Kotlin driver, KMongo allows the collection name to be
+      inferred from the data class name.
 
 CRUD and Aggregation
 --------------------
@@ -80,165 +82,169 @@ CRUD and Aggregation
 Both drivers provide support for all MongoDB CRUD APIs and aggregation 
 operations.
 
-KMongo
-~~~~~~
+.. tabs::
 
-KMongo provides functions for all basic CRUD operations: 
+   .. tab::
+      :tabid: {+driver-long+}
 
-.. code-block:: kotlin
+      The MongoDB Kotlin driver also provides functions for all basic CRUD operations:
 
-  // Insert a document
-  val jedi = Jedi("Luke Skywalker", 19)
-  col.insertOne(jedi)
+      .. code-block:: kotlin
 
-  // Find a document
-  val luke = col.findOne(Jedi::name eq "Luke Skywalker")
-  val jedis = col.find(Jedi::age lt 30).toList()
+        // Insert a document
+          val jedi =a Jedi("Luke Skywalker", 19)
+          collection.insertOne(jedi)
 
-  // Update a document
-  col.updateOne(Jedi::name eq "Luke Skywalker", setValue(Jedi::age, 20))
+          // Find a document
+          val luke = collection.find(Jedi::name.name, "Luke Skywalker")
+          val jedis = collection.find(lt(Jedi::age.name, 30)).toList()
 
-  // Delete a document
-  col.deleteOne(Jedi::name eq "Luke Skywalker")
+          // Update a document
+          val filter = Filters.eq(Jedi::name.name, "Luke Skywalker")
+          val update = Updates.set(Jedi::age.name, 20)
+          collection.updateOne(filter, update)
 
-Aggregation pipelines can be built using the ``aggregate`` method and the 
-``pipeline`` function: 
+          // Delete a document
+          val filter = Filters.eq(Jedi::name.name, "Luke Skywalker")
+          collection.deleteOne(filter)
 
-.. code-block:: kotlin
+      Aggregation pipelines can be built using the ``aggregate`` method and the 
+      ``pipeline`` function: 
 
-  val avgAge = collection.aggregate<Double>(
-      pipeline(
-          match(Jedi::name ne "Luke Skywalker"),
-          group(Jedi::name, avg(Jedi::age))
-      )
-  ).toList()
+      .. code-block:: kotlin
 
-For more information on available methods, see the 
-`Extensions Overview <https://litote.org/kmongo/extensions-overview/>`__ KMongo 
-documentation.
+        data class Results(val avgAge: Double)
 
-MongoDB Kotlin Driver
-~~~~~~~~~~~~~~~~~~~~~
+        val resultsFlow = collection.aggregate<Results>(
+            listOf(
+              Aggregates.match(Filters.ne(Jedi::name.name, "Luke Skywalker")),
+              Aggregates.group("\$${Jedi::name.name}", 
+                  Accumulators.avg("avgAge", "\$${Jedi::age.name}"))
+            )
+        )
+        resultsFlow.collect { println(it) }
 
-The MongoDB Kotlin driver also provides functions for all basic CRUD operations:
+      See the :ref:`CRUD Operations <kotlin-crud-operations>` and 
+      :ref:`Aggregation <kotlin-aggregation>` documentation for more information.
+      
+   .. tab::
+      :tabid: KMongo
 
-.. code-block:: kotlin
+      KMongo provides functions for all basic CRUD operations: 
 
-   // Insert a document
-    val jedi =a Jedi("Luke Skywalker", 19)
-    collection.insertOne(jedi)
+      .. code-block:: kotlin
 
-    // Find a document
-    val luke = collection.find(Jedi::name.name, "Luke Skywalker")
-    val jedis = collection.find(lt(Jedi::age.name, 30)).toList()
+        // Insert a document
+        val jedi = Jedi("Luke Skywalker", 19)
+        col.insertOne(jedi)
 
-    // Update a document
-    val filter = Filters.eq(Jedi::name.name, "Luke Skywalker")
-    val update = Updates.set(Jedi::age.name, 20)
-    collection.updateOne(filter, update)
+        // Find a document
+        val luke = col.findOne(Jedi::name eq "Luke Skywalker")
+        val jedis = col.find(Jedi::age lt 30).toList()
 
-    // Delete a document
-    val filter = Filters.eq(Jedi::name.name, "Luke Skywalker")
-    collection.deleteOne(filter)
+        // Update a document
+        col.updateOne(Jedi::name eq "Luke Skywalker", setValue(Jedi::age, 20))
 
-Aggregation pipelines can be built using the ``aggregate`` method and the 
-``pipeline`` function: 
+        // Delete a document
+        col.deleteOne(Jedi::name eq "Luke Skywalker")
 
-.. code-block:: kotlin
+      Aggregation pipelines can be built using the ``aggregate`` method and the 
+      ``pipeline`` function: 
 
-  data class Results(val avgAge: Double)
+      .. code-block:: kotlin
 
-  val resultsFlow = collection.aggregate<Results>(
-      listOf(
-        Aggregates.match(Filters.ne(Jedi::name.name, "Luke Skywalker")),
-        Aggregates.group("\$${Jedi::name.name}", 
-            Accumulators.avg("avgAge", "\$${Jedi::age.name}"))
-      )
-  )
-  resultsFlow.collect { println(it) }
+        val avgAge = collection.aggregate<Double>(
+            pipeline(
+                match(Jedi::name ne "Luke Skywalker"),
+                group(Jedi::name, avg(Jedi::age))
+            )
+        ).toList()
 
-See the :ref:`CRUD Operations <kotlin-crud-operations>` and 
-:ref:`Aggregation <kotlin-aggregation>` documentation for more information.
+      For more information on available methods, see the 
+      `Extensions Overview <https://litote.org/kmongo/extensions-overview/>`__ KMongo 
+      documentation.
 
 Construct Queries
 -----------------
 
 Both drivers provide support for type-safe queries using property references.
 
-KMongo
-~~~~~~
+.. tabs::
 
-With KMongo, you can create queries using property references on the data class 
-that represents objects in a collection and infix operators that the library 
-provides.
+   .. tab::
+      :tabid: {+driver-long+}
 
-.. code-block:: kotlin
+      The MongoDB Kotlin driver uses the Builders API to construct queries. 
+      Alternatively, you can use the ``Document`` class.
 
-  data class Jedi(val name: String)
+      .. code-block:: kotlin
 
-  val yoda = col.findOne(Jedi::name eq "Yoda")
+        data class Person(val name: String, val email: String, val gender: String, val age: Int)
+        data class Results(val email: String)
 
-  // Compile error (2 is not a String)
-  val error = col.findOne(Jedi::name eq 2)
+        val collection = database.getCollection<Person>("people")
 
-  // Use property reference with instances
-  val yoda2 = col.findOne(yoda::name regex "Yo.*")
+        // Using Builders 
+        val filter = and(eq("gender", "female"), gt("age", 29))
+        val projection = fields(excludeId(), include("email"))
+        val results = collection.find<Results>(filter).projection(projection)
 
-KMongo also supports string queries that let you construct queries with 
-MongoDB Query Language:
+        // Using Document class 
+        val filter = Document().append("gender", "female").append("age", Document().append("\$gt", 29))
+        val projection = Document().append("_id", 0).append("email", 1)
+        val results = collection.find<Results>(filter).projection(projection)
 
-.. code-block:: kotlin
+      To map a KMongo string query to the Kotlin driver, you can use the ``JsonObject`` class.
 
-  import org.litote.kmongo.MongoOperator.lt
-  import org.litote.kmongo.MongoOperator.match
-  import org.litote.kmongo.MongoOperator.regex
-  import org.litote.kmongo.MongoOperator.sample
+      .. code-block:: kotlin
 
-  val yoda = col.findOne("{name: {$regex: 'Yo.*'}}")!! 
-  val luke = col.aggregate<Jedi>("""[ {$match:{age:{$lt : ${yoda.age}}}},
-                                      {$sample:{size:1}}
-                                  ]""").first()
+        val query = JsonObject("{\"name\": \"Gabriel Garc\\u00eda M\\u00e1rquez\"}")
+        val jsonResult = collection.find(query).firstOrNull()
 
-For more information, see the following KMongo documentation:
+      For more information, see the following Kotlin driver documentation:
 
-- `Typed Queries <https://litote.org/kmongo/typed-queries/>`_
-- `Mongo Shell Queries <https://litote.org/kmongo/mongo-shell-support/>`__
+      - :ref:`Builders <kotlin-builders>`
+      - :ref:`Documents <kotlin-document-format>` guide
+      - `JsonObject <{+api+}/apidocs/bson/org/bson/json/JsonObject.html>`__ API Documentation
+      
+   .. tab::
+      :tabid: KMongo
 
-MongoDB Kotlin Driver
-~~~~~~~~~~~~~~~~~~~~~
+      With KMongo, you can create queries using property references on the data class 
+      that represents objects in a collection and infix operators that the library 
+      provides.
 
-The MongoDB Kotlin driver uses the Builders API to construct queries. 
-Alternatively, you can use the ``Document`` class.
+      .. code-block:: kotlin
 
-.. code-block:: kotlin
+        data class Jedi(val name: String)
 
-  data class Person(val name: String, val email: String, val gender: String, val age: Int)
-  data class Results(val email: String)
+        val yoda = col.findOne(Jedi::name eq "Yoda")
 
-  val collection = database.getCollection<Person>("people")
+        // Compile error (2 is not a String)
+        val error = col.findOne(Jedi::name eq 2)
 
-  // Using Builders 
-  val filter = and(eq("gender", "female"), gt("age", 29))
-  val projection = fields(excludeId(), include("email"))
-  val results = collection.find<Results>(filter).projection(projection)
+        // Use property reference with instances
+        val yoda2 = col.findOne(yoda::name regex "Yo.*")
 
-  // Using Document class 
-  val filter = Document().append("gender", "female").append("age", Document().append("\$gt", 29))
-  val projection = Document().append("_id", 0).append("email", 1)
-  val results = collection.find<Results>(filter).projection(projection)
+      KMongo also supports string queries that let you construct queries with 
+      MongoDB Query Language:
 
-To map a KMongo string query to the Kotlin driver, you can use the ``JsonObject`` class.
+      .. code-block:: kotlin
 
-.. code-block:: kotlin
+        import org.litote.kmongo.MongoOperator.lt
+        import org.litote.kmongo.MongoOperator.match
+        import org.litote.kmongo.MongoOperator.regex
+        import org.litote.kmongo.MongoOperator.sample
 
-  val query = JsonObject("{\"name\": \"Gabriel Garc\\u00eda M\\u00e1rquez\"}")
-  val jsonResult = collection.find(query).firstOrNull()
+        val yoda = col.findOne("{name: {$regex: 'Yo.*'}}")!! 
+        val luke = col.aggregate<Jedi>("""[ {$match:{age:{$lt : ${yoda.age}}}},
+                                            {$sample:{size:1}}
+                                        ]""").first()
 
-For more information, see the following Kotlin driver documentation:
+      For more information, see the following KMongo documentation:
 
-- :ref:`Builders <kotlin-builders>`
-- :ref:`Documents <kotlin-document-format>` guide
-- `JsonObject <{+api+}/apidocs/bson/org/bson/json/JsonObject.html>`__ API Documentation
+      - `Typed Queries <https://litote.org/kmongo/typed-queries/>`_
+      - `Mongo Shell Queries <https://litote.org/kmongo/mongo-shell-support/>`__
 
 Data Typing
 -----------
@@ -247,45 +253,46 @@ Both drivers support the use of Kotlin data classes as well as the ``Document`` 
 model the data stored in a MongoDB collection. The ``Document`` 
 class lets you model data represented in a MongoDB collection in a flexible format. 
 
-KMongo
-~~~~~~
+.. tabs::
 
-You can use data classes and ``Document`` classes to model data in KMongo:
+  .. tab::
+      :tabid: {+driver-long+}
 
-.. code-block:: kotlin
+      You can use data classes and ``Document`` classes to model data with the 
+      MongoDB Kotlin driver:
 
-  // With data class
-  data class Movie(val title: String, val year: Int, val rating: Float)
+      .. code-block:: kotlin
 
-  val collection = database.getCollection<Movie>("movies")
-  val movieDataClass = dataClassCollection.findOne()
-  val movieNameDataClass = movieDataClass.title
+        // With data class
+        data class Movie(val title: String, val year: Int, val rating: Float)
 
-  // With Document class
-  val documentCollection = database.getCollection("movies")
-  val movieDocument = documentCollection.findOne()
-  val movieTitleDocument = movieDocument.getString("title")
+        val dataClassCollection = database.getCollection<Movie>("movies")
+        val movieDataClass = dataClassCollection.findOneOrNull()
+        val movieNameDataClass = movieDataClass.title
 
+        // With Document class
+        val documentCollection = database.getCollection<Movie>("movies")
+        val movieDocument = documentCollection.findOneOrNull()
+        val movieTitleDocument = movieDocument.getString("title")
 
-MongoDB Kotlin Driver
-~~~~~~~~~~~~~~~~~~~~~
+  .. tab::
+    :tabid: KMongo
 
-You can use data classes and ``Document`` classes to model data with the 
-MongoDB Kotlin driver:
+    You can use data classes and ``Document`` classes to model data in KMongo:
 
-.. code-block:: kotlin
+    .. code-block:: kotlin
 
-  // With data class
-  data class Movie(val title: String, val year: Int, val rating: Float)
+      // With data class
+      data class Movie(val title: String, val year: Int, val rating: Float)
 
-  val dataClassCollection = database.getCollection<Movie>("movies")
-  val movieDataClass = dataClassCollection.findOneOrNull()
-  val movieNameDataClass = movieDataClass.title
+      val collection = database.getCollection<Movie>("movies")
+      val movieDataClass = dataClassCollection.findOne()
+      val movieNameDataClass = movieDataClass.title
 
-  // With Document class
-  val documentCollection = database.getCollection<Movie>("movies")
-  val movieDocument = documentCollection.findOneOrNull()
-  val movieTitleDocument = movieDocument.getString("title")
+      // With Document class
+      val documentCollection = database.getCollection("movies")
+      val movieDocument = documentCollection.findOne()
+      val movieTitleDocument = movieDocument.getString("title")
 
 Data Serialization
 ------------------
@@ -293,70 +300,70 @@ Data Serialization
 Both drivers provide support for serializing and deserializing data objects
 in Kotlin to and from BSON.
 
-KMongo
-~~~~~~
+.. tabs::
 
-You can serialize data in KMongo using the following serialization libraries: 
+  .. tab::
+      :tabid: {+driver-long+}
 
-* ``Jackson`` (default)
-* ``POJO Codec engine``
-* ``kotlinx.serialization``
+      You can serialize data classes in the Kotlin driver using the ``kotlinx.serialization`` 
+      library. The driver provides an efficient ``Bson`` serializer that handles the 
+      serialization of Kotlin objects to BSON data. 
 
-.. code-block:: kotlin
-  
-  // Using KotlinX Serialization
-  @Serializable
-  data class Data(@Contextual val _id: Id<Data> = newId())
+      .. code-block:: kotlin
 
-  val json = Json { serializersModule = IdKotlinXSerializationModule }
-  val data = Data()
-  val json = json.encodeToString(data) 
+        @Serializable
+        data class LightSaber(
+            @SerialName("_id") // Use instead of @BsonId
+            @Contextual val id: ObjectId?,
+            val color: String,
+            val qty: Int,
+            @SerialName("brand")
+            val manufacturer: String = "Acme" // Use instead of @BsonProperty
+        )
 
-To learn more about the KMongo serialization methods, refer to the
-`Object Mapping <https://litote.org/kmongo/object-mapping/>`__ 
-KMongo documentation.
+      .. TODO DOCSP-29226 - add link to serialization docs
+      .. To learn more about serializing data classes with ``kotlinx.serialization``, 
+      .. see the :ref:`Kotlin Serialization <fundamentals-kotlin-serialization>` documentation.
 
-MongoDB Kotlin Driver
-~~~~~~~~~~~~~~~~~~~~~
+      If you use the ``Document`` class to represent your collection, you can 
+      serialize it to JSON and EJSON using the ``.toJson()`` method:
 
-You can serialize data classes in the Kotlin driver using the ``kotlinx.serialization`` 
-library.
+      .. code-block:: kotlin
 
-The driver also provides an efficient ``Bson`` serializer that handles the 
-serialization of Kotlin objects to BSON data. 
+        val document = Document("_id", 1).append("color", "blue")
 
-.. code-block:: kotlin
+        // Serialize to JSON
+        document.toJson()
 
-  @Serializable
-  data class LightSaber(
-      @SerialName("_id") // Use instead of @BsonId
-      @Contextual val id: ObjectId?,
-      val color: String,
-      val qty: Int,
-      @SerialName("brand")
-      val manufacturer: String = "Acme" // Use instead of @BsonProperty
-  )
+        // Serialize to EJSON
+        val settings = JsonWriterSettings.builder().outputMode(JsonMode.STRICT).build()
+        val json = doc.toJson(settings)
 
-.. TODO DOCSP-29226 - add link to serialization docs
-.. To learn more about serializing data classes with ``kotlinx.serialization``, 
-.. see the :ref:`Kotlin Serialization <fundamentals-kotlin-serialization>` documentation.
+      To learn more about serializing data with the ``Document`` class, refer to 
+      :ref:`Document Data Format: Extended JSON <write-ejson>` documentation.
 
-If you use the ``Document`` class to represent your collection, you can 
-serialize it to JSON and EJSON using the ``.toJson()`` method:
+  .. tab::
+    :tabid: KMongo
 
-.. code-block:: kotlin
+    You can serialize data in KMongo using the following serialization libraries: 
 
-  val document = Document("_id", 1).append("color", "blue")
+    * ``Jackson`` (default)
+    * ``POJO Codec engine``
+    * ``kotlinx.serialization``
 
-  // Serialize to JSON
-  document.toJson()
+    .. code-block:: kotlin
+      
+      // Using KotlinX Serialization
+      @Serializable
+      data class Data(@Contextual val _id: Id<Data> = newId())
 
-  // Serialize to EJSON
-  val settings = JsonWriterSettings.builder().outputMode(JsonMode.STRICT).build()
-  val json = doc.toJson(settings)
+      val json = Json { serializersModule = IdKotlinXSerializationModule }
+      val data = Data()
+      val json = json.encodeToString(data) 
 
-To learn more about serializing data with the ``Document`` class, refer to 
- :ref:`Document Data Format: Extended JSON <write_ejson>` documentation.
+    To learn more about the KMongo serialization methods, refer to the
+    `Object Mapping <https://litote.org/kmongo/object-mapping/>`__ 
+    KMongo documentation.
 
 .. _kotlin-sync-async-support:
 
@@ -365,137 +372,139 @@ Synchronous and Asynchronous Support
 
 Both drivers support synchronous and asynchronous operations. 
 
-KMongo
-~~~~~~
+.. tabs::
 
-KMongo has a core library ``org.litote.kmongo:kmongo`` with main functionality and 
-separate companion libraries that provide asynchronous support to the core library. 
+  .. tab::
+      :tabid: {+driver-long+}
 
-KMongo supports the following asynchronous paradigms:
+      The MongoDB Kotlin driver also has separate libraries for synchronous and 
+      asynchronous operations. However, the Kotlin driver only has built-in support 
+      for coroutines as an asynchronous paradigm. The MongoDB Kotlin driver does not 
+      currently provide support for other asynchronous paradigms such as Reactive 
+      Streams, Reactor, or RxJava2.
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :widths: 10 40
+      .. list-table::
+        :header-rows: 1
+        :stub-columns: 1
+        :widths: 10 40
 
-   * - Async Style
-     - Package
+        * - Driver
+          - Package
 
-   * - Reactive Streams
-     - | ``org.litote.kmongo:kmongo-async``
+        * - Sync
+          - | ``com.mongodb.kotlin.client``
 
-   * - Coroutines
-     - | ``com.mongodb.kotlin.client.coroutine`` and ``org.litote.kmongo.coroutine``
+        * - Coroutines
+          - | ``com.mongodb.kotlin.client.coroutine``
 
-   * - Reactor
-     - | ``org.litote.kmongo:kmongo-reactor``
+      Unlike KMongo, if you want to write asynchronous code, you only need to import 
+      the relevant package. 
 
-   * - RxJava2
-     - | ``org.litote.kmongo:kmongo-rxjava2``
+      To write synchronous code:
 
-To write synchronous code with KMongo:
+      .. code-block:: kotlin
 
-.. code-block:: kotlin
+          import com.mongodb.kotlin.client.MongoClient 
 
-  import org.litote.kmongo.* 
-  
-  // Instantiate your collection
-  data class Jedi(val name: String, val age: Int)
+          // Instantiate your collection
+          data class Jedi(val name: String, val age: Int)   
+          val uri = "<your-connection-string">
+          val mongoClient = MongoClient.create(uri)
+          val database = mongoClient.getDatabase("test")
+          val collection = database.getCollection<Jedi>("jedi")
 
-  val client = KMongo.createClient()
-  val database = client.getDatabase("test") 
-  val col = database.getCollection<Jedi>() 
-  
-  // Synchronous operations
-  col.insertOne(Jedi("Luke Skywalker", 19))
-  val yoda : Jedi? = col.findOne(Jedi::name eq "Yoda")
+          // Synchronous operations
+          val jedi =a Jedi("Luke Skywalker", 19)
+          collection.insertOne(jedi)
 
-To write async coroutine code with KMongo: 
+      To write asynchronous coroutine code:
 
-.. code-block:: kotlin
+      .. code-block:: kotlin
 
-    import org.litote.kmongo.reactivestreams.*
-    import org.litote.kmongo.coroutine.*  
+        import com.mongodb.kotlin.client.coroutine.MongoClient 
 
-    // Instantiate your collection
-    data class Jedi(val name: String, val age: Int)
+        // Instantiate your collection
+        data class Jedi(val name: String, val age: Int)   
+        val uri = "<your-connection-string">
+        val mongoClient = MongoClient.create(uri)
+        val database = mongoClient.getDatabase("test")
+        val collection = database.getCollection<Jedi>("jedi")
 
-    val client = KMongo.createClient()
-    val database = client.getDatabase("test") 
-    val col = database.getCollection<Jedi>() 
+        runBlocking {
 
-    runBlocking {
+          // Async operations
+          val jedi =a Jedi("Luke Skywalker", 19)
+          collection.insertOne(jedi)
+        }
+
+  .. tab::
+    :tabid: KMongo
+
+    KMongo has a core library ``org.litote.kmongo:kmongo`` with main functionality and 
+    separate companion libraries that provide asynchronous support to the core library. 
+
+    KMongo supports the following asynchronous paradigms:
+
+    .. list-table::
+      :header-rows: 1
+      :stub-columns: 1
+      :widths: 10 40
+
+      * - Async Style
+        - Package
+
+      * - Reactive Streams
+        - | ``org.litote.kmongo:kmongo-async``
+
+      * - Coroutines
+        - | ``com.mongodb.kotlin.client.coroutine`` and ``org.litote.kmongo.coroutine``
+
+      * - Reactor
+        - | ``org.litote.kmongo:kmongo-reactor``
+
+      * - RxJava2
+        - | ``org.litote.kmongo:kmongo-rxjava2``
+
+    To write synchronous code with KMongo:
+
+    .. code-block:: kotlin
+
+      import org.litote.kmongo.* 
       
-      // Async operations
+      // Instantiate your collection
+      data class Jedi(val name: String, val age: Int)
+
+      val client = KMongo.createClient()
+      val database = client.getDatabase("test") 
+      val col = database.getCollection<Jedi>() 
+      
+      // Synchronous operations
       col.insertOne(Jedi("Luke Skywalker", 19))
       val yoda : Jedi? = col.findOne(Jedi::name eq "Yoda")
-    }
 
-To learn more, refer to the `Quick Start <https://litote.org/kmongo/quick-start/>`__ 
-in the KMongo documentation. 
+    To write async coroutine code with KMongo: 
 
-MongoDB Kotlin Driver
-~~~~~~~~~~~~~~~~~~~~~
+    .. code-block:: kotlin
 
-The MongoDB Kotlin driver also has separate libraries for synchronous and 
-asynchronous operations. However, the Kotlin driver only has built-in support 
-for coroutines as an asynchronous paradigm. The MongoDB Kotlin driver does not 
-currently provide support for other asynchronous paradigms such as Reactive 
-Streams, Reactor, or RxJava2.
+        import org.litote.kmongo.reactivestreams.*
+        import org.litote.kmongo.coroutine.*  
 
-.. list-table::
-   :header-rows: 1
-   :stub-columns: 1
-   :widths: 10 40
+        // Instantiate your collection
+        data class Jedi(val name: String, val age: Int)
 
-   * - Driver
-     - Package
+        val client = KMongo.createClient()
+        val database = client.getDatabase("test") 
+        val col = database.getCollection<Jedi>() 
 
-   * - Sync
-     - | ``com.mongodb.kotlin.client``
+        runBlocking {
+          
+          // Async operations
+          col.insertOne(Jedi("Luke Skywalker", 19))
+          val yoda : Jedi? = col.findOne(Jedi::name eq "Yoda")
+        }
 
-   * - Coroutines
-     - | ``com.mongodb.kotlin.client.coroutine``
-
-Unlike KMongo, if you want to write asynchronous code, you only need to import 
-the relevant package. 
-
-To write synchronous code:
-
-.. code-block:: kotlin
-
-    import com.mongodb.kotlin.client.MongoClient 
-
-    // Instantiate your collection
-    data class Jedi(val name: String, val age: Int)   
-    val uri = "<your-connection-string">
-    val mongoClient = MongoClient.create(uri)
-    val database = mongoClient.getDatabase("test")
-    val collection = database.getCollection<Jedi>("jedi")
-
-    // Synchronous operations
-    val jedi =a Jedi("Luke Skywalker", 19)
-    collection.insertOne(jedi)
-
-To write asynchronous coroutine code:
-
-.. code-block:: kotlin
-
-  import com.mongodb.kotlin.client.coroutine.MongoClient 
-
-  // Instantiate your collection
-  data class Jedi(val name: String, val age: Int)   
-  val uri = "<your-connection-string">
-  val mongoClient = MongoClient.create(uri)
-  val database = mongoClient.getDatabase("test")
-  val collection = database.getCollection<Jedi>("jedi")
-
-  runBlocking {
-
-    // Async operations
-    val jedi =a Jedi("Luke Skywalker", 19)
-    collection.insertOne(jedi)
-  }
+    To learn more, refer to the `Quick Start <https://litote.org/kmongo/quick-start/>`__ 
+    in the KMongo documentation. 
 
 What Next?
 ----------
