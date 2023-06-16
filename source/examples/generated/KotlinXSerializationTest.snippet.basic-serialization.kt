@@ -5,5 +5,5 @@ data class PaintOrder(
     val color: String,
     val qty: Int,
     @SerialName("brand")
-    val manufacturer: String = "Acme", // Use instead of @BsonProperty
+    val manufacturer: String = "Acme" // Use instead of @BsonProperty
 )

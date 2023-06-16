@@ -25,12 +25,49 @@ discriminators.
 .. note::
 
     To use the ``Codec`` interface to specify custom encoding and decoding of 
-    Kotlin objects to BSON data, see the :ref:`Codecs <fundamentals-codecs>` documentation.
+    Kotlin objects to BSON data, see the :ref:`Codecs <fundamentals-codecs>` 
+    documentation.
 
 Although you can use the Kotlin driver with the Kotlin Serialization's ``Json`` 
 library, the ``Json`` serializer does *not* directly support BSON value types such
 as ``ObjectId``. You must provide a custom serializer that can handle the 
 conversion between BSON and JSON. 
+
+Supported Types
+~~~~~~~~~~~~~~~
+
+The Kotlin driver supports all Kotlin types that are supported by the Kotlin 
+Serialization library and the following BSON types:
+
+- ObjectId
+- BsonNull
+- BsonArray
+- BsonBinary
+- BsonBoolean
+- BsonDateTime
+- BsonDbPointer
+- BsonDocument
+- BsonDouble
+- BsonInt32
+- BsonInt64
+- BsonDecimal128
+- BsonMaxKey
+- BsonMinKey
+- BsonJavaScript
+- BsonJavaScriptWithScope
+- BsonObjectId
+- BsonRegularExpression
+- BsonString
+- BsonSymbol
+- BsonTimestamp
+- BsonUndefined
+- BsonDocument
+- RawBsonDocument
+- RawBsonArray
+
+Any additional types can be supported using custom serializers. See the 
+`official Kotlin Documentation <https://kotlinlang.org/docs/serialization.html>`__ 
+for more information.
 
 Add Kotlin Serialization to Your Project
 ----------------------------------------
@@ -70,8 +107,12 @@ to your project:
 Annotate Data Classes
 ---------------------
 
-Once added, you can annotate your data classes with ``@Serializable`` annotation 
-that comes from the Kotlin Serialization framework.
+To declare a class as serializable, annotate your Kotlin data classes with the 
+``@Serializable`` annotation that comes from the Kotlin Serialization framework.
+
+Once declared as serializable, use your data classes in your code as normal. 
+The Kotlin driver and the Kotlin Serialization framework will handle the 
+BSON serialization and deserialization.
 
 .. note:: 
 
@@ -81,16 +122,21 @@ that comes from the Kotlin Serialization framework.
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.basic-serialization.kt
     :language: kotlin
 
+For more information on serializable classes and available annotation classes, 
+see the `Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/basic-serialization.md#serializable-classes>`__ 
+documentation.
+
 .. _kotlin-custom-codec:
 
-Create a Custom Codec
----------------------
+Customize the Serializer Configuration
+--------------------------------------
 
-Use the ``KotlinSerializerCodec`` class located in the ``org.bson.codecs.kotlinx`` 
-package to create a custom codec for your ``@Serializable`` data classes. 
+You can use the ``KotlinSerializerCodec`` class located in the ``org.bson.codecs.kotlinx`` 
+package to create a codec for your ``@Serializable`` data classes and 
+customize what is stored.
 
-You can use the ``BsonConfiguration`` class for further customization, including
-encoding defaults, encoding nulls, and defining class discriminators.
+Use the ``BsonConfiguration`` class to define the configuration, 
+including whether to encode defaults, encode nulls, or define class discriminators.
 
 To create a custom codec, install the ``bson-kotlinx`` dependency to your project.
 

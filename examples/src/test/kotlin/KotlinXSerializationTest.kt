@@ -57,7 +57,7 @@ internal class KotlinXSerializationTest {
 
         val insertOneResult = collection.insertOne(paintOrder)
         println(insertOneResult)
-        println(Json.encodeToJsonElement(paintOrder))
+        println(Json.encodeToJsonElement(paintOrder)) // Only works if you don't have BSON properties (e.g. ObjectId)
 
         assertEquals(paintOrder.id, 1)
 
@@ -73,7 +73,7 @@ internal class KotlinXSerializationTest {
             val color: String,
             val qty: Int,
             @SerialName("brand")
-            val manufacturer: String = "Acme", // Use instead of @BsonProperty
+            val manufacturer: String = "Acme" // Use instead of @BsonProperty
         )
         // :snippet-end:
 
