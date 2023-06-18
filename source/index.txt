@@ -10,8 +10,11 @@ MongoDB Kotlin Driver (Alpha)
 
    /quick-start
    /quick-reference
+   /whats-new
+   /usage-examples
    /fundamentals
    /api-documentation
+   /faq
    /issues-and-help
    /compatibility
    View the Source <https://github.com/mongodb/mongo-java-driver>
@@ -48,6 +51,12 @@ Quick Reference
 See driver syntax examples for common MongoDB commands in the
 :ref:`Quick Reference <kotlin-quick-reference>` section.
 
+Usage Examples
+--------------
+
+For fully runnable code snippets and explanations for common
+methods, see the :doc:`Usage Examples </usage-examples>` section.
+
 Fundamentals
 ------------
 
@@ -81,13 +90,12 @@ and links to the API documentation.
    * - `Kotlin Driver <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/index.html>`__
      - API
 
-.. TODO:(DOCSP-29237)
-.. FAQ
-.. ---
+FAQ
+---
 
-.. For answers to commonly asked questions about the MongoDB
-.. Kotlin Driver, see the :doc:`Frequently Asked Questions (FAQ) </faq>`
-.. section.
+For answers to commonly asked questions about the MongoDB
+Kotlin Driver, see the :doc:`Frequently Asked Questions (FAQ) </faq>`
+section.
 
 Issues & Help
 -------------
@@ -103,12 +111,11 @@ For the compatibility charts that show the recommended Kotlin
 Driver version for each MongoDB Server version, see the
 :doc:`Compatibility </compatibility>` section.
 
-.. TODO:(DOCSP-29259)
-.. What's New
-.. ----------
+What's New
+----------
 
-.. For a list of new features and changes in each version, see the
-.. :doc:`What's New </whats-new>` section.
+For a list of new features and changes in each version, see the
+:doc:`What's New </whats-new>` section.
 
 Learn
 ------
