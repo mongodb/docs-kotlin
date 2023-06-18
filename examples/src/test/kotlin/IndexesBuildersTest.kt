@@ -1,7 +1,7 @@
 
 import com.mongodb.client.model.Indexes
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
 import org.junit.jupiter.api.AfterAll
@@ -11,8 +11,8 @@ import kotlin.test.assertEquals
 class IndexesBuildersTest {
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("marketing")
         val collection = database.getCollection<Document>("users")
 

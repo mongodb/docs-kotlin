@@ -14,7 +14,7 @@ import com.mongodb.client.model.search.SearchOperator
 import com.mongodb.client.model.search.SearchOptions
 import com.mongodb.client.model.search.SearchPath
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -23,6 +23,7 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.*
 import java.time.LocalDateTime
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -62,8 +63,8 @@ class AggregatesBuilderTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        private val client = MongoClient.create(config.connectionUri)
         private val database = client.getDatabase("aggregation")
         val movieCollection = database.getCollection<Movie>("movies")
         val contactsCollection = database.getCollection<Users>("contacts")
@@ -891,7 +892,10 @@ class AggregatesBuilderTest {
         weatherCollection.drop()
     }
 
-    @Test
+    /* NOTE: Test is not run by default. FTS requires the creation of a text index on the collection before running
+    (see note at top of file for additional setup requirements for FTS).
+     */
+    @Ignore
     fun fullTextSearchTest(): Unit = runBlocking {
         val resultsFlow = ftsCollection.aggregate<Movie>(
             listOf(
@@ -910,7 +914,10 @@ class AggregatesBuilderTest {
         assertEquals("Back to the Future", results.first().title)
     }
 
-    @Test
+    /* NOTE: Test is not run by default. FTS requires the creation of a text index on the collection before running
+    (see note at top of file for additional setup requirements for FTS).
+     */
+    @Ignore
     fun searchMetadataTest() = runBlocking {
         val resultsFlow = ftsCollection.aggregate<Document>(
             listOf(
