@@ -23,6 +23,7 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.*
 import java.time.LocalDateTime
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -891,7 +892,10 @@ class AggregatesBuilderTest {
         weatherCollection.drop()
     }
 
-    @Test
+    /* NOTE: Test is not run by default. FTS requires the creation of a text index on the collection before running
+    (see note at top of file for additional setup requirements for FTS).
+     */
+    @Ignore
     fun fullTextSearchTest(): Unit = runBlocking {
         val resultsFlow = ftsCollection.aggregate<Movie>(
             listOf(
@@ -910,7 +914,10 @@ class AggregatesBuilderTest {
         assertEquals("Back to the Future", results.first().title)
     }
 
-    @Test
+    /* NOTE: Test is not run by default. FTS requires the creation of a text index on the collection before running
+    (see note at top of file for additional setup requirements for FTS).
+     */
+    @Ignore
     fun searchMetadataTest() = runBlocking {
         val resultsFlow = ftsCollection.aggregate<Document>(
             listOf(
