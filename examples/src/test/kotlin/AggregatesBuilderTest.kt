@@ -14,7 +14,7 @@ import com.mongodb.client.model.search.SearchOperator
 import com.mongodb.client.model.search.SearchOptions
 import com.mongodb.client.model.search.SearchPath
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -62,8 +62,8 @@ class AggregatesBuilderTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        private val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        private val client = MongoClient.create(config.connectionUri)
         private val database = client.getDatabase("aggregation")
         val movieCollection = database.getCollection<Movie>("movies")
         val contactsCollection = database.getCollection<Users>("contacts")
