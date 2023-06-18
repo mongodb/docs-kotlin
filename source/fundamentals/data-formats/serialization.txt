@@ -29,7 +29,7 @@ discriminators.
    Kotlin objects to BSON data, see the :ref:`Codecs <fundamentals-codecs>` 
    documentation.
 
-Although you can use the Kotlin driver with the ``kotlinx.serialization.json`` 
+Although you can use the Kotlin driver with the Kotlin serialization ``Json`` 
 library, the ``Json`` serializer does *not* directly support BSON value types such
 as ``ObjectId``. You must provide a custom serializer that can handle the 
 conversion between BSON and JSON. 
@@ -37,8 +37,10 @@ conversion between BSON and JSON.
 Supported Types
 ~~~~~~~~~~~~~~~
 
-The Kotlin driver supports all Kotlin types that are supported by the Kotlin 
-Serialization library and :manual:`BSON types </reference/bson-types>`.
+The Kotlin driver supports: 
+
+- All Kotlin types that are supported by the Kotlin serialization library 
+- All available :manual:`BSON types </reference/bson-types>`
 
 You can implement a custom serializers to handle any other types. See the 
 `official Kotlin Documentation <https://kotlinlang.org/docs/serialization.html>`__ 
@@ -89,7 +91,13 @@ You can use your data classes in your code as normal after you mark them as seri
 The Kotlin driver and the Kotlin Serialization framework will handle the 
 BSON serialization and deserialization.
 
-The following example shows a simple data class marked as serializable :
+This example shows a simple data class annotated with the following: 
+
+- ``@Serializable`` to mark the class as serializable
+- ``@SerialName`` to specify the name of the ``id`` and ``manufacturer`` properties 
+   in the BSON document. This can be used in place of the ``@BsonId`` and 
+   ``@BsonProperty`` annotations, which are unsupported in serializable classes.
+- ``@Contextual`` to mark the BSON ``id`` property to use the ``ObjectIdSerializer``.
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.basic-serialization.kt
     :language: kotlin
