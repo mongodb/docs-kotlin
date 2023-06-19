@@ -25,9 +25,11 @@ discriminators.
 
 .. note::
 
-   To use the ``Codec`` interface to specify custom encoding and decoding of 
-   Kotlin objects to BSON data, see the :ref:`Codecs <fundamentals-codecs>` 
-   documentation.
+   To use the ``Codec`` interface instead of the Kotlin serialization library 
+   to specify custom encoding and decoding of Kotlin objects to BSON data, 
+   see the :ref:`Codecs <fundamentals-codecs>` documentation. You might choose
+   Kotlin serialization if you are already familiar with the framework or 
+   you prefer idiomatic Kotlin.
 
 Although you can use the Kotlin driver with the Kotlin serialization ``Json`` 
 library, the ``Json`` serializer does *not* directly support BSON value types such
@@ -49,7 +51,7 @@ for more information.
 Add Kotlin Serialization to Your Project
 ----------------------------------------
 
-The Kotlin driver serialization support depends on the the official Kotlin 
+The Kotlin driver serialization support depends on the official Kotlin 
 serialization library. You must add `Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization>`__ 
 to your project:
 
@@ -88,24 +90,25 @@ To declare a class as serializable, annotate your Kotlin data classes with the
 ``@Serializable`` annotation that comes from the Kotlin serialization framework.
 
 You can use your data classes in your code as normal after you mark them as serializable.
-The Kotlin driver and the Kotlin Serialization framework will handle the 
+The Kotlin driver and the Kotlin serialization framework will handle the 
 BSON serialization and deserialization.
 
 This example shows a simple data class annotated with the following: 
 
-- ``@Serializable`` to mark the class as serializable
+- ``@Serializable`` to mark the class as serializable.
 - ``@SerialName`` to specify the name of the ``id`` and ``manufacturer`` properties 
-   in the BSON document. This can be used in place of the ``@BsonId`` and 
-   ``@BsonProperty`` annotations, which are unsupported in serializable classes.
-- ``@Contextual`` to mark the BSON ``id`` property to use the ``ObjectIdSerializer``.
+  in the BSON document. This can be used in place of the ``@BsonId`` and 
+  ``@BsonProperty`` annotations, which are unsupported in serializable classes.
+- ``@Contextual`` to mark the BSON ``id`` property to use the built-in ``ObjectIdSerializer``.
+  This annotation is required for BSON types to be serialized properly.
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.basic-serialization.kt
     :language: kotlin
 
 .. note:: 
 
-    You cannot use :ref:`annotations <fundamentals-data-class-annotations>` 
-    from the ``org.bson.codecs.pojo.annotations`` package on ``@Serializable`` data classes.
+   You cannot use :ref:`annotations <fundamentals-data-class-annotations>` 
+   from the ``org.bson.codecs.pojo.annotations`` package on ``@Serializable`` data classes.
 
 For more information on serializable classes and available annotation classes, 
 see the `official Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/basic-serialization.md#serializable-classes>`__ 
