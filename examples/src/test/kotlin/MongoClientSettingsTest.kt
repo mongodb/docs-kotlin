@@ -24,7 +24,7 @@ import kotlin.test.Ignore
 
 /* NOTE: These tests are not run by default because they require a MongoDB deployment
 with a username and password. To run these tests locally, you need to set up your .env
-and replace the @Ignore annotation with @Ignore on the tests you want to run.
+and replace the @Ignore annotation with @Test on the tests you want to run.
  */
 class MongoClientSettingsTest {
 
