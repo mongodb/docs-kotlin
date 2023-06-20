@@ -134,3 +134,23 @@ To's and Articles page <https://www.mongodb.com/developer/learn/?content=Article
 
 To ask questions and engage in discussions with fellow developers using
 the Kotlin Driver, see the `forums page <https://www.mongodb.com/community/forums/tag/kotlin>`__.
+
+.. TODO: Add back when University content is available for Kotlin driver
+
+.. MongoDB University
+.. ~~~~~~~~~~~~~~~~~~
+
+.. MongoDB University provides free courses to teach everyone how to use
+.. MongoDB.
+
+.. Take the free online course taught by MongoDB instructors
+.. `````````````````````````````````````````````````````````
+
+.. .. list-table::
+
+..    * - .. figure:: /includes/figures/M220J_hero.jpg
+..           :alt: MongoDB Java Course Hero
+
+..      - `Using MongoDB with Kotlin <https://learn.mongodb.com/learning-paths/using-mongodb-with-kotlin>`_
+
+..        Learn the essentials of Kotlin application development with MongoDB.
