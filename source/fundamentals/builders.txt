@@ -7,8 +7,8 @@ Builders
    /fundamentals/builders/aggregates
    /fundamentals/builders/filters
    /fundamentals/builders/indexes
-   /fundamentals/builders/sort
    /fundamentals/builders/projections
+   /fundamentals/builders/sort
    /fundamentals/builders/updates
 
 .. contents:: On this page
@@ -53,8 +53,8 @@ Scenario
 Imagine we want to send a marketing email to all users in our ``users``
 collection with the following criteria:
 
-- Users that identify as "female" gender
-- Users that are older than "29"
+- Users that identify as ``female`` gender
+- Users that are older than ``29``
 
 We only want their email address, so we'll ensure our query doesn't
 return data we pay bandwidth costs for but don't need.
@@ -92,9 +92,9 @@ Using Builders
 Available Builders
 ------------------
 
-- :ref:`Filters <filters-builders>` for building query filters.
-- :ref:`Sorts <sorts-builders>` for building sort criteria.
 - :ref:`Aggregates <aggregates-builders>` for building aggregation pipelines.
+- :ref:`Filters <filters-builders>` for building query filters.
 - :ref:`Indexes <indexes-builders>` for creating index keys.
-- :ref:`Projections <projections-builders>` for building projections.
+- :ref:`Projections <projections-builders>` for building projections. 
+- :ref:`Sorts <sorts-builders>` for building sort criteria.
 - :ref:`Updates <updates-builders>` for building updates.

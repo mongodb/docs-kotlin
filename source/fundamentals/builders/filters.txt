@@ -25,12 +25,12 @@ on builders </fundamentals/builders/>`.
 Filters are the operations MongoDB uses to limit your results to what
 you want to see.
 
-Some places to use filters are:
+You can use filters in the following places:
 
-- ``find()``
-- match stage of aggregation
-- ``deleteOne()``/``deleteMany()``
-- ``updateOne()``/``updateMany()``
+- As a parameter to the ``find()`` method
+- In a match stage of an aggregation pipeline
+- As a parameter to the ``deleteOne()`` or ``deleteMany()`` method
+- As a parameter to the ``updateOne()`` or ``updateMany()`` method
 
 Some examples of results from queries with filters are:
 
