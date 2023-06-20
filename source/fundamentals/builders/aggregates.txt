@@ -41,7 +41,7 @@ aggregation as a list:
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.methods-example.kt
    :language: kotlin
 
-Many ``Aggregation`` examples in this guide use the :atlas:`Atlas sample Mflix dataset </sample-data/sample-mflix>`. The documents in this collection are
+Many ``Aggregation`` examples in this guide use the :atlas:`Atlas sample_mflix.movies dataset </sample-data/sample-mflix>`. The documents in this collection are
 modeled by the following ``Movie`` data class for use with the Kotlin driver: 
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.movie-data-class.kt
