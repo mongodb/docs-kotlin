@@ -14,10 +14,12 @@ Migrate from KMongo
 Overview
 --------
 
-In this page, you can identify the changes you need to make to migrate from
-the KMongo driver to the official MongoDB Kotlin driver. 
+In this page, you can identify the changes you need to make to migrate from the KMongo driver to the official MongoDB Kotlin driver.
 
 .. include:: /includes/kmongo-description.rst
+
+The MongoDB Kotlin driver is the officially supported and maintained MongoDB driver for 
+Kotlin. It is developed by the MongoDB team.
 
 This page contains a high-level comparison of most of the ways the drivers differ.
 Although both drivers :ref:`support synchronous and asynchronous operations <kotlin-sync-async-support>`, 
