@@ -62,10 +62,8 @@ The ``Sorts`` class is a builder that provides static factory methods for all so
 criteria operators supported by MongoDB. These methods return a ``Bson`` object
 that you can pass to the  ``sort()`` method of a ``FindFlow`` instance or to
 ``Aggregates.sort()``.
-
-.. TODO:(DOCSP-29203) add back after aggregates builder page is added
-.. If you want to learn more about the ``Aggregates``
-.. class, see our :doc:`guide on the Aggregates builder </fundamentals/builders/aggregates>`.
+If you want to learn more about the ``Aggregates``
+class, see our :doc:`guide on the Aggregates builder </fundamentals/builders/aggregates>`.
 
 For more information about the classes and interfaces in this section, see the
 following API Documentation:
