@@ -136,6 +136,7 @@ To ask questions and engage in discussions with fellow developers using
 the Kotlin Driver, see the `forums page <https://www.mongodb.com/community/forums/tag/kotlin>`__.
 
 .. TODO: Add back when University content is available for Kotlin driver
+.. need to re-add /includes/figures/M220J_hero.jpg
 
 .. MongoDB University
 .. ~~~~~~~~~~~~~~~~~~
@@ -149,7 +150,7 @@ the Kotlin Driver, see the `forums page <https://www.mongodb.com/community/forum
 .. .. list-table::
 
 ..    * - .. figure:: /includes/figures/M220J_hero.jpg
-..           :alt: MongoDB Java Course Hero
+..           :alt: MongoDB Kotlin Course Hero
 
 ..      - `Using MongoDB with Kotlin <https://learn.mongodb.com/learning-paths/using-mongodb-with-kotlin>`_
 
