@@ -29,7 +29,7 @@ discriminators.
    to specify custom encoding and decoding of Kotlin objects to BSON data, 
    see the :ref:`Codecs <fundamentals-codecs>` documentation. You might choose
    Kotlin serialization if you are already familiar with the framework or 
-   you prefer idiomatic Kotlin.
+   you prefer to use an idiomatic Kotlin approach.
 
 Although you can use the Kotlin driver with the Kotlin serialization ``Json`` 
 library, the ``Json`` serializer does *not* directly support BSON value types such
@@ -87,7 +87,7 @@ Annotate Data Classes
 ---------------------
 
 To declare a class as serializable, annotate your Kotlin data classes with the 
-``@Serializable`` annotation that comes from the Kotlin serialization framework.
+``@Serializable`` annotation from the Kotlin serialization framework.
 
 You can use your data classes in your code as normal after you mark them as serializable.
 The Kotlin driver and the Kotlin serialization framework will handle the 
@@ -100,7 +100,7 @@ This example shows a simple data class annotated with the following:
   in the BSON document. This can be used in place of the ``@BsonId`` and 
   ``@BsonProperty`` annotations, which are unsupported in serializable classes.
 - ``@Contextual`` to mark the BSON ``id`` property to use the built-in ``ObjectIdSerializer``.
-  This annotation is required for BSON types to be serialized properly.
+  This annotation is required for BSON types to be serialized correctly.
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.basic-serialization.kt
     :language: kotlin

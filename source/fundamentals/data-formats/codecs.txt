@@ -294,7 +294,7 @@ and retrieve operations.
    As an alternative to implementing custom codecs, you can use
    Kotlin serialization to handle your data encoding and decoding with 
    ``@Serializable`` classes. You might choose Kotlin serialization if you are
-   already familiar with the framework or prefer idiomatic Kotlin.  
+   already familiar with the framework or prefer to use an idiomatic Kotlin approach.  
    See the :ref:`Kotlin Serialization <fundamentals-kotlin-serialization>` 
    documentation for more information.
 
