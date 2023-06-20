@@ -57,11 +57,8 @@ query filter, filtering out documents that do not match.
 .. tip::
 
    The filter can be an instance of any class that implements ``Bson``, but it's
-   convenient to combine with use of the `Filters <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Filters.html>`__
+   convenient to combine with use of the :ref:`Filters <filters-builders>` class.
    class.
-   
-   .. TODO (DOCSP-29262) Replace with link to Filters builder doc when available
-   .. :ref:`Filters <filters-builders>` class.
 
 The following example creates a pipeline stage that matches all documents 
 in the ``movies`` collection where the
@@ -80,10 +77,8 @@ in aggregation follows the same rules as :doc:`field projection in queries </fun
 .. tip::
 
    Though the projection can be an instance of any class that implements ``Bson``,
-   it's convenient to combine with use of `Projects <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Projections.html>`__.
-   
-   .. TODO (DOCSP-) Replace with link to Projections builder page when available
-   .. :ref:`Projections <projections-builders>`.
+   it's convenient to combine with use of :ref:`Projections <projections-builders>`.
+
 
 The following example creates a pipeline stage that includes the ``title`` and 
 ``plot`` fields but excludes the ``_id`` field:
@@ -151,10 +146,7 @@ pipeline stage to sort by the specified criteria.
 
    Though the sort criteria can be an instance of any class that
    implements ``Bson``, it's convenient to combine with use of 
-   `Sorts <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__. 
-
-   .. TODO (DOCSP-29265) Replace with link to Sorts builder doc when available
-   .. :ref:`Sorts <sorts-builders>`.
+   :ref:`Sorts <sorts-builders>`. 
 
 The following example creates a pipeline stage that sorts in descending order according
 to the value of the ``year`` field and then in ascending order according to the
