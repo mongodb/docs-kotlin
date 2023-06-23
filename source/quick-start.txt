@@ -27,7 +27,7 @@ MongoDB Atlas is a fully-managed cloud database service that hosts your data
 on MongoDB clusters. In this guide, we show you how to get started with your
 own free (no credit card required) cluster.
 
-.. note::
+.. tip::
 
    For an additional example of how to build an application in Kotlin using 
    MongoDB Atlas and the MongoDB Kotlin driver, see the
