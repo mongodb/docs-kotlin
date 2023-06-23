@@ -28,9 +28,8 @@ With the MongoDB Kotlin driver, data can be modeled using Kotlin data classes or
 `Document <{+api+}/apidocs/bson/org/bson/Document.html>`__ class
 to store and retrieve data from MongoDB.
 
-.. TODO:(DOCSP-29224): add back in when document data format data classes are documented
-.. To learn more about using data classes to store and retrieve data, refer to
-.. :ref:`Document Data Format: Data Classes <fundamentals-data-classes>`.
+To learn more about using data classes to store and retrieve data, refer to
+:ref:`Document Data Format: Data Classes <fundamentals-data-classes>`.
 
 Access a Database
 -----------------
@@ -69,8 +68,6 @@ The following example accesses a collection named "testCollection" from a
    MongoDB implicitly creates the collection when you first insert data
    into that collection.
 
-<<<<<<< HEAD
-=======
 .. _db-coll-specify-return-type:
 
 Specify Return Type
@@ -113,7 +110,6 @@ document with a ``name`` value of ``"strawberry"``:
 
       NewFruit(id=1, name=strawberry, quantity=205, seasons=[summer, fall])
 
->>>>>>> 298b164 ((DOCSP-30689): Update Kotlin version source constant (#102))
 Create a Collection
 -------------------
 
