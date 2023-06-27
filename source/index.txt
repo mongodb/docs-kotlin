@@ -125,7 +125,7 @@ developers.
 
 To learn how to use MongoDB features with the Kotlin driver, see the
 :website:`Kotlin Tutorials and Articles </developer/languages/kotlin/>` page, which 
-includes our :website:`Getting Started with the {+driver-long+} </developer/products/mongodb/getting-started-kotlin-driver/>` 
+features our :website:`Getting Started with the {+driver-long+} </developer/products/mongodb/getting-started-kotlin-driver/>` 
 developer tutorial.
 
 To ask questions and engage in discussions with fellow developers using
