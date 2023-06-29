@@ -266,9 +266,9 @@ of execution:
    .. code-block:: json
       :copyable: false
    
-   { "_id": 1, "name": "Sandy Kane", "location": "Helena, MT" }
-   { "_id": 8, "name": "Shayla Ray", "age": 20 }
-   { "_id": 6, "name": "Zaynab Omar", "age": 37 }
+      { "_id": 1, "name": "Sandy Kane", "location": "Helena, MT" }
+      { "_id": 8, "name": "Shayla Ray", "age": 20 }
+      { "_id": 6, "name": "Zaynab Omar", "age": 37 }
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
