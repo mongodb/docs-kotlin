@@ -80,7 +80,7 @@ frequently-used BSON and Kotlin types:
      - ``org.bson.types.Binary``
    * - Boolean
      - ``kotlin.Boolean``
-   * - LocalDateTime
+   * - Date
      - ``java.time.LocalDateTime``
    * - Document
      - ``org.bson.Document``
