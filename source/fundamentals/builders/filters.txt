@@ -33,8 +33,8 @@ You can use filters in the following places:
 
 Some examples of results from queries with filters are:
 
-- Items that cost $0 to $25
-- A hotel with amenities that include an indoor swimming pool and free parking
+- Items that cost more than $0 but less than $25
+- Foods that are both gluten-free and less than 500 calories
 - A food critic review that mentions "spicy"
 
 This guide shows you how to use builders with examples of the following
