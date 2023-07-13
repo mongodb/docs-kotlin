@@ -20,8 +20,9 @@ Builders are classes provided by the MongoDB Kotlin driver that help you
 construct :ref:`BSON <bson>` objects. To learn more, see our :doc:`guide
 on builders </fundamentals/builders/>`.
 
-Filters are the operations MongoDB uses to limit your results to what
-you want to see.
+Filters are operations used to limit the results of a query based on
+specific conditions. Filters are a helpful tool to locate the
+information needed based on search conditions.
 
 You can use filters in the following places:
 
