@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 import org.bson.BsonInt64
 import org.bson.Document
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import java.util.concurrent.TimeUnit
 import kotlin.test.Ignore
 
@@ -63,7 +63,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -91,7 +91,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -116,7 +116,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -142,7 +142,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -172,7 +172,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -202,7 +202,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -232,7 +232,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
     @Ignore
@@ -260,7 +260,7 @@ class MongoClientSettingsTest {
             System.err.println(me)
         }
         higherScopedClient = mongoClient
-        Assertions.assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
+        assertEquals(1.0, higherScopedCommandResult["ok"].toString().toDouble())
     }
 
 }

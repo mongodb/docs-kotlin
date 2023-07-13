@@ -6,7 +6,6 @@ import config.getConfig
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
