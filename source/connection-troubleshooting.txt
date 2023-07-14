@@ -103,8 +103,8 @@ are in the correct format.
 
 
 If your MongoDB deployment is on MongoDB Atlas, you can check your connection
-string by using the :ref:`Connect to MongoDB Atlas <connect-atlas-kotlin-driver>`
-code example. Make sure to replace the connection string in the example.
+string by using the :ref:`Atlas Connection Example <connect-atlas-kotlin-driver>`.
+Make sure to replace the connection string in the example with yours.
 
 When connecting to a replica set, you should include all of the hosts
 in the replica set in your connection string. Separate each of the hosts
@@ -127,14 +127,14 @@ database:
    :copyable: false
 
    val mongoClient =
-   MongoClients.create("mongodb://<username>:<password>@<hostname>:<port>/?authSource=users");
+   MongoClient.create("mongodb://<username>:<password>@<hostname>:<port>/?authSource=users")
    
 .. _kotlin-error-sending-message:
 
 Error Sending Message
 ~~~~~~~~~~~~~~~~~~~~~
 
-When you end a request through the driver and it is unable to send the command,
+When you send a request through the driver and it is unable to send the command,
 it often displays the following general error message:
 
 .. code-block:: none
