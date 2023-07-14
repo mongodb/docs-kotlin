@@ -25,14 +25,14 @@ examples of sort criteria are:
 - Alphabetical order by first name
 
 Builders are classes provided by the {+driver-short+} that help you
-construct :ref:`BSON <bson>` objects. To learn more, see the :ref:`guide
-on builders <kotlin-builders-landing>`.
+construct :ref:`BSON <bson>` objects. To learn more, see the
+:ref:`builders <kotlin-builders-landing>` guide.
 
 You should read this guide if you want to learn how to use builders to
 specify sort criteria for your queries.
 
 To learn the fundamentals of sorting in the {+driver-short+}, see the
-:ref:`guide on sorting <kotlin-fundamentals-sort>`.
+:ref:`sorting <kotlin-fundamentals-sort>` guide.
 
 .. _sorts-builders-sort-sample:
 
@@ -62,7 +62,7 @@ that you can pass to the  ``sort()`` method of a ``FindFlow`` instance or to
 ``Aggregates.sort()``.
 
 To learn more about the ``Aggregates``
-class, see the :ref:`guide on the Aggregates builder <aggregates-builders>`.
+class, see the :ref:`Aggregates builder <aggregates-builders>` guide.
 
 For more information about the classes and interfaces in this section, see the
 following API Documentation:
@@ -161,7 +161,7 @@ method.
 
 For a detailed example showing how to specify sort criteria using
 the ``Sorts.metaTextScore()`` method, see
-:ref:`the text search section of the sorting fundamentals guide <sorts-crud-text-search>`.
+:ref:`the text search section <sorts-crud-text-search>`  of the sorting guide.
 
 For more information, see the `Sorts class
 <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Sorts.html>`__

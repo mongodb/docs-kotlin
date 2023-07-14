@@ -92,8 +92,7 @@ In the preceding code snippets, we specify the sort criteria using the ``Sorts``
 builder class. While it is possible to specify sort criteria using any class
 that implements the ``Bson`` interface, we recommend that you specify sort
 criteria through the ``Sorts`` builder. For more information on the ``Sorts``
-builder class, see the
-:ref:`guide on the Sorts builder <sorts-builders>`.
+builder class, see the :ref:`Sorts builder <sorts-builders>` guide.
 
 For more information about the classes and interfaces in this section, see the
 following API Documentation:
@@ -203,7 +202,7 @@ code:
    :language: kotlin
 
 Since multiple documents that matched the query contain the same value
-in the ``date`` field, the documents could be returned in a standard order.
+in the ``date`` field, the documents may not be returned in a consistent order.
 
 If you need to guarantee a specific order for documents that have fields
 with identical values, you can specify additional fields to sort on in the event
