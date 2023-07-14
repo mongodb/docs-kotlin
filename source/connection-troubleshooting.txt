@@ -218,13 +218,6 @@ Check the Number of Connections
 You might have too many open connections. The solution to this is described
 under :ref:`Error Sending Message <kotlin-error-sending-message>`.
 
-Miscellaneous Errors
-~~~~~~~~~~~~~~~~~~~~
-
-This section shows connection errors that do not fall into a broader category.
-Each section lists the error message and then the specific steps you should
-take to resolve it.
-
 Additional Tips
 ~~~~~~~~~~~~~~~
 
