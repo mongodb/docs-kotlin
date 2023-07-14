@@ -1,19 +1,18 @@
-
-import com.mongodb.client.model.*
-import com.mongodb.client.model.Sorts.*
+import com.mongodb.client.model.Aggregates
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.Projections
+import com.mongodb.client.model.Sorts
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.time.LocalDate
-import java.util.*
-import kotlin.test.*
-
+import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SortTest {
@@ -74,6 +73,7 @@ internal class SortTest {
             Order(5, "2022-01-23", 60.31, "one large vanilla and chocolate cake"),
             Order(2, "2022-01-11", 83.87, "two medium vanilla birthday cakes")
         )
+
         assertEquals(expected, resultsFlow.toList() )
     }
 
