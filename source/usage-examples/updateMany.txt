@@ -59,7 +59,7 @@ Example
 In this example, we use a ``Filter`` builder to filter our query for
 movies in the genre "Frequently Discussed". 
 
-We then update documents that match our query in the ``movies`` collection of the
+Next, we update documents that match our query in the ``movies`` collection of the
 ``sample_mflix`` database. We perform the following
 updates to the matching documents:
 

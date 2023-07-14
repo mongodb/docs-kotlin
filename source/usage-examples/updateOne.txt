@@ -57,7 +57,7 @@ Example
 In this example, we use a ``Filter`` builder to query the collection for
 a movie with the title "Cool Runnings 2". 
 
-We then perform the following updates to the first match for our query
+Next, we perform the following updates to the first match for our query
 in the ``movies`` collection of the ``sample_mflix`` database:
 
 #. Set the value of ``runtime`` to ``99``
