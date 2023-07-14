@@ -199,10 +199,10 @@ issue.
 Set ``maxConnectionTimeoutMS``
 ------------------------------
 
-The ``maxConnectionTimeoutMS`` option indicates the amount of time the Java
-driver waits for a connection
-before timing out. The default value is ``10000``. You can increase this value
-or set it to ``0`` if you want the driver to never timeout.
+The ``maxConnectionTimeoutMS`` option indicates the amount of time the
+{+driver-short+} waits for a connection before timing out. The default
+value is ``10000``. You can increase this value or set it to ``0`` if
+you want the driver to never timeout.
 
 Set ``maxConnectionLifeTime`` and ``maxConnectionIdleTime``
 -----------------------------------------------------------
