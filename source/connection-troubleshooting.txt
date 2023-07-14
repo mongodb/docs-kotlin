@@ -126,7 +126,10 @@ database:
 .. code-block:: kotlin
    :copyable: false
 
-   val mongoClient = MongoClients.create("mongodb://<username>:<password>@<hostname>:<port>/?authSource=users");
+   val mongoClient =
+   MongoClients.create("mongodb://<username>:<password>@<hostname>:<port>/?authSource=users");
+   
+.. _kotlin-error-sending-message:
 
 Error Sending Message
 ~~~~~~~~~~~~~~~~~~~~~
@@ -213,7 +216,7 @@ Check the Number of Connections
 -------------------------------
 
 You might have too many open connections. The solution to this is described
-under :ref:`Error Sending Message <kotlin-connection-number-connections>`.
+under :ref:`Error Sending Message <kotlin-error-sending-message>`.
 
 Miscellaneous Errors
 ~~~~~~~~~~~~~~~~~~~~
