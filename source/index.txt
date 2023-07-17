@@ -94,7 +94,7 @@ Connection Troubleshooting
 
 For solutions to some issues you might experience when connecting to a MongoDB
 deployment while using the {+driver-long+}, see the 
-:doc:`Connection Troubleshooting </connection-troubleshooting>` section.
+:doc:`Connection Troubleshooting </connection-troubleshooting>` section. 
 
 Issues & Help
 -------------
