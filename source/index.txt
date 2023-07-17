@@ -14,6 +14,7 @@ MongoDB Kotlin Driver
    /api-documentation
    /faq
    /connection-troubleshooting
+   /connection-troubleshooting
    /issues-and-help
    /compatibility
    View the Source <https://github.com/mongodb/mongo-java-driver>
