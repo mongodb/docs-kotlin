@@ -60,6 +60,8 @@ git status
 
 Commit and push your changes for review. Once the PR is merged to the upstream `gh-pages` branch, GitHub Pages will automatically deploy the API documentation.
 
+To build the Kotlin API documentation along with all of the other JVM documentation (Java, Scala, RS), see the instructions in the `docs-java-other` [README file](https://github.com/mongodb/docs-java-other#building-api-documentation).
+
 ## Licenses
 
 All documentation is available under the terms of a [Creative Commons License](https://creativecommons.org/licenses/by-nc-sa/3.0/).
