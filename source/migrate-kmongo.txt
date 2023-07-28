@@ -207,7 +207,7 @@ Both drivers provide support for type-safe queries using property references.
 
       For more information, see the following Kotlin driver documentation:
 
-      - :ref:`Builders <kotlin-builders>`
+      - :ref:`Builders <kotlin-builders-landing>`
       - :ref:`Documents <kotlin-document-format>` guide
       - `JsonObject <{+api+}/apidocs/bson/org/bson/json/JsonObject.html>`__ API Documentation
       
