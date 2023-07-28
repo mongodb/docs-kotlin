@@ -14,14 +14,16 @@ Migrate from KMongo
 Overview
 --------
 
-In this page, you can identify the changes you need to make to migrate from the KMongo driver to the official MongoDB Kotlin driver.
+This page contains a high-level comparison of most of the ways the official
+MongoDB Kotlin and the community-developed KMongo driver differ.
+You can use this page to identify the changes you need to make to migrate from 
+the deprecated KMongo driver to the official MongoDB Kotlin driver.
 
 .. include:: /includes/kmongo-description.rst
 
 The MongoDB Kotlin driver is the officially supported and maintained MongoDB driver for 
 Kotlin. It is developed by the MongoDB team.
 
-This page contains a high-level comparison of most of the ways the drivers differ.
 Although both drivers :ref:`support synchronous and asynchronous operations <kotlin-sync-async-support>`, 
 the examples on this page will use asynchronous coroutine-based operations. 
 
@@ -307,8 +309,9 @@ in Kotlin to and from BSON.
   .. tab::
       :tabid: {+driver-long+}
 
-      You can serialize data classes in the Kotlin driver using the ``kotlinx.serialization`` 
-      library. The driver provides an efficient ``Bson`` serializer that handles the 
+      You can serialize data classes in the Kotlin driver using both automatic 
+      data class codecs as well as the ``kotlinx.serialization`` library. The 
+      driver provides an efficient ``Bson`` serializer that handles the 
       serialization of Kotlin objects to BSON data. 
 
       .. code-block:: kotlin
@@ -323,9 +326,8 @@ in Kotlin to and from BSON.
             val manufacturer: String = "Acme" // Use instead of @BsonProperty
         )
 
-      .. TODO DOCSP-29226 - add link to serialization docs
-      .. To learn more about serializing data classes with ``kotlinx.serialization``, 
-      .. see the :ref:`Kotlin Serialization <fundamentals-kotlin-serialization>` documentation.
+      To learn more, see the :ref:`Kotlin Serialization <fundamentals-kotlin-serialization>` 
+      documentation.
 
       If you use the ``Document`` class to represent your collection, you can 
       serialize it to JSON and EJSON using the ``.toJson()`` method:
@@ -342,7 +344,7 @@ in Kotlin to and from BSON.
         val json = doc.toJson(settings)
 
       To learn more about serializing data with the ``Document`` class, refer to 
-      :ref:`Document Data Format: Extended JSON <write-ejson>` documentation.
+      :ref:`Document Data Format - Extended JSON <kotlin-extended-json>` documentation.
 
   .. tab::
     :tabid: KMongo
