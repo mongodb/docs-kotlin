@@ -156,8 +156,7 @@ To monitor a type of SDAM event, write a class that
 implements one of the three preceding interfaces and register an instance of that
 class with your ``MongoClient`` instance.
 
-For a detailed description of each SDAM event, see the
-:spec:`MongoDB SDAM monitoring Events API specification </server-discovery-and-monitoring/server-discovery-and-monitoring-logging-and-monitoring.rst#events-api>`.
+For a detailed description of each SDAM event, see the :spec:`MongoDB SDAM monitoring events specification </server-discovery-and-monitoring/server-discovery-and-monitoring-logging-and-monitoring.rst#events-api>`.
 
 Example
 ^^^^^^^
