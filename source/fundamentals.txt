@@ -2,30 +2,29 @@
 Fundamentals
 ============
 
-.. default-domain:: mongodb
-
 .. toctree::
    :titlesonly:
    :maxdepth: 1
 
    /fundamentals/connection
+   /fundamentals/auth
+   /fundamentals/enterprise-auth
    /fundamentals/stable-api
    /fundamentals/databases-collections
    /fundamentals/data-formats
    /fundamentals/crud
    /fundamentals/builders
    /fundamentals/aggregation
+   /fundamentals/aggregation-expression-operations
    /fundamentals/indexes
+   /fundamentals/collations
    /fundamentals/logging
    /fundamentals/monitoring
+   /fundamentals/time-series
+   /fundamentals/encrypt-fields
 
 .. TODO : add back in after MVP
-   .. /fundamentals/auth
-   .. /fundamentals/enterprise-auth
-   .. /fundamentals/collations
    .. /fundamentals/gridfs
    .. /fundamentals/csfle
-   .. /fundamentals/time-series
 
 .. include:: /includes/fundamentals-sections.rst
-   

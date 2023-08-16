@@ -1,16 +1,26 @@
 
 import com.mongodb.DuplicateKeyException
 import com.mongodb.MongoCommandException
-import com.mongodb.client.model.*
+import com.mongodb.client.model.ClusteredIndexOptions
+import com.mongodb.client.model.CreateCollectionOptions
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.IndexOptions
+import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.Projections
+import com.mongodb.client.model.Sorts
 import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Position
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -56,15 +66,13 @@ class IndexesTest {
     // :snippet-end:
 
     companion object {
-        private val dotenv = dotenv()
-        private val CONNECTION_URI_PLACEHOLDER = dotenv["MONGODB_CONNECTION_URI"]
+        private val config = getConfig()
+        private val CONNECTION_URI_PLACEHOLDER = config.connectionUri
 
-        // :snippet-start: set-up
         val mongoClient = MongoClient.create(CONNECTION_URI_PLACEHOLDER)
         val database = mongoClient.getDatabase("sample_mflix")
         val moviesCollection = database.getCollection<Movie>("movies")
         val theatersCollection = database.getCollection<Theater>("theaters")
-        // :snippet-end:
 
         @BeforeAll
         @JvmStatic

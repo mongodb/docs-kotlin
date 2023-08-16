@@ -1,7 +1,10 @@
 
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.FindOneAndUpdateOptions
+import com.mongodb.client.model.ReturnDocument
+import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -12,18 +15,18 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.util.*
-import kotlin.test.*
+import java.time.LocalDate
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DataClassTest {
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("storage_store")
 
         @AfterAll
@@ -71,6 +74,26 @@ internal class DataClassTest {
         resultsFlow.collect { println(it) }
         // :snippet-end:
         assertEquals(tape, resultsFlow.firstOrNull())
+
+        // :snippet-start: retrieve-diff-data-class
+        // Define a data class for returned documents
+        data class NewDataStorage(
+            val productName: String,
+            val capacity: Double,
+            val releaseDate: LocalDate
+        )
+
+        val filter = Filters.eq(DataStorage::productName.name, "tape")
+        val update = Updates.currentDate("releaseDate")
+        val options = FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+
+        // Specify the class for returned documents as the type parameter in withDocumentClass()
+        val result = collection
+            .withDocumentClass<NewDataStorage>()
+            .findOneAndUpdate(filter, update, options)
+
+        println("Updated document: ${result}")
+        // :snippet-end:
     }
 
     // :snippet-start: annotated-data-class

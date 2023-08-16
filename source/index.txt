@@ -1,8 +1,6 @@
-=============================
-MongoDB Kotlin Driver (Alpha)
-=============================
-
-.. default-domain:: mongodb
+=====================
+MongoDB Kotlin Driver
+=====================
 
 .. toctree::
    :titlesonly:
@@ -11,19 +9,15 @@ MongoDB Kotlin Driver (Alpha)
    /quick-start
    /quick-reference
    /whats-new
+   /usage-examples
    /fundamentals
    /api-documentation
    /faq
+   /connection-troubleshooting
    /issues-and-help
    /compatibility
+   /migrate-kmongo
    View the Source <https://github.com/mongodb/mongo-java-driver>
-
-.. note:: Alpha Release
-
-   The Kotlin driver is currently in alpha release and available only for evaluation purposes,
-   to validate functionality, and to gather feedback.
-   It is not recommended for production deployments as we may introduce breaking changes.
-   This feature doesn't include formal consulting, SLAs, or technical support obligations.
 
 Introduction
 ------------
@@ -35,7 +29,7 @@ MongoDB driver for server-side Kotlin applications using coroutines. Download it
 following our Quick Start guide.
 
 If your Kotlin application requires synchronous processing, use the
-`Sync Driver <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-sync/>`__ which uses synchronous operations
+:driver:`Sync Driver </kotlin-sync/>` which uses synchronous operations
 to make blocking calls to MongoDB.
 
 Quick Start
@@ -49,6 +43,12 @@ Quick Reference
 
 See driver syntax examples for common MongoDB commands in the
 :ref:`Quick Reference <kotlin-quick-reference>` section.
+
+Usage Examples
+--------------
+
+For fully runnable code snippets and explanations for common
+methods, see the :doc:`Usage Examples </usage-examples>` section.
 
 Fundamentals
 ------------
@@ -80,7 +80,7 @@ and links to the API documentation.
    * - `Core <{+api+}/apidocs/mongodb-driver-core/index.html>`__
      - Shared core classes
 
-   * - `Kotlin Driver <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/index.html>`__
+   * - `Kotlin Driver <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/index.html>`__
      - API
 
 FAQ
@@ -89,6 +89,13 @@ FAQ
 For answers to commonly asked questions about the MongoDB
 Kotlin Driver, see the :doc:`Frequently Asked Questions (FAQ) </faq>`
 section.
+
+Connection Troubleshooting
+--------------------------
+
+For solutions to some issues you might experience when connecting to a MongoDB
+deployment while using the {+driver-long+}, see the 
+:doc:`Connection Troubleshooting </connection-troubleshooting>` section.
 
 Issues & Help
 -------------
@@ -113,8 +120,9 @@ For a list of new features and changes in each version, see the
 Learn
 ------
 
-Visit the Developer Hub and MongoDB University to learn more about the
-MongoDB Kotlin driver.
+Visit the Developer Hub to learn more about the MongoDB Kotlin driver.
+
+.. TODO: Update to "Visit the Developer Hub and MongoDB University" when University content is available 
 
 Developer Hub
 ~~~~~~~~~~~~~
@@ -122,8 +130,31 @@ Developer Hub
 The Developer Hub provides tutorials and social engagement for
 developers.
 
-To learn how to use MongoDB features with the Kotlin driver, see the `How
-To's and Articles page <https://www.mongodb.com/developer/learn/?content=Articles&text=kotlin#main>`__.
+To learn how to use MongoDB features with the Kotlin driver, see the
+:website:`Kotlin Tutorials and Articles </developer/languages/kotlin/>` page, which 
+features our :website:`Getting Started with the {+driver-long+} </developer/products/mongodb/getting-started-kotlin-driver/>` 
+developer tutorial.
 
 To ask questions and engage in discussions with fellow developers using
-the Kotlin Driver, see the `forums page <https://www.mongodb.com/community/forums/tag/kotlin>`__.
+the Kotlin Driver, visit the `MongoDB Developer Community <https://www.mongodb.com/community/forums/tag/kotlin>`__.
+
+.. TODO: Add back when University content is available for Kotlin driver
+.. need to re-add /includes/figures/M220J_hero.jpg
+
+.. MongoDB University
+.. ~~~~~~~~~~~~~~~~~~
+
+.. MongoDB University provides free courses to teach everyone how to use
+.. MongoDB.
+
+.. Take the free online course taught by MongoDB instructors
+.. `````````````````````````````````````````````````````````
+
+.. .. list-table::
+
+..    * - .. figure:: /includes/figures/M220J_hero.jpg
+..           :alt: MongoDB Kotlin Course Hero
+
+..      - `Using MongoDB with Kotlin <https://learn.mongodb.com/learning-paths/using-mongodb-with-kotlin>`_
+
+..        Learn the essentials of Kotlin application development with MongoDB.

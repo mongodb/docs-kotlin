@@ -1,10 +1,8 @@
-.. _kotlin-sync-quickstart:
+.. _kotlin-quickstart:
 
 ===========
 Quick Start
 ===========
-
-.. default-domain:: mongodb
 
 .. contents:: On this page
    :local:
@@ -26,6 +24,13 @@ from a Kotlin application.
 MongoDB Atlas is a fully-managed cloud database service that hosts your data
 on MongoDB clusters. In this guide, we show you how to get started with your
 own free (no credit card required) cluster.
+
+.. tip::
+
+   For an additional example of how to build an application in Kotlin using 
+   MongoDB Atlas and the {+driver-long+}, see the
+   :website:`Getting Started with the {+driver-long+}
+   </developer/products/mongodb/getting-started-kotlin-driver/>` developer tutorial.
 
 Consult the following steps to connect your Kotlin application with a MongoDB Atlas
 cluster.
@@ -110,19 +115,12 @@ want to connect to as shown below.
 .. figure:: /includes/figures/atlas_connection_select_cluster.png
    :alt: Atlas Connection GUI cluster selection screen
 
-.. TODO:(DOCSP-29148) will have to update the image and description of UI for kotlin
-
-.. important:: Use Java Driver Connection String
-
-   The Kotlin driver has not yet been added to the Atlas UI. You can use the
-   Java driver connection string instead.
-
-Proceed to the :guilabel:`Connect Your Application` step and select the Java driver.
-Select "4.3 or Later" for the version.
+Proceed to the :guilabel:`Connect Your Application` step and select the Kotlin driver.
+Select "4.10 or later" for the version.
 Click the :guilabel:`Copy` icon to copy the *connection string* to your clipboard as
 shown below.
 
-.. figure:: /includes/figures/atlas_connection_copy_string_java.png
+.. figure:: /includes/figures/atlas_connection_copy_string_kotlin.png
    :alt: Atlas Connection GUI connection string screen
 
 Save your Atlas connection string in a safe location that you can access
@@ -155,9 +153,8 @@ of the movie from the sample dataset which should look something like this:
       cast=[Michael J. Fox, Christopher Lloyd, Lea Thompson, Crispin Glover]
    )
 
-.. TODO:(DOCSP-29224): add back in when document data format data classes are documented
-.. To learn more about using data classes to store and retrieve data, refer to
-.. :ref:`Document Data Format: Data Classes <fundamentals-data-classes>`.
+To learn more about using data classes to store and retrieve data, refer to
+:ref:`Document Data Format: Data Classes <fundamentals-data-classes>`.
 
 If you receive no output or an error, check whether you included the proper
 connection string in your Kotlin class, and whether you loaded the sample dataset
@@ -229,4 +226,3 @@ Next Steps
 
 Learn how to read and modify data using the Kotlin driver in the :ref:`Fundamentals
 CRUD guide <kotlin-crud-operations>`.
-

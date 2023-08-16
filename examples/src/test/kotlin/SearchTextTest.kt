@@ -1,20 +1,20 @@
+
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
 import com.mongodb.client.model.Sorts.ascending
 import com.mongodb.client.model.TextSearchOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-// TODO: light refactor on these examples so that they don't collect directly from find() op, but rather assign to val findFlow
-// and then collect/println from that for consistency with other examples
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SearchTextTest {
     // :snippet-start: search-data-model
@@ -26,8 +26,8 @@ internal class SearchTextTest {
 // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("movies")
         val collection = database.getCollection<Movies>("fast_and_furious_movies")
 
@@ -63,13 +63,14 @@ internal class SearchTextTest {
         // :snippet-end:
         // Junit test for the above code
         val testFilter = Filters.text("Furious")
-        collection.find(testFilter).collect { println(it) }
+        val findFlow = collection.find(testFilter)
+        findFlow.collect { println(it) }
         val expected = listOf(
             Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
             Movies(3, "Furious 7", listOf("emotional")),
             Movies(4, "The Fate of the Furious", listOf("betrayal"))
         )
-        assertEquals(expected, collection.find(testFilter).sort(ascending("_id")).toList() )
+        assertEquals(expected, findFlow.sort(ascending("_id")).toList() )
     }
 
     @Test
@@ -88,14 +89,15 @@ internal class SearchTextTest {
         collection.createIndex(Indexes.text("title"))
         // :snippet-start: search-term
         val filter = Filters.text("fast")
-        collection.find(filter).collect { println(it) }
+        val findFlow = collection.find(filter)
+        findFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             Movies(1, "2 Fast 2 Furious", listOf("undercover", "drug dealer")),
             Movies(2, "Fast 5", listOf("bank robbery", "full team"))
         )
-        assertEquals(expected, collection.find(filter).sort(ascending("_id")).toList() )
+        assertEquals(expected, findFlow.sort(ascending("_id")).toList() )
     }
 
     @Test
@@ -103,14 +105,15 @@ internal class SearchTextTest {
         collection.createIndex(Indexes.text("title"))
         // :snippet-start: search-multiple-terms
         val filter = Filters.text("fate 7")
-        collection.find(filter).collect { println(it) }
+        val findFlow = collection.find(filter)
+        findFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             Movies(3, "Furious 7", listOf("emotional")),
             Movies(4, "The Fate of the Furious", listOf("betrayal"))
         )
-        assertEquals(expected, collection.find(filter).toList() )
+        assertEquals(expected, findFlow.toList() )
     }
 
     @Test
@@ -118,13 +121,14 @@ internal class SearchTextTest {
         collection.createIndex(Indexes.text("title"))
         // :snippet-start: search-phrase
         val filter = Filters.text("\"fate of the furious\"")
-        collection.find(filter).collect { println(it) }
+        val findFlow = collection.find(filter)
+        findFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             Movies(4, "The Fate of the Furious", listOf("betrayal"))
         )
-        assertEquals(expected, collection.find(filter).toList() )
+        assertEquals(expected, findFlow.toList() )
     }
 
     @Test
@@ -132,13 +136,14 @@ internal class SearchTextTest {
         collection.createIndex(Indexes.text("title"))
         // :snippet-start: exclude-term
         val filter = Filters.text("furious -fast")
-        collection.find(filter).collect { println(it) }
+        val findFlow = collection.find(filter)
+        findFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
             Movies(3, "Furious 7", listOf("emotional")),
             Movies(4, "The Fate of the Furious", listOf("betrayal"))
         )
-        assertEquals(expected, collection.find(filter).sort(ascending("_id")).toList() )
+        assertEquals(expected, findFlow.sort(ascending("_id")).toList() )
     }
 }

@@ -2,20 +2,20 @@
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
 import com.mongodb.client.model.Projections
-import com.mongodb.client.model.Projections.*
 import com.mongodb.client.model.geojson.Point
 import com.mongodb.client.model.geojson.Polygon
 import com.mongodb.client.model.geojson.Position
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
-import kotlin.test.*
-
+import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SearchGeospatialTest {
@@ -56,8 +56,8 @@ internal class SearchGeospatialTest {
     // :snippet-end:
 
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         val database = client.getDatabase("sample_mflix")
         val collection = database.getCollection<Theater>("theaters")
 

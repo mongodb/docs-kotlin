@@ -3,19 +3,17 @@ import com.mongodb.client.model.Aggregates
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Sorts.descending
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.util.*
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-// TODO: light refactor on these examples so that they don't collect directly from find() op, but rather assign to val findFlow
-// and then collect/println from that for consistency with other examples
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SkipTest {
     // :snippet-start: skip-data-model
@@ -26,9 +24,9 @@ internal class SkipTest {
     )
     // :snippet-end:
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
-        val database = client.getDatabase("paint_store")
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
+        val database = client.getDatabase("skip")
         val collection = database.getCollection<PaintOrder>("paint_order")
 
         @BeforeAll
@@ -94,7 +92,7 @@ internal class SkipTest {
         val results = collection.find(filter)
             .sort(descending(PaintOrder::qty.name))
             .skip(5)
-            .collect { println(it) }
+        results.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
         val expected = listOf(
@@ -102,8 +100,7 @@ internal class SkipTest {
             PaintOrder(1, 5, "red"),
             PaintOrder(6, 3, "pink")
         )
-        assertEquals(expected, collection.find(filter).sort(descending(PaintOrder::qty.name))
-            .skip(5).toList() )
+        assertEquals(expected, results.toList() )
     }
 
     @Test
@@ -115,7 +112,8 @@ internal class SkipTest {
             Aggregates.sort(descending(PaintOrder::qty.name)),
             Aggregates.skip(5)
         )
-        collection.aggregate(aggregate).collect { println(it) }
+        val findFlow = collection.aggregate(aggregate)
+        findFlow.collect { println(it) }
         // :snippet-end:
 
         // Junit test for the above code
@@ -124,7 +122,7 @@ internal class SkipTest {
             PaintOrder(1, 5, "red"),
             PaintOrder(6, 3, "pink")
         )
-        assertEquals(expected, collection.aggregate(aggregate).toList())
+        assertEquals(expected, findFlow.toList())
     }
 
     @Test
@@ -136,9 +134,10 @@ internal class SkipTest {
             Aggregates.sort(descending(PaintOrder::qty.name)),
             Aggregates.skip(9)
         )
-        collection.aggregate(emptyQuery).collect { println(it) }
+        val findFlow = collection.aggregate(emptyQuery)
+        findFlow.collect { println(it) }
         // :snippet-end:
         // Junit test for the above code
-        assertTrue(collection.aggregate(emptyQuery).toList().isEmpty())
+        assertTrue(findFlow.toList().isEmpty())
     }
 }

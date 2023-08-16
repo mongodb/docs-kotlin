@@ -1,15 +1,14 @@
+.. _kotlin-document-format:
+
 =========
 Documents
 =========
-
-.. default-domain:: mongodb
 
 .. contents:: On this page
    :local:
    :backlinks: none
    :depth: 2
    :class: singlecol
-
 
 Overview
 --------
@@ -80,7 +79,7 @@ frequently-used BSON and Kotlin types:
    * - Boolean
      - ``kotlin.Boolean``
    * - Date
-     - ``java.util.Date``
+     - ``java.time.LocalDateTime``
    * - Document
      - ``org.bson.Document``
    * - Double
@@ -141,7 +140,7 @@ For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
 - `Document <{+api+}/apidocs/bson/org/bson/Document.html>`__
-- `getCollection() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/get-collection.html>`__
+- `getCollection() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/get-collection.html>`__
 - `get() <{+api+}/apidocs/bson/org/bson/Document.html#get(java.lang.Object)>`__
 
 BsonDocument
@@ -208,7 +207,7 @@ data from the collection using the following code:
    .. output::
       :language: none
 
-      _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: Thu Apr 17 00:00:00 EDT 2014
+      _id: 5fb5fad05f734e3794741a35, name: Gabriel García Márquez, dateOfDeath: 2014-04-17T00:00
       title: One Hundred Years of Solitude, yearPublished: 1967
       title: Chronicle of a Death Foretold, yearPublished: 1981
       title: Love in the Time of Cholera, yearPublished: 1985
@@ -224,7 +223,7 @@ For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
 
 - `BsonDocument <{+api+}/apidocs/bson/org/bson/BsonDocument.html>`__
-- `getCollection() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/get-collection.html>`__
+- `getCollection() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/get-collection.html>`__
 - `BsonInvalidOperationException <{+api+}/apidocs/bson/org/bson/BsonInvalidOperationException.html>`__
 - `get() <{+api+}/apidocs/bson/org/bson/BsonDocument.html#get(java.lang.Object)>`__
 - `BsonValue <{+api+}/apidocs/bson/org/bson/BsonValue.html>`__

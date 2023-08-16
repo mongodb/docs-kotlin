@@ -1,19 +1,20 @@
 
-import org.bson.*
+import org.bson.BsonTimestamp
+import org.bson.Document
 import org.bson.json.JsonMode
 import org.bson.json.JsonReader
 import org.bson.json.JsonWriter
 import org.bson.json.JsonWriterSettings
 import org.bson.types.ObjectId
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.test.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class EjsonTest {
@@ -94,15 +95,15 @@ internal class EjsonTest {
         val settings = JsonWriterSettings.builder()
             .outputMode(JsonMode.RELAXED)
             .objectIdConverter { value, writer -> writer.writeString(value.toHexString()) }
-            .dateTimeConverter { value, writer ->
-                val zonedDateTime = Instant.ofEpochMilli(value).atZone(ZoneOffset.UTC)
-                writer.writeString(DateTimeFormatter.ISO_DATE_TIME.format(zonedDateTime))
+            .timestampConverter { value, writer ->
+                val ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(value.time.toLong()), ZoneOffset.UTC)
+                writer.writeString(ldt.format(DateTimeFormatter.ISO_DATE_TIME))
             }
             .build()
 
         val doc = Document()
             .append("_id", ObjectId("507f1f77bcf86cd799439012"))
-            .append("createdAt", Date.from(Instant.ofEpochMilli(1601499609000L)))
+            .append("createdAt", BsonTimestamp(1601516589,1))
             .append("myNumber", 4794261)
 
         println(doc.toJson(settings))

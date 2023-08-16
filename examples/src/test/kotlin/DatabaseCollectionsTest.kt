@@ -1,18 +1,21 @@
 
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.FindOneAndUpdateOptions
+import com.mongodb.client.model.ReturnDocument
+import com.mongodb.client.model.Updates
 import com.mongodb.client.model.ValidationOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import kotlin.test.assertTrue
-
+import org.junit.jupiter.api.Assertions.assertTrue
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DatabaseCollectionsTest {
@@ -23,8 +26,8 @@ internal class DatabaseCollectionsTest {
     )
     // :snippet-end:
     companion object {
-        val dotenv = dotenv()
-        val client = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        val config = getConfig()
+        val client = MongoClient.create(config.connectionUri)
         // :snippet-start: access-database
         val database = client.getDatabase("testDatabase")
         // :snippet-end:
@@ -85,5 +88,49 @@ internal class DatabaseCollectionsTest {
         // Junit test for the above code
         val collectionList = database.listCollectionNames().toList()
         assertTrue(collectionList.contains("movies"))
+    }
+
+    // :snippet-start: fruit-data-class
+    data class Fruit(
+        @BsonId val id: Int,
+        val name: String,
+        val qty: Int,
+        val seasons: List<String>
+    )
+    // :snippet-end:
+
+    @Test
+    fun returnTypeTest() = runBlocking {
+        database.createCollection("fruits")
+        // :snippet-start: return-type
+        val collection =
+            database.getCollection<Fruit>("fruits")
+        collection.insertOne(Fruit(1, "strawberry", 205, listOf("summer"))) // :remove:
+
+        // Define a data class for returned documents
+        data class NewFruit(
+            @BsonId val id: Int,
+            val name: String,
+            val quantity: Int,
+            val seasons: List<String>
+        )
+
+        val filter = Filters.eq(Fruit::name.name, "strawberry")
+        val update = Updates.combine(
+            Updates.rename(Fruit::qty.name, "quantity"),
+            Updates.push(Fruit::seasons.name, "fall"),
+        )
+        val options = FindOneAndUpdateOptions()
+            .returnDocument(ReturnDocument.AFTER)
+
+        // Specify the class for returned documents as the type parameter in withDocumentClass()
+        val result = collection
+            .withDocumentClass<NewFruit>()
+            .findOneAndUpdate(filter, update, options)
+        println(result)
+        // :snippet-end:
+
+        // Junit test for the above code
+        assertEquals(NewFruit(1,"strawberry", 205, listOf("summer", "fall")), result)
     }
 }

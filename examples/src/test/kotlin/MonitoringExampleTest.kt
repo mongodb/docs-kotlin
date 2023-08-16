@@ -1,10 +1,17 @@
 
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
-import com.mongodb.event.*
+import com.mongodb.event.ClusterDescriptionChangedEvent
+import com.mongodb.event.ClusterListener
+import com.mongodb.event.CommandFailedEvent
+import com.mongodb.event.CommandListener
+import com.mongodb.event.CommandSucceededEvent
+import com.mongodb.event.ConnectionCheckOutFailedEvent
+import com.mongodb.event.ConnectionCheckedOutEvent
+import com.mongodb.event.ConnectionPoolListener
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.management.JMXConnectionPoolListener
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
@@ -15,10 +22,10 @@ import kotlin.test.assertEquals
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MonitoringTest {
     companion object {
-        private val dotenv = dotenv()
+        private val config = getConfig()
         private const val COLLECTION = "compound-ops"
         private const val DATABASE = "test"
-        private val URI = ConnectionString(dotenv["MONGODB_CONNECTION_URI"])
+        private val URI = ConnectionString(config.connectionUri)
     }
 
     @Test

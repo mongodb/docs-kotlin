@@ -1,28 +1,35 @@
 
+import com.mongodb.assertions.Assertions.assertNotNull
 import com.mongodb.client.model.Filters
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import io.github.cdimascio.dotenv.dotenv
+import config.getConfig
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
-import org.bson.*
+import org.bson.BsonArray
+import org.bson.BsonDateTime
+import org.bson.BsonDocument
+import org.bson.BsonInt32
+import org.bson.BsonObjectId
+import org.bson.BsonString
+import org.bson.Document
 import org.bson.json.JsonObject
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.time.LocalDate
+import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
-import kotlin.test.*
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DocumentsTest {
 
     companion object {
-        private val dotenv = dotenv()
-        val mongoClient = MongoClient.create(dotenv["MONGODB_CONNECTION_URI"])
+        private val config = getConfig()
+        val mongoClient = MongoClient.create(config.connectionUri)
 
         @AfterAll
         @JvmStatic
@@ -40,10 +47,7 @@ internal class DocumentsTest {
             .append("name", "Gabriel García Márquez")
             .append(
                 "dateOfDeath",
-                Date.from(
-                    LocalDate.of(2014, 4, 17)
-                        .atStartOfDay(ZoneId.systemDefault()).toInstant()
-                )
+                LocalDateTime.of(2014, 4, 17, 4, 0)
             )
             .append(
                 "novels", listOf(
@@ -96,8 +100,7 @@ internal class DocumentsTest {
             .append(
                 "dateOfDeath",
                 BsonDateTime(
-                    LocalDate.of(2014, 4, 17)
-                        .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                    LocalDateTime.of(2014, 4, 17, 0, 0).atZone(ZoneId.of("America/New_York")).toInstant().toEpochMilli()
                 )
             )
             .append(
@@ -135,7 +138,7 @@ internal class DocumentsTest {
 
         val doc = collection.find(Filters.eq("name", "Gabriel García Márquez")).firstOrNull()
         doc?.let {
-            println("_id: ${it.getObjectId("_id").value}, name: ${it.getString("name").value}, dateOfDeath: ${Date(it.getDateTime("dateOfDeath").value)}")
+            println("_id: ${it.getObjectId("_id").value}, name: ${it.getString("name").value}, dateOfDeath: ${Instant.ofEpochMilli(it.getDateTime("dateOfDeath").value).atZone(ZoneId.of("America/New_York")).toLocalDateTime()}")
 
             it.getArray("novels").forEach { novel ->
                 val novelDocument = novel.asDocument()

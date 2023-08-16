@@ -4,8 +4,6 @@
 Change a Document
 =================
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -53,9 +51,9 @@ Update operations can change fields and values. They apply changes
 specified in an update document to one or more documents that match your
 query filter. 
 
-The `updateOne() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/update-one.html>`__
+The `updateOne() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/update-one.html>`__
 method changes the first document your query filter matches and the
-`updateMany() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/update-many.html>`__
+`updateMany() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/update-many.html>`__
 method changes all the documents your query filter matches. 
 
 You can call the ``updateOne()`` and ``updateMany()`` methods on a
@@ -74,10 +72,7 @@ The ``updateOne()`` and ``updateMany()`` methods both have the following
 parameters:
 
 - ``query`` specifies a query filter with the criteria to match documents to update in your collection
-- ``updateDocument`` specifies the fields and values to change in the matching document or documents.
-
-.. TODO(DOCSP-29266): add back to above bullet point when updates builder page ready.
-.. For this example, we use the :doc:`Updates builder </fundamentals/builders/updates>` to create the update document.
+- ``updateDocument`` specifies the fields and values to change in the matching document or documents. For this example, we use the :doc:`Updates builder </fundamentals/builders/updates>` to create the update document.
 
 You can create the ``updateDocument`` using an ``Updates`` builder as
 follows:
@@ -165,7 +160,7 @@ A replace operation substitutes one document from your collection. The
 substitution occurs between a document your query filter matches and a
 replacement document. 
 
-The `replaceOne() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/replace-one.html>`__
+The `replaceOne() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/replace-one.html>`__
 method removes all the existing fields and values in the
 matching document (except the ``_id`` field) and substitutes it with the
 replacement document. 

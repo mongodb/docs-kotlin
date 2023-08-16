@@ -4,8 +4,6 @@
 Retrieve Data
 ==============
 
-.. default-domain:: mongodb
-
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -83,13 +81,11 @@ To address this scenario, the owner finds orders to match the criteria:
 After the owner runs this query, they find two orders that matched the
 criteria.
 
-.. TODO:(DOCSP-29262) add in
-.. For more information on how to build filters, see our :doc:`Filters Builders
-.. </fundamentals/builders/filters>` guide.
+For more information on how to build filters, see our :doc:`Filters Builders
+</fundamentals/builders/filters>` guide.
 
-.. TODO:(DOCSP-29248) add in
-.. For a runnable ``find()`` example, see our :doc:`Find Multiple
-.. Documents </usage-examples/find>` page.
+For a runnable ``find()`` example, see our :doc:`Find Multiple
+Documents </usage-examples/find>` page.
 
 .. _retrieve-aggregate:
 
@@ -140,5 +136,5 @@ the MongoDB server manual page on :manual:`Aggregation </aggregation>`.
 For additional information on the methods mentioned on this page, see
 the following API Documentation:
 
-- `MongoCollection.find() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find.html>`__
-- `MongoCollection.aggregate() <{+api-kotlin+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/aggregate.html>`__
+- `MongoCollection.find() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/find.html>`__
+- `MongoCollection.aggregate() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/aggregate.html>`__
