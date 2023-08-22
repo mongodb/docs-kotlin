@@ -4,6 +4,7 @@ Fundamentals
 
 This is the fundamentals page, and only this page should have updated.
 
+
 .. toctree::
    :titlesonly:
    :maxdepth: 1
