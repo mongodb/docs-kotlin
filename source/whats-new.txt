@@ -65,7 +65,6 @@ What's New in 4.11
 New features of the 4.11 driver release include:
 
 - Support for connecting to MongoDB by using a SOCKS5 proxy. TODO: needs a ticket for content
-- Added a class to manage Client-Side Operations Timeout (CSOT) options. TODO: needs a ticket for content
 - Added the ``getSplitEvent()`` method to the ``ChangeStreamDocument`` class
   to identify fragments of a change stream event that exceeds 16MB. You must
   use the aggregation stage ``$changeStreamSplitLargeEvent`` in your change
@@ -74,8 +73,8 @@ New features of the 4.11 driver release include:
 - Added search index management helpers. TODO: needs a ticket for content
 - Updated Snappy and Zstd compression library dependency versions. To learn
   more about the current dependency versions, see :ref:`network-compression`.
-- Added the following classes and ``getElapsedTime()`` methods to them to
-  monitor the duration of connection pool events:
+- Added ``getElapsedTime()`` methods to the following classes to monitor the
+  duration of connection pool events:
 
   - TODO: link to API driver-core docs for these (DOCSP-31914)
   - ``ConnectionCheckOutFailedEvent``
@@ -91,7 +90,7 @@ What's New in 4.10
 .. important::
 
    Starting in version 4.10.1 of the {+driver-short+}, you must add
-   the ``bson-kotlinx`` library as an explicit dependency to use the 
+   the ``bson-kotlinx`` library as an explicit dependency to use the
    ``kotlinx-serialization`` library.
 
 - Support for Kotlin server-side usage, both for coroutines and for synchronous applications.
