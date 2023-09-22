@@ -21,8 +21,7 @@ Upcoming Breaking Changes
 
 - Beginning with v5.0, the Kotlin Driver requires Java 11 or later.
 - Beginning with v5.0, several Stream API methods and classes will be
-  removed. To learn which methods will be removed, see `version-4.11`.
-
+  removed. To learn which methods will be removed, see :ref:`version-4.11`.
 
 .. _version-4.11:
 
@@ -44,19 +43,18 @@ What's New in 4.11
    - The following Stream API methods and classes are deprecated are scheduled
      for removal in v5.0:
 
-      - ``streamFactoryFactory()`` method from ``MongoClientSettings.Builder``
-      - ``getStreamFactoryFactory()`` method from ``MongoClientSettings``
-      - ``NettyStreamFactoryFactory`` class
-      - ``NettyStreamFactory`` class
-      - ``AsynchronousSocketChannelStreamFactory`` class
-      - ``AsynchronousSocketChannelStreamFactoryFactory`` class
-      - ``BufferProvider`` class
-      - ``SocketStreamFactory`` class
-      - ``Stream`` class
-      - ``StreamFactory`` class
-      - ``StreamFactoryFactory`` class
-      - ``TlsChannelStreamFactoryFactory`` class
-
+     - ``streamFactoryFactory()`` method from ``MongoClientSettings.Builder``
+     - ``getStreamFactoryFactory()`` method from ``MongoClientSettings``
+     - ``NettyStreamFactoryFactory`` class
+     - ``NettyStreamFactory`` class
+     - ``AsynchronousSocketChannelStreamFactory`` class
+     - ``AsynchronousSocketChannelStreamFactoryFactory`` class
+     - ``BufferProvider`` class
+     - ``SocketStreamFactory`` class
+     - ``Stream`` class
+     - ``StreamFactory`` class
+     - ``StreamFactoryFactory`` class
+     - ``TlsChannelStreamFactoryFactory`` class
 
 .. note:: Upgraded Netty Version
 
@@ -64,12 +62,10 @@ What's New in 4.11
    ``io.netty:netty-all`` package. This change affects you only if you use the
    ``SslContext`` class that Netty provides.
 
-
 New features of the 4.11 driver release include:
 
 - Support for connecting to MongoDB by using a SOCKS5 proxy. TODO: needs a ticket for content
 - Added a class to manage Client-Side Operations Timeout (CSOT) options. TODO: needs a ticket for content
-
 - Added the ``getSplitEvent()`` method to the ``ChangeStreamDocument`` class
   to identify fragments of a change stream event that exceeds 16MB. You must
   use the aggregation stage ``$changeStreamSplitLargeEvent`` in your change
