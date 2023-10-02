@@ -117,7 +117,7 @@ You can use the following annotations on data classes:
        
        .. note::
           
-          You should use this annotation only on a property you are
+          Use this annotation only on a property you are
           storing as a different BSON type. You might experience errors
           if you include the ``BsonRepresentation`` annotation on a
           property you are storing as the same type.
