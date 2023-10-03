@@ -19,9 +19,7 @@ Learn what's new in:
 Upcoming Breaking Changes
 -------------------------
 
-- Beginning with v5.0, the Kotlin Driver requires Java 11 or later.
-- Beginning with v5.0, several Stream API methods and classes will be
-  removed. To learn which methods will be removed, see :ref:`version-4.11`.
+- Beginning with v5.0, the {+driver-short+} requires Java 11 or later.
 
 .. _version-4.11:
 
@@ -40,16 +38,19 @@ Deprecations in 4.11
 
 .. warning:: Deprecations in this release
 
-   This version of the driver deprecates classes and methods.
    To avoid breaking changes in future major releases of the driver,
-   replace any application code that depends on the deprecated code.
+   replace any application code that depends on deprecated methods and types.
 
 The 4.11 driver release deprecates the following items:
 
-- The following network address-related methods are deprecated (TODO: replace this item with content from https://github.com/mongodb/docs-java/pull/446/files)
+- The following network address-related methods are deprecated: (TODO: replace this item with https://github.com/mongodb/docs-java/pull/446/files)
 
-- The following Stream API methods and classes are deprecated and are
-  scheduled for removal in v5.0:
+  - ``getSocketAddress()`` and ``getSocketAddresses()`` methods from the `ServerAddress <{+api+}/apidocs/mongodb-driver-core/com/mongodb/ServerAddress.html>`__ class
+  - ``getUnixSocketAddress()`` from the `UnixServerAddress <{+api+}/apidocs/mongodb-driver-core/com/mongodb/UnixServerAddress.html>`__ class
+
+- The following methods and types related to the
+  `StreamFactory <https://mongodb.github.io/mongo-java-driver/4.10/apidocs/mongodb-driver-core/com/mongodb/connection/StreamFactory.html>`__
+  interface are deprecated and scheduled for removal in v5.0:
 
   - ``streamFactoryFactory()`` method from ``MongoClientSettings.Builder``
   - ``getStreamFactoryFactory()`` method from ``MongoClientSettings``
@@ -65,22 +66,35 @@ The 4.11 driver release deprecates the following items:
   - ``TlsChannelStreamFactoryFactory`` class
 
   If you configure Netty by using
-  ``streamFactoryFactory()``, ``getStreamFactoryFactory()``, or ``NettyStreamFactoryFactory``,
-  replace your code with the `TransportSettings.nettyBuilder() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/connection/TransportSettings.html>`__
-  in the nondeprecated API as shown in the following example:
+  ``MongoClientSettings.Builder.streamFactoryFactory()``, your code might resemble
+  the following:
 
-  .. code-block:: kotlin
+  .. code-block:: java
+     :emphasize-lines: 6
+     :copyable: false
+
+     import com.mongodb.connection.netty.NettyStreamFactoryFactory;
+
+     // ...
+
+     MongoClientSettings settings = MongoClientSettings.builder()
+             .streamFactoryFactory(NettyStreamFactoryFactory.builder().build())
+             .build();
+
+  Replace this code with the `TransportSettings.nettyBuilder() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/connection/TransportSettings.html>`__
+  as shown in the following example:
+
+  .. code-block:: java
      :emphasize-lines: 6
 
      import com.mongodb.connection.TransportSettings;
 
      // ...
 
-     val settings = MongoClientSettings.builder()
-         .transportSettings(TransportSettings.nettyBuilder().build())
-         .build()
+     MongoClientSettings settings = MongoClientSettings.builder()
+             .transportSettings(TransportSettings.nettyBuilder().build())
+             .build();
 
-  No replacements are planned for the rest of the Stream API classes.
 
 .. _kotlin-new-features-4.11:
 
@@ -93,9 +107,9 @@ New features of the 4.11 driver release include:
 - Added the ``getSplitEvent()`` method to the ``ChangeStreamDocument`` class
   to identify fragments of a change stream event that exceeds 16MB. You must
   use the aggregation stage ``$changeStreamSplitLargeEvent`` in your change
-  stream to handle events that exceed 16MB. 
+  stream to handle events that exceed 16MB.
 - Added an aggregation stage builder for ``$vectorSearch``.
-- Added search index management helpers.
+- Added Atlas Search index management helpers.
 - Updated Snappy and Zstd compression library dependency versions. To learn
   more about the current dependency versions, see :ref:`network-compression`.
 - Added ``getElapsedTime()`` methods to the following classes to monitor the
@@ -104,6 +118,16 @@ New features of the 4.11 driver release include:
   - `ConnectionCheckOutFailedEvent <{+api+}/apidocs/mongodb-driver-core/com/mongodb/event/ConnectionCheckOutFailedEvent.html>`__
   - `ConnectionCheckedOutEvent <{+api+}/apidocs/mongodb-driver-core/com/mongodb/event/ConnectionCheckedOutEvent.html>`__
   - `ConnectionReadyEvent <{+api+}/apidocs/mongodb-driver-core/com/mongodb/event/ConnectionReadyEvent.html>`__
+
+- Support for Java 21 virtual threads and structured concurrency. The driver
+  internals were updated to avoid unnecessary pinning of virtual threads
+  and to preserve interrupted status of a thread, as the latter matters for
+  structured concurrency where it is used for cancellation.
+
+  To learn more about virtual threads, see the `Virtual Threads <https://openjdk.org/jeps/444>`__
+  JDK enhancement proposal. To learn more about structured concurrency, see the
+  `Structured Concurrency <https://openjdk.org/jeps/453>`__
+  JDK enhancement proposal.
 
 .. _version-4.10:
 
