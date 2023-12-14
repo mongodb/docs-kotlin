@@ -49,7 +49,7 @@ using a method in the ``MongoClientSettings.Builder`` class.
    If you connect by using the DNS seedlist protocol, indicated by the
    ``mongodb+srv`` prefix in your connection string, the driver
    automatically enables TLS/SSL. To disable it, set the ``tls``
-   parameter value to ``false`` in your connection string or set the
+   parameter value to ``false`` in your connection string, or set the
    ``enabled`` property to ``false`` in the ``SslSettings.Builder``
    block when creating a ``MongoClientSettings`` instance.
 
