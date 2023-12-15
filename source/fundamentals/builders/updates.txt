@@ -2,6 +2,13 @@
 Updates Builders
 ================
 
+.. facet::
+   :name: genre
+   :values: reference
+
+.. meta::
+   :keywords: code example, change data, nested class
+
 .. contents:: On this page
    :local:
    :backlinks: none
