@@ -532,7 +532,7 @@ Push
 Use the `push() <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Updates.html#push(java.lang.String,TItem)>`__
 method to append a value to an array in an update operation.
 
-The following examples adds a ``Vendor`` instance that has a ``name``
+The following example adds a ``Vendor`` instance that has a ``name``
 value of ``"Q"`` to the ``vendor`` array:
 
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.push-update.kt
