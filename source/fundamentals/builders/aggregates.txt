@@ -668,7 +668,7 @@ The following examples use data modeled with the following Kotlin data class:
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-data-class.kt
    :language: kotlin
 
-This exampled creates a pipeline stage that will attempt to create and evenly
+This example creates a pipeline stage that will attempt to create and evenly
 distribute documents into 5 buckets using the value of their ``price`` field:
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.bucket-auto.kt
@@ -918,7 +918,12 @@ vector embeddings. To learn how set up search indexes in MongoDB Atlas, see
 :atlas:`How to Index Vector Embeddings for Vector Search
 </atlas-search/field-types/knn-vector/>` in the Atlas documentation.
 
-The following example shows how to build an aggregation pipeline that uses the
+The following example uses data modeled with the following Kotlin data class:
+
+.. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.vector-search-data-class.kt
+   :language: kotlin
+
+This example shows how to build an aggregation pipeline that uses the
 ``vectorSearch()`` and ``project()`` methods to compute a vector search
 score from a collection that has a vector search index called
 ``mflix_movies_embedding_index``:

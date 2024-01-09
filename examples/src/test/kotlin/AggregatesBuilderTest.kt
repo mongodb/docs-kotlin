@@ -81,6 +81,15 @@ class AggregatesBuilderTest {
     )
     // :snippet-end:
 
+    // :snippet-start: vector-search-data-class
+    data class MovieAlt(
+        val title: String,
+        val year: Int,
+        val plot: String,
+        val plotEmbedding: List<Double>
+    )
+    // :snippet-end:
+
     companion object {
         val config = getConfig()
         private val client = MongoClient.create(config.connectionUri)
@@ -969,12 +978,12 @@ class AggregatesBuilderTest {
             listOf(
                 // :snippet-start: vector-search
                 Aggregates.vectorSearch(
-                    SearchPath.fieldPath("plot_embedding"),
+                    SearchPath.fieldPath(MovieAlt::plotEmbedding.name),
                     listOf(-0.0072121937, -0.030757688, -0.012945653),
                     "mflix_movies_embedding_index",
                     2.toLong(),
                     1.toLong(),
-                    vectorSearchOptions().filter(Filters.gte(Movie::year.name, 2016))
+                    vectorSearchOptions().filter(Filters.gte(MovieAlt::year.name, 2016))
                 ),
                 Aggregates.project(Projections.metaVectorSearchScore("vectorSearchScore"))
                 // :snippet-end:
