@@ -975,8 +975,8 @@ class AggregatesBuilderTest {
     @Ignore
     fun vectorSearchTest() = runBlocking {
         val resultsFlow = movieCollection.aggregate<Document>(
+            // :snippet-start: vector-search
             listOf(
-                // :snippet-start: vector-search
                 Aggregates.vectorSearch(
                     SearchPath.fieldPath(MovieAlt::plotEmbedding.name),
                     listOf(-0.0072121937, -0.030757688, -0.012945653),
@@ -986,8 +986,8 @@ class AggregatesBuilderTest {
                     vectorSearchOptions().filter(Filters.gte(MovieAlt::year.name, 2016))
                 ),
                 Aggregates.project(Projections.metaVectorSearchScore("vectorSearchScore"))
-                // :snippet-end:
             )
+            // :snippet-end:
         )
         val results = resultsFlow.toList()
         assertEquals(1, resultsFlow.toList().size)
