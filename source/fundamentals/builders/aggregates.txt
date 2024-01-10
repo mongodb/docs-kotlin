@@ -932,11 +932,12 @@ The example in this section uses data modeled with the following Kotlin data cla
    :language: kotlin
 
 This example shows how to build an aggregation pipeline that uses the
-``vectorSearch()`` method to specify the following search:
+``vectorSearch()`` method to perform a vector search with the following
+specifications:
 
 - Filters for documents in which the ``year`` field is at least ``2016``
 - Uses the ``mflix_movies_embedding_index`` vector search index
-- Searches ``plotEmbedding`` field values for vector embeddings for a
+- Searches ``plotEmbedding`` field values by using vector embeddings of a
   string value
 - Considers up to 2 nearest neighbors
 - Returns 1 document
@@ -944,6 +945,6 @@ This example shows how to build an aggregation pipeline that uses the
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.vector-search.kt
    :language: kotlin
 
-Learn more about this helper from the
+To learn more about this helper, see the
 `vectorSearch() API documentation
 <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Aggregates.html#vectorSearch(com.mongodb.client.model.search.FieldSearchPath,java.lang.Iterable,java.lang.String,long,long)>`__.
