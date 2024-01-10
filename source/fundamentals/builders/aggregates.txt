@@ -920,9 +920,10 @@ Use the ``vectorSearch()`` method to create a :atlas:`$vectorSearch </atlas-vect
 pipeline stage that specifies a **semantic search**. A semantic search is
 a type of search that locates pieces of information that are similar in meaning.
 
-To use this feature, you must set up a vector search index and index your
-vector embeddings. To learn how to set up search indexes in MongoDB Atlas, see
-:atlas:`How to Index Vector Embeddings for Vector Search
+To use this feature when performing an aggregation on a collection, you
+must create a vector search index and index your vector embeddings. To
+learn how to set up search indexes in MongoDB Atlas, see :atlas:`How to
+Index Vector Embeddings for Vector Search
 </atlas-search/field-types/knn-vector/>` in the Atlas documentation.
 
 The example in this section uses data modeled with the following Kotlin data class:
@@ -930,10 +931,15 @@ The example in this section uses data modeled with the following Kotlin data cla
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.vector-search-data-class.kt
    :language: kotlin
 
-The following example shows how to build an aggregation pipeline that uses the
-``vectorSearch()`` and ``project()`` methods to compute a vector search
-score from a collection that has a vector search index called
-``mflix_movies_embedding_index``:
+This example shows how to build an aggregation pipeline that uses the
+``vectorSearch()`` method to specify the following search:
+
+- Filters for documents in which the ``year`` field is at least ``2016``
+- Uses the ``mflix_movies_embedding_index`` vector search index
+- Searches ``plotEmbedding`` field values for vector embeddings for a
+  string value
+- Considers up to 2 nearest neighbors
+- Returns 1 document
 
 .. literalinclude:: /examples/generated/AggregatesBuilderTest.snippet.vector-search.kt
    :language: kotlin
