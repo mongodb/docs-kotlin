@@ -47,9 +47,8 @@ class SearchIndexesTest {
             Document("dynamic", true)
         )
         val resultCreateIndex = moviesCollection.createSearchIndex("myIndex", index)
-        println("Index created: $resultCreateIndex")
         // :snippet-end:
-
+        println("Index created: $resultCreateIndex")
         assertEquals("myIndex", resultCreateIndex)
     }
 
@@ -71,7 +70,8 @@ class SearchIndexesTest {
             )
         )
 
-        val resultCreateIndexes = moviesCollection.createSearchIndexes(listOf(indexOne, indexTwo))
+        val resultCreateIndexes = moviesCollection
+            .createSearchIndexes(listOf(indexOne, indexTwo))
         // :snippet-end:
         assertEquals(listOf("myIndex1", "myIndex2"), resultCreateIndexes.toList())
     }

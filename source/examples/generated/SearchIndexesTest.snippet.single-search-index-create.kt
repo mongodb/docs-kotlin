@@ -3,4 +3,3 @@ val index = Document(
     Document("dynamic", true)
 )
 val resultCreateIndex = moviesCollection.createSearchIndex("myIndex", index)
-println("Index created: $resultCreateIndex")

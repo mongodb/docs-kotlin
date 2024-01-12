@@ -12,4 +12,5 @@ val indexTwo = SearchIndexModel(
     )
 )
 
-val resultCreateIndexes = moviesCollection.createSearchIndexes(listOf(indexOne, indexTwo))
+val resultCreateIndexes = moviesCollection
+    .createSearchIndexes(listOf(indexOne, indexTwo))

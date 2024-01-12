@@ -245,8 +245,6 @@ each of the preceding methods.
 Create a Search Index
 +++++++++++++++++++++
 
-https://mongodb.github.io/mongo-java-driver/4.11
-
 You can use the `createSearchIndex() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-search-index.html>`__
 and the
 `createSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-search-indexes.html>`__
