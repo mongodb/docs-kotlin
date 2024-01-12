@@ -254,45 +254,50 @@ methods to create Atlas Search indexes.
 
 The following code example shows how to create a single index:
 
-
+.. literalinclude:: /examples/generated/SearchIndexesTest.snippet.single-search-index-create.kt
+   :language: kotlin
 
 The following code example shows how to create multiple indexes:
 
-
+.. literalinclude:: /examples/generated/SearchIndexesTest.snippet.multi-search-index-create.kt
+   :language: kotlin
 
 List Search Indexes
 +++++++++++++++++++
 
 You can use the
-`listSearchIndexes() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#listSearchIndexes()>`__
+`listSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/list-search-indexes.html>`__
 method to return the Atlas Search indexes of a collection.
 
 The following code example shows how to print a list of the search indexes of
 a collection:
 
-
+.. literalinclude:: /examples/generated/SearchIndexesTest.snippet.list-search-indexes.kt
+   :language: kotlin
 
 Update a Search Index
 +++++++++++++++++++++
 
 You can use the
-`updateSearchIndex() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#updateSearchIndex(java.lang.String,org.bson.conversions.Bson)>`__
+`updateSearchIndex() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/update-search-index.html>`__
 method to update an Atlas Search index.
 
 The following code shows how to update a search index:
 
-
+.. literalinclude:: /examples/generated/SearchIndexesTest.snippet.update-search-indexes.kt
+   :language: kotlin
 
 Drop a Search Index
 +++++++++++++++++++
 
 You can use the
-`dropSearchIndex() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoCollection.html#dropSearchIndex(java.lang.String)>`__
+`dropSearchIndex() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/drop-search-index.html>`__
 method to remove an Atlas Search index.
 
 The following code shows how to delete a search index from a collection:
 
-
+.. literalinclude:: /examples/generated/SearchIndexesTest.snippet.drop-search-index.kt
+   :language: kotlin
 
 .. _text-indexes:
 
@@ -407,6 +412,10 @@ The following example creates a ``2dsphere`` index on the ``location.geo`` field
       :language: console
 
       Index created: location.geo_2dsphere
+
+.. important::
+
+   Attempting to create a geospatial index on a field that is covered by a geospatial index results in an error.
 
 The following is an example of a geospatial query that is covered by the index
 created in the preceding code snippet:
