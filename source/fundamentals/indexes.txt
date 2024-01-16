@@ -85,7 +85,7 @@ Operational Considerations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following guidelines describe how you can optimize the way
-application uses indexes:
+your application uses indexes:
 
 - To improve query performance, build indexes on fields that appear often in
   your application's queries and operations that return sorted results.
@@ -117,7 +117,7 @@ most common index types and provide sample code for creating each index type. Fo
    <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Indexes.html>`__
    class to create and manage indexes. This class includes static
    factory methods to create index specification documents for different
-   MongoDB Index key types.
+   MongoDB index key types.
 
 The following examples use the
 `createIndex() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-index.html>`__
@@ -277,7 +277,7 @@ You can use the
 `listSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/list-search-indexes.html>`__
 method to return a list of the Atlas Search indexes on a collection.
 
-The following code example shows how to print a list of the search indexes of
+The following code example shows how to print a list of the search indexes on
 a collection:
 
 .. literalinclude:: /examples/generated/SearchIndexesTest.snippet.list-search-indexes.kt
@@ -381,9 +381,8 @@ the geospatial data for inclusion, intersection, and proximity. For more informa
 :manual:`Geospatial Queries </geospatial-queries/>` in the Server manual.
 
 To create a ``2dsphere`` index, you must specify a field that contains
-only **GeoJSON objects**. To learn more about this
-type, see the :manual:`GeoJSON objects reference </reference/geojson>`
-in the Server manual.
+only **GeoJSON objects**. To learn more about this type, see
+:manual:`GeoJSON objects </reference/geojson>` in the Server manual.
 
 The ``location.geo`` field in the following sample document from the ``theaters`` collection in the ``sample_mflix``
 database is a GeoJSON Point object that describes the coordinates of the theater:
