@@ -23,16 +23,18 @@ Overview
 In this guide, you can learn how to create and manage **indexes** by
 using the {+driver-long+}.
 
-Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must scan *every* document in a
-collection (a **collection scan**) to find the documents that match each query. These collection scans are slow and can
-negatively affect the performance of your application. If an appropriate index exists for a query, MongoDB can use the
-index to limit the documents it must inspect.
+Indexes support the efficient execution of queries in MongoDB. Without
+indexes, MongoDB must scan *every* document in a collection (a
+**collection scan**) to find the documents that match each query. These
+collection scans are slow and can negatively affect the performance of
+your application. If an appropriate index exists for a query, MongoDB
+can use the index to limit the documents that the query must inspect.
 
 Indexes also have the following benefits:
 
-- Allow efficient sorting
-- Enable special capabilities like :ref:`geospatial <geo-indexes>` search
-- Allow adding constraints to ensure a field value is :ref:`unique <unique-indexes>`
+- Indexes allow efficient sorting.
+- Indexes enable special capabilities such as :ref:`geospatial queries <geo-indexes>`.
+- Indexes allow the creation of constraints to ensure a field value is :ref:`unique <unique-indexes>`.
 
 To learn more, see :manual:`Indexes </indexes/>` in the Server manual.
 
@@ -49,7 +51,7 @@ Query Coverage and Performance
 When you execute a query against MongoDB, your command can include various elements:
 
 - Query criteria that specify fields and values you are looking for
-- Options that affect the query's execution, such as read concern
+- Options that affect the query's execution, such as the read concern
 - Projection criteria to specify the fields MongoDB returns (optional)
 - Sort criteria to specify the order of documents returned from MongoDB (optional)
 
@@ -67,7 +69,8 @@ from the index, also called a **covered query**.
 
       name_1_age_-1
 
-   MongoDB uses this index when you sort your data by either:
+   MongoDB uses this index when you sort your data in either of the
+   following ways:
 
    - ``name`` ascending, ``age`` descending
    - ``name`` descending, ``age`` ascending
@@ -81,12 +84,17 @@ articles on :manual:`query coverage </core/query-optimization/#covered-query>`.
 Operational Considerations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To improve query performance, build indexes on fields that appear often in
-your application's queries and operations that return sorted results. Each
-index that you add consumes disk space and memory when active, so we recommend
-that you track index memory and disk usage for capacity planning. In addition,
-when a write operation updates an indexed field, MongoDB updates the related
-index.
+The following guidelines describe how you can optimize the way
+application uses indexes:
+
+- To improve query performance, build indexes on fields that appear often in
+  your application's queries and operations that return sorted results.
+
+- Track index memory and disk usage for capacity planning, because each
+  index that you add consumes disk space and memory when active.
+  
+- Avoid adding indexes that you infrequently use. Note that when a write
+  operation updates an indexed field, MongoDB updates the related index.
 
 Since MongoDB supports dynamic schemas, applications can query against fields whose names cannot be known in advance or
 are arbitrary. MongoDB 4.2 introduced :manual:`wildcard indexes </core/index-wildcard/>` to help support these queries.
@@ -105,8 +113,11 @@ most common index types and provide sample code for creating each index type. Fo
 
 .. tip::
 
-   The {+driver-short+} provides the `Indexes <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Indexes.html>`__ class that
-   includes static factory methods to create index specification documents for different MongoDB Index key types.
+   The {+driver-short+} provides the `Indexes
+   <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/Indexes.html>`__
+   class to create and manage indexes. This class includes static
+   factory methods to create index specification documents for different
+   MongoDB Index key types.
 
 The following examples use the
 `createIndex() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-index.html>`__
@@ -206,9 +217,9 @@ created in the preceding code snippet:
 .. literalinclude:: /examples/generated/IndexesTest.snippet.multikey-index-query.kt
    :language: kotlin
 
-Multikey indexes behave differently from other indexes in terms of query coverage, index bound computation, and
+Multikey indexes behave differently from other indexes in terms of query coverage, index-bound computation, and
 sort behavior. To learn more about multikey indexes, including a discussion of their behavior and limitations,
-see the :manual:`Multikey Indexes page </core/index-multikey>` in the MongoDB manual.
+see :manual:`Multikey Indexes </core/index-multikey>` in the Server manual.
 
 .. _kotlin-search-indexes:
 
@@ -216,8 +227,8 @@ Atlas Search Indexes
 ~~~~~~~~~~~~~~~~~~~~
 
 The Atlas Search feature enables you to perform full-text searches on
-collections hosted on MongoDB Atlas. The indexes specify the behavior of
-the search and which fields to index.
+collections hosted on MongoDB Atlas. The indexes specify how you can
+perform full-text searches on specific fields.
 
 To learn more about MongoDB Atlas Search, see the
 :atlas:`Atlas Search Indexes </atlas-search/atlas-search-overview/#fts-indexes>`
@@ -234,7 +245,7 @@ indexes:
 
 .. note::
 
-   The Atlas Search Index management methods run asynchronously. The
+   The Atlas Search index-management methods run asynchronously. The
    driver methods can return before confirming that they ran
    successfully. To determine the current status of the indexes, call the
    ``listSearchIndexes()`` method.
@@ -246,9 +257,8 @@ Create a Search Index
 +++++++++++++++++++++
 
 You can use the `createSearchIndex() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-search-index.html>`__
-and the
-`createSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-search-indexes.html>`__
-methods to create Atlas Search indexes.
+and `createSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-search-indexes.html>`__
+methods to create Atlas Search indexes on a collection.
 
 The following code example shows how to create a single index:
 
@@ -265,7 +275,7 @@ List Search Indexes
 
 You can use the
 `listSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/list-search-indexes.html>`__
-method to return the Atlas Search indexes of a collection.
+method to return a list of the Atlas Search indexes on a collection.
 
 The following code example shows how to print a list of the search indexes of
 a collection:
@@ -368,10 +378,12 @@ Geospatial Indexes
 
 MongoDB supports queries of geospatial coordinate data using **2dsphere indexes**. With a ``2dsphere`` index, you can query
 the geospatial data for inclusion, intersection, and proximity. For more information on querying geospatial data, see
-:manual:`Geospatial Queries </geospatial-queries/>`.
+:manual:`Geospatial Queries </geospatial-queries/>` in the Server manual.
 
-To create a ``2dsphere`` index, you must specify a field that contains only **GeoJSON objects**. For more details on this
-type, see the MongoDB server manual page on :manual:`GeoJSON objects </reference/geojson>`.
+To create a ``2dsphere`` index, you must specify a field that contains
+only **GeoJSON objects**. To learn more about this
+type, see the :manual:`GeoJSON objects reference </reference/geojson>`
+in the Server manual.
 
 The ``location.geo`` field in the following sample document from the ``theaters`` collection in the ``sample_mflix``
 database is a GeoJSON Point object that describes the coordinates of the theater:
@@ -413,7 +425,8 @@ The following example creates a ``2dsphere`` index on the ``location.geo`` field
 
 .. important::
 
-   Attempting to create a geospatial index on a field that is covered by a geospatial index results in an error.
+   Attempting to create a geospatial index on a field that is already
+   covered by a geospatial index results in an error.
 
 The following is an example of a geospatial query that is covered by the index
 created in the preceding code snippet:
@@ -421,9 +434,10 @@ created in the preceding code snippet:
 .. literalinclude:: /examples/generated/IndexesTest.snippet.geospatial-index-query.kt
    :language: kotlin
 
-MongoDB also supports ``2d`` indexes for calculating distances on a Euclidean plane and for working with the "legacy
-coordinate pairs" syntax used in MongoDB 2.2 and earlier. See the :manual:`Geospatial Queries page </geospatial-queries>`
-in the MongoDB server manual for more information.
+MongoDB also supports ``2d`` indexes for calculating distances on a
+Euclidean plane and for working with the "legacy coordinate pairs"
+syntax used in MongoDB 2.2 and earlier. To learn more, see
+:manual:`Geospatial Queries </geospatial-queries>` in the Server manual.
 
 Unique Indexes
 ~~~~~~~~~~~~~~
