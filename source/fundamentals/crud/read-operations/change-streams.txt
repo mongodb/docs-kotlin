@@ -25,10 +25,9 @@ In this guide, you can learn how to use a **change stream** to monitor
 real-time changes to your database. A change stream is a {+mdb-server+}
 feature that allows your application to subscribe to data changes on a single
 collection, database, or deployment. You can specify a set of aggregation
-operators to filter and transform the data your application receives. When
-connecting to a MongoDB deployment running version 6.0 or later, you can
-configure the events to include the document data before and after the
-change.
+operators to filter and transform the data your application receives.
+When connecting to MongoDB v6.0 or later, you can configure the events
+to include the document data before and after the change.
 
 Learn how to open and configure your change streams in the following
 sections:
@@ -135,11 +134,12 @@ example outputs the following text:
 Split Large Change Stream Events
 --------------------------------
 
-When connecting to a MongoDB deployment running version 7.0 or later,
+When connecting to MongoDB v7.0 or later,
 you can use the ``$changeStreamSplitLargeEvent`` aggregation operator to
 split event documents that exceed 16 MB into smaller fragments.
 
-Use the ``$changeStreamSplitLargeEvent`` operator only when necessary. For
+Use the ``$changeStreamSplitLargeEvent`` operator only when you expect
+the change stream events to exceed the document size limit. For
 example, you might use this feature if your application requires full
 document pre-images or post-images.
 

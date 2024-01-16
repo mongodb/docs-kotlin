@@ -1,4 +1,4 @@
-val pipeline = listOf(BsonDocument.parse("{ \$changeStreamSplitLargeEvent: {} }"))
+val pipeline = listOf(BsonDocument().append("\$changeStreamSplitLargeEvent", BsonDocument()))
 
 val job = launch {
     val changeStream = collection.watch(pipeline)

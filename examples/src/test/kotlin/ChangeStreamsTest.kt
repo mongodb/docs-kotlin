@@ -137,12 +137,12 @@ internal class ChangeStreamsTest {
 
     }
 
-    // This test is getting ignored because the feature is only enabled for deployments on MongoDB 7.0
+    // Ignore annotation added because this test requires a MongoDB 7.0 deployment
     @Ignore
     fun splitLargeChangeStreamTest() = runBlocking {
         val changeEvents = mutableListOf<ChangeStreamDocument<Document>>()
         // :snippet-start: split-large-change-stream
-        val pipeline = listOf(BsonDocument.parse("{ \$changeStreamSplitLargeEvent: {} }"))
+        val pipeline = listOf(BsonDocument().append("\$changeStreamSplitLargeEvent", BsonDocument()))
 
         val job = launch {
             val changeStream = collection.watch(pipeline)
