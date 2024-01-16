@@ -79,7 +79,7 @@ Examples
 The following examples show how to instantiate a ``MongoClient`` that connects
 to MongoDB by using a SOCKS5 proxy. The proxy settings can be specified in a
 ``MongoClientSettings`` instance or a connection string. These examples use
-the placeholder values described in the :ref:`socks-proxy-settings` section.
+the placeholder values described in the :ref:`kotlin-socks-proxy-settings` section.
 Replace the placeholders with your proxy specifications and credentials.
 
 Specify Proxy Settings in the MongoClientSettings
@@ -109,5 +109,5 @@ following API documentation:
 
 - `MongoClientSettings.Builder <{+api+}/apidocs/mongodb-driver-core/com/mongodb/MongoClientSettings.Builder.html>`__
 - `SocketSettings.Builder <{+api+}/apidocs/mongodb-driver-core/com/mongodb/connection/SocketSettings.Builder.html>`__
-- `MongoClients.create() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoClients.html#create(com.mongodb.MongoClientSettings)>`__
+- `MongoClient.create() <{+api+}/apidocs/mongodb-driver-sync/com/mongodb/client/MongoClients.html#create(com.mongodb.MongoClientSettings)>`__
 - `ProxySettings.Builder <{+api+}/apidocs/mongodb-driver-core/com/mongodb/connection/ProxySettings.Builder.html>`__

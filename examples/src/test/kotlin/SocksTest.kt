@@ -82,11 +82,13 @@ internal class SocksTest {
     fun connectionStringSocks() = runBlocking {
         val uri = CONNECTION_URI_PLACEHOLDER
         // :snippet-start: socks-connection-string
-        val connectionString = ConnectionString("${uri}&" +
+        val connectionString = ConnectionString(
+            "${uri}&" +
                 "proxyHost=<proxyHost>" +
                 "&proxyPort=<proxyPort>" +
                 "&proxyUsername=<proxyUsername>" +
-                "&proxyPassword=<proxyPassword>")
+                "&proxyPassword=<proxyPassword>"
+        )
 
         val mongoClient = MongoClient.create(connectionString)
         // :snippet-end:
