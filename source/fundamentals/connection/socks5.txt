@@ -54,9 +54,10 @@ The following table describes the SOCKS5 client options:
        You must provide this value to connect to a SOCKS5 proxy.
 
    * - **proxyPort**
-     - non-negative Integer
-     - Specifies the TCP port number of the SOCKS5 proxy server. This option
-       defaults to ``1080`` when you set ``proxyHost``.
+     - Non-negative integer
+     - Specifies the TCP port number of the SOCKS5 proxy server. If you
+       set a value for ``proxyHost``, this option defaults to ``1080``,
+       but you can specify a different port number.
 
    * - **proxyUsername**
      - String
@@ -85,9 +86,9 @@ Replace the placeholders with your proxy specifications and credentials.
 Specify Proxy Settings in the MongoClientSettings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following code example shows how to specify your SOCKS5 proxy settings by
+The following code example shows how to specify SOCKS5 proxy settings by
 using the ``applyToSocketSettings()`` builder method when creating a
-``MongoClientSettings``:
+``MongoClientSettings`` instance:
 
 .. literalinclude:: /examples/generated/SocksTest.snippet.socks-mongoclientsettings.kt
    :language: kotlin
@@ -95,7 +96,7 @@ using the ``applyToSocketSettings()`` builder method when creating a
 Specify Proxy Settings in the Connection String
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following code example shows how to specify your SOCKS5 proxy settings in
+The following code example shows how to specify SOCKS5 proxy settings in
 your connection string:
 
 .. literalinclude:: /examples/generated/SocksTest.snippet.socks-connection-string.kt
