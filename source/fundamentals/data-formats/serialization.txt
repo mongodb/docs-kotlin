@@ -162,8 +162,10 @@ To create a custom codec, install the ``bson-kotlinx`` dependency to your projec
             <version>{+full-version+}</version>
         </dependency>
 
-Then, you can define your codec using the `KotlinSerializerCodec.create() <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__ 
-method and add it to the registry. 
+Then, you can define your codec using the
+`KotlinSerializerCodec.create()
+<{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/index.html>`__
+method and add it to the registry.
 
 The following example shows how to create a codec using the 
 ``KotlinSerializerCodec.create()`` method and configure it to not encode defaults:
