@@ -181,7 +181,7 @@ To create a custom codec, install the ``bson-kotlinx`` dependency to your projec
    ``BsonExtraElements``, and ``BsonConstructor``. To learn more, see
    the `bson-kotlin API documentation <{+api+}/apidocs/bson-kotlin/index.html>`__
 
-   In most cases, we recommend that you install and use the faster
+   Generally, we recommend that you install and use the faster
    ``bson-kotlinx`` library for codec configuration.
 
 Then, you can define your codec using the
