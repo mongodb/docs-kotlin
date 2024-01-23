@@ -33,7 +33,7 @@ defaults, encode nulls, and define class discriminators.
 
 .. note::
 
-   To learn about how to use the ``Codec`` interface instead of the
+   To learn how to use the ``Codec`` interface instead of the
    Kotlin serialization library to specify custom encoding and decoding
    of Kotlin objects to BSON data, see the :ref:`Codecs
    <fundamentals-codecs>` guide.
@@ -179,7 +179,7 @@ To create a custom codec, install the ``bson-kotlinx`` dependency to your projec
    and the codec registry to support Kotlin data classes, but it does
    not support certain POJO annotations such as ``BsonDiscriminator``,
    ``BsonExtraElements``, and ``BsonConstructor``. To learn more, see
-   the `bson-kotlin API documentation <{+api+}/apidocs/bson-kotlin/index.html>`__
+   the `bson-kotlin API documentation <{+api+}/apidocs/bson-kotlin/index.html>`__.
 
    Generally, we recommend that you install and use the faster
    ``bson-kotlinx`` library for codec configuration.
