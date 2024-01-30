@@ -23,15 +23,15 @@ Introduction
 ------------
 
 Welcome to the documentation site for the Kotlin Driver, the official
-MongoDB driver for server-side Kotlin applications using coroutines.
-Download it by using `Maven <https://maven.apache.org/>`__ or `Gradle
+MongoDB driver for server-side Kotlin applications by using coroutines.
+Download the driver by using `Maven <https://maven.apache.org/>`__ or `Gradle
 <https://gradle.org/>`__, or set up a runnable project by following our
 Quick Start guide.
 
 .. tip:: Other Kotlin Platforms for MongoDB
 
    If your Kotlin application requires synchronous processing, use the
-   :driver:`Sync Driver </kotlin-sync/>` which uses synchronous operations
+   :driver:`Sync Driver </kotlin-sync/>`, which uses synchronous operations
    to make blocking calls to MongoDB.
    
    If you are developing an Android or Multiplatform application, you can
