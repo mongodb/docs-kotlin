@@ -54,10 +54,6 @@ The Kotlin driver supports:
 - All Kotlin types that are supported by the Kotlin serialization library 
 - All available :manual:`BSON types </reference/bson-types>`
 
-You can implement a custom serializers to handle any other types. See the 
-`official Kotlin Documentation <https://kotlinlang.org/docs/serialization.html>`__ 
-for more information.
-
 Add Kotlin Serialization to Your Project
 ----------------------------------------
 
@@ -130,6 +126,38 @@ For more information on serializable classes and available annotation classes,
 see the `official Kotlin Serialization <https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/basic-serialization.md#serializable-classes>`__ 
 documentation.
 
+Custom Serializer Example
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create a custom serializer to handle how your data is
+represented in BSON. The {+driver-short+} uses the ``KSerializer``
+interface from the ``kotlinx.serialization`` package to implement custom
+serializers. You can specify the custom serializer as the parameter to
+the ``@Serializable`` annotation for a specific field.
+
+The following example shows how to create a custom
+``KSerializer`` instance to convert a ``kotlinx.datetime.Instant`` to a
+``BsonDateTime``:
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.kserializer.kt
+    :language: kotlin
+
+The following code shows the ``PaintOrder`` data class in which the
+``orderDate`` field has an annotation that specifies the custom
+serializer class defined in the preceding code:
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.kserializer-dataclass.kt
+    :language: kotlin
+    :emphasize-lines: 5
+
+For more information about the methods and classes mentioned in this section,
+see the following API documentation:
+
+- `KSerializer <{+kotlin-docs+}/api/kotlinx.serialization/kotlinx-serialization-core/kotlinx.serialization/-k-serializer/>`__
+- `Instant <{+kotlin-docs+}/api/kotlinx-datetime/kotlinx-datetime/kotlinx.datetime/-instant/>`__
+- `BsonEncoder <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-bson-encoder/index.html>`__
+- `BsonDecoder <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-bson-decoder/index.html>`__
+
 .. _kotlin-custom-codec:
 
 Customize the Serializer Configuration
@@ -142,7 +170,10 @@ customize what is stored.
 Use the ``BsonConfiguration`` class to define the configuration, 
 including whether to encode defaults, encode nulls, or define class discriminators.
 
-To create a custom codec, install the ``bson-kotlinx`` dependency to your project.
+To create a custom codec, install the ``bson-kotlinx``
+dependency to your project. Select from the following tabs to see how to
+add the dependency to your project by using the :guilabel:`Gradle` and
+:guilabel:`Maven` package managers:
 
 .. tabs::
 
@@ -205,27 +236,8 @@ The following example shows how to create a codec using the
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.custom-serialization.kt
     :language: kotlin
 
-Custom Serializer Example
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can create a custom serializer to handle the conversion of different
-types to BSON. The following example shows how to create a custom
-``KSerializer`` instance to convert a ``kotlinx.datetime.Instant`` to a
-``BsonDateTime``:
-
-.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.kserializer.kt
-    :language: kotlin
-
-The following code shows the ``PaintOrder`` data class in which the
-``orderDate`` field has an annotation that specifies the custom
-serializer class defined in the preceding code:
-
-.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.kserializer-dataclass.kt
-    :language: kotlin
-    :emphasize-lines: 5
-
 For more information about the methods and classes mentioned in this section,
-see the following API Documentation:
+see the following API documentation:
 
 - `KotlinSerializerCodec <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/index.html>`__
 - `KotlinSerializerCodec.create() <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__
