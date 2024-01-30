@@ -189,6 +189,9 @@ Then, you can define your codec using the
 <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/index.html>`__
 method and add it to the registry.
 
+Custom Codec Example
+~~~~~~~~~~~~~~~~~~~~
+
 The following example shows how to create a codec using the 
 ``KotlinSerializerCodec.create()`` method and configure it to not encode defaults:
 
@@ -201,6 +204,25 @@ The following example shows how to create a codec using the
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.custom-serialization.kt
     :language: kotlin
+
+Custom Serializer Example
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can create a custom serializer to handle the conversion of different
+types to BSON. The following example shows how to create a custom
+``KSerializer`` instance to convert a ``kotlinx.datetime.Instant`` to a
+``BsonDateTime``:
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.kserializer.kt
+    :language: kotlin
+
+The following code shows the ``PaintOrder`` data class in which the
+``orderDate`` field has an annotation that specifies the custom
+serializer class defined in the preceding code:
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.kserializer-dataclass.kt
+    :language: kotlin
+    :emphasize-lines: 5
 
 For more information about the methods and classes mentioned in this section,
 see the following API Documentation:
