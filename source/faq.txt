@@ -4,6 +4,13 @@
 FAQ
 ===
 
+.. facet::
+   :name: genre
+   :values: reference
+
+.. meta::
+   :keywords: troubleshooting, question, support
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -151,4 +158,5 @@ When ``MongoClient.close()`` is called by any thread, the driver
 closes all idle sockets and closes all sockets that are in
 use as they are returned to the pool.
 
-To learn more about connecting to MongoDB, refer to the :ref:`Connection Guide <connect-to-mongodb>`.
+To learn more about connecting to MongoDB, see the :ref:`Connection
+Guide <connect-to-mongodb>`.
