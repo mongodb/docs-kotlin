@@ -210,9 +210,8 @@ that you successfully loaded the sample dataset into your MongoDB Atlas cluster.
 
 .. important:: Known connection issue when using TLS v1.3
 
-   If you encounter an error while connecting to your MongoDB instance or cluster
-   that resembles the following error, you might need to update your JDK
-   to the latest patch release:
+   If you encounter the following error while connecting to your MongoDB
+   instance, you must update your JDK to the latest patch release:
 
    .. code-block:: none
       :copyable: false
