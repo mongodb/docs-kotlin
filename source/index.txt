@@ -23,7 +23,7 @@ Introduction
 ------------
 
 Welcome to the documentation site for the Kotlin Driver, the official
-MongoDB driver for server-side Kotlin applications by using coroutines.
+MongoDB driver for server-side Kotlin applications that use coroutines.
 Download the driver by using `Maven <https://maven.apache.org/>`__ or `Gradle
 <https://gradle.org/>`__, or set up a runnable project by following our
 Quick Start guide.
@@ -34,8 +34,8 @@ Quick Start guide.
    :driver:`Sync Driver </kotlin-sync/>`, which uses synchronous operations
    to make blocking calls to MongoDB.
    
-   If you are developing an Android or Multiplatform application, you can
-   use the :realm:`MongoDB Atlas Device Kotlin SDK </sdk/kotlin/>` 
+   If you are developing an Android or Kotlin Multiplatform (KMP)
+   application, you can use the :realm:`MongoDB Atlas Device Kotlin SDK </sdk/kotlin/>` 
    to access Atlas App Services and to manage your Realm data.
 
 Quick Start
