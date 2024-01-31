@@ -32,9 +32,9 @@ MongoDB Atlas is a fully managed cloud database service that hosts your data
 on MongoDB clusters. In this guide, you can learn how to get started with your
 own free cluster.
 
-.. tip:: Additional Developer Tutorial
+.. tip::
 
-   To view an additional example that demonstrates how to build an
+   To view another example that demonstrates how to build an
    application in Kotlin that connects to MongoDB Atlas, see the
    :website:`Getting Started with the {+driver-long+}
    </developer/products/mongodb/getting-started-kotlin-driver/>`
@@ -83,7 +83,7 @@ packages, add the following entry to your ``pom.xml`` dependencies list:
 .. include:: /includes/kotlin-driver-coroutine-maven-versioned.rst
 
 Once you configure your dependencies, ensure that they are available to your
-project. You might have to run the dependency manager and refresh the
+project by running the dependency manager and refreshing the
 project in your IDE.
 
 Add Serialization Library Dependencies
@@ -104,7 +104,7 @@ entries to your ``build.gradle.kts`` dependencies list:
    :copyable: true
 
    implementation("org.mongodb:bson-kotlinx:{+full-version+}")
-   // or
+   // OR
    implementation("org.mongodb:bson-kotlin:{+full-version+}")
 
 If you are using Maven to manage your packages, add the following
@@ -119,7 +119,7 @@ entries to your ``pom.xml`` dependencies list:
       <artifactId>bson-kotlinx</artifactId>
       <version>{+full-version+}</version>
   </dependency>
-  // or
+  <!--OR-->
   <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>bson-kotlin</artifactId>
@@ -127,7 +127,7 @@ entries to your ``pom.xml`` dependencies list:
   </dependency>
 
 Once you configure your dependencies, ensure that they are available to your
-project. You might have to run the dependency manager and refresh the
+project by running the dependency manager and refreshing the
 project in your IDE.
 
 To learn more about these packages, see
