@@ -93,10 +93,10 @@ To enable the driver to convert between Kotlin objects and BSON, the
 data format for documents in MongoDB, you must also add one or both of the
 following serialization packages to your application:
 
-- ``bson-kotlinx`` (**Recomended**)
+- ``bson-kotlinx`` *(Recommended)*
 - ``bson-kotlin``
 
-If you are using Gradle to manage your packages, add the following
+If you are using Gradle to manage your packages, add one of the following
 entries to your ``build.gradle.kts`` dependencies list: 
 
 .. code-block:: kotlin
@@ -107,7 +107,7 @@ entries to your ``build.gradle.kts`` dependencies list:
    // OR
    implementation("org.mongodb:bson-kotlin:{+full-version+}")
 
-If you are using Maven to manage your packages, add the following
+If you are using Maven to manage your packages, add one of the following
 entries to your ``pom.xml`` dependencies list:
 
 .. code-block:: xml
