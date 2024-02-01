@@ -82,7 +82,7 @@ packages, add the following entry to your ``pom.xml`` dependencies list:
 
 .. include:: /includes/kotlin-driver-coroutine-maven-versioned.rst
 
-Once you configure your dependencies, ensure that they are available to your
+After you configure your dependencies, ensure that they are available to your
 project by running the dependency manager and refreshing the
 project in your IDE.
 
@@ -106,7 +106,7 @@ entries to your ``pom.xml`` dependencies list:
 
 .. include:: /includes/serialization-libs-maven-versioned.rst
 
-Once you configure your dependencies, ensure that they are available to your
+After you configure your dependencies, ensure that they are available to your
 project by running the dependency manager and refreshing the
 project in your IDE.
 
@@ -122,7 +122,7 @@ in which you can store and manage your data. Complete the
 to set up a new Atlas account, create and launch a free tier MongoDB cluster,
 and load sample datasets.
 
-Once you complete the steps in the Get Started with Atlas tutorial, you
+After you complete the steps in the Get Started with Atlas tutorial, you
 have a new MongoDB cluster deployed in Atlas, a new database user, and
 sample data loaded into your cluster.
 
@@ -136,8 +136,8 @@ the sample data.
 First, you must specify how the driver connects to your MongoDB cluster
 by including a *connection string* in your code. This string includes
 information on the hostname or IP address and port of your cluster,
-authentication mechanism, user credentials, if applicable, and
-other connection options.
+authentication mechanism, user credentials, and other connection
+options.
 
 If you are connecting to an instance or cluster that is not hosted on Atlas,
 see the :ref:`Other Ways to Connect to MongoDB
@@ -241,7 +241,7 @@ collection to retrieve data by using a Kotlin data class. This section
 shows how to use the `Document <{+api+}/apidocs/bson/org/bson/Document.html>`__ class 
 to store and retrieve data from MongoDB.
 
-In a file called ``QuickStartDocumentExample.kt``, paste the following sample
+In a new file called ``QuickStartDocumentExample.kt``, paste the following sample
 code to run a query on your sample dataset in MongoDB Atlas. Replace the
 value of the ``uri`` variable with your MongoDB Atlas connection string:
 
@@ -271,6 +271,6 @@ that you successfully loaded the sample dataset into your MongoDB Atlas cluster.
 Next Steps
 ----------
 
-To learn more the {+driver-short+}, see the
+To learn more about the {+driver-short+}, see the
 :ref:`kotlin-fundamentals-landing` guides, which describe relevant
 concepts in detail and provide code examples for performing different tasks.
