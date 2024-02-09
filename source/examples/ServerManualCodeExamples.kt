@@ -158,5 +158,153 @@ fun main() = runBlocking {
     flowFindANDOR.collect { println(it) }
     collection.deleteMany(empty())
 
+    // Start Example 14
+    collection.insertMany(
+        listOf(
+            Document("item", "journal")
+                .append("qty", 25)
+                .append("size", Document("h", 14)
+                    .append("w", 21)
+                    .append("uom", "cm")
+                )
+                .append("status", "A"),
+            Document("item", "notebook")
+                .append("qty", 50)
+                .append("size", Document("h", 8.5)
+                    .append("w", 11)
+                    .append("uom", "in")
+                )
+                .append("status", "A"),
+            Document("item", "paper")
+                .append("qty", 100)
+                .append("size", Document("h", 8.5)
+                    .append("w", 11)
+                    .append("uom", "in")
+                )
+                .append("status", "D"),
+            Document("item", "planner")
+                .append("qty", 75)
+                .append("size", Document("h", 22.85)
+                    .append("w", 30)
+                    .append("uom", "cm")
+                )
+                .append("status", "D"),
+            Document("item", "postcard")
+                .append("qty", 45)
+                .append("size", Document("h", 10)
+                    .append("w", 15.25)
+                    .append("uom", "cm")
+                )
+                .append("status", "A"),
+        )
+    )
+    // End Example 14
+
+    // Start Example 17
+    val flowFindNESTED = collection.withDocumentClass<Document>()
+        .find(eq("size.uom", "in"))
+    // End Example 17
+
+    flowFindNESTED.collect { println(it) }
+
+    // Start Example 18
+    val flowFindEQNESTED = collection.withDocumentClass<Document>()
+        .find(lt("size.h", 15))
+    // End Example 18
+
+    flowFindEQNESTED.collect { println(it) }
+
+    // Start Example 19
+    val flowFindANDNESTED = collection.withDocumentClass<Document>()
+        .find(and(
+            lt("size.h", 15),
+            eq("size.uom", "in"),
+            eq("status", "D")
+        ))
+    // End Example 19
+
+    flowFindANDNESTED.collect { println(it) }
+
+    // Start Example 15
+    val flowFindEQDOC = collection.withDocumentClass<Document>()
+        .find(eq("size", Document.parse("{ h: 14, w: 21, uom: 'cm' }")))
+    // End Example 15
+
+    flowFindEQDOC.collect { println(it) }
+
+    // Start Example 16
+    val flowFindEQDOC = collection.withDocumentClass<Document>()
+        .find(eq("size", Document.parse("{ w: 21, h: 14, uom: 'cm' }")))
+    // End Example 16
+
+    collection.deleteMany(empty()) 
+
+    // Start Example 20
+    collection.insertMany(
+        listOf(
+            Document("item", "journal")
+                .append("qty", 25)
+                .append("tags", listOf("blank", "red"))
+                .append("dim_cm", listOf(14, 21)),
+            Document("item", "notebook")
+                .append("qty", 50)
+                .append("tags", listOf("red", "blank"))
+                .append("dim_cm", listOf(14, 21)),
+            Document("item", "paper")
+                .append("qty", 100)
+                .append("tags", listOf("red", "blank", "plain"))
+                .append("dim_cm", listOf(14, 21)),
+            Document("item", "planner")
+                .append("qty", 75)
+                .append("tags", listOf("blank", "red"))
+                .append("dim_cm", listOf(22.85, 30)),
+            Document("item", "postcard")
+                .append("qty", 45)
+                .append("tags", listOf("blue"))
+                .append("dim_cm", listOf(10, 15.25)),
+        )
+    )
+    // End Example 20
+
+    // Start Example 21
+    val flowFindARREQ = collection.withDocumentClass<Document>()
+        .find(eq("tags", listOf("red", "blank")))
+    // End Example 21
+
+    // Start Example 22
+    val flowFindARRALL = collection.withDocumentClass<Document>()
+        .find(all("tags", listOf("red", "blank")))
+    // End Example 22
+
+    // Start Example 23
+    val flowFindARRELEM = collection.withDocumentClass<Document>()
+        .find(eq("tags", "red"))
+    // End Example 23
+
+    // Start Example 24
+    val flowFindARRELEMOP = collection.withDocumentClass<Document>()
+        .find(gt("dim_cm", 25))
+    // End Example 24
+
+    // Start Example 25
+    val flowFindARRELEMCOND = collection.withDocumentClass<Document>()
+        .find(and(gt("dim_cm", 15), lt("dim_cm", 20)))
+    // End Example 25
+
+    // Start Example 26
+    val flowFindARRELEMMATCH = collection.withDocumentClass<Document>()
+        .find(elemMatch("dim_cm", Document.parse("{ \$gt: 22, \$lt: 30 }")))
+    // End Example 26
+
+    // Start Example 27
+    val flowFindARRPOS = collection.withDocumentClass<Document>()
+        .find(gt("dim_cm.1", 25))
+    // End Example 27
+
+    // Start Example 28
+    val flowFindARRSIZE = collection.withDocumentClass<Document>()
+        .find(size("tags", 3))
+    // End Example 28
+
     mongoClient.close()
 }
