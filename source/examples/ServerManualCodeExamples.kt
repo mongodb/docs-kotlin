@@ -1,6 +1,7 @@
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters.*
 import com.mongodb.client.model.Projections.*
+import com.mongodb.client.model.Updates.*
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -498,7 +499,117 @@ fun main() = runBlocking {
         .find(exists("item", false))
     // End Example 41
 
+    // Start Example 56
     collection.deleteMany(empty())
+    // End Example 56
+
+    // Start Example 51
+    collection.insertMany(
+        listOf(
+            Document("item", "canvas")
+                .append("qty", 100)
+                .append("size", Document("h", 28).append("w", 35.5).append("uom", "cm"))
+                .append("status", "A"),
+            Document("item", "journal")
+                .append("qty", 25)
+                .append("size", Document("h", 14).append("w", 21).append("uom", "cm"))
+                .append("status", "A"),
+            Document("item", "mat")
+                .append("qty", 85)
+                .append("size", Document("h", 27.9).append("w", 35.5).append("uom", "cm"))
+                .append("status", "A"),
+            Document("item", "mousepad")
+                .append("qty", 25)
+                .append("size", Document("h", 19).append("w", 22.85).append("uom", "cm"))
+                .append("status", "P"),
+            Document("item", "notebook")
+                .append("qty", 50)
+                .append("size", Document("h", 8.5).append("w", 11).append("uom", "in"))
+                .append("status", "P"),
+            Document("item", "paper")
+                .append("qty", 100)
+                .append("size", Document("h", 8.5).append("w", 11).append("uom", "in"))
+                .append("status", "D"),
+            Document("item", "planner")
+                .append("qty", 75)
+                .append("size", Document("h", 22.85).append("w", 30).append("uom", "cm"))
+                .append("status", "D"),
+            Document("item", "postcard")
+                .append("qty", 45)
+                .append("size", Document("h", 10).append("w", 15.25).append("uom", "cm"))
+                .append("status", "A"),
+            Document("item", "sketchbook")
+                .append("qty", 80)
+                .append("size", Document("h", 14).append("w", 21).append("uom", "cm"))
+                .append("status", "A"),
+            Document("item", "sketch pad")
+                .append("qty", 95)
+                .append("size", Document("h", 22.85).append("w", 30.5).append("uom", "cm"))
+                .append("status", "A"),
+        )
+    )
+    // End Example 51
+
+    // Start Example 52
+    collection.updateOne(eq("item", "paper"),
+        combine(set("size.uom", "cm"), set("status", "P"), currentDate("lastModified")));
+    // End Example 52
+
+    // Start Example 53
+    collection.updateMany(lt("qty", 50),
+        combine(set("size.uom", "in"), set("status", "P"), currentDate("lastModified")));
+    // End Example 53
+
+    // Start Example 54
+    collection.replaceOne(eq("item", "paper"),
+        Document.parse("{ item: 'paper', instock: [ { warehouse: 'A', qty: 60 }, { warehouse: 'B', qty: 40 } ] }"));
+    // End Example 54
+
+    // Start Example 55
+    collection.insertMany(
+        listOf(
+            Document("item", "journal")
+                .append("qty", 25)
+                .append("size", Document("h", 14).append("w", 21).append("uom", "cm"))
+                .append("status", "A"),
+            Document("item", "notebook")
+                .append("qty", 50)
+                .append("size", Document("h", 8.5).append("w", 11).append("uom", "in"))
+                .append("status", "A"),
+            Document("item", "paper")
+                .append("qty", 100)
+                .append("size", Document("h", 8.5).append("w", 11).append("uom", "in"))
+                .append("status", "D"),
+            Document("item", "planner")
+                .append("qty", 75)
+                .append("size", Document("h", 22.85).append("w", 30).append("uom", "cm"))
+                .append("status", "D"),
+            Document("item", "postcard")
+                .append("qty", 45)
+                .append("size", Document("h", 10).append("w", 15.25).append("uom", "cm"))
+                .append("status", "A"),
+        )
+    )
+    // End Example 55
+
+    // Start Example 57
+    collection.deleteMany(eq("status", "A"));
+    // End Example 57
+
+    // Start Example 58
+    collection.deleteOne(eq("status", "D"))
+    // End Example 58
+
+    // Start Index Example 1
+    collection.createIndex(Indexes.ascending("score"))
+    // End Index Example 1
+    
+    // Start Index Example 2
+    collection.createIndex(
+        Indexes.ascending("cuisine", "name"),
+        IndexOptions().partialFilterExpression(gt("rating", 5))
+    )
+    // End Index Example 2
 
     mongoClient.close()
 }
