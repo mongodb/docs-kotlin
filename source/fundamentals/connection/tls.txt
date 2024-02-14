@@ -172,7 +172,7 @@ or `openssl <https://www.openssl.org/docs/manmaster/man1/openssl.html>`__
 command line tool.
 
 For more information on configuring a Kotlin application to use TLS/SSL,
-please seethe `JSSE Reference Guide
+please see the `JSSE Reference Guide
 <https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html>`__.
 
 .. _tls-disable-hostname-verification:
