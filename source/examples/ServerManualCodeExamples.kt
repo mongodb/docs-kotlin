@@ -611,5 +611,49 @@ fun main() = runBlocking {
     )
     // End Index Example 2
 
+    // Start Changestream Example 1
+    val job = launch {
+        val changeStream = collection.watch()
+        changeStream.collect {
+            println("Received a change event: $it")
+        }
+    }
+    // End Changestream Example 1
+
+    // Start Changestream Example 2
+    val job = launch {
+        val changeStream = collection.watch()
+            .fullDocument(FullDocument.UPDATE_LOOKUP)
+        changeStream.collect {
+            println(it)
+        }
+    }
+    // End Changestream Example 2
+
+    // Start Changestream Example 3
+    val resumeToken = BsonDocument()
+    val job = launch {
+        val changeStream = collection.watch()
+            .resumeAfter(resumeToken)
+        changeStream.collect {
+            println(it)
+        }
+    }
+    // End Changestream Example 3
+
+    // Start Changestream Example 4
+    val pipeline = listOf(
+    Aggregates.match(Filters.`in`("operationType",
+        listOf("insert", "update")))
+    )
+
+    val job = launch {
+        val changeStream = collection.watch(pipeline)
+        changeStream.collect {
+            println("Received a change event: $it")
+        }
+    }
+    // End Changestream Example 4
+
     mongoClient.close()
 }
