@@ -655,5 +655,39 @@ fun main() = runBlocking {
     }
     // End Changestream Example 4
 
+    // Start Stable API Example 1
+    val serverApi = ServerApi.builder()
+        .version(ServerApiVersion.V1)
+        .build()
+    
+    val settings = MongoClientSettings.builder()
+        .applyConnectionString(ConnectionString("<connection string>"))
+        .serverApi(serverApi)
+        .build()
+    
+    val client = MongoClient.create(settings)
+    // End Stable API Example 1
+
+    // Start Stable API Example 2
+    val serverApi = ServerApi.builder()
+        .version(ServerApiVersion.V1)
+        .strict(true)
+        .build()
+    // End Stable API Example 2
+
+    // Start Stable API Example 3
+    val serverApi = ServerApi.builder()
+        .version(ServerApiVersion.V1)
+        .strict(false)
+        .build()
+    // End Stable API Example 3
+
+    // Start Stable API Example 4
+    val serverApi = ServerApi.builder()
+        .version(ServerApiVersion.V1)
+        .deprecationErrors(true)
+        .build()
+    // End Stable API Example 4
+
     mongoClient.close()
 }
