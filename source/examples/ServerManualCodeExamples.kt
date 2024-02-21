@@ -1,4 +1,3 @@
-import com.mongodb.MongoException
 import com.mongodb.client.model.Filters.*
 import com.mongodb.client.model.Projections.*
 import com.mongodb.client.model.Updates.*
@@ -7,6 +6,17 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import org.bson.Document
 import org.bson.BsonType
+import com.mongodb.ServerApi
+import com.mongodb.ServerApiVersion
+import com.mongodb.ConnectionString
+import com.mongodb.MongoClientSettings
+import com.mongodb.client.model.Aggregates
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.IndexOptions
+import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.changestream.FullDocument
+import kotlinx.coroutines.launch
+import org.bson.BsonDocument
 
 fun main() = runBlocking {
     val uri = "<connection string>"
@@ -29,7 +39,7 @@ fun main() = runBlocking {
     println("Success! Inserted document: " + result.insertedId)
 
     // Start Example 2
-    val flowInsertOne = collection.withDocumentClass<Document>()
+    val flowInsertOne = collection
         .find(eq("item", "canvas"))
         .firstOrNull()
     // End Example 2
@@ -73,7 +83,7 @@ fun main() = runBlocking {
     println("Success! Inserted documents: " + results.insertedIds)
 
     // Start Example 7
-    val flowInsertMany = collection.withDocumentClass<Document>()
+    val flowInsertMany = collection
         .find(empty())
     // End Example 7
 
@@ -123,35 +133,35 @@ fun main() = runBlocking {
     // End Example 6
 
     // Start Example 9
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "D"))
     // End Example 9
 
     findFlow.collect { println(it) }
 
     // Start Example 10
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(`in`("status", "A", "D"))
     // End Example 10
 
     findFlow.collect { println(it) }
 
     // Start Example 11
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(and(eq("status", "A"), lt("qty", 30)))
     // End Example 11
 
     findFlow.collect { println(it) }
 
     // Start Example 12
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(or(eq("status", "A"), lt("qty", 30)))
     // End Example 12
 
     findFlow.collect { println(it) }
 
     // Start Example 13
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(
             and(eq("status", "A"),
                 or(lt("qty", 30), regex("item", "^p")))
@@ -205,21 +215,21 @@ fun main() = runBlocking {
     // End Example 14
 
     // Start Example 17
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("size.uom", "in"))
     // End Example 17
 
     findFlow.collect { println(it) }
 
     // Start Example 18
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(lt("size.h", 15))
     // End Example 18
 
     findFlow.collect { println(it) }
 
     // Start Example 19
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(and(
             lt("size.h", 15),
             eq("size.uom", "in"),
@@ -230,14 +240,14 @@ fun main() = runBlocking {
     findFlow.collect { println(it) }
 
     // Start Example 15
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("size", Document.parse("{ h: 14, w: 21, uom: 'cm' }")))
     // End Example 15
 
     findFlow.collect { println(it) }
 
     // Start Example 16
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("size", Document.parse("{ w: 21, h: 14, uom: 'cm' }")))
     // End Example 16
 
@@ -271,42 +281,42 @@ fun main() = runBlocking {
     // End Example 20
 
     // Start Example 21
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("tags", listOf("red", "blank")))
     // End Example 21
 
     // Start Example 22
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(all("tags", listOf("red", "blank")))
     // End Example 22
 
     // Start Example 23
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("tags", "red"))
     // End Example 23
 
     // Start Example 24
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(gt("dim_cm", 25))
     // End Example 24
 
     // Start Example 25
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(and(gt("dim_cm", 15), lt("dim_cm", 20)))
     // End Example 25
 
     // Start Example 26
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(elemMatch("dim_cm", Document.parse("{ \$gt: 22, \$lt: 30 }")))
     // End Example 26
 
     // Start Example 27
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(gt("dim_cm.1", 25))
     // End Example 27
 
     // Start Example 28
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(size("tags", 3))
     // End Example 28
 
@@ -344,42 +354,42 @@ fun main() = runBlocking {
     // End Example 29
 
     // Start Example 30
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("instock", Document.parse("{ warehouse: 'A', qty: 5 }")))
     // End Example 30
 
     // Start Example 31
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("instock", Document.parse("{ qty: 5, warehouse: 'A' }")))
     // End Example 31
 
     // Start Example 33
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(lte("instock.qty", 20))
     // End Example 33
     
     // Start Example 32
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(lte("instock.0.qty", 20))
     // End Example 32
 
     // Start Example 34
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(elemMatch("instock", Document.parse("{ qty: 5, warehouse: 'A' }")))
     // End Example 34
 
     // Start Example 35
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(elemMatch("instock", Document.parse("{ qty: { \$gt: 10, \$lte: 20 } }")))
     // End Example 35
 
     // Start Example 36
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(and(gt("instock.qty", 10), lte("instock.qty", 20)))
     // End Example 36
 
     // Start Example 37
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(and(eq("instock.qty", 5), eq("instock.warehouse", "A")))
     // End Example 37
 
@@ -424,42 +434,42 @@ fun main() = runBlocking {
     // End Example 42
 
     // Start Example 43
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A"))
     // End Example 43
 
     // Start Example 44
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A")).projection(include("item", "status"))
     // End Example 44
 
     // Start Example 45
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A")).projection(fields(include("item", "status"), excludeId()))
     // End Example 45
 
     // Start Example 46
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A")).projection(exclude("item", "status"))
     // End Example 46
 
     // Start Example 47
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A")).projection(include("item", "status", "size.uom"))
     // End Example 47
 
     // Start Example 48
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A")).projection(exclude("size.uom"))
     // End Example 48
 
     // Start Example 49
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A")).projection(include("item", "status", "instock.qty"))
     // End Example 49
 
     // Start Example 50
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("status", "A"))
         .projection(fields(include("item", "status"), slice("instock", -1)))
     // End Example 50
@@ -477,25 +487,25 @@ fun main() = runBlocking {
     // End Example 38
 
     // Start Example 39
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("item", null))
     // End Example 39
 
     // Start Example 39
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(eq("item", null))
     // End Example 39
 
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(ne("item", null))
 
     // Start Example 40
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(type("item", BsonType.NULL))
     // End Example 40
 
     // Start Example 41
-    val findFlow = collection.withDocumentClass<Document>()
+    val findFlow = collection
         .find(exists("item", false))
     // End Example 41
 
