@@ -1,22 +1,21 @@
-import com.mongodb.client.model.Filters.*
-import com.mongodb.client.model.Projections.*
-import com.mongodb.client.model.Updates.*
-import com.mongodb.kotlin.client.coroutine.MongoClient
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.runBlocking
-import org.bson.Document
-import org.bson.BsonType
-import com.mongodb.ServerApi
-import com.mongodb.ServerApiVersion
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
+import com.mongodb.ServerApi
+import com.mongodb.ServerApiVersion
 import com.mongodb.client.model.Aggregates
-import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.*
 import com.mongodb.client.model.IndexOptions
 import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.Projections.*
+import com.mongodb.client.model.Updates.*
 import com.mongodb.client.model.changestream.FullDocument
+import com.mongodb.kotlin.client.coroutine.MongoClient
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.bson.BsonDocument
+import org.bson.BsonType
+import org.bson.Document
 
 fun main() = runBlocking {
     val uri = "<connection string>"
