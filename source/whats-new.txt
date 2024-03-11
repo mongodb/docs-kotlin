@@ -12,20 +12,27 @@ What's New
 
 Learn what's new in:
 
+* :ref:`Version 5.0 <version-5.0>`
 * :ref:`Version 4.11 <version-4.11>`
 * :ref:`Version 4.10 <version-4.10>`
-
-.. .. _upcoming-breaking-changes:
-
-.. Upcoming Breaking Changes
-.. -------------------------
-
-.. - Beginning with v5.0, the {+driver-short+} requires Java 11 or later.
 
 .. _version-5.0:
 
 What's New in 5.0
 ------------------
+
+New features of the 4.11 driver release include:
+
+- The ``KotlinSerializerCodecProvider`` constructor now accepts
+  ``serializersModule`` and ``bsonConfiguration`` objects:
+
+  .. code-block:: cpp
+     
+     KotlinSerializerCodec.create(clazz.kotlin, serializersModule=serializersModule, bsonConfiguration=bsonConfiguration)
+  
+  This makes it easier to customize your configuration.
+
+- Fixes a bug that resulted in type erasure during reflection and return.
 
 .. _version-4.11:
 
