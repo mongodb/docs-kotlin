@@ -21,12 +21,12 @@ Learn what's new in:
 What's New in 5.0
 ------------------
 
-New features of the 4.11 driver release include:
+New features of the 5.0 driver release include:
 
 - The ``KotlinSerializerCodecProvider`` constructor now accepts
   ``serializersModule`` and ``bsonConfiguration`` objects:
 
-  .. code-block:: cpp
+  .. code-block:: kotlin
      
      KotlinSerializerCodec.create(clazz.kotlin, serializersModule=serializersModule, bsonConfiguration=bsonConfiguration)
   
