@@ -12,14 +12,33 @@ What's New
 
 Learn what's new in:
 
+* :ref:`Version 5.1 <kotlin-coroutine-version-5.1>`
 * :ref:`Version 5.0 <version-5.0>`
 * :ref:`Version 4.11 <version-4.11>`
 * :ref:`Version 4.10 <version-4.10>`
 
+.. _kotlin-coroutine-version-5.1:
+
+What's New in 5.1
+-----------------
+
+New features of the 5.1 driver release include:
+
+- Fixes an issue in which operations used the incorrect codec when using
+  a polymorphic ``MongoCollection`` instance. This ensures that
+  discriminator information is not lost when using ``bson-kotlinx``.
+
+- Fixes an issue in which the class discriminator was the first field
+  when decoding, resulting in field type errors when using a polymorphic
+  ``MongoCollection`` instance.
+
+To learn more about changes introduced in v5.1, see the :ref:`Java Sync
+Driver What's New guide <java-whats-new>`.
+
 .. _version-5.0:
 
 What's New in 5.0
-------------------
+-----------------
 
 New features of the 5.0 driver release include:
 
