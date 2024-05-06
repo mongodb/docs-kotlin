@@ -32,8 +32,8 @@ New features of the 5.1 driver release include:
   when decoding, resulting in field type errors when using a polymorphic
   ``MongoCollection`` instance.
 
-To learn more about changes introduced in v5.1, see the :ref:`Java Sync
-Driver What's New guide <java-deprecations-5.1>`.
+To learn more about changes introduced in v5.1, see the :driver:`Java Sync
+Driver What's New guide </java/sync/current/whats-new/>`.
 
 .. _version-5.0:
 
