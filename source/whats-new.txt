@@ -33,7 +33,7 @@ New features of the 5.1 driver release include:
   ``MongoCollection`` instance.
 
 To learn more about changes introduced in v5.1, see the :ref:`Java Sync
-Driver What's New guide <java-whats-new>`.
+Driver What's New guide <java-deprecations-5.1>`.
 
 .. _version-5.0:
 
