@@ -22,6 +22,11 @@ Learn what's new in:
 What's New in 5.1
 -----------------
 
+.. important:: MongoDB Server v3.6 End-of-Life
+
+   Support MongoDB Server v3.6 is deprecated in this
+   release and will be removed in the v5.2 release of the driver.
+
 New features of the 5.1 driver release include:
 
 - Fixes an issue in which operations used the incorrect codec when using
