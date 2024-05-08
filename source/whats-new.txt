@@ -63,12 +63,14 @@ Improvements in 5.1
   when decoding, resulting in field type errors when using a polymorphic
   ``MongoCollection`` instance.
 
-.. TODO add polymorphic serialization content
-
 .. _kotlin-new-features-5.1:
 
 New Features in 5.1
 ~~~~~~~~~~~~~~~~~~~
+
+- Support for polymorphic serialization.
+
+.. TODO add polymorphic serialization content
 
 - Introduces the ``serverMonitoringMode`` connection URI option.
 
