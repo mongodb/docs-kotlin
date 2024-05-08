@@ -22,12 +22,38 @@ Learn what's new in:
 What's New in 5.1
 -----------------
 
-.. important:: MongoDB Server v3.6 End-of-Life
+.. warning:: Deprecations in this release
 
-   Support MongoDB Server v3.6 is deprecated in this
-   release and will be removed in the v5.2 release of the driver.
+   To avoid breaking changes in future major releases of the driver,
+   replace any application code that depends on deprecated program elements.
 
-New features of the 5.1 driver release include:
+This section includes the following information:
+
+- :ref:`kotlin-deprecations-5.1`
+- :ref:`kotlin-improvements-5.1`
+- :ref:`kotlin-new-features-5.1`
+
+.. _kotlin-deprecations-5.1:
+
+Deprecations in 5.1
+~~~~~~~~~~~~~~~~~~~
+
+- Support for {+mdb-server+} v3.6 is deprecated and will be removed in the
+  next driver version release. To learn how to upgrade your {+mdb-server+}
+  deployment, see :manual:`Release Notes </release-notes>` in the {+mdb-server+}
+  manual.
+
+.. _kotlin-improvements-5.1:
+
+Improvements in 5.1
+~~~~~~~~~~~~~~~~~~~
+
+- Internal testing of GraalVM native image technology. These tests involve building
+  native applications by using the GraalVM native-image tool.
+
+- Enhanced support for the ``MONGODB-OIDC`` authentication mechanism.
+
+.. TODO add OIDC content and link
 
 - Fixes an issue in which operations used the incorrect codec when using
   a polymorphic ``MongoCollection`` instance. This ensures that
@@ -37,8 +63,16 @@ New features of the 5.1 driver release include:
   when decoding, resulting in field type errors when using a polymorphic
   ``MongoCollection`` instance.
 
-To learn more about changes introduced in v5.1, see the :driver:`Java Sync
-Driver What's New guide </java/sync/current/whats-new/>`.
+.. TODO add polymorphic serialization content
+
+.. _kotlin-new-features-5.1:
+
+New Features in 5.1
+~~~~~~~~~~~~~~~~~~~
+
+- Introduces the ``serverMonitoringMode`` connection URI option.
+
+.. TODO add serverMonitoringMode content and link
 
 .. _version-5.0:
 
