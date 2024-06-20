@@ -298,7 +298,7 @@ MONGODB-OIDC
    The MONGODB-OIDC authentication mechanism requires {+mdb-server+} v7.0 or later running
    on a Linux platform.
 
-The following sections describe how to use the ``MONGODB-OIDC``
+The following sections describe how to use the MONGODB-OIDC
 authentication mechanism to authenticate to various platforms.
 
 For more information about the MONGODB-OIDC authentication mechanism, see
@@ -317,7 +317,8 @@ If your application runs on an Azure VM, or otherwise uses the
 support.
 
 You can specify Azure IMDS OIDC authentication either by 
-using a ``MongoCredential`` or specifying your credentials in the connection string.
+using a ``MongoCredential`` instance or by specifying your credentials
+in the connection string.
 
 Select from the :guilabel:`Connection String` or :guilabel:`MongoCredential` tabs to
 see the corresponding syntax.
@@ -358,11 +359,12 @@ GCP IMDS
 
 If your application runs on a Google Compute Engine VM, or otherwise uses the
 `GCP Instance Metadata Service <https://cloud.google.com/compute/docs/metadata/querying-metadata>`__,
-you can authenticate to MongoDB by using {+driver-short+}'s built-in GCP
+you can authenticate to MongoDB by using the {+driver-short+}'s built-in GCP
 support.
 
 You can specify GCP IMDS OIDC authentication either by 
-using a ``MongoCredential`` or as part of the connection string.
+using a ``MongoCredential`` instance or by specifying your credentials
+in the connection string.
 
 Select from the :guilabel:`Connection String` or :guilabel:`MongoCredential` tabs to
 see the corresponding syntax.
