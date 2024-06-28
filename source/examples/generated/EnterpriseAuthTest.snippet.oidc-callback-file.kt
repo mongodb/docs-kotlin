@@ -1,5 +1,5 @@
 val credential = MongoCredential.createOidcCredential(null)
-    .withMechanismProperty("OIDC_CALLBACK") { Context context ->
+    .withMechanismProperty("OIDC_CALLBACK") { context: Context ->
         val accessToken = String(Files.readAllBytes(Paths.get("access-token.dat")))
         OidcCallbackResult(accessToken)
     }

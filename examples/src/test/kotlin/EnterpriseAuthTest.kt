@@ -173,18 +173,17 @@ internal class EnterpriseAuthTest {
     fun oidcCallback() = runBlocking {
         // :snippet-start: oidc-callback
         val credential = MongoCredential.createOidcCredential(null)
-            .withMechanismProperty("OIDC_CALLBACK") { Context context ->
+            .withMechanismProperty("OIDC_CALLBACK") { context: Context ->
                 val accessToken = "..."
                 OidcCallbackResult(accessToken)
             }
         // :snippet-end:
     }
 
-
     fun oidcCallbackFile() = runBlocking {
         // :snippet-start: oidc-callback-file
         val credential = MongoCredential.createOidcCredential(null)
-            .withMechanismProperty("OIDC_CALLBACK") { Context context ->
+            .withMechanismProperty("OIDC_CALLBACK") { context: Context ->
                 val accessToken = String(Files.readAllBytes(Paths.get("access-token.dat")))
                 OidcCallbackResult(accessToken)
             }
