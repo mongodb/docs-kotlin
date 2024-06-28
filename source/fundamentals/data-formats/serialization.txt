@@ -260,7 +260,7 @@ annotation, the driver uses a ``KSerializer`` implementation to handle
 conversion of your types to and from BSON.
 
 When you insert an instance of a polymorphic data class into MongoDB,
-the driver serializes it with an additional field ``_t``, the
+the driver adds the field ``_t``, the
 discriminator field. The value of this field is the data class name.
 
 Polymorphic Data Classes Example
@@ -274,7 +274,7 @@ with the annotations described in the
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.polymorphic-dataclasses.kt
     :language: kotlin
 
-Then, you can perform operations with data classes as normal. In the
+Then, you can perform operations with data classes as usual. In the
 following example, you parametrize the collection with the ``Person``
 interface, but you can perform operations with the polymorphic classes
 ``Teacher`` and ``Student``. When you retrieve documents, the driver
