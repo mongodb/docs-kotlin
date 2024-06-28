@@ -9,7 +9,7 @@ Kotlin Serialization
    :values: reference
 
 .. meta::
-   :keywords: code example, data model, conversion
+   :keywords: code example, data model, conversion, polymorphism
 
 .. contents:: On this page
    :local:
