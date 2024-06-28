@@ -98,6 +98,8 @@ dependencies to your project by using the :guilabel:`Gradle` and
             <version>{+full-version+}</version>
         </dependency>
 
+.. _kotlin-data-class-annotation:
+
 Annotate Data Classes
 ---------------------
 
@@ -246,3 +248,56 @@ see the following API documentation:
 - `KotlinSerializerCodec.create() <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__
 - `BsonConfiguration <{+api+}/apidocs/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-bson-configuration/index.html>`__
  
+.. _kotlin-polymorphic:
+
+Polymorphic Serialization
+-------------------------
+
+The {+driver-short+} natively supports serialization and deserialization
+of polymorphic classes. When you mark a sealed interface and data
+classes that inherit that interface with the ``@Serializable``
+annotation, the driver uses a ``KSerializer`` implementation to handle
+conversion of your types to and from BSON.
+
+When you insert an instance of a polymorphic data class into MongoDB,
+the driver serializes it with an additional field ``_t``, the
+discriminator field. The value of this field is the data class name.
+
+Polymorphic Data Classes Example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this example, you create an interface and two data classes that
+inherit that interface. In the data classes, the ``id`` field is marked
+with the annotations described in the
+:ref:`kotlin-data-class-annotation` section:
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.polymorphic-dataclasses.kt
+    :language: kotlin
+
+Then, you can perform operations with data classes as normal. In the
+following example, you parametrize the collection with the ``Person``
+interface, but you can perform operations with the polymorphic classes
+``Teacher`` and ``Student``. When you retrieve documents, the driver
+automatically detects the type based on the discriminator value and
+deserializes them accordingly.
+
+.. io-code-block::
+   :copyable: true
+
+   .. input:: /examples/generated/KotlinXSerializationTest.snippet.polymorphic-example.kt
+      :language: kotlin
+
+   .. output::
+      :language: console
+
+      Retrieving by using data classes
+      Teacher(id=667f1d0933cea845b9971166, name=Vivian Lee, department=History)
+      Student(id=667f1d0933cea845b9971167, name=Kate Parker, grade=10)
+      
+      Retrieving by using Person interface
+      Teacher(id=667f1d0933cea845b9971166, name=Vivian Lee, department=History)
+      Student(id=667f1d0933cea845b9971167, name=Kate Parker, grade=10)
+      
+      Retrieving as Document type
+      Document{{_id=667f1d0933cea845b9971166, _t=Teacher, name=Vivian Lee, department=History}}
+      Document{{_id=667f1d0933cea845b9971167, _t=Student, name=Kate Parker, grade=10}}
