@@ -291,13 +291,13 @@ deserializes them accordingly.
       :language: console
 
       Retrieving by using data classes
-      Teacher(id=667f1d0933cea845b9971166, name=Vivian Lee, department=History)
-      Student(id=667f1d0933cea845b9971167, name=Kate Parker, grade=10)
+      Teacher(id=..., name=Vivian Lee, department=History)
+      Student(id=..., name=Kate Parker, grade=10)
       
       Retrieving by using Person interface
-      Teacher(id=667f1d0933cea845b9971166, name=Vivian Lee, department=History)
-      Student(id=667f1d0933cea845b9971167, name=Kate Parker, grade=10)
+      Teacher(id=..., name=Vivian Lee, department=History)
+      Student(id=..., name=Kate Parker, grade=10)
       
       Retrieving as Document type
-      Document{{_id=667f1d0933cea845b9971166, _t=Teacher, name=Vivian Lee, department=History}}
-      Document{{_id=667f1d0933cea845b9971167, _t=Student, name=Kate Parker, grade=10}}
+      Document{{_id=..., _t=Teacher, name=Vivian Lee, department=History}}
+      Document{{_id=..., _t=Student, name=Kate Parker, grade=10}}

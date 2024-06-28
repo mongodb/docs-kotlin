@@ -219,8 +219,13 @@ internal class KotlinXSerializationTest {
         collection.insertOne(studentDoc)
 
         println("Retrieving by using data classes")
-        collection.withDocumentClass<Teacher>().find(Filters.exists("department")).first().also { println(it) }
-        collection.withDocumentClass<Student>().find(Filters.exists("grade")).first().also { println(it) }
+        collection.withDocumentClass<Teacher>()
+            .find(Filters.exists("department"))
+            .first().also { println(it) }
+
+        collection.withDocumentClass<Student>()
+            .find(Filters.exists("grade"))
+            .first().also { println(it) }
 
         println("\nRetrieving by using Person interface")
         val resultsFlow = collection.withDocumentClass<Person>().find()
