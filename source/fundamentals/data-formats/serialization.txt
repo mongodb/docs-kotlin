@@ -266,7 +266,7 @@ discriminator field. The value of this field is the data class name.
 Polymorphic Data Classes Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this example, you create an interface and two data classes that
+The following example creates an interface and two data classes that
 inherit that interface. In the data classes, the ``id`` field is marked
 with the annotations described in the
 :ref:`kotlin-data-class-annotation` section:
@@ -274,9 +274,9 @@ with the annotations described in the
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.polymorphic-dataclasses.kt
     :language: kotlin
 
-Then, you can perform operations with data classes as usual. In the
-following example, you parametrize the collection with the ``Person``
-interface, but you can perform operations with the polymorphic classes
+Then, you can perform operations with data classes as usual. The
+following example parametrizes the collection with the ``Person``
+interface, then performs operations with the polymorphic classes
 ``Teacher`` and ``Student``. When you retrieve documents, the driver
 automatically detects the type based on the discriminator value and
 deserializes them accordingly.
