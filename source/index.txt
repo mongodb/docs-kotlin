@@ -127,7 +127,7 @@ Driver version for each MongoDB Server version, see the
 Migrate from KMongo
 -------------------
 
-Learn about the changes you need to make to migrate from the
+Learn about the changes needed to migrate from the
 community-developed KMongo driver to the {+driver-long+} in the
 :ref:`kotlin-migrate-kmongo` section.
 
