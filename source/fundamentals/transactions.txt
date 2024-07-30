@@ -85,7 +85,7 @@ following methods:
      - | Ends any existing transactions and closes the session.
 
 A ``Session`` also has methods to retrieve session properties and modify
-mutable session properties. View the `API documentation<{+api+/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/index.html>`__ 
+mutable session properties. View the `API documentation<{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/index.html>`__
 to learn more about these methods.
 
 Example
@@ -111,7 +111,7 @@ the Server manual:
 
 - :manual:`Transactions</core/transactions/>`
 - :manual:`Server Sessions</reference/server-sessions>`
-- :manual:`/core/read-isolation-consistency-recency/#causal-consistency`
+- :manual:`Read Isolation, Consistency, and Recency</core/read-isolation-consistency-recency/#causal-consistency>`
 
 To learn more about ACID compliance, see the `What are ACID properties in Database Management Systems?<https://www.mongodb.com/resources/basics/databases/acid-transactions?tck=docs>`
 article on the MongoDB website.
@@ -122,7 +122,7 @@ API Documentation
 To learn more about any of the types or methods discussed in this
 guide, see the following API Documentation:
 
-- `ClientSession<{+api+/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/index.html}>`__
-- `startTransaction<{+api+/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/start-transaction.html}>`__
-- `commitTransaction<{+api+/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/commit-transaction.html}>`__
-- `abortTransaction<{+api+/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/abort-transaction.html}>`__
+- `ClientSession<{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/index.html>`__
+- `startTransaction<{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/start-transaction.html>`__
+- `commitTransaction<{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/commit-transaction.html>`__
+- `abortTransaction<{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/abort-transaction.html>`__

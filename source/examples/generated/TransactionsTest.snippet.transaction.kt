@@ -18,14 +18,16 @@ suspend fun performTransaction(client: CoroutineClient) {
                 CheckingAccount::accountId eq "9876",
                 inc(CheckingAccount::amount, 100)
             )
-           // Commit the transaction
-           session.commitTransaction()
-           println("Transaction committed.")
+            // Commit the transaction
+            session.commitTransaction()
+            println("Transaction committed.")
         } catch (error: Exception) {
-           println("An error occurred during the transaction: ${error.message}")
-           session.abortTransaction() // Abort the transaction 
+            println("An error occurred during the transaction: ${error.message}")
+            // Abort the transaction
+            session.abortTransaction() 
         } finally {
-           session.endSession() // End the session
+            // End the session
+            session.endSession()
         }
     }
 }
