@@ -80,9 +80,6 @@ following methods:
      - | Commits the active transaction for this session. Returns an
          error if there is no active transaction for the session or if the
          transaction was ended.
-         
-   * - ``endSession()``
-     - | Ends any existing transactions and closes the session.
 
 A ``Session`` also has methods to retrieve session properties and modify
 mutable session properties. View the `API documentation <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/index.html>`__
