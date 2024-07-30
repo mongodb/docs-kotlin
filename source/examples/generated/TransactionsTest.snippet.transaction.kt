@@ -1,12 +1,12 @@
 // Set up the MongoDB client and get the collection
-suspend fun performTransaction(client: CoroutineClient) {
-    client.startSession().use { session: ClientSession ->
+suspend fun performTransaction(client: MongoClient) {
+    client.startSession().use { session ->
         session.startTransaction() // Start the transaction
         try {
             val database = client.getDatabase("bank")
 
             val savingsColl = database.getCollection<SavingsAccount>("savings_accounts")
-            savingsColl.findeOneAndUpdate(
+            savingsColl.findOneAndUpdate(
                 session,
                 SavingsAccount::accountId eq "9876",
                 inc(SavingsAccount::amount, -100)
@@ -25,9 +25,6 @@ suspend fun performTransaction(client: CoroutineClient) {
             println("An error occurred during the transaction: ${error.message}")
             // Abort the transaction
             session.abortTransaction() 
-        } finally {
-            // End the session
-            session.endSession()
         }
     }
 }
