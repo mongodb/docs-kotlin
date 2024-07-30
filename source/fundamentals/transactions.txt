@@ -113,7 +113,8 @@ the Server manual:
 - :manual:`Server Sessions </reference/server-sessions>`
 - :manual:`Read Isolation, Consistency, and Recency </core/read-isolation-consistency-recency/#causal-consistency>`
 
-To learn more about ACID compliance, see the `What are ACID properties in Database Management Systems? <https://www.mongodb.com/resources/basics/databases/acid-transactions?tck=docs>`
+To learn more about ACID compliance, see the :website:`What are ACID
+Properties in Database Management Systems? </basics/acid-transactions>`
 article on the MongoDB website.
 
 API Documentation
