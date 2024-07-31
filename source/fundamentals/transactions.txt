@@ -96,7 +96,7 @@ and commit a changes to existing documents:
 #. Update the specified documents, then use the ``commitTransaction()`` method if all
    operations succeed, or ``abortTransaction()`` if any operations fail.
 
-This example uses the following {+driver+} data classes to model its documents:
+This example uses the following {+language+} data classes to model its documents:
 
 .. literalinclude:: /examples/generated/TransactionsTest.snippet.data-class.kt
    :language: kotlin
