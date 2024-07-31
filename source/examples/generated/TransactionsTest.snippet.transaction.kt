@@ -1,7 +1,8 @@
 // Set up the MongoDB client and get the collection
 suspend fun performTransaction(client: MongoClient) {
     client.startSession().use { session ->
-        session.startTransaction() // Start the transaction
+        // Start the transaction
+        session.startTransaction()
         try {
             val database = client.getDatabase("bank")
 
@@ -18,6 +19,7 @@ suspend fun performTransaction(client: MongoClient) {
                 CheckingAccount::accountId eq "9876",
                 inc(CheckingAccount::amount, 100)
             )
+
             // Commit the transaction
             session.commitTransaction()
             println("Transaction committed.")
@@ -27,13 +29,4 @@ suspend fun performTransaction(client: MongoClient) {
             session.abortTransaction() 
         }
     }
-}
-
-data class SavingsAccount(val accountId: String, val amount: Int)
-data class CheckingAccount(val accountId: String, val amount: Int)
-
-fun main() = runBlocking {
-    val uri = "<connection string uri>"
-    val client = MongoClient.create(uri)
-    performTransaction(client)
 }
