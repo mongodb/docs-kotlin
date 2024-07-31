@@ -98,10 +98,9 @@ and commit a changes to existing documents:
 
 This example uses the following {+language+} data classes to model its documents:
 
-.. code-block:: kotlin
-
-    data class SavingsAccount(val accountId: String, val amount: Int)
-    data class CheckingAccount(val accountId: String, val amount: Int)
+.. literalinclude:: /examples/generated/TransactionsTest.snippet.data-class.kt
+   :language: kotlin
+   :copyable:
 
 .. literalinclude:: /examples/generated/TransactionsTest.snippet.transaction.kt
    :language: kotlin
