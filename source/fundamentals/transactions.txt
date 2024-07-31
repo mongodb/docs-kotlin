@@ -100,11 +100,9 @@ This example uses the following {+language+} data classes to model its documents
 
 .. literalinclude:: /examples/generated/TransactionsTest.snippet.data-class.kt
    :language: kotlin
-   :copyable:
 
-.. literalinclude:: /examples/generated/TransactionsTest.snippet.transaction.kt
+.. literalinclude:: /examples/generated/TransactionsTest.snippet.transaction-function.kt
    :language: kotlin
-   :copyable:
 
 Additional Information
 ----------------------
