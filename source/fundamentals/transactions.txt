@@ -88,18 +88,18 @@ to learn more about these methods.
 Example
 -------
 
+This example uses the following {+language+} data class to model its documents:
+
+.. literalinclude:: /examples/generated/TransactionsTest.snippet.data-class.kt
+   :language: kotlin
+
 The following example demonstrates how you can create a session, create a transaction,
-and commit a changes to existing documents:
+and commit changes to existing documents:
 
 1. Create a session from the client using the ``startSession()`` method.
 #. Use the ``startTransaction()`` method to start a transaction.
 #. Update the specified documents, then use the ``commitTransaction()`` method if all
    operations succeed, or ``abortTransaction()`` if any operations fail.
-
-This example uses the following {+language+} data classes to model its documents:
-
-.. literalinclude:: /examples/generated/TransactionsTest.snippet.data-class.kt
-   :language: kotlin
 
 .. literalinclude:: /examples/generated/TransactionsTest.snippet.transaction-function.kt
    :language: kotlin
