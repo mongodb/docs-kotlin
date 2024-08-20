@@ -1,5 +1,5 @@
 =====================
-testing lock deploys
+testing lock deploy
 =====================
 
 .. toctree::
