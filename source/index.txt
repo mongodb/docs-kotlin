@@ -1,5 +1,5 @@
 =====================
-Locked auto publishing
+Add skip netlify
 =====================
 
 .. toctree::
