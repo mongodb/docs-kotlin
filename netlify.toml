@@ -7,4 +7,4 @@ name = "snooty-cache-plugin"
 [build]
 publish = "snooty/public"
 command = ". ./build.sh"
-ignore = process.env.BRANCH.includes("anabellabuckvar-patch-1")
+ignore = "node ignore_build.ts"
