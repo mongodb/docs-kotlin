@@ -1,5 +1,5 @@
 =====================
-testing lock deploys
+Locked auto publishing
 =====================
 
 .. toctree::
