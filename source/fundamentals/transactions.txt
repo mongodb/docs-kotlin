@@ -38,15 +38,15 @@ guarantees that the data involved in your transaction operations remains
 consistent, even if the operations encounter unexpected errors.
 
 When using the {+driver-short+}, you can create a new session from a 
-``Client`` instance as a ``ClientSession``. We recommend that you reuse
+``MongoClient`` instance as a ``ClientSession``. We recommend that you reuse
 your client for multiple sessions and transactions instead of
 instantiating a new client each time.
 
 .. warning::
 
-   Use a ``Session`` only with the ``Client`` (or associated
-   ``Database`` or ``Collection``) that created it. Using a
-   ``Session`` with a different ``Client`` results in operation
+   Use a ``ClientSession`` only with the ``MongoClient`` (or associated
+   ``MongoDatabase`` or ``MongoCollection``) that created it. Using a
+   ``ClientSession`` with a different ``MongoClient`` results in operation
    errors.
 
 Methods
@@ -81,7 +81,7 @@ following methods:
          error if there is no active transaction for the session or if the
          transaction was ended.
 
-A ``Session`` also has methods to retrieve session properties and modify
+A ``ClientSession`` also has methods to retrieve session properties and modify
 mutable session properties. View the `API documentation <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-client-session/index.html>`__
 to learn more about these methods.
 
