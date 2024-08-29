@@ -21,6 +21,7 @@ driver-short = "Kotlin driver"
 driver-long = "MongoDB Kotlin Driver"
 version = "4.10"
 full-version = "{+version+}.1"
+language = "Kotlin"
 mdb-server = "MongoDB server"
 kotlin-docs = "https://kotlinlang.org"
 
