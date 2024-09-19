@@ -6,7 +6,7 @@ MongoDB Kotlin Driver
    :titlesonly:
    :maxdepth: 1
 
-   /quick-start
+   Quick Start </quick-start>
    /quick-reference
    /whats-new
    /usage-examples
@@ -17,20 +17,27 @@ MongoDB Kotlin Driver
    /issues-and-help
    /compatibility
    /migrate-kmongo
+   /validate-signatures
    View the Source <https://github.com/mongodb/mongo-java-driver>
 
 Introduction
 ------------
 
 Welcome to the documentation site for the Kotlin Driver, the official
-MongoDB driver for server-side Kotlin applications using coroutines. Download it using
-`Maven <https://maven.apache.org/>`__ or
-`Gradle <https://gradle.org/>`__, or set up a runnable project by
-following our Quick Start guide.
+MongoDB driver for server-side Kotlin applications that use coroutines.
+Download the driver by using `Maven <https://maven.apache.org/>`__ or `Gradle
+<https://gradle.org/>`__, or set up a runnable project by following our
+Quick Start guide.
 
-If your Kotlin application requires synchronous processing, use the
-:driver:`Sync Driver </kotlin-sync/>` which uses synchronous operations
-to make blocking calls to MongoDB.
+.. tip:: Other Kotlin Platforms for MongoDB
+
+   If your Kotlin application requires synchronous processing, use the
+   :driver:`Sync Driver </kotlin-sync/>`, which uses synchronous operations
+   to make blocking calls to MongoDB.
+   
+   If you are developing an Android or Kotlin Multiplatform (KMP)
+   application, you can use the :realm:`MongoDB Atlas Device Kotlin SDK </sdk/kotlin/>` 
+   to access Atlas App Services and to manage your Realm data.
 
 Quick Start
 -----------
@@ -43,6 +50,12 @@ Quick Reference
 
 See driver syntax examples for common MongoDB commands in the
 :ref:`Quick Reference <kotlin-quick-reference>` section.
+
+What's New
+----------
+
+For a list of new features and changes in each version, see the
+:doc:`What's New </whats-new>` section.
 
 Usage Examples
 --------------
@@ -111,11 +124,18 @@ For the compatibility charts that show the recommended Kotlin
 Driver version for each MongoDB Server version, see the
 :doc:`Compatibility </compatibility>` section.
 
-What's New
-----------
+Migrate from KMongo
+-------------------
 
-For a list of new features and changes in each version, see the
-:doc:`What's New </whats-new>` section.
+Learn about the changes needed to migrate from the
+community-developed KMongo driver to the {+driver-long+} in the
+:ref:`kotlin-migrate-kmongo` section.
+
+Validate Driver Artifact Signatures
+-----------------------------------
+
+Learn about how to validate signatures of {+driver-short+} artifacts
+published on Maven in the :ref:`Validate Driver Artifact Signatures <kotlin-validate-signatures>` section.
 
 Learn
 ------
