@@ -313,7 +313,7 @@ work with date and time types.
 kotlinx-datetime Library
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-``kotlinx-datetime`` is a {+language} library that allows
+``kotlinx-datetime`` is a {+language+} library that allows
 you to work with dates and times. If you want a high level of control
 over how your date and time values are serialized, you can add the
 dependency to your project's dependency list.
