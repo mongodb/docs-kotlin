@@ -36,8 +36,9 @@ improvements, and fixes:
       :ref:`kotlin-search-indexes` in the Indexes guide
 
 - Adds support for serializers from the ``kotlinx-datetime`` library
-  that let you map to BSON as the expected types. To learn more, see the
-  :ref:`fundamentals-kotlin-serialization` guide.
+  that let you map to BSON as the expected types instead of as strings.
+  To learn more, see the :ref:`kotlin-datetime-serialization` section of
+  the Kotlin Serialization guide.
 
 .. _kotlin-coroutine-version-5.1.3:
 
