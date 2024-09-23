@@ -360,11 +360,12 @@ the ``Appointment`` data class with the following behavior:
 - ``name``: The driver serializes the value as a string.
 
 - ``date``:  The driver uses the ``kotlinx-datetime`` serializer
-  because the field has the ``@Contextual`` annotation. So,
-  ``LocalDate`` values are serialized as BSON dates.
+  because the field has the ``@Contextual`` annotation. ``LocalDate``
+  values are serialized as BSON dates.
 
 - ``time``: The driver serializes the value as a string because it does
-  not have the ``@Contextual`` annotation.
+  not have the ``@Contextual`` annotation. This is the default
+  serialization behavior for ``LocalTime`` values.
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.datetime-data-class.kt
     :language: kotlin
