@@ -313,9 +313,9 @@ work with date and time types.
 kotlinx-datetime Library
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-``kotlinx-datetime`` is a {+language+} library that allows
-you to work with dates and times. If you want a high level of control
-over how your date and time values are serialized, you can add the
+``kotlinx-datetime`` is a {+language+} library that offers
+a high level of control over how your date and time values
+are serialized. To use the library, add the ``kotlinx-datetime``
 dependency to your project's dependency list.
 
 Select from the following tabs to see how to add the ``kotlinx-datetime``
@@ -354,11 +354,17 @@ After you add the library dependency, you can implement serializers from
 the ``kotlinx-datetime`` library that map your data class field values
 to the expected types in BSON.
 
-The following ``Appointment`` data class has the ``@Serializable``
-annotation and the ``@Contextual`` annotation on the ``date`` field
-to use the ``kotlinx-datetime`` serializer for ``LocalDate`` values.
-Values of the ``time`` field are stored as strings, because the driver
-does not use a serializer without the ``@Contextual`` annotation:
+In the following example, the driver serializes the fields of
+the ``Appointment`` data class with the following behavior:
+
+- ``name``: The driver serializes the value as a string.
+
+- ``date``:  The driver uses the ``kotlinx-datetime`` serializer
+  because the field has the ``@Contextual`` annotation. So,
+  ``LocalDate`` values are serialized as BSON dates.
+
+- ``time``: The driver serializes the value as a string because it does
+  not have the ``@Contextual`` annotation.
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.datetime-data-class.kt
     :language: kotlin
@@ -370,7 +376,7 @@ class into MongoDB:
     :language: kotlin
 
 In MongoDB, the ``LocalDate`` value is stored as a BSON date, and the
-``time`` field is stored by using default serialization as a string:
+``time`` field is stored  as a string by default serialization:
 
 .. code-block:: json
 
