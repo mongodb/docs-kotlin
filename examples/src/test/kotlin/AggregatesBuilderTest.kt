@@ -28,7 +28,6 @@ import com.mongodb.client.model.geojson.Position
 import com.mongodb.client.model.search.SearchOperator
 import com.mongodb.client.model.search.SearchOptions
 import com.mongodb.client.model.search.SearchPath
-import com.mongodb.client.model.search.VectorSearchOptions
 import com.mongodb.client.model.search.VectorSearchOptions.exactVectorSearchOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import config.getConfig
