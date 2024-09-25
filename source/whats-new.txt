@@ -35,10 +35,9 @@ improvements, and fixes:
 
       :ref:`kotlin-search-indexes` in the Indexes guide
 
-.. TODO blocked on https://github.com/10gen/docs-shared/pull/85
-.. .. replacement:: vector-search-link
-..
-..    :ref:`kotlin-atlas-vector-search` in the Aggregates Builders guide
+   .. replacement:: vector-search-link
+     
+      :ref:`kotlin-atlas-vector-search` in the Aggregates Builders guide
 
 - Adds support for serializers from the ``kotlinx-datetime`` library
   that let you map {+language+} date and time types to BSON as the
