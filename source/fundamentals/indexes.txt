@@ -266,11 +266,11 @@ create a Vector Search index.
 
 You can use the
 `createSearchIndexes() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/create-search-indexes.html>`__
-method to create multiple Atlas Search indexes or one or more Vector Search
-indexes. You must create and pass a
+method to create multiple Atlas Search or Vector Search
+indexes. You must create a
 `SearchIndexModel
 <{+api+}/apidocs/mongodb-driver-core/com/mongodb/client/model/SearchIndexModel.html>`__
-instance for each index.
+instance for each index, then pass a list of ``SearchIndexModel`` instances to the ``createSearchIndexes()`` method.
 
 The following code example shows how to create an Atlas Search index:
 
