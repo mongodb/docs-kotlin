@@ -8,7 +8,7 @@ Connection Guide
 
    Connect to MongoDB </fundamentals/connection/connect>
    Connection Options </fundamentals/connection/connection-options>
-   Specify MongoClient Settings </fundamentals/connection/mongoclientsettings>
+   MongoClient Settings </fundamentals/connection/mongoclientsettings>
    Network Compression </fundamentals/connection/network-compression>
    TLS/SSL </fundamentals/connection/tls>
    SOCKS5 Proxy Connection </fundamentals/connection/socks5>

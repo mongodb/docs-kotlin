@@ -15,7 +15,7 @@ Usage Examples
    Update & Replaces Operations </usage-examples/update-operations>
    Delete Operations </usage-examples/delete-operations>
    Bulk Operations </usage-examples/bulkWrite>
-   watch for Changes </usage-examples/watch>
+   Watch for Changes </usage-examples/watch>
    Count Documents </usage-examples/count>
    Distinct Field Values </usage-examples/distinct>
    Run a Command </usage-examples/command>
