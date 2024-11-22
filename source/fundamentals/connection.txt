@@ -6,11 +6,11 @@ Connection Guide
 
 .. toctree::
 
-   /fundamentals/connection/connect
-   /fundamentals/connection/connection-options
-   /fundamentals/connection/mongoclientsettings
-   /fundamentals/connection/network-compression
-   /fundamentals/connection/tls
+   Connect to MongoDB </fundamentals/connection/connect>
+   Connection Options </fundamentals/connection/connection-options>
+   MongoClient Settings </fundamentals/connection/mongoclientsettings>
+   Network Compression </fundamentals/connection/network-compression>
+   TLS/SSL </fundamentals/connection/tls>
 
 .. contents:: On this page
    :local:
