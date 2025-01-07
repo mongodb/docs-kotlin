@@ -81,6 +81,13 @@ with the Kotlin driver:
 .. literalinclude:: /examples/generated/FiltersBuildersTest.snippet.paint-order-data-class.kt
     :language: kotlin
 
+.. tip:: Filters and Data Class Properties
+
+   You can use methods from the ``Filters`` directly with data class
+   properties. To learn more and view examples, see the
+   :ref:`kotlin-data-class-query` section of the Document Data Format:
+   Data Classes guide.
+
 .. _comparison:
 
 Comparison

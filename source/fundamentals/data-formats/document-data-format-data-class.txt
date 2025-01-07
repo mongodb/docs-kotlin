@@ -14,12 +14,12 @@ Overview
 --------
 
 In this guide, you can learn how to store and retrieve data in the
-{+driver-long+} using **Kotlin data classes**.
+{+driver-long+} by using **{+language+} data classes**.
 
 Serialize and Deserialize a Data Class
 --------------------------------------
 
-The driver natively supports encoding and decoding Kotlin data classes for
+The driver natively supports encoding and decoding {+language+} data classes for
 MongoDB read and write operations using the **default codec registry**. The
 default codec registry is a collection of classes called **codecs** that
 define how to encode and decode Kotlin and Java types.
@@ -85,6 +85,27 @@ operation adds the ``releaseDate`` field to the document with a
 For more information about this feature, see :ref:`Specify Return Type
 <db-coll-specify-return-type>` in the Databases and Collections guide.
 
+.. _kotlin-data-class-query:
+
+Querying Data Classes
+---------------------
+
+You can use helpers from the ``Filter`` builders class to query on data
+class properties. The following code uses the ``Filters.eq()`` method to
+construct the same query on the ``DataStorage`` data class in multiple syntaxes:
+
+.. literalinclude:: /examples/generated/DataClassTest.snippet.filters-query-data-class.kt
+   :language: kotlin
+
+.. tip:: Filters and Data Class Annotations
+
+   When you use ``Filters`` class helpers to construct queries on data
+   classes, the methods respect your data class annotations from the
+   ``bson-kotlin`` and ``bson-kotlinx`` packages. To learn more about
+   annotations, see the :ref:`fundamentals-data-class-annotations`
+   section of this guide and the :ref:`kotlin-data-class-annotation`
+   section in the {+language+} Serialization guide.
+
 .. _fundamentals-data-class-annotations:
 
 Specify Component Conversion Using Annotations
@@ -105,7 +126,7 @@ You can use the following annotations on data classes:
      - Description
 
    * - ``BsonId``
-     - Marks a property to serialize as the _id property.
+     - Marks a property to serialize as the ``_id`` property.
 
    * - ``BsonProperty``
      - Specifies a custom document field name when converting the data class
