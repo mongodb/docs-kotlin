@@ -90,8 +90,11 @@ For more information about this feature, see :ref:`Specify Return Type
 Querying Data Classes
 ---------------------
 
-You can use helpers from the ``Filter`` builders class to query on data
-class properties. The following code uses the ``Filters.eq()`` method to
+You can use helpers from the ``Filters`` builders class to query on data
+class properties. To learn more about this class, see the
+:ref:`filters-builders` guide.
+
+The following code uses the ``Filters.eq()`` method to
 construct the same query on the ``DataStorage`` data class in multiple syntaxes:
 
 .. literalinclude:: /examples/generated/DataClassTest.snippet.filters-query-data-class.kt
