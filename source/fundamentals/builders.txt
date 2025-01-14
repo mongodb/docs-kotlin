@@ -12,7 +12,7 @@ Builders
    Projection </fundamentals/builders/projections>
    Sort </fundamentals/builders/sort>
    Update </fundamentals/builders/updates>
-   Use Builders with Data Classes </fundamentals/builders/builders-data-classes>
+   Builders & Data Classes </fundamentals/builders/builders-data-classes>
 
 .. contents:: On this page
    :local:
