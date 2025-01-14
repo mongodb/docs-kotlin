@@ -40,7 +40,6 @@ to any method that expects a projection.
 
       import com.mongodb.client.model.Projections.*
 
-
 Sample Documents and Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -95,6 +94,13 @@ The following data class is used to represent the documents in the collection:
 
 .. literalinclude:: /examples/generated/ProjectionsBuildersTest.snippet.example-data-class.kt
    :language: kotlin
+
+.. tip:: Projections and Data Class Properties
+
+   You can use methods from the ``Projections`` class directly with data class
+   properties by adding the optional {+driver-short +} extensions
+   dependency to your application. To learn more and view examples, see
+   the :ref:`kotlin-builders-data-classes` guide.
 
 Projection Operations
 ---------------------
