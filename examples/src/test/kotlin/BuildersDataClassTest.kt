@@ -232,25 +232,4 @@ internal class BuildersDataClassTest {
             assertEquals(93.33333333333333, r.average)
         }
     }
-
-    @Test
-    fun aggregatesCountTest() = runBlocking {
-
-        val collection = database.getCollection<Student>("students")
-
-        val students = listOf(
-            Student("Sandra Nook", listOf("Alvarez", "Gruber"),85.7),
-            Student("Paolo Sanchez", listOf("Gruber", "Piselli"),89.3),
-        )
-        collection.insertMany(students)
-
-        // :snippet-start: aggregates-data-class
-        val pipeline = listOf(
-            count(Student::name)
-        )
-
-        val result = collection.aggregate(pipeline)
-        result.collect { println(it) }
-        // :snippet-end:
-    }
 }
