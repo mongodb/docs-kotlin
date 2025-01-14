@@ -85,30 +85,6 @@ operation adds the ``releaseDate`` field to the document with a
 For more information about this feature, see :ref:`Specify Return Type
 <db-coll-specify-return-type>` in the Databases and Collections guide.
 
-.. _kotlin-data-class-query:
-
-Querying Data Classes
----------------------
-
-You can use helpers from the ``Filters`` builders class to query on data
-class properties. To learn more about this class, see the
-:ref:`filters-builders` guide.
-
-The following code uses the ``Filters.eq()`` method to
-construct the same query on the ``DataStorage`` data class in multiple syntaxes:
-
-.. literalinclude:: /examples/generated/DataClassTest.snippet.filters-query-data-class.kt
-   :language: kotlin
-
-.. tip:: Filters and Data Class Annotations
-
-   When you use ``Filters`` class helpers to construct queries on data
-   classes, the methods respect your data class annotations from the
-   ``bson-kotlin`` and ``bson-kotlinx`` packages. To learn more about
-   annotations, see the :ref:`fundamentals-data-class-annotations`
-   section of this guide and the :ref:`kotlin-data-class-annotation`
-   section in the {+language+} Serialization guide.
-
 .. _fundamentals-data-class-annotations:
 
 Specify Component Conversion Using Annotations

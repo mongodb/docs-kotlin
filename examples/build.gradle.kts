@@ -1,10 +1,10 @@
 val kotlin_mongodb_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.8.0"
+    id("org.jetbrains.kotlin.jvm") version "1.9.25"
     id("com.google.osdetector") version "1.7.3"
     application
-    kotlin("plugin.serialization") version "1.8.21"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.25"
 }
 
 group = "org.mongodb.docs.kotlin"
@@ -26,10 +26,11 @@ dependencies {
     implementation("io.netty:netty-tcnative-boringssl-static:2.0.59.Final:${osdetector.classifier}")
     implementation("org.xerial.snappy:snappy-java:1.1.10.0")
     implementation("com.github.luben:zstd-jni:1.5.5-4")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("org.mongodb:bson-kotlinx:$kotlin_mongodb_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+    implementation("org.mongodb:mongodb-driver-kotlin-extensions:$kotlin_mongodb_version")
 }
 
 tasks.test {

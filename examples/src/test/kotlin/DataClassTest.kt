@@ -1,6 +1,5 @@
 
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.FindOneAndUpdateOptions
 import com.mongodb.client.model.ReturnDocument
 import com.mongodb.client.model.Updates
@@ -95,26 +94,6 @@ internal class DataClassTest {
 
         println("Updated document: $result")
         // :snippet-end:
-    }
-
-    @Test
-    fun queryDataClassTest() = runBlocking {
-
-        val collection = database.getCollection<DataStorage>("data_storage")
-
-        // :snippet-start: filters-query-data-class
-        val record = DataStorage("SSD", 120.0)
-        // Infixed query
-        DataStorage::productName.eq(record.productName)
-        // Nested query
-        val bson = eq(DataStorage::productName, record.productName)
-        // Kmongo DSL
-        val filter = DataStorage::productName eq record.productName
-        // :snippet-end:
-
-        collection.insertOne(record)
-        val result = collection.find().firstOrNull()
-        assertEquals(record, result)
     }
 
     // :snippet-start: annotated-data-class
