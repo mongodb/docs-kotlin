@@ -24,13 +24,13 @@ Overview
 --------
 
 This section includes guides on how to use each of the available
-builders and demonstrates the utility that the {+driver-short} builder
+builders and demonstrates the utility that the {+driver-short+} builder
 classes provide. 
 
-The {+driver-short} provides classes to simplify the process of
-performing CRUD operations and the Aggregation API. The static utility
-methods allow you to build queries and other kinds of documents more
-efficiently.
+The {+driver-short+} provides classes to simplify the process of
+performing CRUD operations and using the Aggregation API. The static
+utility methods allow you to build queries and other kinds of documents
+more efficiently.
 
 Why Use Builders?
 -----------------
@@ -46,10 +46,10 @@ the MongoDB shell or plain {+language+} instead, you write operators as
 strings and get no visual indication of a problem, which pushes these
 errors to runtime instead of compile time.
 
-By using builder classes, you cab write operators as methods. The IDE
-instantly indicates whether your code has errors. While developing, the
-IDE also shows you the methods you can use and can complete your code with
-placeholder parameters.
+By using builder classes, you can write operators as methods, so that
+your IDE instantly indicates whether your code has errors. While
+developing, your IDE can also show you methods that you can use and can
+complete your code with placeholder parameters.
 
 Example Scenario
 ----------------
@@ -60,8 +60,7 @@ collection that meet the following criteria:
 - Users in which the value of the ``gender`` field is ``"female"``
 - Users in which the value of the ``age`` field is greater than ``29``
 
-You only want their email addresses, so your query won't
-return data that you don't need.
+You also need your query to return only their email addresses.
 
 The documents in the ``users`` collection are modeled by the following
 data class:
@@ -87,6 +86,10 @@ builders in the {+driver-short+}:
 
 .. literalinclude:: /examples/generated/BuildersTest.snippet.no-builders.kt
    :language: kotlin
+
+In this case, you could easily include an error when writing the
+``"\$gt"`` operator in the filter, but you would see an error only at
+runtime.
 
 Using Builders
 ~~~~~~~~~~~~~~

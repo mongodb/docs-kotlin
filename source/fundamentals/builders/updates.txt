@@ -1,3 +1,5 @@
+.. _updates-builders:
+
 ================
 Updates Builders
 ================
@@ -14,8 +16,6 @@ Updates Builders
    :backlinks: none
    :depth: 2
    :class: singlecol
-
-.. _updates-builders:
 
 Overview
 --------
@@ -68,12 +68,7 @@ This example is modeled by the following data class unless otherwise noted:
 .. literalinclude:: /examples/generated/UpdatesBuildersTest.snippet.example-data-class.kt
    :language: kotlin
 
-.. tip:: Updates and Data Class Properties
-
-   You can use methods from the ``Updates`` class directly with data class
-   properties by adding the optional {+driver-short+} extensions
-   dependency to your application. To learn more and view examples, see
-   the :ref:`kotlin-builders-data-classes` guide.
+.. include:: /includes/fundamentals/builders-dataclass.rst
 
 .. _field_updates:
 

@@ -77,10 +77,9 @@ dependency to your project by using the :guilabel:`Gradle` and
 
 After you install the extensions dependency, you can use the extension
 methods by importing classes and methods from the
-``com.mongodb.kotlin.client.model`` path. You can access the standard
-builder classes and methods from the ``com.mongodb.client.model`` path,
-so you can mix calls that reference string field names and data
-class properties in the same application.
+``com.mongodb.kotlin.client.model`` path. You can mix usage of these methods and
+the standard builder methods in the same application, as shown in the
+:ref:`kotlin-data-class-aggregates` example in this guide.
 
 Builders Examples
 -----------------
