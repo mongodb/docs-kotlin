@@ -241,4 +241,4 @@ API Documentation
 -----------------
 
 - `{+driver-short+} Extensions
-  <{+api}/apidocs/mongodb-driver-kotlin-extensions/index.html>`__
+  <{+api+}/apidocs/mongodb-driver-kotlin-extensions/index.html>`__
