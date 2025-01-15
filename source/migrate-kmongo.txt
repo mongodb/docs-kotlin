@@ -272,9 +272,10 @@ Both drivers provide support for type-safe queries using property references.
 Data Typing
 -----------
 
-Both drivers support the use of {+language+} data classes as well as the ``Document`` class to 
-model the data stored in a MongoDB collection. The ``Document`` 
-class lets you model data represented in a MongoDB collection in a flexible format. 
+Both drivers support the use of {+language+} data classes and the
+``Document`` class to model the data stored in a MongoDB collection. The
+``Document`` class lets you model data represented in a MongoDB
+collection in a flexible format.
 
 .. tabs::
 
@@ -329,7 +330,7 @@ in {+language+} to and from BSON.
       :tabid: {+driver-long+}
 
       You can serialize data classes in the {+driver-short+} using both automatic 
-      data class codecs as well as the ``kotlinx.serialization`` library. The 
+      data class codecs and the ``kotlinx.serialization`` library. The 
       driver provides an efficient ``Bson`` serializer that handles the 
       serialization of {+language+} objects to BSON data. 
 

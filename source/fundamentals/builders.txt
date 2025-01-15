@@ -87,9 +87,9 @@ builders in the {+driver-short+}:
 .. literalinclude:: /examples/generated/BuildersTest.snippet.no-builders.kt
    :language: kotlin
 
-In this case, you could easily include an error when writing the
-``"\$gt"`` operator in the filter, but you would see an error only at
-runtime.
+In this case, you might easily include an error when writing the
+``"\$gt"`` operator in the filter, but your IDE returns the relevant
+error only at runtime.
 
 Using Builders
 ~~~~~~~~~~~~~~
