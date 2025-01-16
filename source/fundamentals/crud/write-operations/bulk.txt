@@ -128,7 +128,7 @@ result. You can specify a sort in a ``ReplaceOptions`` instance to apply
 an order to matched documents before the driver performs the replace
 operation, as shown in the following code:
 
-.. literalinclude:: /examples/generated/ChangeTest.snippet.replace-one-options.kt
+.. literalinclude:: /examples/generated/BulkTest.snippet.replace-model-options.kt
    :language: kotlin
 
 For more information about the methods and classes mentioned in this section,
@@ -171,7 +171,7 @@ result. You can specify a sort in an ``UpdateOptions`` instance to apply
 an order to matched documents before the driver performs the update
 operation, as shown in the following code:
 
-.. literalinclude:: /examples/generated/ChangeTest.snippet.update-one-options.kt
+.. literalinclude:: /examples/generated/BulkTest.snippet.update-model-options.kt
    :language: kotlin
 
 For more information about the methods and classes mentioned in this section,
