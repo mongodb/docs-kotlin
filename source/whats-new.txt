@@ -39,6 +39,17 @@ improvements, and fixes:
 
 .. sharedinclude:: dbx/jvm/v5.3-wn-items.rst
 
+   .. replacement:: vector-type-example-link
+
+      To learn about how to use this type when using the Atlas
+      Vector Search feature, see the :ref:`kotlin-atlas-vector-search`
+      guide.
+
+   .. replacement:: update-replace-example-link
+      
+      the :ref:`kotlin-fundamentals-change-document` and :ref:`kotlin-fundamentals-bulkwrite` 
+      guides
+
 .. _kotlin-coroutine-version-5.2:
 
 What's New in 5.2
