@@ -14,5 +14,4 @@ docsToInsert.add(ClientNamespacedWriteModel
     )
 )
 
-val clientBulkResult = client
-    .bulkWrite(docsToInsert)
+val clientBulkResult = client.bulkWrite(docsToInsert)

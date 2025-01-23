@@ -505,6 +505,7 @@ insert multiple documents.
 
 .. literalinclude:: /examples/generated/ClientBulkTest.snippet.options.kt
    :language: kotlin
+   :emphasize-lines: 3-5
 
 Even though the write operation inserting a document with a duplicate key results
 in an error, the other operations are executed because the write operation is

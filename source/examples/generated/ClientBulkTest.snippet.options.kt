@@ -20,4 +20,4 @@ val bulkOperations = listOf(
     )
 )
 
-val result: ClientBulkWriteResult = client.bulkWrite(bulkOperations, options)
+val result = client.bulkWrite(bulkOperations, options)

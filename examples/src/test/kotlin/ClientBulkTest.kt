@@ -1,7 +1,6 @@
 import com.mongodb.MongoNamespace
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.bulk.ClientBulkWriteOptions
-import com.mongodb.client.model.bulk.ClientBulkWriteResult
 import com.mongodb.client.model.bulk.ClientNamespacedWriteModel
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import config.getConfig
@@ -77,8 +76,7 @@ internal class ClientBulkTest {
             )
         )
 
-        val clientBulkResult = client
-            .bulkWrite(docsToInsert)
+        val clientBulkResult = client.bulkWrite(docsToInsert)
         // :snippet-end:
 
         // Junit test for the above code
@@ -93,7 +91,7 @@ internal class ClientBulkTest {
 
         docsReplacements.add(ClientNamespacedWriteModel
             .replaceOne(
-                MongoNamespace("sample_restaurants", "restaurants"),
+                MongoNamespace("sample_db", "people"),
                 Filters.eq(Person::id.name, 1),
                 Person(1, "Frederic Hilbert")
             )
@@ -101,14 +99,13 @@ internal class ClientBulkTest {
 
         docsReplacements.add(ClientNamespacedWriteModel
             .replaceOne(
-                MongoNamespace("sample_mflix", "movies"),
+                MongoNamespace("sample_db", "objects"),
                 Filters.eq(Object::id.name, 1),
                 Object(1, "ironing board")
             )
         )
 
-        val clientBulkResult = client
-            .bulkWrite(docsReplacements)
+        val clientBulkResult = client.bulkWrite(docsReplacements)
         // :snippet-end:
 
         // Junit test for the above code
@@ -140,7 +137,7 @@ internal class ClientBulkTest {
             )
         )
 
-        val result: ClientBulkWriteResult = client.bulkWrite(bulkOperations, options)
+        val result = client.bulkWrite(bulkOperations, options)
         // :snippet-end:
 
         // Junit test for the above code
