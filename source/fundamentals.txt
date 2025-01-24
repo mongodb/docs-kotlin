@@ -20,6 +20,7 @@ Fundamentals
    Aggregation Expressions </fundamentals/aggregation-expression-operations>
    Indexes </fundamentals/indexes>
    Transactions </fundamentals/transactions>
+   Run a Command </fundamentals/run-command>
    Collations </fundamentals/collations>
    Logging </fundamentals/logging>
    Monitoring </fundamentals/monitoring>
