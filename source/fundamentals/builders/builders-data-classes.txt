@@ -129,6 +129,11 @@ methods to perform queries on the ``Student`` data class:
 .. literalinclude:: /examples/generated/BuildersDataClassTest.snippet.filters-data-class.kt
    :language: kotlin
 
+The preceding example includes a query written in **infix notation**, To
+learn more about this notation, see `Infix notation
+<{+kotlin-docs+}/docs/functions.html#infix-notation>`__ in the
+{+language+} reference documentation.
+
 .. _kotlin-data-class-indexes:
 
 Indexes
