@@ -159,6 +159,10 @@ operations.
       using infix notation:
 
       .. code-block:: kotlin
+         
+         import com.mongodb.kotlin.client.model.Filters.eq
+         import com.mongodb.kotlin.client.model.Filters.lt
+         import com.mongodb.kotlin.client.model.Updates.set
 
          data class Jedi(val name: String, val age: Int)
 
@@ -239,20 +243,20 @@ Both drivers provide support for type-safe queries using property references.
 
       .. code-block:: kotlin
 
-        data class Person(val name: String, val email: String, val gender: String, val age: Int)
-        data class Results(val email: String)
-
-        val collection = database.getCollection<Person>("people")
-
-        // Using Builders 
-        val filter = and(eq("gender", "female"), gt("age", 29))
-        val projection = fields(excludeId(), include("email"))
-        val results = collection.find<Results>(filter).projection(projection)
-
-        // Using Document class 
-        val filter = Document().append("gender", "female").append("age", Document().append("\$gt", 29))
-        val projection = Document().append("_id", 0).append("email", 1)
-        val results = collection.find<Results>(filter).projection(projection)
+         data class Person(val name: String, val email: String, val gender: String, val age: Int)
+         data class Results(val email: String)
+ 
+         val collection = database.getCollection<Person>("people")
+ 
+         // Using Builders 
+         val filter = and(eq("gender", "female"), gt("age", 29))
+         val projection = fields(excludeId(), include("email"))
+         val results = collection.find<Results>(filter).projection(projection)
+ 
+         // Using Document class 
+         val filter = Document().append("gender", "female").append("age", Document().append("\$gt", 29))
+         val projection = Document().append("_id", 0).append("email", 1)
+         val results = collection.find<Results>(filter).projection(projection)
 
       To map a KMongo string query to the {+driver-short+}, you can use the ``JsonObject`` class.
 
@@ -277,17 +281,23 @@ Both drivers provide support for type-safe queries using property references.
 
       .. code-block:: kotlin
 
-        data class Person(val name: String, val gender: String, val age: Int)
-        data class Result(val name: String)
+         import com.mongodb.kotlin.client.model.Filters.eq
+         import com.mongodb.kotlin.client.model.Filters.and
+         import com.mongodb.kotlin.client.model.Filters.gt
+         import com.mongodb.kotlin.client.model.Projections.excludeId
+         import com.mongodb.kotlin.client.model.Projections.fields
+         import com.mongodb.kotlin.client.model.Projections.include
 
-        val collection = database.getCollection<Person>("people")
+         data class Person(val name: String, val gender: String, val age: Int)
+         data class Result(val name: String)
  
-        // Infix Notation Query
-        val filter = (Person::gender eq "female") and (Person::age gt 29))
-        val projection = fields(excludeId(), include(Person::name))
-
-        val results = collection.find<Result>(filter).projection(projection)
-
+         val collection = database.getCollection<Person>("people")
+  
+         // Infix Notation Query
+         val filter = (Person::gender eq "female") and (Person::age gt 29))
+         val projection = fields(excludeId(), include(Person::name))
+ 
+         val results = collection.find<Result>(filter).projection(projection)
 
       To learn more and view examples that use all of the builder
       classes, see the :ref:`kotlin-builders-data-classes` guide.
@@ -500,7 +510,7 @@ Both drivers support synchronous and asynchronous operations.
           val collection = database.getCollection<Jedi>("jedi")
 
           // Synchronous operations
-          val jedi =a Jedi("Luke Skywalker", 19)
+          val jedi = Jedi("Luke Skywalker", 19)
           collection.insertOne(jedi)
 
       To write asynchronous coroutine code:
@@ -519,7 +529,7 @@ Both drivers support synchronous and asynchronous operations.
         runBlocking {
 
           // Async operations
-          val jedi =a Jedi("Luke Skywalker", 19)
+          val jedi = Jedi("Luke Skywalker", 19)
           collection.insertOne(jedi)
         }
 
