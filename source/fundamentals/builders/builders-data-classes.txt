@@ -31,8 +31,8 @@ code more type-safe and improve your applications {+language+}
 interoperability.
 
 The extensions library also allows you to construct
-queries, update documents, and other statements by using infix notation.
-To learn more about this notation, see `Infix notation
+queries, update documents, and write other statements by using infix
+notation. To learn more about this notation, see `Infix notation
 <{+kotlin-docs+}/docs/functions.html#infix-notation>`__ in the
 {+language+} reference documentation.
 

@@ -179,7 +179,7 @@ operations.
          val filter = Jedi::name eq "Luke Skywalker"
          collection.deleteOne(filter)
 
-      To learn more and view examples that use all of the builder
+      To learn more and view examples that use all the builder
       classes, see the :ref:`kotlin-builders-data-classes` guide.
 
    .. tab::
@@ -299,7 +299,7 @@ Both drivers provide support for type-safe queries using property references.
  
          val results = collection.find<Result>(filter).projection(projection)
 
-      To learn more and view examples that use all of the builder
+      To learn more and view examples that use all the builder
       classes, see the :ref:`kotlin-builders-data-classes` guide.
 
    .. tab::
