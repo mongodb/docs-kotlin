@@ -39,6 +39,22 @@ improvements, and fixes:
 
 .. sharedinclude:: dbx/jvm/v5.3-wn-items.rst
 
+   .. replacement:: vector-type-example-link
+
+      To learn about how to use this type when using the Atlas
+      Vector Search feature, see the :ref:`kotlin-atlas-vector-search`
+      guide.
+
+   .. replacement:: update-replace-example-link
+      
+      the :ref:`kotlin-fundamentals-change-document` and :ref:`kotlin-fundamentals-bulkwrite` 
+      guides
+
+- Implements a *client* bulk write API that allows you to perform write
+  operations on multiple databases and collections in the same call. To learn
+  more about this feature, see the :ref:`kotlin-client-bulk-write`
+  section of the Bulk Operations guide.
+
 .. _kotlin-coroutine-version-5.2:
 
 What's New in 5.2

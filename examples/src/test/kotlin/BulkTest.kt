@@ -6,7 +6,10 @@ import com.mongodb.client.model.DeleteOneModel
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.InsertOneModel
 import com.mongodb.client.model.ReplaceOneModel
+import com.mongodb.client.model.ReplaceOptions
+import com.mongodb.client.model.Sorts
 import com.mongodb.client.model.UpdateOneModel
+import com.mongodb.client.model.UpdateOptions
 import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import config.getConfig
@@ -21,17 +24,18 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
-// :snippet-start: bulk-data-model
-data class Person(
-    @BsonId val id: Int,
-    val name: String,
-    val age: Int? = null,
-    val location: String? = null
-)
-// :snippet-end:
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BulkTest {
+
+    // :snippet-start: bulk-data-model
+    data class Person(
+        @BsonId val id: Int,
+        val name: String,
+        val age: Int? = null,
+        val location: String? = null
+    )
+    // :snippet-end:
+
     companion object {
         val config = getConfig()
         val client = MongoClient.create(config.connectionUri)
@@ -95,6 +99,11 @@ internal class BulkTest {
         val insert = Person(1, "Celine Stork", location = "San Diego, CA")
         val doc = ReplaceOneModel(filter, insert)
         // :snippet-end:
+
+        // :snippet-start: replace-model-options
+        val opts = ReplaceOptions().sort(Sorts.ascending("_id"))
+        // :snippet-end:
+
         // Junit test for the above code
         val insertTest = collection.bulkWrite(listOf(doc))
         assertTrue(insertTest.wasAcknowledged())
@@ -107,6 +116,11 @@ internal class BulkTest {
         val update = Updates.inc(Person::age.name, 1)
         val doc = UpdateOneModel<Person>(filter, update)
         // :snippet-end:
+
+        // :snippet-start: update-model-options
+        val opts = UpdateOptions().sort(Sorts.ascending("_id"))
+        // :snippet-end:
+
         // Junit test for the above code
         val updateTest = collection.bulkWrite(listOf(doc))
         assertTrue(updateTest.wasAcknowledged())
