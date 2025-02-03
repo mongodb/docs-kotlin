@@ -95,7 +95,7 @@ documentation:
 
 - `MongoCollection.watch() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-collection/watch.html>`__
 - `MongoDatabase.watch() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-database/watch.html>`__
-- `MongoClient.watch() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-cluster/watch.html>`__
+- `MongoClient.watch() <{+api+}/apidocs/mongodb-driver-kotlin-coroutine/mongodb-driver-kotlin-coroutine/com.mongodb.kotlin.client.coroutine/-mongo-client/index.html#1590990028%2FFunctions%2F-1409914714>`__
 
 .. _kotlin-change-stream-aggregation:
 
