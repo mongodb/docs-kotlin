@@ -38,7 +38,7 @@ logbackVersion = "1.2.11"
 log4j2Version = "2.17.1"
 serializationVersion = "1.5.1"
 bsonVersion = "4.10.1"
-current-url = "https://www.mongodb.com/docs/drivers/kotlin/coroutine/current/"
+current-url = "https://www.mongodb.com/docs/drivers/kotlin/coroutine/current"
 
 [[banners]]
 targets = ["*"]
