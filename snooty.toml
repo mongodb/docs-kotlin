@@ -1,9 +1,11 @@
+eol = true
+
 name = "kotlin"
 title = "Kotlin Coroutine"
 intersphinx = [
     "https://www.mongodb.com/docs/manual/objects.inv",
     "https://www.mongodb.com/docs/drivers/objects.inv",
-    "https://www.mongodb.com/docs/atlas/objects.inv"
+    "https://www.mongodb.com/docs/atlas/objects.inv",
 ]
 
 toc_landing_pages = [
@@ -35,3 +37,11 @@ zstdVersion = "com.github.luben:zstd-jni:1.5.5-2"
 logbackVersion = "1.2.11"
 log4j2Version = "2.17.1"
 serializationVersion = "1.5.1"
+current-url = "https://www.mongodb.com/docs/drivers/kotlin/coroutine/current"
+
+[[banners]]
+targets = ["*"]
+variant = "info"
+value = """\
+    This version of the documentation is archived and no longer supported. View the `current documentation <{+current-url+}>`__ to learn how to `install a newer version of the {+driver-short+} <{+current-url+}/quick-start/#add-mongodb-as-a-dependency>`__.\
+    """
