@@ -248,7 +248,7 @@ manual.
    .. replacement:: searchoperator-interface-api-docs
 
     the `SearchOperator Interface API documentation
-    <{+core-api+}/com/mongodb/client/model/search/SearchOperator.html>`__
+    <{+core-api+}/client/model/search/SearchOperator.html>`__
 
 API Documentation
 -----------------
