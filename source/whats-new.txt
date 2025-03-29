@@ -52,7 +52,7 @@ and features:
    .. replacement:: atlas-query-operators
 
       the :ref:`Pipelines Stages for Atlas Search
-      <kotlin-cr-atlas-search-stage>` section 
+      <kotlin-cr-atlas-search-stage>` section of the Aggregation page
 
 .. _kotlin-coroutine-version-5.3:
 
