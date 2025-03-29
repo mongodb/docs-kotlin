@@ -231,24 +231,24 @@ manual.
 
    .. replacement:: atlas-query-operators-example
 
-    .. code-block:: kotlin
+      .. io-code-block::
 
-        val searchStage: Bson = Aggregates.search(
-            SearchOperator.compound()
-                .filter(
-                    listOf(
-                        SearchOperator.text(fieldPath("genres"), "Drama"),
-                        SearchOperator.phrase(fieldPath("cast"), "sylvester stallone"),
-                        SearchOperator.numberRange(fieldPath("year")).gtLt(1980, 1989),
-                        SearchOperator.wildcard(fieldPath("title"), "Rocky *")
-                    )
-                )
-        )
+         .. input:: /examples/atlas-examples/AtlasSearchHelpers.kt
+            :language: kotlin
+            :start-after: // start atlasHelperMethods
+            :end-before: // end atlasHelperMethods
+            :dedent:
+
+         .. output::
+            :language: console
+            :visible: false
+
+            Document{{_id=573a1397f29313caabce86db, genres=[Drama, Sport], cast=[Sylvester Stallone, Talia Shire, Burt Young, Carl Weathers], title=Rocky III, year=1982}}
+            Document{{_id=573a1398f29313caabce9af0, genres=[Drama, Sport], cast=[Sylvester Stallone, Talia Shire, Burt Young, Carl Weathers], title=Rocky IV, year=1985}}
 
    .. replacement:: searchoperator-interface-api-docs
 
-    the `SearchOperator Interface API documentation
-    <{+core-api+}/client/model/search/SearchOperator.html>`__
+      the `SearchOperator Interface API documentation <{+core-api+}/client/model/search/SearchOperator.html>`__
 
 API Documentation
 -----------------
