@@ -4,6 +4,7 @@ data class Movie(
     val genres: List<String>,
     val rated: String,
     val plot: String,
+    val fullplot: String,
     val runtime: Int,
     val imdb: IMDB
 ){

@@ -887,6 +887,31 @@ field in the ``movies`` collection for text that contains the word "Future":
 Learn more about the builders from the
 `search package API documentation <{+core-api+}/client/model/search/package-summary.html>`__.
 
+.. _kotlin-cr-atlas-search-stage:
+
+Search Operator Methods
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sharedinclude:: dbx/jvm/atlas-search-operator-helpers.rst
+
+   .. replacement:: as-idx-link
+
+      the :ref:`kotlin-search-indexes` section of the Indexes guide
+
+   .. replacement:: atlas-query-operators-example
+
+      .. io-code-block::
+
+         .. input:: /examples/generated/AggregatesBuilderTest.snippet.atlas-search-pipeline.kt
+            :language: kotlin
+
+         .. output::
+            :language: console
+            :visible: false
+
+            Document{{_id=573a1397f29313caabce734c, genres=[Comedy, Romance], cast=[George Hamilton, Susan Saint James, Richard Benjamin, Dick Shawn], title=Love at First Bite, year=1979}}
+            Document{{_id=573a1399f29313caabcee81e, genres=[Comedy, Drama], cast=[Warren Beatty, Annette Bening, Katharine Hepburn, Garry Shandling], title=Love Affair, year=1994}}
+
 Atlas Search Metadata
 ---------------------
 
