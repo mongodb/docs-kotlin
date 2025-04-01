@@ -909,8 +909,8 @@ Search Operator Methods
             :language: console
             :visible: false
 
-            Document{{_id=573a1397f29313caabce734c, genres=[Comedy, Romance], cast=[George Hamilton, Susan Saint James, Richard Benjamin, Dick Shawn], title=Love at First Bite, year=1979}}
-            Document{{_id=573a1399f29313caabcee81e, genres=[Comedy, Drama], cast=[Warren Beatty, Annette Bening, Katharine Hepburn, Garry Shandling], title=Love Affair, year=1994}}
+            Results(title=Love at First Bite, year=1979, genres=[Comedy, Romance])
+            Results(title=Love Affair, year=1994, genres=[Comedy, Drama])
 
 Atlas Search Metadata
 ---------------------

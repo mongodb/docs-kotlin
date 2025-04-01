@@ -1,3 +1,5 @@
+data class Results(val title: String, val year: Int, val genres: List<String>)
+
 val searchStage = Aggregates.search(
     SearchOperator.compound()
         .filter(
@@ -11,9 +13,9 @@ val searchStage = Aggregates.search(
 )
 
 val projectStage = Aggregates.project(
-    Projections.include("title", "year", "genres", "cast"))
+    Projections.include(Movie::title.name, Movie::year.name, Movie::genres.name))
 
 val pipeline = listOf(searchStage, projectStage)
-val resultsFlow = ftsCollection.aggregate(pipeline)
+val resultsFlow = ftsCollection.aggregate<Results>(pipeline)
 
 resultsFlow.collect { println(it) }
