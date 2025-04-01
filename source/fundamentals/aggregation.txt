@@ -225,30 +225,32 @@ Search provides ``$search`` and ``$searchMeta`` stages, both of which must be th
 stage in any query pipeline. For more information about Atlas pipeline stages,
 see the :atlas:`Choose the Aggregation Pipeline Stage
 </atlas-search/query-syntax/>` page in the Atlas
-manual. 
+manual.
+
+.. tip:: Aggregates Builders
+
+   This example in this section uses helper methods from the
+   :ref:`Aggregates <aggregates-builders>` builder class.
 
 .. sharedinclude:: dbx/jvm/atlas-search-operator-helpers.rst
+
+   .. replacement:: as-idx-link
+
+      the :ref:`kotlin-search-indexes` section of the Indexes guide
 
    .. replacement:: atlas-query-operators-example
 
       .. io-code-block::
 
-         .. input:: /examples/atlas-examples/AtlasSearchHelpers.kt
+         .. input:: /examples/generated/AggregationTest.snippet.atlas-search-pipeline.kt
             :language: kotlin
-            :start-after: // start atlasHelperMethods
-            :end-before: // end atlasHelperMethods
-            :dedent:
 
          .. output::
             :language: console
             :visible: false
 
-            Document{{_id=573a1397f29313caabce86db, genres=[Drama, Sport], cast=[Sylvester Stallone, Talia Shire, Burt Young, Carl Weathers], title=Rocky III, year=1982}}
-            Document{{_id=573a1398f29313caabce9af0, genres=[Drama, Sport], cast=[Sylvester Stallone, Talia Shire, Burt Young, Carl Weathers], title=Rocky IV, year=1985}}
-
-   .. replacement:: searchoperator-interface-api-docs
-
-      the `SearchOperator Interface API documentation <{+core-api+}/client/model/search/SearchOperator.html>`__
+            Document{{_id=573a1397f29313caabce734c, genres=[Comedy, Romance], cast=[George Hamilton, Susan Saint James, Richard Benjamin, Dick Shawn], title=Love at First Bite, year=1979}}
+            Document{{_id=573a1399f29313caabcee81e, genres=[Comedy, Drama], cast=[Warren Beatty, Annette Bening, Katharine Hepburn, Garry Shandling], title=Love Affair, year=1994}}
 
 API Documentation
 -----------------
@@ -260,4 +262,4 @@ see the following API Documentation:
 - `$group <{+core-api+}/client/model/Aggregates.html#group(TExpression,java.util.List)>`__
 - `$project <{+core-api+}/client/model/Aggregates.html#project(org.bson.conversions.Bson)>`__
 - `Projections <{+core-api+}/client/model/Projections.html>`__
-- `SearchOperator Interface <{+core-api+}/com/mongodb/client/model/search/SearchOperator.html>`__
+- `SearchOperator <{+core-api+}/com/mongodb/client/model/search/SearchOperator.html>`__
