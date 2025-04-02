@@ -257,6 +257,10 @@ fields into snake case by setting the ``bsonNamingStrategy`` parameter:
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.snake-case-serialization.kt
    :language: kotlin
 
+.. note::
+
+   The ``bsonNamingStrategy`` parameter is available for MongoDB v5.4 and later.
+
 For more information about the methods and classes mentioned in this section,
 see the following API documentation:
 
