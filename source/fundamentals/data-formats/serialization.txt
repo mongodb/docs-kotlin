@@ -242,6 +242,8 @@ The following example shows how to create a codec using the
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.custom-serialization.kt
     :language: kotlin
 
+.. _kotlin-serialization-snake-case-eg:
+
 Enforcing Snake Case Naming Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
