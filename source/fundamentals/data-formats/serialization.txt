@@ -173,7 +173,8 @@ package to create a codec for your ``@Serializable`` data classes and
 customize what is stored.
 
 Use the ``BsonConfiguration`` class to define the configuration, 
-including whether to encode defaults, encode nulls, or define class discriminators.
+including whether to encode defaults, encode nulls, define class discriminators,
+or enforce snake case.
 
 To create a custom codec, install the ``bson-kotlinx``
 dependency to your project. Select from the following tabs to see how to
@@ -241,12 +242,28 @@ The following example shows how to create a codec using the
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.custom-serialization.kt
     :language: kotlin
 
+Enforcing Snake Case Naming Example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following example shows how to convert field names from their data class
+fields into snake case by setting the ``bsonNamingStrategy`` parameter:
+
+.. code-block:: kotlin
+    :copyable: true
+
+   import org.bson.codecs.kotlinx.BsonConfiguration
+   import org.bson.codecs.kotlinx.BsonNamingStrategy
+
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.snake-case-serialization.kt
+   :language: kotlin
+
 For more information about the methods and classes mentioned in this section,
 see the following API documentation:
 
 - `KotlinSerializerCodec <{+api-root+}/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/index.html>`__
 - `KotlinSerializerCodec.create() <{+api-root+}/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-kotlin-serializer-codec/-companion/create.html>`__
 - `BsonConfiguration <{+api-root+}/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-bson-configuration/index.html>`__
+- `BsonNamingStrategy <{+api-root+}/bson-kotlinx/bson-kotlinx/org.bson.codecs.kotlinx/-bson-naming-strategy/index.html>`__
  
 .. _kotlin-polymorphic:
 
