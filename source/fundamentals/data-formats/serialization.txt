@@ -259,7 +259,7 @@ fields into snake case by setting the ``bsonNamingStrategy`` parameter:
 
 .. note::
 
-   The ``bsonNamingStrategy`` parameter is available for MongoDB v5.4 and later.
+   The ``bsonNamingStrategy`` parameter is available for {+driver-short+} v5.4 and later.
 
 For more information about the methods and classes mentioned in this section,
 see the following API documentation:
