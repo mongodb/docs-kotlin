@@ -256,7 +256,7 @@ fields into snake case by setting the ``bsonNamingStrategy`` parameter:
    import org.bson.codecs.kotlinx.BsonConfiguration
    import org.bson.codecs.kotlinx.BsonNamingStrategy
 
-.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.snake-case-serialization.kt
+.. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.snake-case-naming.kt
    :language: kotlin
 
 .. note::
