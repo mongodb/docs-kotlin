@@ -244,11 +244,14 @@ The following example shows how to create a codec using the
 
 .. _kotlin-serialization-snake-case-eg:
 
-Enforcing Snake Case Naming Example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Implement Snake Case Naming Strategy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following example shows how to convert field names from their data class
-fields into snake case by setting the ``bsonNamingStrategy`` parameter:
+When using ``bson-kotlinx`` package v5.4 or later, you can direct the driver to
+serialize data class fields names written in camel case to snake case in MongoDB.
+The following example shows how to create and register a custom codec
+to convert data class field names into snake case by setting the
+``bsonNamingStrategy`` parameter in a codec:
 
 .. code-block:: kotlin
     :copyable: true
@@ -258,10 +261,6 @@ fields into snake case by setting the ``bsonNamingStrategy`` parameter:
 
 .. literalinclude:: /examples/generated/KotlinXSerializationTest.snippet.snake-case-naming.kt
    :language: kotlin
-
-.. note::
-
-   The ``bsonNamingStrategy`` parameter is available for bson-kotlinx v5.4 and later.
 
 For more information about the methods and classes mentioned in this section,
 see the following API documentation:
