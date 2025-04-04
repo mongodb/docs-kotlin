@@ -248,7 +248,7 @@ Implement Snake Case Naming Strategy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When using ``bson-kotlinx`` package v5.4 or later, you can direct the driver to
-serialize data class fields names written in camel case to snake case in MongoDB.
+serialize data class field names written in camel case to snake case in MongoDB.
 The following example shows how to create and register a custom codec
 to convert data class field names into snake case by setting the
 ``bsonNamingStrategy`` parameter in a codec:
