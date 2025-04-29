@@ -16,6 +16,7 @@ Connection Guide
    Network Compression </fundamentals/connection/network-compression>
    TLS/SSL </fundamentals/connection/tls>
    SOCKS5 Proxy Connection </fundamentals/connection/socks5>
+   AWS Lambda <https://www.mongodb.com/docs/atlas/manage-connections-aws-lambda/>
 
 .. contents:: On this page
    :local:
