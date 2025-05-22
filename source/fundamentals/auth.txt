@@ -102,11 +102,6 @@ see the :manual:`SCRAM </core/security-scram/>` section of the Server manual.
 ``SCRAM-SHA-256``
 ~~~~~~~~~~~~~~~~~
 
-.. note::
-
-   ``SCRAM-SHA-256`` is the default authentication method for MongoDB starting
-   in MongoDB 4.0.
-
 ``SCRAM-SHA-256`` is a salted challenge-response authentication mechanism
 (SCRAM) that uses your username and password, encrypted with the ``SHA-256``
 algorithm, to authenticate your user.
@@ -148,58 +143,6 @@ mechanism:
       method. Your code to instantiate a ``MongoClient`` should resemble the following:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-256-cred.kt
-         :language: kotlin
-
-.. _scram-sha-1-auth-mechanism:
-
-``SCRAM-SHA-1``
-~~~~~~~~~~~~~~~
-
-.. note::
-   ``SCRAM-SHA-1`` is the default authentication method for MongoDB versions
-   3.0, 3.2, 3.4, and 3.6.
-
-``SCRAM-SHA-1`` is a salted challenge-response mechanism (SCRAM) that uses your
-username and password, encrypted with the ``SHA-1`` algorithm, to authenticate
-your user.
-
-The following code snippets show how to specify the authentication mechanism,
-using the following placeholders:
-
-* ``db_username`` - your MongoDB database username.
-* ``db_password`` - your MongoDB database user's password.
-* ``hostname`` - network address of your MongoDB server, accessible by your client.
-* ``port`` - port number of your MongoDB server.
-* ``authenticationDb`` - MongoDB database that contains your user's
-  authentication data. If you omit this parameter, the driver uses the
-  default value ``admin``.
-
-Select the :guilabel:`Connection String` or the :guilabel:`MongoCredential`
-tab below for instructions and sample code for specifying this authentication
-mechanism:
-
-.. tabs::
-
-   .. tab::
-      :tabid: Connection String
-
-      To specify the ``SCRAM-SHA-1`` authentication mechanism using a
-      connection string, assign the ``authMechanism`` parameter the value
-      ``SCRAM-SHA-1`` in your connection string. Your code to instantiate
-      a ``MongoClient`` should resemble the following:
-
-      .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-1-string.kt
-         :language: kotlin
-
-   .. tab::
-      :tabid: MongoCredential
-
-      To specify the default authentication mechanism using the
-      ``MongoCredential`` class, use the
-      `createScramSha1Credential() <{+core-api+}/MongoCredential.html#createScramSha1Credential(java.lang.String,java.lang.String,char[])>`__
-      method. Your code to instantiate a ``MongoClient`` should resemble the following:
-
-      .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-1-cred.kt
          :language: kotlin
 
 .. _mongodb-aws-auth-mechanism:
