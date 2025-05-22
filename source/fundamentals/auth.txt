@@ -52,16 +52,7 @@ Mechanisms
 Default
 ~~~~~~~
 
-The default authentication mechanism setting uses one of the following
-authentication mechanisms depending on what your MongoDB server supports:
-
-#. ``SCRAM-SHA-256``
-#. ``SCRAM-SHA-1``
-#. ``MONGODB-CR``
-
-Server versions 3.6 and earlier use ``MONGODB-CR`` as the default
-mechanism. Newer versions of the server use one of the mechanisms for
-which they advertise support.
+The default authentication mechanism is ``SCRAM-SHA-256``.
 
 The following code snippets show how to specify the authentication mechanism,
 using the following placeholders:
@@ -210,20 +201,6 @@ mechanism:
 
       .. literalinclude:: /examples/generated/AuthTest.snippet.scram-sha-1-cred.kt
          :language: kotlin
-
-.. _mongodb-cr-auth-mechanism:
-
-``MONGODB-CR``
-~~~~~~~~~~~~~~
-
-``MONGODB-CR`` is a challenge-response authentication mechanism that uses your
-username and password to authenticate your user. This authentication
-mechanism was deprecated starting in MongoDB 3.6 and is no longer
-supported as of MongoDB 4.0.
-
-You cannot specify this method explicitly; refer to the fallback provided
-by the :ref:`default authentication mechanism <default-auth-mechanism>` to
-connect using ``MONGODB-CR``.
 
 .. _mongodb-aws-auth-mechanism:
 
