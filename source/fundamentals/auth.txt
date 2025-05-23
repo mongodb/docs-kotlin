@@ -26,10 +26,7 @@ confirm identity and establish trust to ensure security.
 The mechanisms that you can use with the latest version of MongoDB Community
 Edition are as follows:
 
-* :ref:`Default <default-auth-mechanism>`
 * :ref:`SCRAM-SHA-256 <scram-sha-256-auth-mechanism>`
-* :ref:`SCRAM-SHA-1 <scram-sha-1-auth-mechanism>`
-* :ref:`MONGODB-CR <mongodb-cr-auth-mechanism>`
 * :ref:`MONGODB-AWS <mongodb-aws-auth-mechanism>`
 * :ref:`X.509 <x509-auth-mechanism>`
 
