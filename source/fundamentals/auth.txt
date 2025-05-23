@@ -47,8 +47,8 @@ Mechanisms
 .. _default-auth-mechanism:
 .. _scram-sha-256-auth-mechanism:
 
-``SCRAM-SHA-256``
-~~~~~~~~~~~~~~~~~
+SCRAM-SHA-256
+~~~~~~~~~~~~~
 
 ``SCRAM-SHA-256`` is a salted challenge-response authentication mechanism
 (SCRAM) that uses your username and password, encrypted with the ``SHA-256``
@@ -123,8 +123,8 @@ specifying this authentication mechanism:
 
 .. _mongodb-aws-auth-mechanism:
 
-``MONGODB-AWS``
-~~~~~~~~~~~~~~~
+MONGODB-AWS
+~~~~~~~~~~~
 
 .. note::
 
@@ -347,8 +347,8 @@ method:
    
 .. _x509-auth-mechanism:
 
-``X.509``
-~~~~~~~~~
+X.509
+~~~~~
 
 The ``X.509`` authentication mechanism uses
 :wikipedia:`TLS <Transport_Layer_Security>` with X.509 certificates to
