@@ -49,7 +49,11 @@ To implement this functionality, you must add the
 ``mongodb-driver-kotlin-extensions`` dependency to your dependencies
 list.
 
-.. include:: /includes/kotlin-driver-coroutine-BOM-tip.rst
+.. sharedinclude:: dbx/jvm/kotlin-driver-coroutine-BOM-tip.rst
+
+   .. replacement:: installation-guide
+
+      :ref:`Installation Guide<kotlin-get-started-install-bom>`
 
 Select from the following tabs to see how to add the extension
 dependency to your project by using the :guilabel:`Gradle` and
