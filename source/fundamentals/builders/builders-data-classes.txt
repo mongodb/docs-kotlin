@@ -49,7 +49,7 @@ To implement this functionality, you must add the
 ``mongodb-driver-kotlin-extensions`` dependency to your dependencies
 list.
 
-.. sharedinclude:: dbx/jvm/kotlin-driver-coroutine-BOM-tip.rst
+.. sharedinclude:: dbx/jvm/BOM-installation-tip.rst
 
    .. replacement:: installation-guide
 

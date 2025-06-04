@@ -60,7 +60,7 @@ Add {+language+} Serialization to Your Project
 Support for serialization in the {+driver-short+} depends on the official `Kotlin
 serialization library <https://github.com/Kotlin/kotlinx.serialization>`__.
 
-.. sharedinclude:: dbx/jvm/kotlin-driver-coroutine-BOM-tip.rst
+.. sharedinclude:: dbx/jvm/BOM-installation-tip.rst
 
    .. replacement:: installation-guide
 
