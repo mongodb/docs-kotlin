@@ -60,7 +60,7 @@ Add {+language+} Serialization to Your Project
 Support for serialization in the {+driver-short+} depends on the official `Kotlin
 serialization library <https://github.com/Kotlin/kotlinx.serialization>`__.
 
-.. include:: source/includes/kotlin-driver-coroutine-BOM-tip.rst
+.. include:: /includes/kotlin-driver-coroutine-BOM-tip.rst
 
 Select from the following tabs to see how to add the serialization
 dependencies to your project by using the :guilabel:`Gradle` and
