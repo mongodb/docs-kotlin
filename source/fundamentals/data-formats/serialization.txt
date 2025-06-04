@@ -342,8 +342,6 @@ a high level of control over how your date and time values
 are serialized. To use the library, add the ``kotlinx-datetime``
 dependency to your project's dependency list.
 
-.. include:: /includes/kotlin-driver-coroutine-BOM-tip.rst
-
 Select from the following tabs to see how to add the ``kotlinx-datetime``
 dependency to your project by using the :guilabel:`Gradle` and
 :guilabel:`Maven` package managers:
