@@ -64,7 +64,7 @@ guide.
 
    .. replacement:: installation-guide
 
-      the :ref:`Add the Driver Bill of Materials  <kotlin-get-started-install-bom>` step of the 
+      the :ref:`Add the Driver Bill of Materials<kotlin-get-started-install-bom>` step of the 
       Quick Start guide.
 
 We recommend that you use the `Maven <https://maven.apache.org/>`__ or
