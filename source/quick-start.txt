@@ -98,12 +98,6 @@ Because you installed the BOM, you can omit a version in the
 {+driver-short+} dependency entry. The version you specify in the
 BOM determines the dependency versions to install.
 
-.. sharedinclude:: dbx/jvm/BOM-installation-tip.rst
-
-   .. replacement:: installation-guide
-
-      :ref:`Installation Guide<kotlin-get-started-install-bom>`
-
 After you configure your dependencies, ensure that they are available to your
 project by running the dependency manager and refreshing the
 project in your IDE.
