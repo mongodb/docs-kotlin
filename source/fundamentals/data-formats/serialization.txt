@@ -367,6 +367,7 @@ dependency to your project by using the :guilabel:`Gradle` and
          <dependency>
              <groupId>org.jetbrains.kotlinx</groupId>
              <artifactId>kotlinx-datetime-jvm</artifactId>
+             <version>{+kotlinx-dt-version+}</version>
          </dependency>
 
 To learn more about this library, see the :github:`kotlinx-datetime repository
