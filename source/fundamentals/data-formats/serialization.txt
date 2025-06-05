@@ -64,7 +64,7 @@ serialization library <https://github.com/Kotlin/kotlinx.serialization>`__.
 
    .. replacement:: installation-guide
 
-      the :ref:`Add the Driver Bill of Materials  <kotlin-get-started-install-bom>` step of the
+      the :ref:`Add the Driver Bill of Materials<kotlin-get-started-install-bom>` step of the
        Quick Start guide.
 
 Select from the following tabs to see how to add the serialization
@@ -82,7 +82,7 @@ dependencies to your project by using the :guilabel:`Gradle` and
       .. code-block:: kotlin
         :caption: build.gradle.kts
 
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:{+serializationVersion}")
         implementation("org.mongodb:bson-kotlinx")
 
    .. tab::
@@ -97,6 +97,7 @@ dependencies to your project by using the :guilabel:`Gradle` and
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-serialization-core</artifactId>
+            <version>{+serializationVersion}
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
