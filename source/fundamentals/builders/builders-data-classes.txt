@@ -53,8 +53,7 @@ list.
 
    .. replacement:: installation-guide
 
-      the :ref:`Add the Driver Bill of Materials<kotlin-get-started-install-bom>` step of the
-       Quick Start guide.
+      :ref:`Add the Driver Bill of Materials <kotlin-get-started-install-bom>` step of the Quick Start guide.
 
 Select from the following tabs to see how to add the extension
 dependency to your project by using the :guilabel:`Gradle` and
