@@ -81,7 +81,7 @@ dependencies to your project by using the :guilabel:`Gradle` and
       .. code-block:: kotlin
         :caption: build.gradle.kts
 
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:{+serializationVersion}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:{+serializationVersion+}")
         implementation("org.mongodb:bson-kotlinx")
 
    .. tab::
@@ -96,7 +96,7 @@ dependencies to your project by using the :guilabel:`Gradle` and
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-serialization-core</artifactId>
-            <version>{+serializationVersion}
+            <version>{+serializationVersion+}</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
