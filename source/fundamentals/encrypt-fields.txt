@@ -7,10 +7,10 @@
       Compatible Encryption Library Version
       -------------------------------------
 
-         The {+driver-short+} uses the `mongodb-crypt
-         <https://mvnrepository.com/artifact/org.mongodb/mongodb-crypt>`__
-         encryption library for in-use encryption. This driver version
-         is compatible with ``mongodb-crypt`` v{+mongocrypt-version+}.
+      The {+driver-short+} uses the `mongodb-crypt
+      <https://mvnrepository.com/artifact/org.mongodb/mongodb-crypt>`__
+      encryption library for in-use encryption. This driver version
+      is compatible with ``mongodb-crypt`` v{+mongocrypt-version+}.
 
       .. sharedinclude:: dbx/jvm/BOM-installation-tip.rst
 
