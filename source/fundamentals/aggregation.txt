@@ -16,26 +16,33 @@ Aggregation
 Overview
 --------
 
-In this guide, you can learn how to use **aggregation operations** in the {+driver-short+}.
+In this guide, you can learn how to use **aggregation operations** in
+the {+driver-short+}.
 
-Aggregation operations process data in your MongoDB collections and return computed results. MongoDB's Aggregation
-pipeline, part of the Query API, is modeled on the concept of data processing pipelines. Documents enter a multi-staged pipeline that
-transforms the documents into an aggregated result.
-
-Another way to think of aggregation is like a car factory. Within the car factory is an assembly line, along which
-are assembly stations with specialized tools to do a specific job, like drills and welders. Raw parts enter the factory,
-which are then transformed and assembled into a finished product.
-
-The **aggregation pipeline** is the assembly line, **aggregation stages** are the assembly stations, and
-**operator expressions** are the specialized tools.
-
-This guide provides examples on how to use aggregation pipelines.
+Aggregation operations process data in your MongoDB collections and
+return computed results. MongoDB's Aggregation pipeline, part of the
+Query API, is modeled on the concept of data processing pipelines.
+Documents enter a multi-staged pipeline that transforms the documents
+into an aggregated result. 
 
 .. sharedinclude:: dbx/agg-tutorials-manual-tip.rst
 
    .. replacement:: language
 
       :guilabel:`{+language+} (Coroutine)`
+
+Analogy
+~~~~~~~
+
+Another way to think of aggregation is like a car factory. Within the
+car factory is an assembly line, along which are assembly stations with
+specialized tools to do a specific job, like drills and welders. Raw
+parts enter the factory, which are then transformed and assembled into a
+finished product.
+
+The **aggregation pipeline** is the assembly line, **aggregation
+stages** are the assembly stations, and **operator expressions** are the
+specialized tools.
 
 Aggregation and Find Operations Compared
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
