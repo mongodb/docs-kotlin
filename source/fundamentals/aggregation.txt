@@ -16,7 +16,7 @@ Aggregation
 Overview
 --------
 
-In this guide, you can learn how to use **aggregation operations** in the MongoDB Kotlin driver.
+In this guide, you can learn how to use **aggregation operations** in the {+driver-short+}.
 
 Aggregation operations process data in your MongoDB collections and return computed results. MongoDB's Aggregation
 pipeline, part of the Query API, is modeled on the concept of data processing pipelines. Documents enter a multi-staged pipeline that
@@ -28,6 +28,14 @@ which are then transformed and assembled into a finished product.
 
 The **aggregation pipeline** is the assembly line, **aggregation stages** are the assembly stations, and
 **operator expressions** are the specialized tools.
+
+This guide provides examples on how to use aggregation pipelines.
+
+.. sharedinclude:: dbx/agg-tutorials-manual-tip.rst
+
+   .. replacement:: language
+
+      :guilabel:`{+language+} (Coroutine)`
 
 Aggregation and Find Operations Compared
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
